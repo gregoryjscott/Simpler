@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler", "Simpler\Simpler.csproj", "{6A2F45F9-172C-4B48-9344-B64646958AFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Tests", "Simpler.Tests\Simpler.Tests.csproj", "{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
