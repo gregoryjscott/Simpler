@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler", "Simpler\Simpler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Tests", "Simpler.Tests\Simpler.Tests.csproj", "{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Sql", "Simpler.Sql\Simpler.Sql.csproj", "{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Sql.Tests", "Simpler.Sql.Tests\Simpler.Sql.Tests.csproj", "{D927EE98-1F5C-45D6-ACC4-18A23CB13775}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D927EE98-1F5C-45D6-ACC4-18A23CB13775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D927EE98-1F5C-45D6-ACC4-18A23CB13775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D927EE98-1F5C-45D6-ACC4-18A23CB13775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D927EE98-1F5C-45D6-ACC4-18A23CB13775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
