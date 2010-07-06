@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
-using Simpler.Sql.Exceptions;
+using Simpler.Data.Exceptions;
 
-namespace Simpler.Sql.Tasks
+namespace Simpler.Data.Tasks
 {
     public class PersistSingleOf<T> : Task
     {

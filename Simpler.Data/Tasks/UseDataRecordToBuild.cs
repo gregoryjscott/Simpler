@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
-using Simpler.Sql.Exceptions;
+using Simpler.Data.Exceptions;
 
-namespace Simpler.Sql.Tasks
+namespace Simpler.Data.Tasks
 {
     public class UseDataRecordToBuild<T> : Task
     {

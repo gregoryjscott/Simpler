@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using Simpler.Sql.Tasks;
-using Simpler.Sql.Tests.Mocks;
+using Simpler.Data.Tasks;
+using Simpler.Data.Tests.Mocks;
 using System.Data;
 using Moq;
-using Simpler.Sql.Exceptions;
+using Simpler.Data.Exceptions;
 
-namespace Simpler.Sql.Tests.Tasks
+namespace Simpler.Data.Tests.Tasks
 {
     [TestFixture]
     public class UseDataRecordToBuildTest

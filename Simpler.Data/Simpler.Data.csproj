@@ -8,8 +8,8 @@
     <ProjectGuid>{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simpler.Sql</RootNamespace>
-    <AssemblyName>Simpler.Sql</AssemblyName>
+    <RootNamespace>Simpler.Data</RootNamespace>
+    <AssemblyName>Simpler.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

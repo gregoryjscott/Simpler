@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Simpler.Sql.Tasks
+namespace Simpler.Data.Tasks
 {
     public class BuildParametersUsing<T> : Task, IBuildParametersUsing<T>
     {

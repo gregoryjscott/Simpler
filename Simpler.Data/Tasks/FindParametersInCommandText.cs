@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Simpler.Sql.Tasks
+namespace Simpler.Data.Tasks
 {
     public class FindParametersInCommandText : Task, IFindParametersInCommandText
     {

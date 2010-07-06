@@ -5,9 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler", "Simpler\Simpler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Tests", "Simpler.Tests\Simpler.Tests.csproj", "{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Sql", "Simpler.Sql\Simpler.Sql.csproj", "{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Data", "Simpler.Data\Simpler.Data.csproj", "{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Sql.Tests", "Simpler.Sql.Tests\Simpler.Sql.Tests.csproj", "{D927EE98-1F5C-45D6-ACC4-18A23CB13775}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Data.Tests", "Simpler.Data.Tests\Simpler.Data.Tests.csproj", "{D927EE98-1F5C-45D6-ACC4-18A23CB13775}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

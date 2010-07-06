@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simpler.Sql.Exceptions
+namespace Simpler.Data.Exceptions
 {
     public class ObjectPersistanceException : Exception
     {

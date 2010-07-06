@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Moq;
 using NUnit.Framework;
-using Simpler.Sql.Tests.Mocks;
-using Simpler.Sql.Tasks;
+using Simpler.Data.Tests.Mocks;
+using Simpler.Data.Tasks;
 using System.Data;
 
-namespace Simpler.Sql.Tests.Tasks
+namespace Simpler.Data.Tests.Tasks
 {
     [TestFixture]
     public class BuildParametersUsingTest

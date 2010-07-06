@@ -8,8 +8,8 @@
     <ProjectGuid>{D927EE98-1F5C-45D6-ACC4-18A23CB13775}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simpler.Sql.Tests</RootNamespace>
-    <AssemblyName>Simpler.Sql.Tests</AssemblyName>
+    <RootNamespace>Simpler.Data.Tests</RootNamespace>
+    <AssemblyName>Simpler.Data.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -57,9 +57,9 @@
     <Compile Include="Tasks\UseDataRecordToBuildTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Simpler.Sql\Simpler.Sql.csproj">
+    <ProjectReference Include="..\Simpler.Data\Simpler.Data.csproj">
       <Project>{BD63BADB-7C7C-4A8A-8AD2-FBF404524593}</Project>
-      <Name>Simpler.Sql</Name>
+      <Name>Simpler.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
       <Project>{1A7885CE-0C6C-4F4D-A256-55DD4E4E3B40}</Project>

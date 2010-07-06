@@ -1,14 +1,15 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 
-namespace Simpler.Sql.Tasks
+namespace Simpler.Data.Tasks
 {
-    public class FetchSingleOf<T> : Task
+    public class FetchListOf<T> : Task
     {
         // Inputs
         public IDbCommand SelectCommand { get; set; }
 
         // Outputs
-        public T ObjectFetched { get; private set; }
+        public T[] ObjectsFetched { get; private set; }
 
         // Sub-tasks
         public UseDataRecordToBuild<T> UseDataRecordToBuild { get; set; }
@@ -18,13 +19,19 @@ namespace Simpler.Sql.Tasks
             // Create the sub-tasks if null (this won't be necessary after dependency injection is implemented).
             if (UseDataRecordToBuild == null) UseDataRecordToBuild = new UseDataRecordToBuild<T>();
 
+            var objectList = new List<T>();
+
             using (var dataReader = SelectCommand.ExecuteReader())
             {
-                dataReader.Read();
-                UseDataRecordToBuild.DataRecord = dataReader;
-                UseDataRecordToBuild.Execute();
-                ObjectFetched = UseDataRecordToBuild.Object;
+                while (dataReader.Read())
+                {
+                    UseDataRecordToBuild.DataRecord = dataReader;
+                    UseDataRecordToBuild.Execute();
+                    objectList.Add(UseDataRecordToBuild.Object);
+                }
             }
+
+            ObjectsFetched = objectList.ToArray();
         }
     }
 }

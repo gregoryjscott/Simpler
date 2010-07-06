@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace Simpler.Sql.Tasks
+namespace Simpler.Data.Tasks
 {
     public interface IBuildParametersUsing<T>
     {
