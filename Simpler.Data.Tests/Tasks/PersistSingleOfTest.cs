@@ -30,8 +30,8 @@ namespace Simpler.Data.Tests.Tasks
             task.Execute();
             
             // Assert
-            mockBuildParameters.VerifySet(buildParams => buildParams.DbCommand = mockPersistCommand.Object);
-            mockBuildParameters.VerifySet(buildParams => buildParams.Object = mockObject);
+            mockBuildParameters.VerifySet(buildParams => buildParams.CommandWithParameters = mockPersistCommand.Object);
+            mockBuildParameters.VerifySet(buildParams => buildParams.ObjectWithValues = mockObject);
             mockPersistCommand.Verify(buildParams => buildParams.ExecuteNonQuery(), Times.Once());
         }
 

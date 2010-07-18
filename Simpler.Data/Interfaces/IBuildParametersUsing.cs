@@ -4,8 +4,8 @@ namespace Simpler.Data.Tasks
 {
     public interface IBuildParametersUsing<T>
     {
-        IDbCommand DbCommand { get; set; }
-        T Object { get; set; }
+        IDbCommand CommandWithParameters { get; set; }
+        T ObjectWithValues { get; set; }
         IFindParametersInCommandText FindParametersInCommandText { set; }
         void Execute();
     }

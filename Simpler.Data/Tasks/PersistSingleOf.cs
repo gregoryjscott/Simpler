@@ -17,8 +17,8 @@ namespace Simpler.Data.Tasks
         {
             // Create the sub-tasks if null (this won't be necessary after dependency injection is implemented).
             if (BuildParameters == null) BuildParameters = new BuildParametersUsing<T>();
-            BuildParameters.DbCommand = PersistCommand;
-            BuildParameters.Object = ObjectToPersist;
+            BuildParameters.CommandWithParameters = PersistCommand;
+            BuildParameters.ObjectWithValues = ObjectToPersist;
             BuildParameters.Execute();
 
             var rowsPersisted = PersistCommand.ExecuteNonQuery();

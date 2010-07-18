@@ -11,20 +11,20 @@ namespace Simpler.Data.Tests.Tasks
     public class BuildParametersUsingTest
     {
         [Test]
-        public void should_create_parameters_for_all_parameters_found_in_the_command_text()
+        public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_object()
         {
             // Arrange
             var task = new BuildParametersUsing<MockObject>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(new Mock<IDbDataParameter>().Object);
-            task.DbCommand = mockDbCommand.Object;
+            task.CommandWithParameters = mockDbCommand.Object;
 
-            var mockObject = new MockObject {Name = "John Doe", Age = 21};
-            task.Object = mockObject;
+            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            task.ObjectWithValues = mockObject;
 
             var mockFindParameters = new Mock<IFindParametersInCommandText>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] {"@Name", "@Age"});
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name", "@Age" });
             task.FindParametersInCommandText = mockFindParameters.Object;
 
             // Act
@@ -37,6 +37,30 @@ namespace Simpler.Data.Tests.Tasks
         }
 
         [Test]
+        public void should_not_create_parameters_for_parameters_found_in_the_command_text_without_matching_properties_in_the_object()
+        {
+            // Arrange
+            var task = new BuildParametersUsing<MockObject>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(new Mock<IDbDataParameter>().Object);
+            task.CommandWithParameters = mockDbCommand.Object;
+
+            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            task.ObjectWithValues = mockObject;
+
+            var mockFindParameters = new Mock<IFindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Whatever" });
+            task.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            task.Execute();
+
+            // Assert
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(It.IsAny<IDbDataParameter>()), Times.Never());
+        }
+
+        [Test]
         public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_object()
         {
             // Arrange
@@ -45,10 +69,10 @@ namespace Simpler.Data.Tests.Tasks
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
-            task.DbCommand = mockDbCommand.Object;
+            task.CommandWithParameters = mockDbCommand.Object;
 
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
-            task.Object = mockObject;
+            task.ObjectWithValues = mockObject;
 
             var mockFindParameters = new Mock<IFindParametersInCommandText>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name"});
@@ -72,10 +96,10 @@ namespace Simpler.Data.Tests.Tasks
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
-            task.DbCommand = mockDbCommand.Object;
+            task.CommandWithParameters = mockDbCommand.Object;
 
             var mockObject = new MockObject { Age = null };
-            task.Object = mockObject;
+            task.ObjectWithValues = mockObject;
 
             var mockFindParameters = new Mock<IFindParametersInCommandText>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
@@ -87,33 +111,6 @@ namespace Simpler.Data.Tests.Tasks
             // Assert
             mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Age");
             mockDbDataParameter.VerifySet(parameter => parameter.Value = DBNull.Value);
-            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
-        }
-
-        [Test]
-        public void should_not_set_parameter_if_no_matching_property_is_found_in_the_object()
-        {
-            // Arrange
-            var task = new BuildParametersUsing<MockObject>();
-
-            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
-            var mockDbDataParameter = new Mock<IDbDataParameter>();
-            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
-            task.DbCommand = mockDbCommand.Object;
-
-            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
-            task.Object = mockObject;
-
-            var mockFindParameters = new Mock<IFindParametersInCommandText>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Whatever" });
-            task.FindParametersInCommandText = mockFindParameters.Object;
-
-            // Act
-            task.Execute();
-
-            // Assert
-            mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Whatever");
-            mockDbDataParameter.VerifySet(parameter => parameter.Value, Times.Never());
             mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
         }
     }
