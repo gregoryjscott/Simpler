@@ -60,13 +60,16 @@
     <Compile Include="Data\Tasks\FindParametersInCommandTextTest.cs" />
     <Compile Include="Data\Tasks\PersistSingleOfTest.cs" />
     <Compile Include="Data\Tasks\UseDataRecordToBuildTest.cs" />
-    <Compile Include="Tasks\CreateInstanceOfTest.cs" />
-    <Compile Include="Tasks\InterceptExecutionOfTest.cs" />
+    <Compile Include="Injection\Mocks\MockParentTask.cs" />
+    <Compile Include="Injection\Tasks\DisposeSubTasksTest.cs" />
+    <Compile Include="Injection\Tasks\InjectSubTasksTest.cs" />
+    <Compile Include="Tasks\NotifySubscribersOfTaskExecutionTest.cs" />
+    <Compile Include="Tasks\InterceptTaskExecutionTest.cs" />
+    <Compile Include="Tasks\CreateTaskTest.cs" />
     <Compile Include="Mocks\Attributes\SecondAttribute.cs" />
     <Compile Include="Mocks\Attributes\FirstAttribute.cs" />
     <Compile Include="Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Mocks\MockTask.cs" />
-    <Compile Include="Tasks\NotifySubscribersToExecutionOfTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +77,9 @@
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Injection\Mocks\MockSubTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

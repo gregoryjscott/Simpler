@@ -7,13 +7,13 @@ using Simpler.Tests.Mocks;
 namespace Simpler.Tests.Tasks
 {
     [TestFixture]
-    public class InterceptExecutionOfTest
+    public class InterceptTaskExecutionTest
     {
         [Test]
         public void should_intercept_the_invocation_and_notify_subscribers_if_the_invocation_method_is_Execute()
         {
             // Arrange
-            var task = new InterceptExecutionOf<MockTask>();
+            var task = new InterceptTaskExecution();
 
             var mockInvocation = new Mock<IInvocation>();
             var mockTask = new MockTask();
@@ -21,8 +21,8 @@ namespace Simpler.Tests.Tasks
             mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(mockTask);
             task.Invocation = mockInvocation.Object;
 
-            var mockNotifySubscribers = new Mock<NotifySubscribersToExecutionOf<MockTask>>();
-            task.NotifySubscribersToExecution = mockNotifySubscribers.Object;
+            var mockNotifySubscribers = new Mock<NotifySubscribersOfTaskExecution>();
+            task.NotifySubscribersOfTaskExecution = mockNotifySubscribers.Object;
 
             // Act
             task.Execute();
@@ -36,15 +36,15 @@ namespace Simpler.Tests.Tasks
         public void should_just_allow_invocation_to_proceed_if_the_invocation_method_is_not_Execute()
         {
             // Arrange
-            var task = new InterceptExecutionOf<MockTask>();
+            var task = new InterceptTaskExecution();
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Method.Name).Returns("NotExecute");
             mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(new MockTask());
             task.Invocation = mockInvocation.Object;
 
-            var mockNotifySubscribers = new Mock<NotifySubscribersToExecutionOf<MockTask>>();
-            task.NotifySubscribersToExecution = mockNotifySubscribers.Object;
+            var mockNotifySubscribers = new Mock<NotifySubscribersOfTaskExecution>();
+            task.NotifySubscribersOfTaskExecution = mockNotifySubscribers.Object;
 
             // Act
             task.Execute();

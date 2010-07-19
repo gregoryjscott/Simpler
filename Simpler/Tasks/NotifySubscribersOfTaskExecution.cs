@@ -1,23 +1,25 @@
 ﻿using System;
+using Castle.Core.Interceptor;
 using Simpler.Attributes;
 
 namespace Simpler.Tasks
 {
-    public class NotifySubscribersToExecutionOf<T> : Task where T : Task
+    public class NotifySubscribersOfTaskExecution : Task
     {
         // Inputs
-        public virtual T ExecutingTask { get; set; }
+        public virtual Task ExecutingTask { get; set; }
+        public virtual IInvocation Invocation { get; set; }
 
         public override void Execute()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(typeof(T), typeof(ExecutionCallbacksAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(), typeof(ExecutionCallbacksAttribute));
 
             for (var i = 0; i < callbackAttributes.Length; i++)
             {
                 ((ExecutionCallbacksAttribute)callbackAttributes[i]).BeforeExecute(ExecutingTask);
             }
 
-            ExecutingTask.Execute();
+            Invocation.Proceed();
 
             for (var i = callbackAttributes.Length - 1; i >= 0; i--)
             {

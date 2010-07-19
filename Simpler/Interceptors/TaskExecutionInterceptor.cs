@@ -3,12 +3,12 @@ using Simpler.Tasks;
 
 namespace Simpler.Interceptors
 {
-    public class TaskExecutionInterceptor<T> : IInterceptor where T : Task
+    public class TaskExecutionInterceptor : IInterceptor
     {
         public void Intercept(IInvocation invocation)
         {
-            var interceptExecution = new InterceptExecutionOf<T> { Invocation = invocation };
-            interceptExecution.Execute();
+            var interceptTaskExecution = new InterceptTaskExecution { Invocation = invocation };
+            interceptTaskExecution.Execute();
         }
     }
 }

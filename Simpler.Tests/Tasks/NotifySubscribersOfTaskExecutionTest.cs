@@ -1,20 +1,26 @@
-﻿using NUnit.Framework;
+﻿using Castle.Core.Interceptor;
+using NUnit.Framework;
 using Simpler.Tasks;
 using Simpler.Tests.Mocks;
+using Moq;
 
 namespace Simpler.Tests.Tasks
 {
     [TestFixture]
-    public class NotifySubscribersToExecutionOfTest
+    public class NotifySubscribersOfTaskExecutionTest
     {
         [Test]
         public void should_send_notifications_before_and_after_the_task_is_executed()
         {
             // Arrange
-            var task = new NotifySubscribersToExecutionOf<MockTaskWithAttributes>();
+            var task = new NotifySubscribersOfTaskExecution();
 
             var taskWithAttributes = new MockTaskWithAttributes();
             task.ExecutingTask = taskWithAttributes;
+
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(() => taskWithAttributes.Execute());
+            task.Invocation = mockInvocation.Object;
 
             // Act
             task.Execute();
