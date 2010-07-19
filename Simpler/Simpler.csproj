@@ -48,6 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ExecutionCallbacksAttribute.cs" />
+    <Compile Include="Data\Exceptions\NoPropertyForColumnException.cs" />
+    <Compile Include="Data\Exceptions\ObjectPersistanceException.cs" />
+    <Compile Include="Data\Interfaces\IBuildParametersUsing.cs" />
+    <Compile Include="Data\Interfaces\IFindParametersInCommandText.cs" />
+    <Compile Include="Data\Tasks\BuildParametersUsing.cs" />
+    <Compile Include="Data\Tasks\FetchListOf.cs" />
+    <Compile Include="Data\Tasks\FetchSingleOf.cs" />
+    <Compile Include="Data\Tasks\FindParametersInCommandText.cs" />
+    <Compile Include="Data\Tasks\PersistSingleOf.cs" />
+    <Compile Include="Data\Tasks\UseDataRecordToBuild.cs" />
     <Compile Include="Tasks\InterceptExecutionOf.cs" />
     <Compile Include="Tasks\NotifySubscribersToExecutionOf.cs" />
     <Compile Include="Interceptors\TaskExecutionInterceptor.cs" />

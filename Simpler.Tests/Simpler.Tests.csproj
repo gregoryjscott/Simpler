@@ -53,6 +53,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Mocks\MockObject.cs" />
+    <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
+    <Compile Include="Data\Tasks\FetchListOfTest.cs" />
+    <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
+    <Compile Include="Data\Tasks\FindParametersInCommandTextTest.cs" />
+    <Compile Include="Data\Tasks\PersistSingleOfTest.cs" />
+    <Compile Include="Data\Tasks\UseDataRecordToBuildTest.cs" />
     <Compile Include="Tasks\CreateInstanceOfTest.cs" />
     <Compile Include="Tasks\InterceptExecutionOfTest.cs" />
     <Compile Include="Mocks\Attributes\SecondAttribute.cs" />
