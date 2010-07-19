@@ -1,11 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
 using Simpler.Data.Tasks;
-using Simpler.Data.Tests.Mocks;
 using System.Data;
 using Moq;
+using Simpler.Tests.Data.Mocks;
 
-namespace Simpler.Data.Tests.Tasks
+namespace Simpler.Tests.Data.Tasks
 {
     [TestFixture]
     public class FetchSingleOfTest

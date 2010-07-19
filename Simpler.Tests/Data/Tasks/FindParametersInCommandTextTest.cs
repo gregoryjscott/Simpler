@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Simpler.Data.Tasks;
 
-namespace Simpler.Data.Tests.Tasks
+namespace Simpler.Tests.Data.Tasks
 {
     [TestFixture]
     public class FindParametersInCommandTextTest

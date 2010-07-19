@@ -1,11 +1,12 @@
 ﻿using NUnit.Framework;
+using Simpler.Data.Interfaces;
 using Simpler.Data.Tasks;
-using Simpler.Data.Tests.Mocks;
 using Moq;
 using System.Data;
 using Simpler.Data.Exceptions;
+using Simpler.Tests.Data.Mocks;
 
-namespace Simpler.Data.Tests.Tasks
+namespace Simpler.Tests.Data.Tasks
 {
     [TestFixture]
     class PersistSingleOfTest

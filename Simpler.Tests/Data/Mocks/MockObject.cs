@@ -1,4 +1,4 @@
-﻿namespace Simpler.Data.Tests.Mocks
+﻿namespace Simpler.Tests.Data.Mocks
 {
     public class MockObject
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using Simpler.Data.Interfaces;
 
 namespace Simpler.Data.Tasks
 {

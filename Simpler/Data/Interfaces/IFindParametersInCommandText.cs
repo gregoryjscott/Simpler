@@ -1,4 +1,4 @@
-namespace Simpler.Data.Tasks
+namespace Simpler.Data.Interfaces
 {
     public interface IFindParametersInCommandText
     {
