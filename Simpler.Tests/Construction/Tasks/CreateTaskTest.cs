@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Simpler.Construction.Tasks;
-using Simpler.Tests.Mocks;
+using Simpler.Tests.Construction.Mocks;
 using Simpler.Tests.Injection.Mocks;
 
 namespace Simpler.Tests.Construction.Tasks
@@ -34,20 +34,6 @@ namespace Simpler.Tests.Construction.Tasks
             // Assert
             Assert.That(task.TaskInstance, Is.InstanceOf<MockTaskWithAttributes>());
             Assert.That(task.TaskInstance.GetType().Name, Is.EqualTo("MockTaskWithAttributesProxy"));
-        }
-
-        [Test]
-        public void should_inject_sub_tasks_before_execution_if_given_type_is_decorated_with_inject_sub_tasks_attribute()
-        {
-            // Arrange
-            var task = new CreateTask { TaskType = typeof(MockParentTask) };
-
-            // Act
-            task.Execute();
-            ((MockParentTask)task.TaskInstance).Execute();
-
-            // Assert
-            Assert.That(((MockParentTask)task.TaskInstance).SubTaskWasInjected, Is.True);
         }
     }
 }

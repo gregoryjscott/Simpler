@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Simpler.Tests.Mocks
+namespace Simpler.Tests.Construction.Mocks
 {
     [First, Second]
     public class MockTaskWithAttributes : Task

@@ -14,7 +14,7 @@ namespace Simpler.Tests.Injection.Mocks
 
         public override void Execute()
         {
-            SubTaskWasInjected = true;
+            SubTaskWasInjected = (MockSubClass != null);
         }
     }
 }

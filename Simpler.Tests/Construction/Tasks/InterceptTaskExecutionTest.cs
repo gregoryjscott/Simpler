@@ -2,7 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using Simpler.Construction.Tasks;
-using Simpler.Tests.Mocks;
+using Simpler.Tests.Construction.Mocks;
 
 namespace Simpler.Tests.Construction.Tasks
 {

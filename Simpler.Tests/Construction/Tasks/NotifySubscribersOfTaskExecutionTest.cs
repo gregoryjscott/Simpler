@@ -1,7 +1,7 @@
 ﻿using Castle.Core.Interceptor;
 using NUnit.Framework;
 using Simpler.Construction.Tasks;
-using Simpler.Tests.Mocks;
+using Simpler.Tests.Construction.Mocks;
 using Moq;
 
 namespace Simpler.Tests.Construction.Tasks

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simpler.Tests.Mocks
+namespace Simpler.Tests.Construction.Mocks
 {
     public class MockTask : Task
     {

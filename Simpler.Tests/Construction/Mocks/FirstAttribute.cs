@@ -1,6 +1,6 @@
 ﻿using Simpler.Construction;
 
-namespace Simpler.Tests.Mocks
+namespace Simpler.Tests.Construction.Mocks
 {
     public class FirstAttribute : ExecutionCallbacksAttribute
     {
