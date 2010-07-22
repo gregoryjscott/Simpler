@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Simpler.Construction;
 using Simpler.Injection.Tasks;
 
-namespace Simpler.Attributes
+namespace Simpler.Injection
 {
     public class InjectSubTasksAttribute : ExecutionCallbacksAttribute
     {

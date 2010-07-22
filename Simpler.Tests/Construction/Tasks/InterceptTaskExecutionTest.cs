@@ -1,10 +1,10 @@
 ﻿using Castle.Core.Interceptor;
 using Moq;
 using NUnit.Framework;
-using Simpler.Tasks;
+using Simpler.Construction.Tasks;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Tasks
+namespace Simpler.Tests.Construction.Tasks
 {
     [TestFixture]
     public class InterceptTaskExecutionTest

@@ -1,8 +1,7 @@
 ﻿using System;
 using Castle.Core.Interceptor;
-using Simpler.Attributes;
 
-namespace Simpler.Tasks
+namespace Simpler.Construction.Tasks
 {
     public class NotifySubscribersOfTaskExecution : Task
     {

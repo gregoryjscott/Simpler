@@ -1,5 +1,5 @@
 ﻿using System;
-using Simpler.Attributes;
+using Simpler.Injection;
 
 namespace Simpler.Tests.Injection.Mocks
 {

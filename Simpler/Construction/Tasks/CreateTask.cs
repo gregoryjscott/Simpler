@@ -1,9 +1,8 @@
 ﻿using Castle.DynamicProxy;
-using Simpler.Attributes;
 using System;
-using Simpler.Interceptors;
+using Simpler.Construction.Interceptors;
 
-namespace Simpler.Tasks
+namespace Simpler.Construction.Tasks
 {
     public class CreateTask : Task
     {

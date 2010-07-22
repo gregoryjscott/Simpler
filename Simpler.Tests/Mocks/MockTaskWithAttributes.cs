@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Simpler.Tests.Mocks.Attributes;
 
 namespace Simpler.Tests.Mocks
 {

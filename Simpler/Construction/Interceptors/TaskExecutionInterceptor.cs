@@ -1,7 +1,7 @@
 ﻿using Castle.Core.Interceptor;
-using Simpler.Tasks;
+using Simpler.Construction.Tasks;
 
-namespace Simpler.Interceptors
+namespace Simpler.Construction.Interceptors
 {
     public class TaskExecutionInterceptor : IInterceptor
     {

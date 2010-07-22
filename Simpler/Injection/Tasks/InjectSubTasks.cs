@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
-using Simpler.Tasks;
+using Simpler.Construction.Tasks;
 
 namespace Simpler.Injection.Tasks
 {

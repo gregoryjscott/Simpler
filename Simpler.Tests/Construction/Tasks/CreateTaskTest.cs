@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using Simpler.Tasks;
+using Simpler.Construction.Tasks;
 using Simpler.Tests.Mocks;
 using Simpler.Tests.Injection.Mocks;
 
-namespace Simpler.Tests.Tasks
+namespace Simpler.Tests.Construction.Tasks
 {
     [TestFixture]
     public class CreateTaskTest

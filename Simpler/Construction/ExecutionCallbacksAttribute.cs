@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simpler.Attributes
+namespace Simpler.Construction
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public abstract class ExecutionCallbacksAttribute : Attribute

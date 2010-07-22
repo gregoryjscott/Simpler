@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ExecutionCallbacksAttribute.cs" />
-    <Compile Include="Attributes\InjectSubTasksAttribute.cs" />
+    <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
+    <Compile Include="Injection\InjectSubTasksAttribute.cs" />
     <Compile Include="Data\Exceptions\NoPropertyForColumnException.cs" />
     <Compile Include="Data\Exceptions\ObjectPersistanceException.cs" />
     <Compile Include="Data\Interfaces\IBuildParametersUsing.cs" />
@@ -61,10 +61,10 @@
     <Compile Include="Data\Tasks\UseDataRecordToBuild.cs" />
     <Compile Include="Injection\Tasks\DisposeSubTasks.cs" />
     <Compile Include="Injection\Tasks\InjectSubTasks.cs" />
-    <Compile Include="Tasks\NotifySubscribersOfTaskExecution.cs" />
-    <Compile Include="Tasks\InterceptTaskExecution.cs" />
-    <Compile Include="Tasks\CreateTask.cs" />
-    <Compile Include="Interceptors\TaskExecutionInterceptor.cs" />
+    <Compile Include="Construction\Tasks\NotifySubscribersOfTaskExecution.cs" />
+    <Compile Include="Construction\Tasks\InterceptTaskExecution.cs" />
+    <Compile Include="Construction\Tasks\CreateTask.cs" />
+    <Compile Include="Construction\Interceptors\TaskExecutionInterceptor.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactory.cs" />

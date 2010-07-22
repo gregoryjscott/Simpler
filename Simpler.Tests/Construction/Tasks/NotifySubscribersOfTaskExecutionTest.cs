@@ -1,10 +1,10 @@
 ﻿using Castle.Core.Interceptor;
 using NUnit.Framework;
-using Simpler.Tasks;
+using Simpler.Construction.Tasks;
 using Simpler.Tests.Mocks;
 using Moq;
 
-namespace Simpler.Tests.Tasks
+namespace Simpler.Tests.Construction.Tasks
 {
     [TestFixture]
     public class NotifySubscribersOfTaskExecutionTest
@@ -19,7 +19,7 @@ namespace Simpler.Tests.Tasks
             task.ExecutingTask = taskWithAttributes;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(() => taskWithAttributes.Execute());
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
             task.Invocation = mockInvocation.Object;
 
             // Act

@@ -1,4 +1,6 @@
-﻿namespace Simpler
+﻿using System;
+
+namespace Simpler
 {
     public abstract class Task
     {

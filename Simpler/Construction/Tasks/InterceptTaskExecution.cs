@@ -1,6 +1,6 @@
 ﻿using Castle.Core.Interceptor;
 
-namespace Simpler.Tasks
+namespace Simpler.Construction.Tasks
 {
     public class InterceptTaskExecution : Task
     {

@@ -63,11 +63,11 @@
     <Compile Include="Injection\Mocks\MockParentTask.cs" />
     <Compile Include="Injection\Tasks\DisposeSubTasksTest.cs" />
     <Compile Include="Injection\Tasks\InjectSubTasksTest.cs" />
-    <Compile Include="Tasks\NotifySubscribersOfTaskExecutionTest.cs" />
-    <Compile Include="Tasks\InterceptTaskExecutionTest.cs" />
-    <Compile Include="Tasks\CreateTaskTest.cs" />
-    <Compile Include="Mocks\Attributes\SecondAttribute.cs" />
-    <Compile Include="Mocks\Attributes\FirstAttribute.cs" />
+    <Compile Include="Construction\Tasks\NotifySubscribersOfTaskExecutionTest.cs" />
+    <Compile Include="Construction\Tasks\InterceptTaskExecutionTest.cs" />
+    <Compile Include="Construction\Tasks\CreateTaskTest.cs" />
+    <Compile Include="Mocks\SecondAttribute.cs" />
+    <Compile Include="Mocks\FirstAttribute.cs" />
     <Compile Include="Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Mocks\MockTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
