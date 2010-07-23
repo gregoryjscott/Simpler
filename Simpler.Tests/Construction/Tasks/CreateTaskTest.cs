@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Simpler.Construction.Tasks;
 using Simpler.Tests.Construction.Mocks;
-using Simpler.Tests.Injection.Mocks;
 
 namespace Simpler.Tests.Construction.Tasks
 {
