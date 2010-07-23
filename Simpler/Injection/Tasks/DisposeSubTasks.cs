@@ -7,8 +7,8 @@ namespace Simpler.Injection.Tasks
     public class DisposeSubTasks : Task
     {
         // Inputs
-        public Task TaskContainingSubTasks { get; set; }
-        public string[] InjectedSubTaskPropertyNames { get; set; }
+        public virtual Task TaskContainingSubTasks { get; set; }
+        public virtual string[] InjectedSubTaskPropertyNames { get; set; }
 
         public override void Execute()
         {

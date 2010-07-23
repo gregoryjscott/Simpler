@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Data;
-using Simpler.Data.Interfaces;
+using Simpler.Injection;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildParametersUsing<T> : Task, IBuildParametersUsing<T>
+    [InjectSubTasks]
+    public class BuildParametersUsing<T> : Task
     {
         // Inputs
-        public IDbCommand CommandWithParameters { get; set; }
-        public T ObjectWithValues { get; set; }
+        public virtual IDbCommand CommandWithParameters { get; set; }
+        public virtual T ObjectWithValues { get; set; }
 
         // Sub-tasks
-        public IFindParametersInCommandText FindParametersInCommandText { private get; set; }
+        public virtual FindParametersInCommandText FindParametersInCommandText { get; set; }
 
         public override void Execute()
         {
-            // Create the sub-tasks if null (this won't be necessary after dependency injection is implemented).
-            if (FindParametersInCommandText == null) FindParametersInCommandText = new FindParametersInCommandText();
             FindParametersInCommandText.CommandText = CommandWithParameters.CommandText;
             FindParametersInCommandText.Execute();
 

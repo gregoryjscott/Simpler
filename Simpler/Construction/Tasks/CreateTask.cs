@@ -7,10 +7,10 @@ namespace Simpler.Construction.Tasks
     public class CreateTask : Task
     {
         // Inputs
-        public Type TaskType { get; set; }
+        public virtual Type TaskType { get; set; }
 
         // Outputs
-        public object TaskInstance { get; private set; }
+        public virtual object TaskInstance { get; private set; }
 
         public override void Execute()
         {

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Simpler.Data.Interfaces;
 using Simpler.Data.Tasks;
 using Moq;
 using System.Data;
@@ -15,9 +14,9 @@ namespace Simpler.Tests.Data.Tasks
         public void should_call_command_to_persist_the_object()
         {
             // Arrange
-            var task = new PersistSingleOf<MockObject>();
+            var task = TaskFactory<PersistSingleOf<MockObject>>.Create();
 
-            var mockBuildParameters = new Mock<IBuildParametersUsing<MockObject>>();
+            var mockBuildParameters = new Mock<BuildParametersUsing<MockObject>>();
             task.BuildParameters = mockBuildParameters.Object;
 
             var mockObject = new MockObject();
@@ -40,9 +39,9 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_no_database_rows_are_affected()
         {
             // Arrange
-            var task = new PersistSingleOf<MockObject>();
+            var task = TaskFactory<PersistSingleOf<MockObject>>.Create();
 
-            var mockBuildParameters = new Mock<IBuildParametersUsing<MockObject>>();
+            var mockBuildParameters = new Mock<BuildParametersUsing<MockObject>>();
             task.BuildParameters = mockBuildParameters.Object;
 
             var mockPersistCommand = new Mock<IDbCommand>();
@@ -57,9 +56,9 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_more_than_one_database_row_is_affected()
         {
             // Arrange
-            var task = new PersistSingleOf<MockObject>();
+            var task = TaskFactory<PersistSingleOf<MockObject>>.Create();
 
-            var mockBuildParameters = new Mock<IBuildParametersUsing<MockObject>>();
+            var mockBuildParameters = new Mock<BuildParametersUsing<MockObject>>();
             task.BuildParameters = mockBuildParameters.Object;
 
             var mockPersistCommand = new Mock<IDbCommand>();

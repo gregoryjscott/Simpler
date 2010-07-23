@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Collections.Generic;
 using Simpler.Construction.Tasks;
 
@@ -8,10 +7,10 @@ namespace Simpler.Injection.Tasks
     public class InjectSubTasks : Task
     {
         // Inputs
-        public Task TaskContainingSubTasks { get; set; }
+        public virtual Task TaskContainingSubTasks { get; set; }
 
         // Outputs
-        public string[] InjectedSubTaskPropertyNames { get; private set; }
+        public virtual string[] InjectedSubTaskPropertyNames { get; private set; }
 
         // Sub-tasks
         public CreateTask CreateTask { get; set; }

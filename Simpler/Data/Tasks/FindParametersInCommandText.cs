@@ -1,13 +1,15 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using Simpler.Data.Interfaces;
 
 namespace Simpler.Data.Tasks
 {
-    public class FindParametersInCommandText : Task, IFindParametersInCommandText
+    public class FindParametersInCommandText : Task
     {
-        public string CommandText { get; set; }
-        public string[] ParameterNames { get; private set; }
+        // Inputs
+        public virtual string CommandText { get; set; }
+
+        // Outputs
+        public virtual string[] ParameterNames { get; private set; }
 
         public override void Execute()
         {

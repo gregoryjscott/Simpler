@@ -8,10 +8,10 @@ namespace Simpler.Data.Tasks
     public class UseDataRecordToBuild<T> : Task
     {
         // Inputs
-        public IDataRecord DataRecord { get; set; }
+        public virtual IDataRecord DataRecord { get; set; }
 
         // Outputs
-        public T Object { get; private set; }
+        public virtual T Object { get; private set; }
 
         public override void Execute()
         {
