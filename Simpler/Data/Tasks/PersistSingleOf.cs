@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Data;
 using Simpler.Data.Exceptions;
-using Simpler.Injection;
 
 namespace Simpler.Data.Tasks
 {
-    [InjectSubTasks]
     public class PersistSingleOf<T> : Task
     {
         // Inputs
@@ -17,6 +15,9 @@ namespace Simpler.Data.Tasks
 
         public override void Execute()
         {
+            // Create the sub-tasks.
+            if (BuildParameters == null) BuildParameters = new BuildParametersUsing<T>();
+
             BuildParameters.CommandWithParameters = PersistCommand;
             BuildParameters.ObjectWithValues = ObjectToPersist;
             BuildParameters.Execute();

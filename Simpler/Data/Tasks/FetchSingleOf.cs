@@ -1,9 +1,7 @@
 ﻿using System.Data;
-using Simpler.Injection;
 
 namespace Simpler.Data.Tasks
 {
-    [InjectSubTasks]
     public class FetchSingleOf<T> : Task
     {
         // Inputs
@@ -17,6 +15,9 @@ namespace Simpler.Data.Tasks
 
         public override void Execute()
         {
+            // Create the sub-tasks.
+            if (UseDataRecordToBuild == null) UseDataRecordToBuild = new UseDataRecordToBuild<T>();
+
             using (var dataReader = SelectCommand.ExecuteReader())
             {
                 dataReader.Read();

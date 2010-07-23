@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Data;
-using Simpler.Injection;
 
 namespace Simpler.Data.Tasks
 {
-    [InjectSubTasks]
     public class BuildParametersUsing<T> : Task
     {
         // Inputs
@@ -16,6 +14,9 @@ namespace Simpler.Data.Tasks
 
         public override void Execute()
         {
+            // Create the sub-tasks.
+            if (FindParametersInCommandText == null) FindParametersInCommandText = new FindParametersInCommandText();
+
             FindParametersInCommandText.CommandText = CommandWithParameters.CommandText;
             FindParametersInCommandText.Execute();
 
