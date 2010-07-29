@@ -1,8 +1,7 @@
 ﻿namespace Simpler.Tests.Data.Mocks
 {
-    public class MockObject
+    public class MockComplexObject
     {
-        public string Name { get; set; }
-        public int? Age { get; set; }
+        public MockObject MockObject { get; set; }
     }
 }

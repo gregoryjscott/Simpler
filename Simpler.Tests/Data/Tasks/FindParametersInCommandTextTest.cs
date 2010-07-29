@@ -58,6 +58,23 @@ namespace Simpler.Tests.Data.Tasks
         }
 
         [Test]
+        public void should_find_parameters_that_contain_a_dot()
+        {
+            // Arrange
+            var task = TaskFactory<FindParametersInCommandText>.Create();
+            task.CommandText =
+                @"
+                select whatever from table where something = @complex.object and something_else is true
+                ";
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(task.ParameterNames[0], Is.EqualTo("@complex.object"));
+        }
+
+        [Test]
         public void should_find_parameters_that_contain_a_number()
         {
             // Arrange

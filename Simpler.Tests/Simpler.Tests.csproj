@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Mocks\MockComplexObject.cs" />
     <Compile Include="Data\Mocks\MockObject.cs" />
     <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
