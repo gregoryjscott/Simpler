@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Simpler.Data.Tasks
 {
@@ -25,11 +26,13 @@ namespace Simpler.Data.Tasks
             var regex = new Regex(regularExpression.ToString(), RegexOptions.Multiline);
             var matches = regex.Matches(CommandText);
 
-            ParameterNames = new string[matches.Count];
+            var parameterNameSet = new HashSet<string>();
             for (var i = 0; i < matches.Count; i++)
             {
-                ParameterNames[i] = matches[i].Groups["Parameter"].Value;
+                parameterNameSet.Add(matches[i].Groups["Parameter"].Value);
             }
+            ParameterNames = new string[parameterNameSet.Count];
+            parameterNameSet.CopyTo(ParameterNames);
         }
     }
 }

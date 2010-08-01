@@ -145,5 +145,23 @@ namespace Simpler.Tests.Data.Tasks
             // Assert
             Assert.That(task.ParameterNames[0], Is.EqualTo("@something"));
         }
+
+        [Test]
+        public void should_only_return_one_instance_of_parameter_name_even_if_parameter_exists_in_command_text_more_than_once()
+        {
+            // Arrange
+            var task = TaskFactory<FindParametersInCommandText>.Create();
+            task.CommandText =
+                @"
+                select whatever from table where something = @something and somethingelsealso = @something
+                ";
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(task.ParameterNames[0], Is.EqualTo("@something"));
+            Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
+        }
     }
 }
