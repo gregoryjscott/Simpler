@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace Simpler.Data.Tasks
 {
@@ -21,6 +22,8 @@ namespace Simpler.Data.Tasks
             using (var dataReader = SelectCommand.ExecuteReader())
             {
                 dataReader.Read();
+                if(dataReader.Read())
+                    throw new Exception();
                 UseDataRecordToBuild.DataRecord = dataReader;
                 UseDataRecordToBuild.Execute();
                 ObjectFetched = UseDataRecordToBuild.Object;
