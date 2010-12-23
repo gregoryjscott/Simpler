@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Simpler.Data.Exceptions;
 using Simpler.Data.Tasks;
 using System.Data;
 using Moq;
@@ -31,8 +32,24 @@ namespace Simpler.Tests.Data.Tasks
             // Assert
             Assert.That(task.ObjectFetched.Name, Is.EqualTo("John Doe"));
         }
+
         [Test]
-        public void should_return_only_one_object()
+        public void should_throw_if_no_records_are_found()
+        {
+            var task = TaskFactory<FetchSingleOf<MockObject>>.Create();
+
+            var table = new DataTable();
+
+            var mockSelectCommand = new Mock<IDbCommand>();
+            mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
+            task.SelectCommand = mockSelectCommand.Object;
+
+            // Act & Assert
+            Assert.Throws(typeof(SingleNotFoundException), task.Execute);
+        }
+
+        [Test]
+        public void should_throw_if_more_than_one_record_is_found()
         {
             var task = TaskFactory<FetchSingleOf<MockObject>>.Create();
 
@@ -46,21 +63,8 @@ namespace Simpler.Tests.Data.Tasks
             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
             task.SelectCommand = mockSelectCommand.Object;
 
-            // Act
-            bool errorThrown = false;
-            try
-            {
-
-                task.Execute();
-            }
-            catch (Exception)
-            {
-                errorThrown = true;
-            }
-
-            // Assert
-            Assert.That(errorThrown);
-
+            // Act & Assert
+            Assert.Throws(typeof(SingleNotFoundException), task.Execute);
         }
     }
 }
