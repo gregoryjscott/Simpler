@@ -13,5 +13,10 @@ namespace Simpler.Tests.Construction.Mocks
         {
             ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("First.After");
         }
+
+        public override void OnError(Task taskBeingExecuted)
+        {
+            ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("First.OnError");
+        }
     }
 }

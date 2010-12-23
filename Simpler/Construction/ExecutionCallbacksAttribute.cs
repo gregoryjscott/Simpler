@@ -7,5 +7,6 @@ namespace Simpler.Construction
     {
         public abstract void BeforeExecute(Task taskBeingExecuted);
         public abstract void AfterExecute(Task taskBeingExecuted);
+        public abstract void OnError(Task taskBeingExecuted);
     }
 }

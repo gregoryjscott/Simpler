@@ -18,7 +18,20 @@ namespace Simpler.Construction.Tasks
                 ((ExecutionCallbacksAttribute)callbackAttributes[i]).BeforeExecute(ExecutingTask);
             }
 
-            Invocation.Proceed();
+            try
+            {
+                Invocation.Proceed();
+
+            }
+            catch (Exception)
+            {
+                for (var i = callbackAttributes.Length - 1; i >= 0; i--)
+                {
+                    ((ExecutionCallbacksAttribute)callbackAttributes[i]).OnError(ExecutingTask);
+                }
+
+                throw;
+            }
 
             for (var i = callbackAttributes.Length - 1; i >= 0; i--)
             {

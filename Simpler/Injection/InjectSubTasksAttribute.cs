@@ -20,5 +20,9 @@ namespace Simpler.Injection
             var dispose = new DisposeSubTasks { TaskContainingSubTasks = taskBeingExecuted, InjectedSubTaskPropertyNames = _injectedSubTaskPropertyNames.ToArray() };
             dispose.Execute();
         }
+
+        public override void OnError(Task taskBeingExecuted)
+        {
+        }
     }
 }
