@@ -22,12 +22,13 @@ namespace Simpler.Data.Tasks
 
             using (var dataReader = SelectCommand.ExecuteReader())
             {
-                if (!dataReader.Read())
-                    throw new SingleNotFoundException("No records were found.");
+                // TODO - i don't trust this works in all cases...
+                //if (!dataReader.Read())
+                //    throw new SingleNotFoundException("No records were found.");
 
-                if(dataReader.Read())
-                    throw new SingleNotFoundException("More than one record was found.");
-
+                //if(dataReader.Read())
+                //    throw new SingleNotFoundException("More than one record was found.");
+                dataReader.Read();
                 UseDataRecordToBuild.DataRecord = dataReader;
                 UseDataRecordToBuild.Execute();
                 ObjectFetched = UseDataRecordToBuild.Object;
