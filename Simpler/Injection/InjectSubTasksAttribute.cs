@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Simpler.Construction;
 using Simpler.Injection.Tasks;
+using System;
 
 namespace Simpler.Injection
 {
@@ -21,7 +22,7 @@ namespace Simpler.Injection
             dispose.Execute();
         }
 
-        public override void OnError(Task taskBeingExecuted)
+        public override void OnError(Task taskBeingExecuted, Exception exception)
         {
         }
     }

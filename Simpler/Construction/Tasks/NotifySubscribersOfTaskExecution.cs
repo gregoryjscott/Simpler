@@ -23,11 +23,11 @@ namespace Simpler.Construction.Tasks
                 Invocation.Proceed();
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((ExecutionCallbacksAttribute)callbackAttributes[i]).OnError(ExecutingTask);
+                    ((ExecutionCallbacksAttribute)callbackAttributes[i]).OnError(ExecutingTask, exception);
                 }
 
                 throw;

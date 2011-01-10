@@ -1,4 +1,5 @@
-﻿using Simpler.Construction;
+﻿using System;
+using Simpler.Construction;
 
 namespace Simpler.Tests.Construction.Mocks
 {
@@ -14,7 +15,7 @@ namespace Simpler.Tests.Construction.Mocks
             ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("Second.After");
         }
 
-        public override void OnError(Task taskBeingExecuted)
+        public override void OnError(Task taskBeingExecuted, Exception exception)
         {
             ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("Second.OnError");
         }
