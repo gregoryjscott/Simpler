@@ -10,10 +10,9 @@ namespace Simpler.Construction.Tasks
 
         public override void Execute()
         {
-            if (NotifySubscribersOfTaskExecution == null) NotifySubscribersOfTaskExecution = new NotifySubscribersOfTaskExecution();
-
             if (Invocation.Method.Name.Equals("Execute"))
             {
+                if (NotifySubscribersOfTaskExecution == null) NotifySubscribersOfTaskExecution = new NotifySubscribersOfTaskExecution();
                 NotifySubscribersOfTaskExecution.ExecutingTask = (Task)Invocation.InvocationTarget;
                 NotifySubscribersOfTaskExecution.Invocation = Invocation;
                 NotifySubscribersOfTaskExecution.Execute();

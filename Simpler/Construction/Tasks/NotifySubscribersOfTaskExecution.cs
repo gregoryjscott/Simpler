@@ -21,7 +21,6 @@ namespace Simpler.Construction.Tasks
             try
             {
                 Invocation.Proceed();
-
             }
             catch (Exception exception)
             {
