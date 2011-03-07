@@ -6,6 +6,8 @@ namespace Simpler.Construction.Tasks
 {
     public class CreateTask : Task
     {
+        static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
+
         // Inputs
         public virtual Type TaskType { get; set; }
 
@@ -16,7 +18,7 @@ namespace Simpler.Construction.Tasks
         {
             if (Attribute.IsDefined(TaskType, typeof(ExecutionCallbacksAttribute)))
             {
-                TaskInstance = new ProxyGenerator().CreateClassProxy(TaskType, new TaskExecutionInterceptor());
+                TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, new TaskExecutionInterceptor());
             }
             else
             {
