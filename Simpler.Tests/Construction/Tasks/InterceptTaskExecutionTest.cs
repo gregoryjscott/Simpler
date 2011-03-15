@@ -1,4 +1,4 @@
-﻿using Castle.Core.Interceptor;
+﻿using Castle.DynamicProxy;
 using Moq;
 using NUnit.Framework;
 using Simpler.Construction.Tasks;

@@ -1,5 +1,5 @@
 ﻿using System;
-using Castle.Core.Interceptor;
+using Castle.DynamicProxy;
 using NUnit.Framework;
 using Simpler.Construction.Tasks;
 using Simpler.Tests.Construction.Mocks;

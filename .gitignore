@@ -31,3 +31,4 @@ Examples*/
 SerializerTest*/
 *.csproj.user
 *.resharper*
+deploy/*

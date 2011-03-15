@@ -1,4 +1,4 @@
-﻿using Castle.Core.Interceptor;
+﻿using Castle.DynamicProxy;
 using Simpler.Construction.Tasks;
 
 namespace Simpler.Construction.Interceptors
