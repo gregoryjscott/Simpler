@@ -26,4 +26,6 @@ We like all tasks to have a corresponding test class that contains the task's ex
 
 Simpler allows for developing applications as sets of consistent, discrete, reusable classes that can easily be moved or adjusted as necessary (aka agile).  Simpler works great in team environments since everyone is designing classes using the same techniques and terminology, which results in a consistent code base.  Simpler makes it easy to write automated unit tests for you code.  Simpler fits really well with ASP.NET MVC.  We like Simpler.
 
+***
+
 **Simpler is licensed under the MIT License.  A copy of the MIT license can be found in the LICENSE file.**
