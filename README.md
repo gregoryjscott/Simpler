@@ -1,3 +1,5 @@
+#Simpler
+
 Simpler's goal is to make developing quality .NET code simpler.  It dictates consistent class design, includes a micro-ORM, and enables enough dependency injection to do proper unit testing.  We like to use NuGet to add Simpler to our projects.
 
 Simpler's philosophy to class design is that business concepts of an application should be represented using two types of classes - models and tasks.  Models represent application data and can be just POCOs, but they should only be used as data containers and therefore only contain properties.
@@ -25,7 +27,5 @@ We like all tasks to have a corresponding test class that contains the task's ex
     todo - test with mocking a subtask code example 
 
 Simpler allows for developing applications as sets of consistent, discrete, reusable classes that can easily be moved or adjusted as necessary (aka agile).  Simpler works great in team environments since everyone is designing classes using the same techniques and terminology, which results in a consistent code base.  Simpler makes it easy to write automated unit tests for you code.  Simpler fits really well with ASP.NET MVC.  We like Simpler.
-
-***
 
 **Simpler is licensed under the MIT License.  A copy of the MIT license can be found in the LICENSE file.**
