@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Reflection;
 using Simpler.Data.Exceptions;
 
 namespace Simpler.Data.Tasks
@@ -9,7 +8,7 @@ namespace Simpler.Data.Tasks
     /// Task that builds an instance of the given type T using the values found in the given DataRecord.  If the DataRecord contains
     /// any columns that match the name of the property on T, then that column's value will be used to set the property.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of object to build.</typeparam>
     public class UseDataRecordToBuild<T> : Task
     {
         // Inputs
@@ -25,7 +24,7 @@ namespace Simpler.Data.Tasks
 
             for (var i = 0; i < DataRecord.FieldCount; i++)
             {
-                string columnName = DataRecord.GetName(i);
+                var columnName = DataRecord.GetName(i);
                 var propertyInfo = objectType.GetProperty(columnName);
 
                 if (propertyInfo == null)
@@ -33,7 +32,7 @@ namespace Simpler.Data.Tasks
                     throw new NoPropertyForColumnException(columnName, objectType.FullName);
                 }
 
-                object columnValue = DataRecord[columnName];
+                var columnValue = DataRecord[columnName];
                 if (columnValue.GetType() != typeof(System.DBNull))
                 {
                     var propertyType = propertyInfo.PropertyType;

@@ -1,9 +1,11 @@
-﻿using System.Reflection;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Simpler.Construction.Tasks;
 
 namespace Simpler.Injection.Tasks
 {
+    /// <summary>
+    /// Task that will search a task for sub-tasks and create them if they are null.
+    /// </summary>
     public class InjectSubTasks : Task
     {
         // Inputs
@@ -21,19 +23,18 @@ namespace Simpler.Injection.Tasks
 
             var listOfInjected = new List<string>();
 
-            PropertyInfo[] properties = TaskContainingSubTasks.GetType().GetProperties();
-            foreach (PropertyInfo propertyX in properties)
+            var properties = TaskContainingSubTasks.GetType().GetProperties();
+            foreach (var propertyX in properties)
             {
-                if (propertyX.PropertyType.IsSubclassOf(typeof(Task)))
+                if (propertyX.PropertyType.IsSubclassOf(typeof(Task))
+                    && 
+                    (propertyX.CanWrite && propertyX.GetValue(TaskContainingSubTasks, null) == null))
                 {
-                    if (propertyX.CanWrite && propertyX.GetValue(TaskContainingSubTasks, null) == null)
-                    {
-                        CreateTask.TaskType = propertyX.PropertyType;
-                        CreateTask.Execute();
-                        propertyX.SetValue(TaskContainingSubTasks, CreateTask.TaskInstance, null);
+                    CreateTask.TaskType = propertyX.PropertyType;
+                    CreateTask.Execute();
+                    propertyX.SetValue(TaskContainingSubTasks, CreateTask.TaskInstance, null);
 
-                        listOfInjected.Add(propertyX.PropertyType.FullName);
-                    }
+                    listOfInjected.Add(propertyX.PropertyType.FullName);
                 }
             }
 

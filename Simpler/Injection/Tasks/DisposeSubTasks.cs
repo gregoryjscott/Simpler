@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace Simpler.Injection.Tasks
 {
+    /// <summary>
+    /// Task that will dispose of any sub-tasks that were injected that implement IDisposable.
+    /// </summary>
     public class DisposeSubTasks : Task
     {
         // Inputs
@@ -14,23 +16,22 @@ namespace Simpler.Injection.Tasks
         {
             var listOfInjected = new List<string>(InjectedSubTaskPropertyNames);
 
-            PropertyInfo[] properties = TaskContainingSubTasks.GetType().GetProperties();
-            foreach (PropertyInfo propertyX in properties)
+            var properties = TaskContainingSubTasks.GetType().GetProperties();
+            foreach (var propertyX in properties)
             {
-                if (propertyX.PropertyType.IsSubclassOf(typeof(Task)))
+                if (propertyX.PropertyType.IsSubclassOf(typeof(Task))
+                    &&
+                    listOfInjected.Contains(propertyX.PropertyType.FullName) 
+                    && 
+                    (propertyX.GetValue(TaskContainingSubTasks, null) != null )
+                    && 
+                    (propertyX.PropertyType.GetInterface(typeof(IDisposable).FullName) != null))
                 {
-                    if (listOfInjected.Contains(propertyX.PropertyType.FullName) 
-                        && 
-                        propertyX.GetValue(TaskContainingSubTasks, null) != null 
-                        && 
-                        (propertyX.PropertyType.GetInterface(typeof(IDisposable).FullName) != null))
-                    {
-                        // Dispose the sub-task.
-                        ((IDisposable)propertyX.GetValue(TaskContainingSubTasks, null)).Dispose();
+                    // Dispose the sub-task.
+                    ((IDisposable)propertyX.GetValue(TaskContainingSubTasks, null)).Dispose();
 
-                        // Set the sub-task to null. 
-                        propertyX.SetValue(TaskContainingSubTasks, null, null);
-                    }
+                    // Set the sub-task to null. 
+                    propertyX.SetValue(TaskContainingSubTasks, null, null);
                 }
             }
         }

@@ -5,6 +5,9 @@ using System;
 
 namespace Simpler.Injection
 {
+    /// <summary>
+    /// Task attribute that will automatically inject sub-tasks properties on the task before the task is executed.
+    /// </summary>
     public class InjectSubTasksAttribute : ExecutionCallbacksAttribute
     {
         readonly List<string> _injectedSubTaskPropertyNames = new List<string>();
