@@ -25,7 +25,7 @@ namespace Simpler.Data.Tasks
 
                 if (propertyInfo == null)
                 {
-                    throw new NoPropertyForColumnException(String.Format("The DataRecord contains column '{0}' that is not a property of the '{1}' class.", columnName, objectType.FullName));
+                    throw new NoPropertyForColumnException(columnName, objectType.FullName);
                 }
 
                 object columnValue = DataRecord[columnName];
