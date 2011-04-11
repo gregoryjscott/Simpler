@@ -4,6 +4,11 @@ using Simpler.Data.Exceptions;
 
 namespace Simpler.Data.Tasks
 {
+    /// <summary>
+    /// Task that will persist the given object using the given command.  It is assumed that the command's CommandText
+    /// contains parameters place holders that match up with properties in the given object to persist.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PersistSingleOf<T> : Task
     {
         // Inputs

@@ -4,6 +4,11 @@ using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
+    /// <summary>
+    /// Task that looks in the given command's CommandText for parameters and uses the given object's property
+    /// values to build the command parameters.
+    /// </summary>
+    /// <typeparam name="T">The type of the object that contains the parameter values.</typeparam>
     public class BuildParametersUsing<T> : Task
     {
         // Inputs
@@ -50,7 +55,7 @@ namespace Simpler.Data.Tasks
                 property = objectType.GetProperty(nameOfPropertyContainingValue);
                 if (property != null)
                 {
-                    IDbDataParameter dbDataParameter = CommandWithParameters.CreateParameter();
+                    var dbDataParameter = CommandWithParameters.CreateParameter();
 
                     // If the property came from a complex object then it contains a dot, and dots aren't allowed in parameter names.
                     dbDataParameter.ParameterName = parameterNameX.Replace(".", "_");

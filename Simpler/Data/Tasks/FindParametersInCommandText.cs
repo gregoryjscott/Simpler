@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Simpler.Data.Tasks
 {
+    /// <summary>
+    /// Task that will search the given command text for parameter placeholders.  Placeholders can begin with a ":" or a "@".
+    /// </summary>
     public class FindParametersInCommandText : Task
     {
         // Inputs

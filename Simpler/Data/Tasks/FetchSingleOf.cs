@@ -1,9 +1,11 @@
-﻿using System;
-using System.Data;
-using Simpler.Data.Exceptions;
+﻿using System.Data;
 
 namespace Simpler.Data.Tasks
 {
+    /// <summary>
+    /// Task that will create an object of the given type T using the result of the given command.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to return.</typeparam>
     public class FetchSingleOf<T> : Task
     {
         // Inputs
@@ -22,7 +24,7 @@ namespace Simpler.Data.Tasks
 
             using (var dataReader = SelectCommand.ExecuteReader())
             {
-                // TODO - i don't trust this works in all cases...
+                // TODO - um, this doesn't work.
                 //if (!dataReader.Read())
                 //    throw new SingleNotFoundException("No records were found.");
 
