@@ -3,6 +3,10 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Construction.Tasks
 {
+    /// <summary>
+    /// Task that notifies all subscibers to task execution events.  Subscriptions are made by decorating the
+    /// task with an attibute that is a subclass of ExecutionCallbacksAttribute.
+    /// </summary>
     public class NotifySubscribersOfTaskExecution : Task
     {
         // Inputs
@@ -13,11 +17,13 @@ namespace Simpler.Construction.Tasks
         {
             var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(), typeof(ExecutionCallbacksAttribute));
 
-            for (var i = 0; i < callbackAttributes.Length; i++)
+            // Send BeforeExecute notifications.
+            foreach (var t in callbackAttributes)
             {
-                ((ExecutionCallbacksAttribute)callbackAttributes[i]).BeforeExecute(ExecutingTask);
+                ((ExecutionCallbacksAttribute)t).BeforeExecute(ExecutingTask);
             }
 
+            // Execute, and temporarily catch any exceptions so notifications can be sent.
             try
             {
                 Invocation.Proceed();
@@ -32,6 +38,7 @@ namespace Simpler.Construction.Tasks
                 throw;
             }
 
+            // Finally, send the AfterExecute notifications.
             for (var i = callbackAttributes.Length - 1; i >= 0; i--)
             {
                 ((ExecutionCallbacksAttribute)callbackAttributes[i]).AfterExecute(ExecutingTask);

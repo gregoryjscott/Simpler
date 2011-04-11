@@ -4,8 +4,16 @@ using Simpler.Construction.Interceptors;
 
 namespace Simpler.Construction.Tasks
 {
+    /// <summary>
+    /// Task used to instantiate tasks.  If the given task type is decorated with ExecutionCallbacksAttribute
+    /// then a proxy class is created so that task execution events can be fired.
+    /// </summary>
     public class CreateTask : Task
     {
+        /// <summary>
+        /// This class provided by Castle that allows for creating proxy classes.  Creating it is expensive - we
+        /// only want to do it once.
+        /// </summary>
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
         // Inputs

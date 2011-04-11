@@ -2,6 +2,10 @@
 
 namespace Simpler.Construction
 {
+    /// <summary>
+    /// Base class for custom attributes that can be used to respond to a task execution
+    /// events.  These can be used to address cross-cutting concerns (e.g. logging).
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public abstract class ExecutionCallbacksAttribute : Attribute
     {
