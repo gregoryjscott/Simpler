@@ -8,7 +8,7 @@ namespace Simpler.Tests.Construction.Mocks
         public override void Execute()
         {
             base.Execute();
-            throw new Exception();
+            throw new TestException();
         }
     }
 }

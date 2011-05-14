@@ -15,12 +15,13 @@ namespace Simpler.Construction.Tasks
 
         public override void Execute()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(), typeof(ExecutionCallbacksAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(),
+                                                                   typeof (ExecutionCallbacksAttribute));
 
             // Send BeforeExecute notifications.
             foreach (var t in callbackAttributes)
             {
-                ((ExecutionCallbacksAttribute)t).BeforeExecute(ExecutingTask);
+                ((ExecutionCallbacksAttribute) t).BeforeExecute(ExecutingTask);
             }
 
             // Execute, and temporarily catch any exceptions so notifications can be sent.
@@ -32,16 +33,18 @@ namespace Simpler.Construction.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((ExecutionCallbacksAttribute)callbackAttributes[i]).OnError(ExecutingTask, exception);
+                    ((ExecutionCallbacksAttribute) callbackAttributes[i]).OnError(ExecutingTask, exception);
                 }
 
                 throw;
             }
-
-            // Finally, send the AfterExecute notifications.
-            for (var i = callbackAttributes.Length - 1; i >= 0; i--)
+            finally
             {
-                ((ExecutionCallbacksAttribute)callbackAttributes[i]).AfterExecute(ExecutingTask);
+                // Send the AfterExecute notifications.
+                for (var i = callbackAttributes.Length - 1; i >= 0; i--)
+                {
+                    ((ExecutionCallbacksAttribute) callbackAttributes[i]).AfterExecute(ExecutingTask);
+                }
             }
         }
     }

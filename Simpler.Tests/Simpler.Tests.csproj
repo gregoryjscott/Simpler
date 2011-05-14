@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Construction\Mocks\MockTaskWithAttributesThatThrows.cs" />
+    <Compile Include="Construction\Mocks\TestException.cs" />
     <Compile Include="Data\Mocks\MockComplexObject.cs" />
     <Compile Include="Data\Mocks\MockObject.cs" />
     <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
