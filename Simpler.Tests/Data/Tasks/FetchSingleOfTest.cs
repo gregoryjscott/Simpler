@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Simpler.Data.Exceptions;
 using Simpler.Data.Tasks;
 using System.Data;
 using Moq;
