@@ -45,7 +45,7 @@ namespace Simpler.Tests.Data.Tasks
             task.SelectCommand = mockSelectCommand.Object;
 
             // Act & Assert
-            Assert.Throws(typeof(FetchException), task.Execute);
+            Assert.Throws(typeof(InvalidOperationException), task.Execute);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace Simpler.Tests.Data.Tasks
             task.SelectCommand = mockSelectCommand.Object;
 
             // Act & Assert
-            Assert.Throws(typeof(FetchException), task.Execute);
+            Assert.Throws(typeof(InvalidOperationException), task.Execute);
         }
     }
 }

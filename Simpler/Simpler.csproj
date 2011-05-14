@@ -45,8 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
-    <Compile Include="Data\Exceptions\FetchException.cs" />
-    <Compile Include="Data\Tasks\FetchFirst.cs" />
     <Compile Include="Data\TransactionAttribute.cs" />
     <Compile Include="Impersonation\ImpersonationContext.cs" />
     <Compile Include="Impersonation\ImpersonateAttribute.cs" />
