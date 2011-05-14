@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Simpler.Data.Exceptions;
 
 namespace Simpler.Data.Tasks
 {
@@ -24,16 +25,16 @@ namespace Simpler.Data.Tasks
 
             using (var dataReader = SelectCommand.ExecuteReader())
             {
-                // TODO - um, this doesn't work.
-                //if (!dataReader.Read())
-                //    throw new SingleNotFoundException("No records were found.");
+                // If no rows, throw an error.
+                if (!dataReader.Read()) throw new SingleNotFoundException("No records were found.");
 
-                //if(dataReader.Read())
-                //    throw new SingleNotFoundException("More than one record was found.");
-                dataReader.Read();
+                // Use the first row to build the instance of T.
                 UseDataRecordToBuild.DataRecord = dataReader;
                 UseDataRecordToBuild.Execute();
                 ObjectFetched = UseDataRecordToBuild.Object;
+
+                // We're done with the reader, but make sure there isn't another row.
+                if (dataReader.Read()) throw new SingleNotFoundException("More than one record was found.");
             }
         }
     }
