@@ -4,11 +4,11 @@ using Simpler.Data.Exceptions;
 namespace Simpler.Data.Tasks
 {
     /// <summary>
-    /// Task that will create an object of the given type T using the result of the given command.
+    /// Task that will create an object of the given type T using the first result returned by the given command.
     /// </summary>
-    /// <exception cref="FetchException">Thrown if no records are found or more than one record is found.</exception>
+    /// <exception cref="FetchException">Thrown if no records are found.</exception>
     /// <typeparam name="T">The type of the object to return.</typeparam>
-    public class FetchSingleOf<T> : Task
+    public class FetchFirst<T> : Task
     {
         // Inputs
         public virtual IDbCommand SelectCommand { get; set; }
@@ -33,9 +33,6 @@ namespace Simpler.Data.Tasks
                 UseDataRecordToBuild.DataRecord = dataReader;
                 UseDataRecordToBuild.Execute();
                 ObjectFetched = UseDataRecordToBuild.Object;
-
-                // We're done with the reader, but make sure there isn't another row.
-                if (dataReader.Read()) throw new FetchException("More than one record was found.");
             }
         }
     }
