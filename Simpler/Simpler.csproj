@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
     <Compile Include="Data\Exceptions\SingleNotFoundException.cs" />
+    <Compile Include="Impersonation\ImpersonationContext.cs" />
     <Compile Include="Injection\InjectSubTasksAttribute.cs" />
     <Compile Include="Data\Exceptions\NoPropertyForColumnException.cs" />
     <Compile Include="Data\Exceptions\ObjectPersistanceException.cs" />
