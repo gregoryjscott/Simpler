@@ -12,16 +12,24 @@ namespace Simpler.Impersonation
             Domain = userToImpersonate.Domain;
         }
 
+        ImpersonationContext _impersonationContext;
+
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Domain { get; set; }
 
         public override void BeforeExecute(Task taskBeingExecuted)
         {
+            if (_impersonationContext == null)
+            {
+                _impersonationContext = new ImpersonationContext(UserName, Password, Domain);
+            }
         }
 
         public override void AfterExecute(Task taskBeingExecuted)
         {
+            _impersonationContext.Dispose();
+            _impersonationContext = null;
         }
 
         public override void OnError(Task taskBeingExecuted, Exception exception) { }
