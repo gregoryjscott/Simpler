@@ -2,5 +2,5 @@
 
 namespace Simpler.Tests.Construction.Mocks
 {
-    public class TestException : Exception {}
+    public class TestException : Exception { }
 }

@@ -25,8 +25,6 @@ namespace Simpler.Injection
             dispose.Execute();
         }
 
-        public override void OnError(Task taskBeingExecuted, Exception exception)
-        {
-        }
+        public override void OnError(Task taskBeingExecuted, Exception exception) { }
     }
 }
