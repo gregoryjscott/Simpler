@@ -11,21 +11,63 @@ namespace Simpler.Data
     {
         protected string Sql { get; set; }
 
-        protected dynamic FetchList()
-        {
-            throw new NotImplementedException();
-        }
-
         // Example usage.
-        class FetchEverything : SqlTask
+        class FetchList : Task
         {
             public override void Execute()
             {
-                Sql = @"
-                select * from alltables
-                ";
+                throw new NotImplementedException();
+            }
+        }
 
-                Outputs = FetchList();
+        class FetchCardinals : Task
+        {
+            // Sub-tasks
+            FetchList FetchPitchers { get; set; }
+            FetchList FetchCatchers { get; set; }
+            FetchList FetchInfielders { get; set; }
+            FetchList FetchOutfielders { get; set; }
+
+            public override void Execute()
+            {
+                Outputs = new
+                {
+                    Team = "Cardinals",
+
+                    Manager = "Mr. Lucky",
+
+                    Pitchers = FetchPitchers.Execute(new
+                    {
+                        Sql = 
+                            @"
+                            select * from players where position = 1
+                            "
+                    }),
+
+                    Catchers = FetchCatchers.Execute(new
+                    {
+                        Sql = 
+                            @"
+                            select * from players where position = 2
+                            "
+                    }),
+
+                    Infielders = FetchInfielders.Execute(new
+                    {
+                        Sql = 
+                            @"
+                            select * from players where position in (3, 4, 5, 6)
+                            "
+                    }),
+
+                    Outfielders = FetchOutfielders.Execute(new
+                    {
+                        Sql = 
+                            @"
+                            select * from players where position in (7, 8, 9)
+                            "
+                    })
+                };
             }
         }
     }
