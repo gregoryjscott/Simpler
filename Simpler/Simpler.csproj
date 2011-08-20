@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Construction\ExecutionOverrideAttribute.cs" />
     <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
     <Compile Include="Data\Exceptions\SingleNotFoundException.cs" />
     <Compile Include="Injection\InjectSubTasksAttribute.cs" />

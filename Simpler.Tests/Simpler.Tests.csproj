@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Construction\Mocks\MockTaskWithOverrideAttribute.cs" />
+    <Compile Include="Construction\Mocks\OverrideAttribute.cs" />
     <Compile Include="Construction\Mocks\MockTaskWithAttributesThatThrows.cs" />
     <Compile Include="Data\Mocks\MockComplexObject.cs" />
     <Compile Include="Data\Mocks\MockObject.cs" />

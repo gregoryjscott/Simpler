@@ -4,8 +4,8 @@ using Castle.DynamicProxy;
 namespace Simpler.Construction.Tasks
 {
     /// <summary>
-    /// Task that notifies all subscibers to task execution events.  Subscriptions are made by decorating the
-    /// task with an attibute that is a subclass of ExecutionCallbacksAttribute.
+    /// Task that notifies all subscribers to task execution.  Subscriptions are made by decorating the
+    /// task with an attibute that is a subclass of ExecutionCallbacksAttribute or ExecutionOverrideAttribute.
     /// </summary>
     public class NotifySubscribersOfTaskExecution : Task
     {
@@ -16,6 +16,7 @@ namespace Simpler.Construction.Tasks
         public override void Execute()
         {
             var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(), typeof(ExecutionCallbacksAttribute));
+            var overrideAttribute = Attribute.GetCustomAttribute(ExecutingTask.GetType(), typeof(ExecutionOverrideAttribute));
 
             // Send BeforeExecute notifications.
             foreach (var t in callbackAttributes)
@@ -26,7 +27,15 @@ namespace Simpler.Construction.Tasks
             // Execute, and temporarily catch any exceptions so notifications can be sent.
             try
             {
-                Invocation.Proceed();
+                // If the task execution has been overridden, simply the pass on the task, otherwise proceed with the invocation.
+                if (overrideAttribute != null)
+                {
+                    ((ExecutionOverrideAttribute)overrideAttribute).ExecutionOverride(ExecutingTask);
+                }
+                else
+                {
+                    Invocation.Proceed();
+                }
             }
             catch (Exception exception)
             {

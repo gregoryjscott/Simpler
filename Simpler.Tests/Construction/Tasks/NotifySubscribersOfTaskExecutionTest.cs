@@ -87,5 +87,26 @@ namespace Simpler.Tests.Construction.Tasks
                 Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
             }
         }
+
+        [Test]
+        public void should_allow_the_task_execution_to_be_overriden()
+        {
+            // Arrange
+            var task = new NotifySubscribersOfTaskExecution();
+
+            var taskWithOverride = new MockTaskWithOverrideAttribute();
+            task.ExecutingTask = taskWithOverride;
+
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
+            task.Invocation = mockInvocation.Object;
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(taskWithOverride.WasExecuted, Is.False, "The task was not supposed to be executed.");
+            Assert.That(taskWithOverride.OverrideWasCalled, Is.True, "The task should have been overriden.");
+        }
     }
 }
