@@ -99,14 +99,14 @@ namespace Simpler.Tests.Construction.Tasks
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
+            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
             task.Invocation = mockInvocation.Object;
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(taskWithOverride.WasExecuted, Is.False, "The task was not supposed to be executed.");
-            Assert.That(taskWithOverride.OverrideWasCalled, Is.True, "The task should have been overriden.");
+            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
         }
     }
 }

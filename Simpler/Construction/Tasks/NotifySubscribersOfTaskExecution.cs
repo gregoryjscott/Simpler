@@ -30,7 +30,7 @@ namespace Simpler.Construction.Tasks
                 // If the task execution has been overridden, simply the pass on the task, otherwise proceed with the invocation.
                 if (overrideAttribute != null)
                 {
-                    ((ExecutionOverrideAttribute)overrideAttribute).ExecutionOverride(ExecutingTask);
+                    ((ExecutionOverrideAttribute)overrideAttribute).ExecutionOverride(Invocation);
                 }
                 else
                 {

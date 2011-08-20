@@ -1,12 +1,17 @@
-﻿using Simpler.Construction;
+﻿using System;
+using System.Threading;
+using Castle.DynamicProxy;
+using Simpler.Construction;
 
 namespace Simpler.Tests.Construction.Mocks
 {
     public class OverrideAttribute : ExecutionOverrideAttribute
     {
-        public override void ExecutionOverride(Task task)
+        public override void ExecutionOverride(IInvocation executeInvocation)
         {
-            ((MockTaskWithOverrideAttribute) task).OverrideWasCalled = true;
+            ((MockTaskWithOverrideAttribute)executeInvocation.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
+            Thread.Sleep(100);
+            executeInvocation.Proceed();
         }
     }
 }

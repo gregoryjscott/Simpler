@@ -1,14 +1,18 @@
-﻿namespace Simpler.Tests.Construction.Mocks
+﻿using System;
+
+namespace Simpler.Tests.Construction.Mocks
 {
     [Override]
     public class MockTaskWithOverrideAttribute : Task
     {
-        public bool OverrideWasCalled;
-        public bool WasExecuted;
+        public DateTime OverrideWasCalledTime;
+        public DateTime WasExecutedTime;
+
+        public bool OverrideWasCalledBeforeTheTaskWasExecuted { get { return OverrideWasCalledTime < WasExecutedTime; } }
 
         public override void Execute()
         {
-            WasExecuted = true;
+            WasExecutedTime = DateTime.Now;
         }
     }
 }
