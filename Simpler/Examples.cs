@@ -9,10 +9,13 @@ namespace Simpler
     {
         public override void Execute()
         {
-            Outputs.Answer = 
-                Inputs.Question == "Is this cool?" 
-                ? "Definitely." 
-                : "Get a life.";
+            Outputs = new
+            {
+                Answer =
+                    Inputs.Question == "Is this cool?"
+                        ? "Definitely."
+                        : "Get a life."
+            };
         }
     }
 
@@ -52,8 +55,11 @@ namespace Simpler
             AnswerUsingStaticProperies.Question = question;
             AnswerUsingStaticProperies.Execute();
 
-            Outputs.AnswersMatch =
-                AnswerUsingDynamicProperties.Outputs.Answer == AnswerUsingStaticProperies.Answer;
+            Outputs = new
+            {
+                AnswersMatch =
+                    AnswerUsingDynamicProperties.Outputs.Answer == AnswerUsingStaticProperies.Answer
+            };
         }
     }
 

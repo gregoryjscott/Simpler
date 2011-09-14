@@ -11,7 +11,7 @@
         /// <example>
         /// task.Inputs.Question = "Is this cool?";
         /// </example>
-        public dynamic Inputs { get; set; }
+        public virtual dynamic Inputs { get; set; }
 
         /// <summary>
         /// Container for the data the task produces.
@@ -19,7 +19,7 @@
         /// <example>
         /// var answer = task.Outputs.Answer;
         /// </example>
-        public dynamic Outputs { get; set; }
+        public virtual dynamic Outputs { get; set; }
 
         /// <summary>
         /// Code that uses the Inputs to produce the Outputs.

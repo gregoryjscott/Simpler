@@ -78,8 +78,11 @@
     <Compile Include="Construction\Mocks\FirstAttribute.cs" />
     <Compile Include="Construction\Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Construction\Mocks\MockTask.cs" />
+    <Compile Include="Mocks\MockTaskUsingDynamicProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactoryTest.cs" />
+    <Compile Include="Mocks\MockSubTaskUsingDynamicProperties.cs" />
+    <Compile Include="TaskTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
