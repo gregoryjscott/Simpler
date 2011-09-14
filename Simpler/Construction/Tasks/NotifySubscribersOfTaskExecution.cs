@@ -5,7 +5,7 @@ namespace Simpler.Construction.Tasks
 {
     /// <summary>
     /// Task that notifies all subscribers to task execution.  Subscriptions are made by decorating the
-    /// task with an attibute that is a subclass of ExecutionCallbacksAttribute or ExecutionOverrideAttribute.
+    /// task with an attribute that is a subclass of ExecutionCallbacksAttribute or ExecutionOverrideAttribute.
     /// </summary>
     public class NotifySubscribersOfTaskExecution : Task
     {
@@ -15,14 +15,13 @@ namespace Simpler.Construction.Tasks
 
         public override void Execute()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(),
-                                                                   typeof (ExecutionCallbacksAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(ExecutingTask.GetType(), typeof (ExecutionCallbacksAttribute));
             var overrideAttribute = Attribute.GetCustomAttribute(ExecutingTask.GetType(), typeof(ExecutionOverrideAttribute));
 
             // Send BeforeExecute notifications.
-            foreach (var t in callbackAttributes)
+            foreach (var callbackAttribute in callbackAttributes)
             {
-                ((ExecutionCallbacksAttribute) t).BeforeExecute(ExecutingTask);
+                ((ExecutionCallbacksAttribute)callbackAttribute).BeforeExecute(ExecutingTask);
             }
 
             // Execute, and temporarily catch any exceptions so notifications can be sent.
