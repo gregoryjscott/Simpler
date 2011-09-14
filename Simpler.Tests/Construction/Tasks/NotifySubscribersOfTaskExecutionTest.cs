@@ -134,5 +134,26 @@ namespace Simpler.Tests.Construction.Tasks
             }
             Assert.That(throwHappened, "The exception should still happen.");
         }
+
+        [Test]
+        public void should_allow_the_task_execution_to_be_overriden()
+        {
+            // Arrange
+            var task = new NotifySubscribersOfTaskExecution();
+
+            var taskWithOverride = new MockTaskWithOverrideAttribute();
+            task.ExecutingTask = taskWithOverride;
+
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
+            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
+            task.Invocation = mockInvocation.Object;
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
+        }
     }
 }
