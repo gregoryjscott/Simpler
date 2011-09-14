@@ -84,7 +84,7 @@ Sub-task injection simplifies the code, but more importantly it allows for mocki
 
 ###"What about database interaction?"
 
-Simpler provides a small set of Tasks for interacting with IDbCommand.  Using SQL, Simpler makes it pretty easy to get data out of a database and into .NET objects, or persist data from .NET objects to a database.
+Simpler provides a small set of Tasks for interacting with System.Data.IDbCommand.  Using SQL, Simpler makes it pretty easy to get data out of a database and into .NET objects, or persist data from .NET objects to a database.
 
     [InjectSubTasks]
     class FetchSomeStuff : Task
