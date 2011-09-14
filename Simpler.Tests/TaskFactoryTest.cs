@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Simpler.Tests.Injection.Mocks;
+using Simpler.Tests.Mocks;
 
 namespace Simpler.Tests
 {

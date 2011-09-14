@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Simpler.Tests.Construction.Mocks
+namespace Simpler.Tests.Mocks
 {
     [Override]
     public class MockTaskWithOverrideAttribute : Task

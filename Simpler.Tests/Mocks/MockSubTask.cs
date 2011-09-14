@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Simpler.Tests.Injection.Mocks
+namespace Simpler.Tests.Mocks
 {
 	public class MockSubTask<T> : Task, IDisposable
 	{

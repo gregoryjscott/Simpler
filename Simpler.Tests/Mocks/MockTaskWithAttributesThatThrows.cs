@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Simpler.Tests.Construction.Mocks
+namespace Simpler.Tests.Mocks
 {
     [First, Second]
     public class MockTaskWithAttributesThatThrows : MockTaskWithAttributes

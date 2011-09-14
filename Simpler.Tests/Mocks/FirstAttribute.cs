@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using Simpler.Construction;
 
-namespace Simpler.Tests.Construction.Mocks
+namespace Simpler.Tests.Mocks
 {
     public class FirstAttribute : ExecutionCallbacksAttribute
     {

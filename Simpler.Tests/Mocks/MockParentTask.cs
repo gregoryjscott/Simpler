@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using Simpler.Injection;
 
-namespace Simpler.Tests.Injection.Mocks
+namespace Simpler.Tests.Mocks
 {
     [InjectSubTasks]
     public class MockParentTask : Task

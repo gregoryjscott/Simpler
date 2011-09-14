@@ -56,29 +56,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Construction\Mocks\MockTaskWithOverrideAttribute.cs" />
-    <Compile Include="Construction\Mocks\OverrideAttribute.cs" />
-    <Compile Include="Construction\Mocks\MockTaskWithAttributesThatThrows.cs" />
-    <Compile Include="Construction\Mocks\TestException.cs" />
-    <Compile Include="Data\Mocks\MockComplexObject.cs" />
-    <Compile Include="Data\Mocks\MockObject.cs" />
     <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
     <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
     <Compile Include="Data\Tasks\FindParametersInCommandTextTest.cs" />
     <Compile Include="Data\Tasks\PersistSingleOfTest.cs" />
     <Compile Include="Data\Tasks\UseDataRecordToBuildTest.cs" />
-    <Compile Include="Injection\Mocks\MockParentTask.cs" />
     <Compile Include="Injection\Tasks\DisposeSubTasksTest.cs" />
     <Compile Include="Injection\Tasks\InjectSubTasksTest.cs" />
     <Compile Include="Construction\Tasks\NotifySubscribersOfTaskExecutionTest.cs" />
     <Compile Include="Construction\Tasks\InterceptTaskExecutionTest.cs" />
     <Compile Include="Construction\Tasks\CreateTaskTest.cs" />
-    <Compile Include="Construction\Mocks\SecondAttribute.cs" />
-    <Compile Include="Construction\Mocks\FirstAttribute.cs" />
-    <Compile Include="Construction\Mocks\MockTaskWithAttributes.cs" />
-    <Compile Include="Construction\Mocks\MockTask.cs" />
+    <Compile Include="Mocks\FirstAttribute.cs" />
+    <Compile Include="Mocks\MockComplexObject.cs" />
+    <Compile Include="Mocks\MockObject.cs" />
+    <Compile Include="Mocks\MockParentTask.cs" />
+    <Compile Include="Mocks\MockSubTask.cs" />
+    <Compile Include="Mocks\MockTask.cs" />
     <Compile Include="Mocks\MockTaskUsingDynamicProperties.cs" />
+    <Compile Include="Mocks\MockTaskWithAttributes.cs" />
+    <Compile Include="Mocks\MockTaskWithAttributesThatThrows.cs" />
+    <Compile Include="Mocks\MockTaskWithOverrideAttribute.cs" />
+    <Compile Include="Mocks\OverrideAttribute.cs" />
+    <Compile Include="Mocks\SecondAttribute.cs" />
+    <Compile Include="Mocks\TestException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactoryTest.cs" />
     <Compile Include="Mocks\MockSubTaskUsingDynamicProperties.cs" />
@@ -91,11 +92,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Injection\Mocks\MockSubTask.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

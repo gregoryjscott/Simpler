@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Simpler.Injection.Tasks;
-using Simpler.Tests.Injection.Mocks;
 using System;
+using Simpler.Tests.Mocks;
 
 namespace Simpler.Tests.Injection.Tasks
 {

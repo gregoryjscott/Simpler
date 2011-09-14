@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Threading;
 using Castle.DynamicProxy;
 using Simpler.Construction;
 
-namespace Simpler.Tests.Construction.Mocks
+namespace Simpler.Tests.Mocks
 {
     public class OverrideAttribute : ExecutionOverrideAttribute
     {
