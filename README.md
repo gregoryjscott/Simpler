@@ -6,7 +6,7 @@ You probably won't like Simpler.  If you enjoy spending your time configuring OR
 
 ###"What is it?"
 
-For the most part, Simpler is just a philosophy on .NET class design.  All classes that contain functionality are defined as Tasks.  Each Task will have a single responsibility, and its class name will clearly explain that responsibility (using a verb instead of a noun).  Since each Task class only does one thing it only needs one method - Execute().  Simpler comes with a Task base class, a static TaskFactory class for instantiating Tasks, along with various built-in Tasks that you can use as sub-tasks in your Tasks.
+For the most part, Simpler is just a philosophy on .NET class design.  All classes that contain functionality are defined as Tasks.  A Task has optional input and/or outputs, along with a single Execute() method - and that's it.  Simpler comes with a Task base class, a static TaskFactory class for instantiating Tasks, along with various built-in Tasks that you can use as sub-tasks in your Tasks.
 
     class AnswerUsingDynamicProperties : Task
     {
@@ -19,7 +19,7 @@ For the most part, Simpler is just a philosophy on .NET class design.  All class
         }
     }
 
-Not a fan of the built-in dynamic Inputs and Outputs properties?  Fine - ignore the Inputs and Outputs properties, create POCOs for your Task's input and outputs, and declare them as properties on your Task.
+Not a fan of the built-in dynamic Inputs and Outputs properties?  Fine - ignore them, create POCOs for your Task's input and outputs, and declare them as properties on your Task.
 
     class AnswerUsingStaticProperies : Task
     {
@@ -78,7 +78,7 @@ TaskFactory appears to just return an instance of the given Task type, but it ac
         }
     }
 
-Sub-task injection simplifies the code, but more importantly it allows for mocking sub-tasks for testing purposes.
+Sub-task injection simplifies the code, but more importantly it allows for mocking sub-tasks as necessary in Task unit tests.
 
 ---
 
