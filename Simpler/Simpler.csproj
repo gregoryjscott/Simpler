@@ -47,6 +47,7 @@
     <Compile Include="Construction\ExecutionOverrideAttribute.cs" />
     <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
     <Compile Include="Data\TransactionAttribute.cs" />
+    <Compile Include="Examples.cs" />
     <Compile Include="Impersonation\ImpersonationContext.cs" />
     <Compile Include="Impersonation\ImpersonateAttribute.cs" />
     <Compile Include="Injection\InjectSubTasksAttribute.cs" />
