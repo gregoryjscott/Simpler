@@ -2,6 +2,7 @@
 
 You probably won't like Simpler.  If you enjoy spending your time configuring ORMs, interfacing with DI/IOC frameworks, generating code, and building complex domain models, then you will probably hate Simpler.  Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible.  Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.
 
+---
 
 ###"What is it?"
 
@@ -37,6 +38,7 @@ Not a fan of the built-in dynamic Inputs and Outputs properties?  Fine - ignore 
         }
     }
 
+---
 
 ###"What's the purpose of the TaskFactory?"
 
@@ -78,6 +80,7 @@ TaskFactory appears to just return an instance of the given Task type, but it ac
 
 Sub-task injection simplifies the code, but more importantly it allows for mocking sub-tasks for testing purposes.
 
+---
 
 ###"What about database interaction?"
 
@@ -128,6 +131,7 @@ Simpler provides a small set of Tasks for interacting with IDbCommand.  Using SQ
 
 Simpler isn't a full-featured ORM, but it gets the job done.
 
+---
 
 In summary, Simpler is a tool for developing applications as sets of consistent, discrete, reusable Task classes that can easily be moved around or adjusted as necessary.  Simpler works great in team environments because all developers on the team design classes using the same techniques and terminology, resulting in a consistent code base.  Simpler fits like a glove with a ASP.NET MVC (add a Tasks folder next to your Controllers, Models, and Views folders).  And finally, Simpler can be added to your .NET project in seconds using NuGet.
 
