@@ -139,6 +139,6 @@ Simpler isn't a full-featured ORM, but it gets the job done.
 
 ---
 
-In summary, Simpler is a tool for developing applications as sets of consistent, discrete, reusable Task classes that can easily be moved around or adjusted as necessary.  Simpler works great in team environments because all developers on the team design classes using the same techniques and terminology, resulting in a consistent code base.  Simpler fits like a glove with a ASP.NET MVC (add a Tasks folder next to your Controllers, Models, and Views folders).  And finally, Simpler can be added to your .NET project in seconds using NuGet.
+In summary, Simpler is a tool for developing applications as sets of consistent, discrete, reusable Task classes.  I like to think of the Tasks as little source code building blocks that fit together nicely, but can easily be rearranged or modified as necessary.  Simpler works great in team environments because all developers on the team design classes using the same techniques and terminology, resulting in a consistent code base.  Simpler fits like a glove with a ASP.NET MVC (add a Tasks folder next to your Controllers, Models, and Views folders).  And finally, Simpler can be added to your .NET project in seconds using NuGet.
 
 **Simpler is licensed under the MIT License.  A copy of the MIT license can be found in the LICENSE file.**
