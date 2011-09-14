@@ -5,6 +5,8 @@ using System.Security.Principal;
 
 namespace Simpler.Impersonation
 {
+    // todo - this needs to be tested (then made public)
+
     /// <summary>
     /// Creates an impersonation context for the specified user between the creation of
     /// the object and its disposable. Should be used within a using statement to
@@ -16,7 +18,7 @@ namespace Simpler.Impersonation
     ///     // Code to run under the impersonation context goes here.
     /// }
     /// </example>
-    public class ImpersonationContext : IDisposable
+    class ImpersonationContext : IDisposable
     {
         private WindowsImpersonationContext impersonationContext;
 

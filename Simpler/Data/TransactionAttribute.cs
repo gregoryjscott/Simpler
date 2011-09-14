@@ -4,7 +4,9 @@ using Simpler.Construction;
 
 namespace Simpler.Data
 {
-    public class TransactionAttribute : ExecutionCallbacksAttribute
+    // todo - this needs to be tested (then made public)
+
+    class TransactionAttribute : ExecutionCallbacksAttribute
     {
         public TransactionAttribute(TimeSpan? timeout = null)
         {

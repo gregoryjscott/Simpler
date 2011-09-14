@@ -3,7 +3,9 @@ using System;
 
 namespace Simpler.Impersonation
 {
-    public class ImpersonateAttribute : ExecutionCallbacksAttribute
+    // todo - this needs to be tested (then made public)
+
+    class ImpersonateAttribute : ExecutionCallbacksAttribute
     {
         public ImpersonateAttribute(dynamic userToImpersonate)
         {
