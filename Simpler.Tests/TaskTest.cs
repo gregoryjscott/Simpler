@@ -35,5 +35,18 @@ namespace Simpler.Tests
             // Assert
             Assert.That(task.Outputs.SubTaskOutputs.SomeOutput, Is.EqualTo(7));
         }
+
+        [Test]
+        public void should_be_execute_using_shorthand_syntax()
+        {
+            // Arrange
+            var task = TaskFactory<MockTaskUsingDynamicProperties>.Create();
+            
+            // Act
+            var something = task.Execute(new {SendSomething = "something"}).Outputs.InputsReceived.SendSomething;
+
+            // Assert
+            Assert.That(something, Is.EqualTo("something"));
+        }
     }
 }

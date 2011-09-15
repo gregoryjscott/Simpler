@@ -34,11 +34,11 @@
         /// </example>
         /// <param name="inputs">Used to set Inputs prior to execution.</param>
         /// <returns>The Outputs</returns>
-        public dynamic Execute(dynamic inputs)
+        public Task Execute(dynamic inputs)
         {
             Inputs = inputs;
             Execute();
-            return Outputs;
+            return this;
         }
     }
 }

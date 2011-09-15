@@ -11,7 +11,11 @@ namespace Simpler.Tests.Mocks
         public override void Execute()
         {
             MockSubTaskUsingDynamicProperties.Execute();
-            Outputs = new { SubTaskOutputs = MockSubTaskUsingDynamicProperties.Outputs };
+            Outputs = new
+                          {
+                              InputsReceived = Inputs,
+                              SubTaskOutputs = MockSubTaskUsingDynamicProperties.Outputs
+                          };
         }
     }
 }
