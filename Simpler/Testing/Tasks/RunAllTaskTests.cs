@@ -15,10 +15,14 @@ namespace Simpler.Testing.Tasks
 
             var taskTypes =
                 Assembly.GetCallingAssembly().GetTypes().Where(
-                    type => type.IsSubclassOf(typeof (Task))).ToArray();
+                    type => type.IsSubclassOf(typeof (Task)) 
+                        && !type.ContainsGenericParameters
+                        && type.IsPublic).ToArray();
 
             foreach (var taskType in taskTypes)
             {
+                //var genericArguments = taskType.GetGenericArguments();
+
                 // Create the task so the defined tests can be retrieved.
                 CreateTask.TaskType = taskType;
                 CreateTask.Execute();

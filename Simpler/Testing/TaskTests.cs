@@ -1,10 +1,12 @@
-﻿using Simpler.Testing.Tasks;
+﻿using NUnit.Framework;
+using Simpler.Testing.Tasks;
 
 namespace Simpler.Testing
 {
-    // the nUnit test that looks for all task tests
+    [TestFixture]
     public class TaskTests
     {
+        [Test]
         public void run_all_task_tests()
         {
             var runAllTaskTests = TaskFactory<RunAllTaskTests>.Create();
