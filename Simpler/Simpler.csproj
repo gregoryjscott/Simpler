@@ -70,6 +70,9 @@
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactory.cs" />
+    <Compile Include="Testing\Tasks\RunAllTaskTests.cs" />
+    <Compile Include="Testing\TaskTests.cs" />
+    <Compile Include="Testing\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,4 +1,6 @@
-﻿namespace Simpler
+﻿using Simpler.Testing;
+
+namespace Simpler
 {
     /// <summary>
     /// The foundation of Simpler.
@@ -39,6 +41,11 @@
             Inputs = inputs;
             Execute();
             return this;
+        }
+
+        public virtual Test[] DefineTests()
+        {
+            return new Test[0];
         }
     }
 }
