@@ -19,7 +19,7 @@ namespace Simpler.Testing.Tasks
 
             var taskTypes =
                 Assembly.GetExecutingAssembly().GetTypes().Where(
-                    type => type.GetProperty("Tests") != null
+                    type => (type.GetField("Tests") != null || type.GetProperty("Tests") != null)
                         && type.IsPublic).ToArray();
 
             var failureCount = 0;

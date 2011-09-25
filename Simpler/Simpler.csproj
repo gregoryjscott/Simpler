@@ -87,6 +87,7 @@
     <Compile Include="Testing\Tasks\RunAllTaskTests.cs" />
     <Compile Include="Testing\TaskTests.cs" />
     <Compile Include="Testing\Test.cs" />
+    <Compile Include="Testing\TestForT.cs" />
     <Compile Include="Tests\Mocks\MockObject.cs" />
   </ItemGroup>
   <ItemGroup>

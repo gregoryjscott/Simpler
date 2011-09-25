@@ -40,7 +40,10 @@ namespace Simpler.Data.Tasks
             parameterNameSet.CopyTo(ParameterNames);
         }
 
-        public TestFor<FindParametersInCommandText>[] Tests
+        /// <summary>
+        /// Provides tests for FindParametersInCommandText."/>
+        /// </summary>
+        public Test[] Tests
         {
             get
             {
