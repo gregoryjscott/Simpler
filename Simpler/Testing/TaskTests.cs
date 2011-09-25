@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Reflection;
+using NUnit.Framework;
 using Simpler.Testing.Tasks;
 
 namespace Simpler.Testing
@@ -7,9 +8,10 @@ namespace Simpler.Testing
     public class TaskTests
     {
         [Test]
-        public void run_all_task_tests()
+        public void run_all_task_tests_in_executing_assembly()
         {
-            var runAllTaskTests = TaskFactory<RunAllTaskTests>.Create();
+            var runAllTaskTests = TaskFactory<RunTaskTestsInAssembly>.Create();
+            runAllTaskTests.AssemblyContainTasks = Assembly.GetExecutingAssembly();
             runAllTaskTests.Execute();
         }
     }

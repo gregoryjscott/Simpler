@@ -5,8 +5,11 @@ using Simpler.Construction.Tasks;
 
 namespace Simpler.Testing.Tasks
 {
-    class RunAllTaskTests : Task
+    class RunTaskTestsInAssembly : Task
     {
+        // Inputs
+        public Assembly AssemblyContainTasks { get; set; }
+
         // Sub-tasks
         public CreateTask CreateTask { get; set; }
 
@@ -14,13 +17,14 @@ namespace Simpler.Testing.Tasks
         {
             if (CreateTask == null) CreateTask = new CreateTask();
 
-            // todo - wil probably need to look in more than just the executing assembly
-            //var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
             var taskTypes =
-                Assembly.GetExecutingAssembly().GetTypes().Where(
-                    type => (type.GetField("Tests") != null || type.GetProperty("Tests") != null)
-                        && type.IsPublic).ToArray();
+                AssemblyContainTasks.GetTypes().Where(
+                    type => 
+                        type.IsSubclassOf(typeof(Task))
+                        &&
+                        (type.GetField("Tests") != null || type.GetProperty("Tests") != null)
+                        && 
+                        type.IsPublic).ToArray();
 
             var failureCount = 0;
             foreach (var taskType in taskTypes)
