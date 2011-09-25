@@ -1,7 +1,7 @@
 ﻿namespace Simpler.Testing
 {
-    public delegate Task Setup();
-    public delegate void Verification(Task task);
+    public delegate void Setup(dynamic task);
+    public delegate void Verification(dynamic task);
 
     public class Test
     {

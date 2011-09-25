@@ -43,21 +43,16 @@ namespace Simpler.Data.Tasks
             ObjectsFetched = objectList.ToArray();
         }
 
-        /// <summary>
-        /// Provides tests for FetchListOfT."/>
-        /// </summary>
         public Test[] Tests =
             new[]
             {
                 new TestFor<FetchListOf<MockObject>>
                 {
-                    Expectation = "should return an object for each record returned by the select command",
+                    Expectation = "returns an object for each record returned by the select command",
 
                     Setup =
-                        () =>
+                        (task) =>
                         {
-                            var task = TaskFactory<FetchListOf<MockObject>>.Create();
-
                             var table = new DataTable();
                             table.Columns.Add("Name", Type.GetType("System.String"));
                             table.Columns.Add("Age", Type.GetType("System.Int32"));
@@ -68,8 +63,6 @@ namespace Simpler.Data.Tasks
                             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(
                                 table.CreateDataReader());
                             task.SelectCommand = mockSelectCommand.Object;
-
-                            return task;
                         },
 
                     Verify =
@@ -82,13 +75,11 @@ namespace Simpler.Data.Tasks
                 },
                 new Test
                 {
-                    Expectation = "should allow plain test",
+                    Expectation = "allows plain test",
 
                     Setup =
-                        () =>
+                        (task) =>
                         {
-                            var task = TaskFactory<FetchListOf<MockObject>>.Create();
-
                             var table = new DataTable();
                             table.Columns.Add("Name", Type.GetType("System.String"));
                             table.Columns.Add("Age", Type.GetType("System.Int32"));
@@ -99,8 +90,6 @@ namespace Simpler.Data.Tasks
                             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(
                                 table.CreateDataReader());
                             task.SelectCommand = mockSelectCommand.Object;
-
-                            return task;
                         },
 
                     Verify =

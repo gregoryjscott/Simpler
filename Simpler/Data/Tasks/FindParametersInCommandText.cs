@@ -40,9 +40,6 @@ namespace Simpler.Data.Tasks
             parameterNameSet.CopyTo(ParameterNames);
         }
 
-        /// <summary>
-        /// Provides tests for FindParametersInCommandText."/>
-        /// </summary>
         public Test[] Tests
         {
             get
@@ -51,14 +48,12 @@ namespace Simpler.Data.Tasks
                    {
                        new TestFor<FindParametersInCommandText>
                        {
-                           Expectation = "should find parameters starting with an @",
+                           Expectation = "finds parameters starting with a @",
 
                            Setup =
-                               () =>
+                               (task) =>
                                {
-                                   var task = TaskFactory<FindParametersInCommandText>.Create();
                                    task.CommandText = @"select ... where something = @something and something_else is true";
-                                   return task;
                                },
 
                            Verify =
@@ -70,14 +65,12 @@ namespace Simpler.Data.Tasks
                        },
                        new TestFor<FindParametersInCommandText>
                        {
-                           Expectation = "should find parameters starting with a :",
+                           Expectation = "finds parameters starting with a :",
 
                            Setup =
-                               () =>
+                               (task) =>
                                {
-                                   var task = TaskFactory<FindParametersInCommandText>.Create();
                                    task.CommandText = @"select ... where something = :something and something_else is true";
-                                   return task;
                                },
 
                            Verify =

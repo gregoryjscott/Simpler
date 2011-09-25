@@ -1,6 +1,6 @@
 ﻿namespace Simpler.Testing
 {
-    public delegate T SetupFor<T>();
+    public delegate void SetupFor<T>(T task);
     public delegate void VerificationFor<T>(T task);
 
     public class TestFor<T> : Test where T : Task

@@ -5,7 +5,7 @@ using Simpler.Construction.Tasks;
 
 namespace Simpler.Testing.Tasks
 {
-    class RunTaskTestsInAssembly : Task
+    public class RunTaskTestsInAssembly : Task
     {
         // Inputs
         public Assembly AssemblyContainTasks { get; set; }
@@ -29,6 +29,8 @@ namespace Simpler.Testing.Tasks
             var failureCount = 0;
             foreach (var taskType in taskTypes)
             {
+                Console.WriteLine(taskType.FullName);
+
                 var typeToCreate = taskType;
 
                 // If this is a generic type then send Object as the types of T.
@@ -39,27 +41,44 @@ namespace Simpler.Testing.Tasks
                     typeToCreate = taskType.MakeGenericType(objectTypes);
                 }
 
-                // Create the task so the defined tests can be retrieved.
+                // Create an instance of the task so the tests can be retrieved.
                 CreateTask.TaskType = typeToCreate;
                 CreateTask.Execute();
-                dynamic taskWithTestDefinitions = CreateTask.TaskInstance;
+                dynamic task = CreateTask.TaskInstance;
 
                 // For each tests, create a new instance of the task and use it
                 // to perform the test.
-                foreach (var taskTest in taskWithTestDefinitions.Tests)
+                foreach (var taskTest in task.Tests)
                 {
-                    var task = taskTest.Setup();
-                    task.Execute();
+                    Type typeOfTaskTest = taskTest.GetType();
+                    genericArguments = typeOfTaskTest.GetGenericArguments();
+                    if (genericArguments.Length > 0)
+                    {
+                        typeToCreate = typeOfTaskTest.GetGenericArguments().Single();
+                        CreateTask.TaskType = typeToCreate;
+                    }
+
+                    // Create a new instance for each test.
+                    CreateTask.Execute();
+                    task = CreateTask.TaskInstance;
 
                     try
                     {
+                        // Arrange
+                        taskTest.Setup(task);
+
+                        // Act
+                        task.Execute();
+
+                        // Assert
                         taskTest.Verify(task);
-                        Console.WriteLine("Success: " + taskTest.Expectation);
+
+                        Console.WriteLine("    " + taskTest.Expectation);
                     }
                     catch (Exception exception)
                     {
-                        Console.WriteLine("Failed: " + taskTest.Expectation);
-                        Console.WriteLine("    Error: " + exception.Message);
+                        Console.WriteLine("    Failed: " + taskTest.Expectation);
+                        Console.WriteLine("        Error: " + exception.Message);
                         failureCount++;
                     }
                 }
