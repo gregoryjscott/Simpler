@@ -9,7 +9,7 @@ namespace Simpler.Data.Tasks
     /// <summary>
     /// Task that will search the given command text for parameter placeholders.  Placeholders can begin with a ":" or a "@".
     /// </summary>
-    public class FindParametersInCommandText : TaskWithTestsFor<FindParametersInCommandText>
+    public class FindParametersInCommandText : Task
     {
         // Inputs
         public virtual string CommandText { get; set; }
@@ -40,7 +40,7 @@ namespace Simpler.Data.Tasks
             parameterNameSet.CopyTo(ParameterNames);
         }
 
-        public override TestFor<FindParametersInCommandText>[] Tests
+        public TestFor<FindParametersInCommandText>[] Tests
         {
             get
             {
@@ -48,13 +48,14 @@ namespace Simpler.Data.Tasks
                    {
                        new TestFor<FindParametersInCommandText>
                        {
-                           Expectation = "should find parameters starting with an @ symbol",
+                           Expectation = "should find parameters starting with an @",
 
                            Setup =
-                               (task) =>
+                               () =>
                                {
-                                   task.CommandText =
-                                       @"select whatever from table where something = @something and something_else is true";
+                                   var task = TaskFactory<FindParametersInCommandText>.Create();
+                                   task.CommandText = @"select ... where something = @something and something_else is true";
+                                   return task;
                                },
 
                            Verify =
@@ -62,6 +63,25 @@ namespace Simpler.Data.Tasks
                                {
                                    Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
                                    Assert.That(task.ParameterNames[0], Is.EqualTo("@something"));
+                               }
+                       },
+                       new TestFor<FindParametersInCommandText>
+                       {
+                           Expectation = "should find parameters starting with a :",
+
+                           Setup =
+                               () =>
+                               {
+                                   var task = TaskFactory<FindParametersInCommandText>.Create();
+                                   task.CommandText = @"select ... where something = :something and something_else is true";
+                                   return task;
+                               },
+
+                           Verify =
+                               (task) =>
+                               {
+                                   Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
+                                   Assert.That(task.ParameterNames[0], Is.EqualTo(":something"));
                                }
                        }
                    };

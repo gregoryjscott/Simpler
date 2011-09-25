@@ -14,18 +14,29 @@ namespace Simpler.Testing.Tasks
         {
             if (CreateTask == null) CreateTask = new CreateTask();
 
+            // todo - wil probably need to look in more than just the executing assembly
+            //var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
             var taskTypes =
-                Assembly.GetCallingAssembly().GetTypes().Where(
+                Assembly.GetExecutingAssembly().GetTypes().Where(
                     type => type.GetProperty("Tests") != null
-                        && !type.ContainsGenericParameters
                         && type.IsPublic).ToArray();
 
+            var failureCount = 0;
             foreach (var taskType in taskTypes)
             {
-                //var genericArguments = taskType.GetGenericArguments();
+                var typeToCreate = taskType;
+
+                // If this is a generic type then send Object as the types of T.
+                var genericArguments = taskType.GetGenericArguments();
+                if (genericArguments.Length > 0)
+                {
+                    var objectTypes = genericArguments.Select(genericArgument => typeof (object)).ToArray();
+                    typeToCreate = taskType.MakeGenericType(objectTypes);
+                }
 
                 // Create the task so the defined tests can be retrieved.
-                CreateTask.TaskType = taskType;
+                CreateTask.TaskType = typeToCreate;
                 CreateTask.Execute();
                 dynamic taskWithTestDefinitions = CreateTask.TaskInstance;
 
@@ -33,11 +44,7 @@ namespace Simpler.Testing.Tasks
                 // to perform the test.
                 foreach (var taskTest in taskWithTestDefinitions.Tests)
                 {
-                    CreateTask.TaskType = taskType;
-                    CreateTask.Execute();
-                    dynamic task = CreateTask.TaskInstance;
-
-                    taskTest.Setup(task);
+                    var task = taskTest.Setup();
                     task.Execute();
 
                     try
@@ -49,9 +56,12 @@ namespace Simpler.Testing.Tasks
                     {
                         Console.WriteLine("Failed: " + taskTest.Expectation);
                         Console.WriteLine("    Error: " + exception.Message);
+                        failureCount++;
                     }
                 }
             }
+
+            if (failureCount > 0) throw new Exception("There were failures.");
         }
     }
 }

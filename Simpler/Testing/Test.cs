@@ -3,8 +3,7 @@
     /// <summary>
     /// Method to call to setup the task.
     /// </summary>
-    /// <param name="task">The task.</param>
-    public delegate void SetupFor<T>(T task);
+    public delegate T SetupFor<T>();
 
     /// <summary>
     /// Method to verify the task worked, usually using nUnit Assert calls.

@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using Moq;
+using NUnit.Framework;
+using Simpler.Testing;
+using Simpler.Tests.Mocks;
 
 namespace Simpler.Data.Tasks
 {
@@ -36,6 +41,50 @@ namespace Simpler.Data.Tasks
             }
 
             ObjectsFetched = objectList.ToArray();
+        }
+
+        /// <summary>
+        /// Tests for FetchListOfT."/>
+        /// </summary>
+        public dynamic[] Tests
+        {
+            get
+            {
+                return new[]
+                       {
+                           new TestFor<FetchListOf<MockObject>>
+                           {
+                               Expectation = "should return an object for each record returned by the select command",
+
+                               Setup =
+                                   () =>
+                                   {
+                                       var task = TaskFactory<FetchListOf<MockObject>>.Create();
+
+                                       var table = new DataTable();
+                                       table.Columns.Add("Name", Type.GetType("System.String"));
+                                       table.Columns.Add("Age", Type.GetType("System.Int32"));
+                                       table.Rows.Add(new object[] {"John Doe", "21"});
+                                       table.Rows.Add(new object[] {"Jane Doe", "19"});
+
+                                       var mockSelectCommand = new Mock<IDbCommand>();
+                                       mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(
+                                           table.CreateDataReader());
+                                       task.SelectCommand = mockSelectCommand.Object;
+
+                                       return task;
+                                   },
+
+                               Verify =
+                                   (task) =>
+                                   {
+                                       Assert.That(task.ObjectsFetched.Length, Is.EqualTo(2));
+                                       Assert.That(task.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
+                                       Assert.That(task.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
+                                   }
+                           }
+                       };
+            }
         }
     }
 }

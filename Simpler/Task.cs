@@ -44,8 +44,8 @@ namespace Simpler
         }
     }
 
-    public abstract class TaskWithTestsFor<T> : Task where T : Task
-    {
-        public abstract TestFor<T>[] Tests { get; }
-    }
+    //public abstract class TaskWithTestsFor<T> : Task where T : Task
+    //{
+    //    public abstract TestFor<T>[] Tests { get; }
+    //}
 }

@@ -24,7 +24,9 @@ namespace Simpler.Construction.Tasks
 
         public override void Execute()
         {
-            if (Attribute.IsDefined(TaskType, typeof(ExecutionCallbacksAttribute)))
+            if (Attribute.IsDefined(TaskType, typeof(ExecutionCallbacksAttribute)) 
+                ||
+                Attribute.IsDefined(TaskType, typeof(ExecutionOverrideAttribute)))
             {
                 TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, new TaskExecutionInterceptor());
             }

@@ -68,8 +68,8 @@
     <Compile Include="Construction\Tasks\InterceptTaskExecutionTest.cs" />
     <Compile Include="Construction\Tasks\CreateTaskTest.cs" />
     <Compile Include="Mocks\FirstAttribute.cs" />
-    <Compile Include="Mocks\MockComplexObject.cs" />
     <Compile Include="Mocks\MockObject.cs" />
+    <Compile Include="Mocks\MockComplexObject.cs" />
     <Compile Include="Mocks\MockParentTask.cs" />
     <Compile Include="Mocks\MockSubTask.cs" />
     <Compile Include="Mocks\MockTask.cs" />
