@@ -16,7 +16,7 @@ namespace Simpler.Testing.Tasks
 
             var taskTypes =
                 Assembly.GetCallingAssembly().GetTypes().Where(
-                    type => type.GetInterface("IDefinesTests") != null
+                    type => type.GetProperty("Tests") != null
                         && !type.ContainsGenericParameters
                         && type.IsPublic).ToArray();
 
@@ -28,11 +28,10 @@ namespace Simpler.Testing.Tasks
                 CreateTask.TaskType = taskType;
                 CreateTask.Execute();
                 dynamic taskWithTestDefinitions = CreateTask.TaskInstance;
-                var tests = taskWithTestDefinitions.DefineTests();
 
                 // For each tests, create a new instance of the task and use it
                 // to perform the test.
-                foreach (var taskTest in tests)
+                foreach (var taskTest in taskWithTestDefinitions.Tests)
                 {
                     CreateTask.TaskType = taskType;
                     CreateTask.Execute();

@@ -44,11 +44,8 @@ namespace Simpler
         }
     }
 
-    // Marker interface.
-    public interface IDefinesTests {}
-
-    public abstract class TaskWithTestsFor<T> : Task, IDefinesTests where T : Task
+    public abstract class TaskWithTestsFor<T> : Task where T : Task
     {
-        public abstract TestFor<T>[] DefineTests();
+        public abstract TestFor<T>[] Tests { get; }
     }
 }

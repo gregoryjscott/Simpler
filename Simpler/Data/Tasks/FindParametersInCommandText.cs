@@ -40,9 +40,11 @@ namespace Simpler.Data.Tasks
             parameterNameSet.CopyTo(ParameterNames);
         }
 
-        public override TestFor<FindParametersInCommandText>[] DefineTests()
+        public override TestFor<FindParametersInCommandText>[] Tests
         {
-            return new[]
+            get
+            {
+                return new[]
                    {
                        new TestFor<FindParametersInCommandText>
                        {
@@ -63,6 +65,7 @@ namespace Simpler.Data.Tasks
                                }
                        }
                    };
+            }
         }
     }
 }
