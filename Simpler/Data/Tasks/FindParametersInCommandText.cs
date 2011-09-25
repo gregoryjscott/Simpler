@@ -1,13 +1,15 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using NUnit.Framework;
+using Simpler.Testing;
 
 namespace Simpler.Data.Tasks
 {
     /// <summary>
     /// Task that will search the given command text for parameter placeholders.  Placeholders can begin with a ":" or a "@".
     /// </summary>
-    public class FindParametersInCommandText : Task
+    public class FindParametersInCommandText : TaskWithTestsFor<FindParametersInCommandText>
     {
         // Inputs
         public virtual string CommandText { get; set; }
@@ -36,6 +38,31 @@ namespace Simpler.Data.Tasks
             }
             ParameterNames = new string[parameterNameSet.Count];
             parameterNameSet.CopyTo(ParameterNames);
+        }
+
+        public override TestFor<FindParametersInCommandText>[] DefineTests()
+        {
+            return new[]
+                   {
+                       new TestFor<FindParametersInCommandText>
+                       {
+                           Expectation = "should find parameters starting with an @ symbol",
+
+                           Setup =
+                               (task) =>
+                               {
+                                   task.CommandText =
+                                       @"select whatever from table where something = @something and something_else is true";
+                               },
+
+                           Verify =
+                               (task) =>
+                               {
+                                   Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
+                                   Assert.That(task.ParameterNames[0], Is.EqualTo("@something"));
+                               }
+                       }
+                   };
         }
     }
 }

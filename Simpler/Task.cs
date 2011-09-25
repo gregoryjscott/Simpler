@@ -4,7 +4,7 @@ namespace Simpler
 {
     /// <summary>
     /// The foundation of Simpler.
-   /// </summary>
+    /// </summary>
     public abstract class Task
     {
         /// <summary>
@@ -42,10 +42,13 @@ namespace Simpler
             Execute();
             return this;
         }
+    }
 
-        public virtual Test[] DefineTests()
-        {
-            return new Test[0];
-        }
+    // Marker interface.
+    public interface IDefinesTests {}
+
+    public abstract class TaskWithTestsFor<T> : Task, IDefinesTests where T : Task
+    {
+        public abstract TestFor<T>[] DefineTests();
     }
 }

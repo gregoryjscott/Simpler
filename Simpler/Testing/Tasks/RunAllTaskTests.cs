@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Reflection;
 using Simpler.Construction.Tasks;
@@ -15,7 +16,7 @@ namespace Simpler.Testing.Tasks
 
             var taskTypes =
                 Assembly.GetCallingAssembly().GetTypes().Where(
-                    type => type.IsSubclassOf(typeof (Task)) 
+                    type => type.GetInterface("IDefinesTests") != null
                         && !type.ContainsGenericParameters
                         && type.IsPublic).ToArray();
 
@@ -26,7 +27,7 @@ namespace Simpler.Testing.Tasks
                 // Create the task so the defined tests can be retrieved.
                 CreateTask.TaskType = taskType;
                 CreateTask.Execute();
-                var taskWithTestDefinitions = (Task)CreateTask.TaskInstance;
+                dynamic taskWithTestDefinitions = CreateTask.TaskInstance;
                 var tests = taskWithTestDefinitions.DefineTests();
 
                 // For each tests, create a new instance of the task and use it
@@ -35,13 +36,21 @@ namespace Simpler.Testing.Tasks
                 {
                     CreateTask.TaskType = taskType;
                     CreateTask.Execute();
-                    var task = (Task) CreateTask.TaskInstance;
+                    dynamic task = CreateTask.TaskInstance;
 
-                    // todo - output the taskTest.Expectation
-                    
                     taskTest.Setup(task);
                     task.Execute();
-                    taskTest.Verify(task);
+
+                    try
+                    {
+                        taskTest.Verify(task);
+                        Console.WriteLine("Success: " + taskTest.Expectation);
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine("Failed: " + taskTest.Expectation);
+                        Console.WriteLine("    Error: " + exception.Message);
+                    }
                 }
             }
         }
