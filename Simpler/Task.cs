@@ -1,6 +1,4 @@
-﻿using Simpler.Testing;
-
-namespace Simpler
+﻿namespace Simpler
 {
     /// <summary>
     /// The foundation of Simpler.
@@ -43,9 +41,4 @@ namespace Simpler
             return this;
         }
     }
-
-    //public abstract class TaskWithTestsFor<T> : Task where T : Task
-    //{
-    //    public abstract TestFor<T>[] Tests { get; }
-    //}
 }
