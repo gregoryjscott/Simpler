@@ -43,60 +43,65 @@ namespace Simpler.Data.Tasks
             ObjectsFetched = objectList.ToArray();
         }
 
-        public Test[] Tests =
-            new[]
-            {
-                new TestFor<FetchListOf<MockObject>>
+        public Test[] Tests()
+        {
+            return
+                new[]
                 {
-                    Expectation = "returns an object for each record returned by the select command",
+                    new TestFor<FetchListOf<MockObject>>
+                    {
+                        Expectation = "returns an object for each record returned by the select command",
 
-                    Setup =
-                        (task) =>
-                        {
-                            var table = new DataTable();
-                            table.Columns.Add("Name", Type.GetType("System.String"));
-                            table.Columns.Add("Age", Type.GetType("System.Int32"));
-                            table.Rows.Add(new object[] {"John Doe", "21"});
-                            table.Rows.Add(new object[] {"Jane Doe", "19"});
+                        Setup =
+                            (task) =>
+                            {
+                                var testData = new DataTable();
+                                testData.Columns.Add("Name", Type.GetType("System.String"));
+                                testData.Columns.Add("Age", Type.GetType("System.Int32"));
+                                testData.Rows.Add(new object[] { "John Doe", "21" });
+                                testData.Rows.Add(new object[] { "Jane Doe", "19" });
 
-                            var mockSelectCommand = new Mock<IDbCommand>();
-                            mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(
-                                table.CreateDataReader());
-                            task.SelectCommand = mockSelectCommand.Object;
-                        },
+                                // Mock command and have it return test data.
+                                var mockSelectCommand = new Mock<IDbCommand>();
+                                mockSelectCommand.Setup(command => command.ExecuteReader())
+                                    .Returns(testData.CreateDataReader());
+                                task.SelectCommand = mockSelectCommand.Object;
+                            },
 
-                    Verify =
-                        (task) =>
-                        {
-                            Assert.That(task.ObjectsFetched.Length, Is.EqualTo(2));
-                            Assert.That(task.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
-                            Assert.That(task.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
-                        }
-                },
-                new Test
-                {
-                    Expectation = "allows plain test",
+                        Verify =
+                            (task) =>
+                            {
+                                Assert.That(task.ObjectsFetched.Length, Is.EqualTo(2));
+                                Assert.That(task.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
+                                Assert.That(task.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
+                            }
+                    },
+                    new Test
+                    {
+                        Expectation = "allows plain test",
 
-                    Setup =
-                        (task) =>
-                        {
-                            var table = new DataTable();
-                            table.Columns.Add("Name", Type.GetType("System.String"));
-                            table.Columns.Add("Age", Type.GetType("System.Int32"));
-                            table.Rows.Add(new object[] {"John Doe", "21"});
-                            table.Rows.Add(new object[] {"Jane Doe", "19"});
+                        Setup =
+                            (task) =>
+                            {
+                                var testData = new DataTable();
+                                testData.Columns.Add("Name", Type.GetType("System.String"));
+                                testData.Columns.Add("Age", Type.GetType("System.Int32"));
+                                testData.Rows.Add(new object[] { "John Doe", "21" });
+                                testData.Rows.Add(new object[] { "Jane Doe", "19" });
 
-                            var mockSelectCommand = new Mock<IDbCommand>();
-                            mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(
-                                table.CreateDataReader());
-                            task.SelectCommand = mockSelectCommand.Object;
-                        },
+                                // Mock command and have it return test data.
+                                var mockSelectCommand = new Mock<IDbCommand>();
+                                mockSelectCommand.Setup(command => command.ExecuteReader())
+                                    .Returns(testData.CreateDataReader());
+                                task.SelectCommand = mockSelectCommand.Object;
+                            },
 
-                    Verify =
-                        (task) =>
-                        {
-                        }
-                }
-            };
+                        Verify =
+                            (task) =>
+                            {
+                            }
+                    }
+                };
+        }
     }
 }

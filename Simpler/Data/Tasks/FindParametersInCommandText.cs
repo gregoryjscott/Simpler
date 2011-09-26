@@ -40,51 +40,47 @@ namespace Simpler.Data.Tasks
             parameterNameSet.CopyTo(ParameterNames);
         }
 
-        public Test[] Tests
+        public Test[] Tests()
         {
-            get
-            {
-                return
-                    new[]
-                    {
-                        new TestFor<FindParametersInCommandText>
-                        {
-                            Expectation = "finds parameters starting with a @",
+            return new[]
+                   {
+                       new TestFor<FindParametersInCommandText>
+                       {
+                           Expectation = "finds parameters starting with a @",
 
-                            Setup =
-                                (task) =>
-                                {
-                                    task.CommandText =
-                                        @"select ... where something = @something and something_else is true";
-                                },
+                           Setup =
+                               (task) =>
+                               {
+                                   task.CommandText =
+                                       @"select ... where something = @something and something_else is true";
+                               },
 
-                            Verify =
-                                (task) =>
-                                {
-                                    Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
-                                    Assert.That(task.ParameterNames[0], Is.EqualTo("@something"));
-                                }
-                        },
-                        new TestFor<FindParametersInCommandText>
-                        {
-                            Expectation = "finds parameters starting with a :",
+                           Verify =
+                               (task) =>
+                               {
+                                   Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
+                                   Assert.That(task.ParameterNames[0], Is.EqualTo("@something"));
+                               }
+                       },
+                       new TestFor<FindParametersInCommandText>
+                       {
+                           Expectation = "finds parameters starting with a :",
 
-                            Setup =
-                                (task) =>
-                                {
-                                    task.CommandText =
-                                        @"select ... where something = :something and something_else is true";
-                                },
+                           Setup =
+                               (task) =>
+                               {
+                                   task.CommandText =
+                                       @"select ... where something = :something and something_else is true";
+                               },
 
-                            Verify =
-                                (task) =>
-                                {
-                                    Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
-                                    Assert.That(task.ParameterNames[0], Is.EqualTo(":something"));
-                                }
-                        }
-                    };
-            }
+                           Verify =
+                               (task) =>
+                               {
+                                   Assert.That(task.ParameterNames.Length, Is.EqualTo(1));
+                                   Assert.That(task.ParameterNames[0], Is.EqualTo(":something"));
+                               }
+                       }
+                   };
         }
     }
 }

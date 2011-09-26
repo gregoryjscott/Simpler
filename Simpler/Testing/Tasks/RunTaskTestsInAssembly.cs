@@ -22,7 +22,7 @@ namespace Simpler.Testing.Tasks
                     type => 
                         type.IsSubclassOf(typeof(Task))
                         &&
-                        (type.GetField("Tests") != null || type.GetProperty("Tests") != null)
+                        (type.GetMethod("Tests") != null)
                         && 
                         type.IsPublic).ToArray();
 
@@ -48,7 +48,7 @@ namespace Simpler.Testing.Tasks
 
                 // For each tests, create a new instance of the task and use it
                 // to perform the test.
-                foreach (var taskTest in task.Tests)
+                foreach (var taskTest in task.Tests())
                 {
                     Type typeOfTaskTest = taskTest.GetType();
                     genericArguments = typeOfTaskTest.GetGenericArguments();
