@@ -5,6 +5,12 @@
 
     public class TestFor<T> : Test where T : Task
     {
+        public TestFor()
+        {
+            // This allows Setup to be optional when creating a test using object initialization.
+            Setup = (task) => { };
+        }
+
         public SetupFor<T> Setup { get; set; }
         public VerificationFor<T> Verify { get; set; }
     }

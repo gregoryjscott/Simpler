@@ -5,6 +5,12 @@
 
     public class Test
     {
+        public Test()
+        {
+            // This allows Setup to be optional when creating a test using object initialization.
+            Setup = (task) => { };
+        }
+
         public string Expectation { get; set; }
         public Setup Setup { get; set; }
         public Verification Verify { get; set; }
