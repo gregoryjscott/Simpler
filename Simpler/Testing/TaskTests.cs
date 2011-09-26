@@ -11,7 +11,7 @@ namespace Simpler.Testing
         public void run_all_task_tests_in_executing_assembly()
         {
             var runAllTaskTests = TaskFactory<RunTaskTestsInAssembly>.Create();
-            runAllTaskTests.AssemblyContainTasks = Assembly.GetExecutingAssembly();
+            runAllTaskTests.AssemblyWithTasks = Assembly.GetExecutingAssembly();
             runAllTaskTests.Execute();
         }
     }

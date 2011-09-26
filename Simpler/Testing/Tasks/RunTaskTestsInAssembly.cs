@@ -9,7 +9,7 @@ namespace Simpler.Testing.Tasks
     public class RunTaskTestsInAssembly : Task
     {
         // Inputs
-        public Assembly AssemblyContainTasks { get; set; }
+        public Assembly AssemblyWithTasks { get; set; }
 
         // Sub-tasks
         public CreateTask CreateTask { get; set; }
@@ -18,7 +18,7 @@ namespace Simpler.Testing.Tasks
         {
             if (CreateTask == null) CreateTask = new CreateTask();
 
-            var taskTypes = AssemblyContainTasks.GetTypes()
+            var taskTypes = AssemblyWithTasks.GetTypes()
                 .Where(type => type.IsSubclassOf(typeof (Task)) && type.IsPublic)
                 .OrderBy(type => type.FullName);
 
