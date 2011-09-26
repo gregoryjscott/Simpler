@@ -1,4 +1,6 @@
-﻿namespace Simpler
+﻿using Simpler.Testing;
+
+namespace Simpler
 {
     /// <summary>
     /// The foundation of Simpler.
@@ -22,7 +24,7 @@
         public virtual dynamic Outputs { get; set; }
 
         /// <summary>
-        /// Code that uses the Inputs to produce the Outputs.
+        /// Contains the logic that uses the Inputs to produce the Outputs.
         /// </summary>
         public abstract void Execute();
 
@@ -39,6 +41,15 @@
             Inputs = inputs;
             Execute();
             return this;
+        }
+
+        /// <summary>
+        /// Should return a collection of unit tests for this Task.
+        /// </summary>
+        /// <returns>Array of unit tests.</returns>
+        public virtual Test[] Tests()
+        {
+            return new Test[0];
         }
     }
 }

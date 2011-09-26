@@ -27,28 +27,28 @@ namespace Simpler.Testing.Tasks
             var failureCount = 0;
             foreach (var taskType in taskTypes)
             {
-                if (taskType.GetMethod("Tests") == null)
+                var typeToCreate = taskType;
+
+                // If this is a generic type then send Object as the types of T.
+                var genericArguments = taskType.GetGenericArguments();
+                if (genericArguments.Length > 0)
+                {
+                    var objectTypes = genericArguments.Select(genericArgument => typeof(object)).ToArray();
+                    typeToCreate = taskType.MakeGenericType(objectTypes);
+                }
+
+                // Create an instance of the task so the tests can be retrieved.
+                CreateTask.TaskType = typeToCreate;
+                CreateTask.Execute();
+                dynamic task = CreateTask.TaskInstance;
+
+                if (task.Tests().Length == 0)
                 {
                     tasksWithoutTests.Add(taskType.FullName);
                 }
                 else
                 {
                     Console.WriteLine(taskType.FullName);
-
-                    var typeToCreate = taskType;
-
-                    // If this is a generic type then send Object as the types of T.
-                    var genericArguments = taskType.GetGenericArguments();
-                    if (genericArguments.Length > 0)
-                    {
-                        var objectTypes = genericArguments.Select(genericArgument => typeof(object)).ToArray();
-                        typeToCreate = taskType.MakeGenericType(objectTypes);
-                    }
-
-                    // Create an instance of the task so the tests can be retrieved.
-                    CreateTask.TaskType = typeToCreate;
-                    CreateTask.Execute();
-                    dynamic task = CreateTask.TaskInstance;
 
                     // For each tests, create a new instance of the task and use it
                     // to perform the test.
@@ -68,16 +68,8 @@ namespace Simpler.Testing.Tasks
 
                         try
                         {
-                            // Arrange
-                            taskTest.Setup(task);
-
-                            // Act
-                            task.Execute();
-
-                            // Assert
-                            taskTest.Verify(task);
-
-                            Console.WriteLine("    " + taskTest.Expectation);
+                            taskTest.Run(task);
+                            Console.WriteLine("    can " + taskTest.Expectation);
                         }
                         catch (Exception exception)
                         {
