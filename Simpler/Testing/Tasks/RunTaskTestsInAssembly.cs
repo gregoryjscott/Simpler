@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Simpler.Construction.Tasks;
@@ -17,70 +18,84 @@ namespace Simpler.Testing.Tasks
         {
             if (CreateTask == null) CreateTask = new CreateTask();
 
-            var taskTypes =
-                AssemblyContainTasks.GetTypes().Where(
-                    type => 
-                        type.IsSubclassOf(typeof(Task))
-                        &&
-                        (type.GetMethod("Tests") != null)
-                        && 
-                        type.IsPublic).ToArray();
+            var taskTypes = AssemblyContainTasks.GetTypes()
+                .Where(type => type.IsSubclassOf(typeof (Task)) && type.IsPublic)
+                .OrderBy(type => type.FullName);
+
+            var tasksWithoutTests = new List<string>();
 
             var failureCount = 0;
             foreach (var taskType in taskTypes)
             {
-                Console.WriteLine(taskType.FullName);
-
-                var typeToCreate = taskType;
-
-                // If this is a generic type then send Object as the types of T.
-                var genericArguments = taskType.GetGenericArguments();
-                if (genericArguments.Length > 0)
+                if (taskType.GetMethod("Tests") == null)
                 {
-                    var objectTypes = genericArguments.Select(genericArgument => typeof (object)).ToArray();
-                    typeToCreate = taskType.MakeGenericType(objectTypes);
+                    tasksWithoutTests.Add(taskType.FullName);
                 }
-
-                // Create an instance of the task so the tests can be retrieved.
-                CreateTask.TaskType = typeToCreate;
-                CreateTask.Execute();
-                dynamic task = CreateTask.TaskInstance;
-
-                // For each tests, create a new instance of the task and use it
-                // to perform the test.
-                foreach (var taskTest in task.Tests())
+                else
                 {
-                    Type typeOfTaskTest = taskTest.GetType();
-                    genericArguments = typeOfTaskTest.GetGenericArguments();
+                    Console.WriteLine(taskType.FullName);
+
+                    var typeToCreate = taskType;
+
+                    // If this is a generic type then send Object as the types of T.
+                    var genericArguments = taskType.GetGenericArguments();
                     if (genericArguments.Length > 0)
                     {
-                        typeToCreate = typeOfTaskTest.GetGenericArguments().Single();
-                        CreateTask.TaskType = typeToCreate;
+                        var objectTypes = genericArguments.Select(genericArgument => typeof(object)).ToArray();
+                        typeToCreate = taskType.MakeGenericType(objectTypes);
                     }
 
-                    // Create a new instance for each test.
+                    // Create an instance of the task so the tests can be retrieved.
+                    CreateTask.TaskType = typeToCreate;
                     CreateTask.Execute();
-                    task = CreateTask.TaskInstance;
+                    dynamic task = CreateTask.TaskInstance;
 
-                    try
+                    // For each tests, create a new instance of the task and use it
+                    // to perform the test.
+                    foreach (var taskTest in task.Tests())
                     {
-                        // Arrange
-                        taskTest.Setup(task);
+                        Type typeOfTaskTest = taskTest.GetType();
+                        genericArguments = typeOfTaskTest.GetGenericArguments();
+                        if (genericArguments.Length > 0)
+                        {
+                            typeToCreate = typeOfTaskTest.GetGenericArguments().Single();
+                            CreateTask.TaskType = typeToCreate;
+                        }
 
-                        // Act
-                        task.Execute();
+                        // Create a new instance for each test.
+                        CreateTask.Execute();
+                        task = CreateTask.TaskInstance;
 
-                        // Assert
-                        taskTest.Verify(task);
+                        try
+                        {
+                            // Arrange
+                            taskTest.Setup(task);
 
-                        Console.WriteLine("    " + taskTest.Expectation);
+                            // Act
+                            task.Execute();
+
+                            // Assert
+                            taskTest.Verify(task);
+
+                            Console.WriteLine("    " + taskTest.Expectation);
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine("    Failed: " + taskTest.Expectation);
+                            Console.WriteLine("        Error: " + exception.Message);
+                            failureCount++;
+                        }
                     }
-                    catch (Exception exception)
-                    {
-                        Console.WriteLine("    Failed: " + taskTest.Expectation);
-                        Console.WriteLine("        Error: " + exception.Message);
-                        failureCount++;
-                    }
+                }
+            }
+
+            if (tasksWithoutTests.Count() > 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("The following Tasks are missing tests.");
+                foreach (var tasksWithoutTest in tasksWithoutTests)
+                {
+                    Console.WriteLine(tasksWithoutTest);
                 }
             }
 
