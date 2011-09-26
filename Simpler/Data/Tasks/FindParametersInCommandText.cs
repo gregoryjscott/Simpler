@@ -11,10 +11,8 @@ namespace Simpler.Data.Tasks
     /// </summary>
     public class FindParametersInCommandText : Task
     {
-        // Inputs
         public virtual string CommandText { get; set; }
 
-        // Outputs
         public virtual string[] ParameterNames { get; private set; }
 
         public override void Execute()
@@ -30,9 +28,11 @@ namespace Simpler.Data.Tasks
             // the parameter.
             regularExpression.Append(@"|(?<Parameter>[:@][a-zA-Z][a-zA-Z0-9_\.]{0,127})$");
 
+            // Find the matches
             var regex = new Regex(regularExpression.ToString(), RegexOptions.Multiline);
             var matches = regex.Matches(CommandText);
 
+            // Retrieve the distinct parameter names from the matches. 
             var parameterNameSet = new HashSet<string>();
             for (var i = 0; i < matches.Count; i++)
             {
