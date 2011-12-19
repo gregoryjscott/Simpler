@@ -3,6 +3,9 @@ using System.Web.Mvc;
 
 namespace Simpler.Web
 {
+    /// <summary>
+    /// Provides for executing Simpler tasks for a RESTful based controller.
+    /// </summary>
     public class ResourceController : Controller
     {
         protected Task IndexTask { get; set; }
