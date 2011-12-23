@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using Simpler.Web.Tasks;
 
 namespace Simpler.Web
 {
@@ -8,18 +11,37 @@ namespace Simpler.Web
     /// </summary>
     public class ResourceController : Controller
     {
-        protected Task IndexTask { get; set; }
-        protected Task ShowTask { get; set; }
-        protected Task NewTask { get; set; }
-        protected Task CreateTask { get; set; }
-        protected Task EditTask { get; set; }
-        protected Task UpdateTask { get; set; }
-        protected Task DeleteTask { get; set; }
-        protected Task DestroyTask { get; set; }
+        public ResourceController()
+        {
+            var findTasks = TaskFactory<FindResourceTasks>.Create();
+            findTasks.ControllerType = GetType();
+            findTasks.Execute();
+
+            IndexTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Index"));
+            ShowTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Show"));
+            NewTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("New"));
+            CreateTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Create"));
+            EditTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Edit"));
+            UpdateTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Update"));
+            DeleteTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Delete"));
+            DestroyTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Destroy"));
+        }
+
+        Task IndexTask { get; set; }
+        Task ShowTask { get; set; }
+        Task NewTask { get; set; }
+        Task CreateTask { get; set; }
+        Task EditTask { get; set; }
+        Task UpdateTask { get; set; }
+        Task DeleteTask { get; set; }
+        Task DestroyTask { get; set; }
 
         static ActionResult ExecuteTask(Task task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            // TODO - check to see if task is null
+            if (task == null)
+            {
+                throw new HttpException(404, "HTTP/1.1 404 Not Found");
+            }
 
             task.Inputs = inputs(null);
             task.Execute();
