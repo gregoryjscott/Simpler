@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// The foundation of Simpler.
-   /// </summary>
+    /// </summary>
     public abstract class Task
     {
         /// <summary>

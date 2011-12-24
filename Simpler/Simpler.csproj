@@ -69,9 +69,11 @@
     <Compile Include="Construction\Tasks\InterceptTaskExecution.cs" />
     <Compile Include="Construction\Tasks\CreateTask.cs" />
     <Compile Include="Construction\Interceptors\TaskExecutionInterceptor.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactory.cs" />
+    <Compile Include="TaskTITO.cs" />
     <Compile Include="Web\ResourceController.cs" />
     <Compile Include="Web\Tasks\FindResourceTasks.cs" />
   </ItemGroup>
