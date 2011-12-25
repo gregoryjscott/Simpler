@@ -56,8 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mocks\MockTaskTITO.cs" />
-    <Compile Include="TaskTITOTest.cs" />
+    <Compile Include="Mocks\MockTitoTask.cs" />
+    <Compile Include="TitoTaskTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
     <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
