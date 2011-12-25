@@ -4,7 +4,7 @@ using Simpler.Injection;
 namespace Simpler
 {
     [InjectSubTasks]
-    public abstract class TitoTask<TI, TO> : Task where TI : class where TO : class
+    public abstract class TitoTask<TI, TO> : Task
     {
         public override dynamic Inputs
         {
