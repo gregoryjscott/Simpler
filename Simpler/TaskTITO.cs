@@ -1,31 +1,31 @@
-﻿using Simpler.Injection;
+﻿using System;
+using Simpler.Injection;
 
 namespace Simpler
 {
     [InjectSubTasks]
-    public abstract class Task<TI, TO> : Task
+    public abstract class Task<TI, TO> : Task where TI : class where TO : class
     {
-        dynamic _inputs;
-        dynamic _outputs;
+
         TI _inputsModel;
         TO _outputsModel;
 
         public override dynamic Inputs
         {
-            get { return _inputs; }
+            get { return _inputsModel; }
             set
             {
-                _inputs = value;
-                Mapper.DynamicMap<TI>(_inputs, _inputsModel);
+                _inputsModel = (TI)Activator.CreateInstance(typeof(TI));
+                Mapper.DynamicMap<TI>(value, _inputsModel);
             }
         }
         public override dynamic Outputs
         {
-            get { return _outputs; }
+            get { return _outputsModel; }
             set
             {
-                _outputs = value;
-                Mapper.DynamicMap<TO>(_outputs, _outputsModel);
+                _outputsModel = (TO)Activator.CreateInstance(typeof(TO));
+                Mapper.DynamicMap<TO>(value, _outputsModel);
             }
         }
         public TI InputsModel
@@ -34,7 +34,6 @@ namespace Simpler
             set
             {
                 _inputsModel = value;
-                _inputs = _inputsModel;
             }
         }
         public TO OutputsModel
@@ -43,7 +42,6 @@ namespace Simpler
             set
             {
                 _outputsModel = value;
-                _outputs = _outputsModel;
             }
         }
     }

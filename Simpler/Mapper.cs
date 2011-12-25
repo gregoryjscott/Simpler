@@ -7,9 +7,9 @@
         /// </summary>
         internal static void DynamicMap<TDestination>(object source, TDestination destination)
         {
-            //var sourceType = source == null ? typeof(object) : source.GetType();
-            //var destinationType = typeof(TDestination);
-            //AutoMapper.Mapper.DynamicMap(source, destination, sourceType, destinationType);
+            var sourceType = source == null ? typeof(object) : source.GetType();
+            var destinationType = typeof(TDestination);
+            AutoMapper.Mapper.DynamicMap(source, destination, sourceType, destinationType);
         }
     }
 }

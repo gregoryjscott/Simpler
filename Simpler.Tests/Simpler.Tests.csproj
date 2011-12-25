@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mocks\MockTaskTITO.cs" />
+    <Compile Include="TaskTITOTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
     <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
@@ -68,8 +70,8 @@
     <Compile Include="Construction\Tasks\InterceptTaskExecutionTest.cs" />
     <Compile Include="Construction\Tasks\CreateTaskTest.cs" />
     <Compile Include="Mocks\FirstAttribute.cs" />
-    <Compile Include="Mocks\MockComplexObject.cs" />
     <Compile Include="Mocks\MockObject.cs" />
+    <Compile Include="Mocks\MockComplexObject.cs" />
     <Compile Include="Mocks\MockParentTask.cs" />
     <Compile Include="Mocks\MockSubTask.cs" />
     <Compile Include="Mocks\MockTask.cs" />
