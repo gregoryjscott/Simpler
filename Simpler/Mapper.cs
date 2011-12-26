@@ -10,7 +10,19 @@ namespace Simpler
         /// </summary>
         public static TTarget Map<TTarget>(object source)
         {
-            var targetType = typeof (TTarget);
+            if (source == null)
+            {
+                throw new Exception("Cannot map using a null source.");
+            }
+
+            var targetType = typeof(TTarget);
+
+            if (targetType.IsGenericType 
+                && 
+                targetType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            {
+                targetType = Nullable.GetUnderlyingType(targetType);
+            }
 
             if (targetType.FullName == "System.String" 
                 ||
@@ -25,7 +37,7 @@ namespace Simpler
         /// <summary>
         /// This is effectively an additional overload to AutoMapper's DynamicMap method.
         /// </summary>
-        public static void Map<TTarget>(object source, TTarget target)
+        public static void Map<TTarget>(object source, TTarget target) where TTarget : class
         {
             var sourceType = source == null ? typeof(object) : source.GetType();
             var targetType = typeof(TTarget);

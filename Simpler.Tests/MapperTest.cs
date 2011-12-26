@@ -59,6 +59,19 @@ namespace Simpler.Tests
         }
 
         [Test]
+        public void should_map_source_nullable_int_to_target_nullable_int()
+        {
+            // Arrange
+            int? source = 4;
+
+            // Act
+            var target = Mapper.Map<int?>(source);
+
+            // Assert
+            Assert.That(target, Is.EqualTo(4));
+        }
+
+        [Test]
         public void should_map_source_object_to_target_object()
         {
             // Arrange
