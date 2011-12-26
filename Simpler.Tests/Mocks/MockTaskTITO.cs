@@ -2,7 +2,7 @@
 
 namespace Simpler.Tests.Mocks
 {
-    public class MockTitoTask : TitoTask<MockObject, MockComplexObject>
+    public class MockTaskTITO : Task<MockObject, MockComplexObject>
     {
         public override void Execute()
         {

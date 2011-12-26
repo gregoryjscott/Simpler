@@ -76,7 +76,7 @@
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactory.cs" />
-    <Compile Include="TitoTask.cs" />
+    <Compile Include="TaskTITO.cs" />
     <Compile Include="Web\ResourceController.cs" />
     <Compile Include="Web\Tasks\FindResourceTasks.cs" />
   </ItemGroup>

@@ -4,13 +4,13 @@ using Simpler.Tests.Mocks;
 namespace Simpler.Tests
 {
     [TestFixture]
-    public class TitoTaskTest
+    public class TaskTITOTest
     {
         [Test]
         public void should_update_InputsModel_when_Inputs_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.Inputs = new {Name = "tito"};
@@ -23,7 +23,7 @@ namespace Simpler.Tests
         public void should_update_InputsModel_when_Inputs_is_set_to_a_primitive_type()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTaskUsingPrimitives>.Create();
+            var task = TaskFactory<MockTaskTITOUsingPrimitives>.Create();
 
             // Act
             task.Inputs = 4;
@@ -36,7 +36,7 @@ namespace Simpler.Tests
         public void should_update_InputsModel_property_when_Inputs_property_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.Inputs = new {Name = "tito", Age = 10};
@@ -51,7 +51,7 @@ namespace Simpler.Tests
         public void should_update_Inputs_when_InputsModel_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.InputsModel = new MockObject {Name = "tito"};
@@ -64,7 +64,7 @@ namespace Simpler.Tests
         public void should_update_Inputs_property_when_InputsModel_property_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.InputsModel = new MockObject {Name = "tito", Age = 10};
@@ -79,7 +79,7 @@ namespace Simpler.Tests
         public void should_update_OutputsModel_when_Outputs_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.Outputs = new {MockObject = new {Name = "tito"}};
@@ -92,7 +92,7 @@ namespace Simpler.Tests
         public void should_update_OutputsModel_when_Outputs_is_set_to_a_primitive_type()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTaskUsingPrimitives>.Create();
+            var task = TaskFactory<MockTaskTITOUsingPrimitives>.Create();
 
             // Act
             task.Outputs = "4";
@@ -105,7 +105,7 @@ namespace Simpler.Tests
         public void should_update_OutputsModel_property_when_Outputs_property_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.Outputs = new {MockObject = new {Name = "tito", Age = 10}};
@@ -120,7 +120,7 @@ namespace Simpler.Tests
         public void should_update_Outputs_when_OutputsModel_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.OutputsModel = new MockComplexObject {MockObject = new MockObject {Name = "tito"}};
@@ -133,7 +133,7 @@ namespace Simpler.Tests
         public void should_update_Outputs_property_when_OutputsModel_property_is_set()
         {
             // Arrange
-            var task = TaskFactory<MockTitoTask>.Create();
+            var task = TaskFactory<MockTaskTITO>.Create();
 
             // Act
             task.OutputsModel = new MockComplexObject {MockObject = new MockObject {Name = "tito", Age = 10}};
