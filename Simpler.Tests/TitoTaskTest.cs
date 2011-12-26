@@ -20,6 +20,19 @@ namespace Simpler.Tests
         }
 
         [Test]
+        public void should_update_InputsModel_when_Inputs_is_set_to_a_primitive_type()
+        {
+            // Arrange
+            var task = TaskFactory<MockTitoTaskUsingPrimitives>.Create();
+
+            // Act
+            task.Inputs = 4;
+
+            // Assert
+            Assert.That(task.InputsModel, Is.EqualTo(4));
+        }
+
+        [Test]
         public void should_update_InputsModel_property_when_Inputs_property_is_set()
         {
             // Arrange
@@ -73,6 +86,19 @@ namespace Simpler.Tests
 
             // Assert
             Assert.That(task.OutputsModel.MockObject.Name, Is.EqualTo("tito"));
+        }
+
+        [Test]
+        public void should_update_OutputsModel_when_Outputs_is_set_to_a_primitive_type()
+        {
+            // Arrange
+            var task = TaskFactory<MockTitoTaskUsingPrimitives>.Create();
+
+            // Act
+            task.Outputs = "4";
+
+            // Assert
+            Assert.That(task.OutputsModel, Is.EqualTo("4"));
         }
 
         [Test]
