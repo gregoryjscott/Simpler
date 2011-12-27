@@ -17,7 +17,9 @@ namespace Simpler
             get { return InputsModel; }
             set
             {
-                InputsModel = Mapper.Map<TI>(value);
+                InputsModel = value == null
+                                  ? default(TI)
+                                  : Mapper.Map<TI>(value);
             }
         }
         public override dynamic Outputs
@@ -25,7 +27,9 @@ namespace Simpler
             get { return OutputsModel; }
             set
             {
-                OutputsModel = Mapper.Map<TO>(value);
+                OutputsModel = value == null
+                                  ? default(TO)
+                                  : Mapper.Map<TO>(value);
             }
         }
 
