@@ -4,16 +4,20 @@ using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
+    // todo - this is obsolete
+    public class BuildParametersUsing<T> : BuildParameters
+    {
+    }
+
     /// <summary>
     /// Task that looks in the given command's CommandText for parameters and uses the given object's property
     /// values to build the command parameters.
     /// </summary>
-    /// <typeparam name="T">The type of the object that contains the parameter values.</typeparam>
-    public class BuildParametersUsing<T> : Task
+    public class BuildParameters : Task
     {
         // Inputs
         public virtual IDbCommand CommandWithParameters { get; set; }
-        public virtual T ObjectWithValues { get; set; }
+        public virtual object ObjectWithValues { get; set; }
 
         // Sub-tasks
         public virtual FindParametersInCommandText FindParametersInCommandText { get; set; }
@@ -28,8 +32,8 @@ namespace Simpler.Data.Tasks
 
             foreach (var parameterNameX in FindParametersInCommandText.ParameterNames)
             {
-                var objectType = typeof(T);
-                object objectContainingPropertyValue = ObjectWithValues;
+                var objectType = ObjectWithValues.GetType();
+                var objectContainingPropertyValue = ObjectWithValues;
 
                 // Strip off the first character of the parameter name to find a matching property (e.g. make @Name => Name).
                 var nameOfPropertyContainingValue = parameterNameX.Substring(1);
@@ -51,7 +55,6 @@ namespace Simpler.Data.Tasks
                     nameOfPropertyContainingValue = nameOfPropertyContainingValue.Substring(indexOfDot + 1);
                 }
 
-                // Use the property to build the parameter.
                 property = objectType.GetProperty(nameOfPropertyContainingValue);
                 if (property != null)
                 {
@@ -62,6 +65,7 @@ namespace Simpler.Data.Tasks
                     CommandWithParameters.CommandText = CommandWithParameters.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
 
                     dbDataParameter.Value = property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value;
+
                     CommandWithParameters.Parameters.Add(dbDataParameter);
                 }
             }
