@@ -56,7 +56,13 @@ namespace Simpler.Data.Tasks
                 }
 
                 property = objectType.GetProperty(nameOfPropertyContainingValue);
-                if (property != null)
+                
+                // If the property is null and the ObjectWithValues is an anonymous type, then create the parameter and set it
+                // to DBNull.  Otherwise if the ObjectWithValues is a static then just ignore any parameters that don't have
+                // matching properties.
+                if (((objectType.FullName != null) && objectType.FullName.Contains("AnonymousType"))
+                    ||
+                    (property != null))
                 {
                     var dbDataParameter = CommandWithParameters.CreateParameter();
 
@@ -64,7 +70,10 @@ namespace Simpler.Data.Tasks
                     dbDataParameter.ParameterName = parameterNameX.Replace(".", "_");
                     CommandWithParameters.CommandText = CommandWithParameters.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
 
-                    dbDataParameter.Value = property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value;
+                    dbDataParameter.Value =
+                        property != null
+                        ? property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value
+                        : DBNull.Value;
 
                     CommandWithParameters.Parameters.Add(dbDataParameter);
                 }

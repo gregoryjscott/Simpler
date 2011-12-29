@@ -60,7 +60,7 @@
     <Compile Include="Mocks\MockTaskTITOUsingPrimitives.cs" />
     <Compile Include="Mocks\MockTaskTITO.cs" />
     <Compile Include="TaskTITOTest.cs" />
-    <Compile Include="Data\Tasks\BuildParametersUsingTest.cs" />
+    <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
     <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
     <Compile Include="Data\Tasks\FindParametersInCommandTextTest.cs" />
