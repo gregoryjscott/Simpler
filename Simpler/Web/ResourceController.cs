@@ -7,34 +7,35 @@ using Simpler.Web.Tasks;
 namespace Simpler.Web
 {
     /// <summary>
-    /// Provides for executing Simpler tasks for a RESTful based controller.
+    /// Provides for creating a Controller that connects to a Resource.  This allows for very thin controllers
+    /// that simply define the routes and delegate all action functionality to Resource Tasks.
     /// </summary>
-    public class ResourceController : Controller
+    public abstract class ResourceController : Controller
     {
-        public ResourceController()
+        /// <summary>
+        /// This constructor should be used when creating a subclass.  Create tasks named Index, Show, New, Create,
+        /// Edit, Update, Delete, and/or Destroy in a Task directory next to the Models and Views directories and then
+        /// used the Index(), Show(), etc. helper methods to hand off inputs and receive outputs.
+        /// </summary>
+        protected ResourceController()
         {
-            var findTasks = TaskFactory<FindResourceTasks>.Create();
-            findTasks.ControllerType = GetType();
-            findTasks.Execute();
-
-            IndexTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Index"));
-            ShowTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Show"));
-            NewTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("New"));
-            CreateTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Create"));
-            EditTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Edit"));
-            UpdateTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Update"));
-            DeleteTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Delete"));
-            DestroyTask = findTasks.Tasks.FirstOrDefault(t => t.GetType().Name.StartsWith("Destroy"));
+            var findResource = TaskFactory<FindResource>.Create();
+            findResource.ControllerType = GetType();
+            findResource.Execute();
+            Resource = findResource.Resource;
         }
 
-        Task IndexTask { get; set; }
-        Task ShowTask { get; set; }
-        Task NewTask { get; set; }
-        Task CreateTask { get; set; }
-        Task EditTask { get; set; }
-        Task UpdateTask { get; set; }
-        Task DeleteTask { get; set; }
-        Task DestroyTask { get; set; }
+        /// <summary>
+        /// This constructor should only be used to override the default behavior that automatically builds the
+        /// Resource.
+        /// </summary>
+        /// <param name="resource">The Resource to use instead of the normally automatically created Resource.</param>
+        protected ResourceController(Resource resource)
+        {
+            Resource = resource;
+        }
+
+        protected Resource Resource { get; set; }
 
         static ActionResult ExecuteTask(Task task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
@@ -47,37 +48,93 @@ namespace Simpler.Web
             task.Execute();
             return outputs(task.Outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Index task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Index task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Index task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Index(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(IndexTask, inputs, outputs);
+            return ExecuteTask(Resource.Index, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Show task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Show task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Show task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Show(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(ShowTask, inputs, outputs);
+            return ExecuteTask(Resource.Show, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the New task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the New task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided New task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult New(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(NewTask, inputs, outputs);
+            return ExecuteTask(Resource.New, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Create task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Create task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Create task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Create(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(CreateTask, inputs, outputs);
+            return ExecuteTask(Resource.Create, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Edit task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Edit task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Edit task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Edit(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(EditTask, inputs, outputs);
+            return ExecuteTask(Resource.Edit, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Update task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Update task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Update task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Update(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(UpdateTask, inputs, outputs);
+            return ExecuteTask(Resource.Update, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Delete task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Delete task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Delete task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Delete(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(DeleteTask, inputs, outputs);
+            return ExecuteTask(Resource.Delete, inputs, outputs);
         }
+
+        /// <summary>
+        /// Helper method that executes the Destroy task tied to this Controller.
+        /// </summary>
+        /// <param name="inputs">Lamda function that returns the Inputs that will be passed along to the Destroy task.</param>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Destroy task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Destroy(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(DestroyTask, inputs, outputs);
+            return ExecuteTask(Resource.Destroy, inputs, outputs);
         }
     }
 }
