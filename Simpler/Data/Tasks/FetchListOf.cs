@@ -75,33 +75,33 @@ namespace Simpler.Data.Tasks
                                   Assert.That(task.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
                               }
                     },
-                    new Test
-                    {
-                        Expectation = "do the same thing using the Task that sends a dynamic task",
+                    //new Test
+                    //{
+                    //    Expectation = "do the same thing using the Task that sends a dynamic task",
 
-                        Run = (task) =>
-                              {
-                                  // Arrange
-                                  var testData = new DataTable();
-                                  testData.Columns.Add("Name", Type.GetType("System.String"));
-                                  testData.Columns.Add("Age", Type.GetType("System.Int32"));
-                                  testData.Rows.Add(new object[] {"John Doe", "21"});
-                                  testData.Rows.Add(new object[] {"Jane Doe", "19"});
+                    //    Run = (task) =>
+                    //          {
+                    //              // Arrange
+                    //              var testData = new DataTable();
+                    //              testData.Columns.Add("Name", Type.GetType("System.String"));
+                    //              testData.Columns.Add("Age", Type.GetType("System.Int32"));
+                    //              testData.Rows.Add(new object[] {"John Doe", "21"});
+                    //              testData.Rows.Add(new object[] {"Jane Doe", "19"});
 
-                                  var mockSelectCommand = new Mock<IDbCommand>();
-                                  mockSelectCommand.Setup(command => command.ExecuteReader())
-                                      .Returns(testData.CreateDataReader());
-                                  task.SelectCommand = mockSelectCommand.Object;
+                    //              var mockSelectCommand = new Mock<IDbCommand>();
+                    //              mockSelectCommand.Setup(command => command.ExecuteReader())
+                    //                  .Returns(testData.CreateDataReader());
+                    //              task.SelectCommand = mockSelectCommand.Object;
 
-                                  // Act
-                                  task.Execute();
+                    //              // Act
+                    //              task.Execute();
 
-                                  // Assert
-                                  Assert.That(task.ObjectsFetched.Length, Is.EqualTo(2));
-                                  Assert.That(task.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
-                                  Assert.That(task.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
-                              }
-                    }
+                    //              // Assert
+                    //              Assert.That(task.ObjectsFetched.Length, Is.EqualTo(2));
+                    //              Assert.That(task.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
+                    //              Assert.That(task.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
+                    //          }
+                    //}
                 };
         }
     }

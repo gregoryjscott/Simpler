@@ -18,6 +18,9 @@ namespace Simpler.Testing.Tasks
         {
             if (CreateTask == null) CreateTask = new CreateTask();
 
+            //Console.WriteLine();
+            Console.WriteLine(string.Format("Scanning assembly {0} for tests.", AssemblyWithTasks.FullName));
+
             var taskTypes = AssemblyWithTasks.GetTypes()
                 .Where(type => type.IsSubclassOf(typeof (Task)) && type.IsPublic)
                 .OrderBy(type => type.FullName);
@@ -48,7 +51,7 @@ namespace Simpler.Testing.Tasks
                 }
                 else
                 {
-                    Console.WriteLine(taskType.FullName);
+                    Console.WriteLine("    " + taskType.FullName);
 
                     // For each tests, create a new instance of the task and use it
                     // to perform the test.
@@ -69,29 +72,30 @@ namespace Simpler.Testing.Tasks
                         try
                         {
                             taskTest.Run(task);
-                            Console.WriteLine("    can " + taskTest.Expectation);
+                            Console.WriteLine("        can " + taskTest.Expectation);
                         }
                         catch (Exception exception)
                         {
-                            Console.WriteLine("    Failed: " + taskTest.Expectation);
-                            Console.WriteLine("        Error: " + exception.Message);
+                            Console.WriteLine("        Failed: " + taskTest.Expectation);
+                            Console.WriteLine("            Error: " + exception.Message);
                             failureCount++;
                         }
                     }
+                    Console.WriteLine();
                 }
             }
 
             if (tasksWithoutTests.Count() > 0)
             {
-                Console.WriteLine();
-                Console.WriteLine("The following Tasks are missing tests.");
+                //Console.WriteLine();
+                Console.WriteLine("    The following Tasks are missing tests.");
                 foreach (var tasksWithoutTest in tasksWithoutTests)
                 {
-                    Console.WriteLine(tasksWithoutTest);
+                    Console.WriteLine("        " + tasksWithoutTest);
                 }
             }
 
-            if (failureCount > 0) throw new Exception("There were failures.");
+            if (failureCount > 0) throw new Exception("     There were failures.");
         }
     }
 }
