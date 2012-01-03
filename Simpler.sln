@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Simpler.1.1.nupkg = Simpler.1.1.nupkg
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExample", "MvcExample\MvcExample.csproj", "{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
