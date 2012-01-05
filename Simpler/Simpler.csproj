@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="Construction\ExecutionOverrideAttribute.cs" />
     <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
+    <Compile Include="Data\Exceptions\CreateConnectionException.cs" />
     <Compile Include="Data\Tasks\BuildParameters.cs" />
+    <Compile Include="Data\Tasks\Internal\RunCommandAction.cs" />
     <Compile Include="Data\Tasks\RunSql.cs" />
     <Compile Include="Data\Tasks\RunSqlAndReturn.cs" />
     <Compile Include="Data\TransactionAttribute.cs" />
