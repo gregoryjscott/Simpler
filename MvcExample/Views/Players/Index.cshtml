@@ -1,0 +1,26 @@
+﻿@model MvcExample.Models.Players.PlayerIndex
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Players</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>Team Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model.PlayerIndexItems)
+            {
+                <tr>
+                    <td>@player.Name</td>
+                    <td>@player.Team</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

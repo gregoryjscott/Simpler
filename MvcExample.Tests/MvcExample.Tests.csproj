@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}</ProjectGuid>
+    <ProjectGuid>{BC873E37-5D8E-4469-83A7-76A0B2E457BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simpler.Tests</RootNamespace>
-    <AssemblyName>Simpler.Tests</AssemblyName>
+    <RootNamespace>MvcExample.Tests</RootNamespace>
+    <AssemblyName>MvcExample.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -32,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
@@ -46,12 +39,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="pnunit.framework, Version=1.0.4109.34242, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\SqlServerCompact.4.0.8482.1\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,50 +55,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MapperTest.cs" />
-    <Compile Include="Mocks\MockTaskTITOUsingPrimitives.cs" />
-    <Compile Include="Mocks\MockTaskTITO.cs" />
-    <Compile Include="TaskTITOTest.cs" />
-    <Compile Include="Data\Tasks\BuildParametersTest.cs" />
-    <Compile Include="Data\Tasks\FetchListOfTest.cs" />
-    <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
-    <Compile Include="Data\Tasks\FindParametersInCommandTextTest.cs" />
-    <Compile Include="Data\Tasks\PersistSingleOfTest.cs" />
-    <Compile Include="Data\Tasks\UseDataRecordToBuildTest.cs" />
-    <Compile Include="Injection\Tasks\DisposeSubTasksTest.cs" />
-    <Compile Include="Injection\Tasks\InjectSubTasksTest.cs" />
-    <Compile Include="Construction\Tasks\NotifySubscribersOfTaskExecutionTest.cs" />
-    <Compile Include="Construction\Tasks\InterceptTaskExecutionTest.cs" />
-    <Compile Include="Construction\Tasks\CreateTaskTest.cs" />
-    <Compile Include="Mocks\FirstAttribute.cs" />
-    <Compile Include="Mocks\MockObject.cs" />
-    <Compile Include="Mocks\MockComplexObject.cs" />
-    <Compile Include="Mocks\MockParentTask.cs" />
-    <Compile Include="Mocks\MockSubTask.cs" />
-    <Compile Include="Mocks\MockTask.cs" />
-    <Compile Include="Mocks\MockTaskUsingDynamicProperties.cs" />
-    <Compile Include="Mocks\MockTaskWithAttributes.cs" />
-    <Compile Include="Mocks\MockTaskWithAttributesThatThrows.cs" />
-    <Compile Include="Mocks\MockTaskWithOverrideAttribute.cs" />
-    <Compile Include="Mocks\OverrideAttribute.cs" />
-    <Compile Include="Mocks\SecondAttribute.cs" />
-    <Compile Include="Mocks\TestException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskFactoryTest.cs" />
-    <Compile Include="Mocks\MockSubTaskUsingDynamicProperties.cs" />
-    <Compile Include="TaskTest.cs" />
+    <Compile Include="Tasks\Players\IndexTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MvcExample\MvcExample.csproj">
+      <Project>{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}</Project>
+      <Name>MvcExample</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+xcopy /s /y "$(SolutionDir)packages\SqlServerCompact.4.0.8482.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+xcopy /s /y "$(SolutionDir)packages\SqlServerCompact.4.0.8482.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
