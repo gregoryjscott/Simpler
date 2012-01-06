@@ -1,10 +1,11 @@
 ﻿using MvcExample.Models.Players;
 using Simpler;
 using Simpler.Data.Tasks;
+using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Index : Task<object, PlayerIndex>
+    public class Index : InOutTask<object, IndexResult<PlayerIndex>>
     {
         public RunSqlAndReturn<PlayerIndexItem> FetchPlayers { get; set; }
 
@@ -24,10 +25,13 @@ namespace MvcExample.Tasks.Players
                 ";
             FetchPlayers.Execute();
 
-            OutputsModel = new PlayerIndex
-                           {
-                               PlayerIndexItems = FetchPlayers.Models
-                           };
+            Outputs = new IndexResult<PlayerIndex>
+                      {
+                          Model = new PlayerIndex
+                                  {
+                                      PlayerIndexItems = FetchPlayers.Models
+                                  }
+                      };
         }
     }
 }

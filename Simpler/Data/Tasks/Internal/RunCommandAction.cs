@@ -7,7 +7,7 @@ using Simpler.Data.Exceptions;
 namespace Simpler.Data.Tasks.Internal
 {
     // todo - Using Task<TI, TO> here just to get the InjectSubTasks attribute.
-    public class RunCommandAction : Task<object, object>
+    public class RunCommandAction : InOutTask<object, object>
     {
         // Inputs
         public string ConnectionName { get; set; }

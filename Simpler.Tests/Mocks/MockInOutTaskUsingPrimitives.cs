@@ -2,7 +2,7 @@
 
 namespace Simpler.Tests.Mocks
 {
-    public class MockTaskTITOUsingPrimitives : Task<int, string>
+    public class MockInOutTaskUsingPrimitives : InOutTask<int, string>
     {
         public override void Execute()
         {

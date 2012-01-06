@@ -3,7 +3,7 @@
 namespace Simpler.Data.Tasks
 {
     // todo - Using Task<TI, TO> here just to get the InjectSubTasks attribute.
-    public class RunSql : Task<object, object>
+    public class RunSql : InOutTask<object, object>
     {
         // Inputs
         public string ConnectionName { get; set; }

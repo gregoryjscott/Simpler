@@ -15,7 +15,7 @@ namespace Simpler.Web
         /// <summary>
         /// This constructor should be used when creating a subclass.  Create tasks named Index, Show, New, Create,
         /// Edit, Update, Delete, and/or Destroy in a Task directory next to the Models and Views directories and then
-        /// used the Index(), Show(), etc. helper methods to hand off inputs and receive outputs.
+        /// use the Index(), Show(), etc. helper methods to hand off inputs and receive outputs.
         /// </summary>
         protected ResourceController()
         {
@@ -37,16 +37,16 @@ namespace Simpler.Web
 
         protected Resource Resource { get; set; }
 
-        static ActionResult ExecuteTask(Task task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
+        static ActionResult ExecuteTask(dynamic task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
             if (task == null)
             {
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            task.Inputs = inputs(null);
+            task.SetInputs(inputs(null));
             task.Execute();
-            return outputs(task.Outputs);
+            return outputs(task.GetOutputs());
         }
 
         /// <summary>

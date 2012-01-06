@@ -60,9 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapperTest.cs" />
-    <Compile Include="Mocks\MockTaskTITOUsingPrimitives.cs" />
-    <Compile Include="Mocks\MockTaskTITO.cs" />
-    <Compile Include="TaskTITOTest.cs" />
+    <Compile Include="Mocks\MockInOutTaskUsingPrimitives.cs" />
+    <Compile Include="Mocks\MockInOutTask.cs" />
+    <Compile Include="InOutTaskTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
     <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />

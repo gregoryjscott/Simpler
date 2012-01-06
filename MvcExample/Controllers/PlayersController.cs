@@ -7,7 +7,7 @@ namespace MvcExample.Controllers
     {
         public ActionResult Index()
         {
-            return Index(inputs => null, outputs => View(outputs));
+            return Index(inputs => null, outputs => View(outputs.Model));
         }
     }
 }
