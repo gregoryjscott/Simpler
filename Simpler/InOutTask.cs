@@ -5,9 +5,9 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InOutTask<TInputs, TOutputs> : Task
     {
-        public new virtual TInputs Inputs { get; set; }
+        public virtual TInputs Inputs { get; set; }
 
-        public new virtual TOutputs Outputs { get; set; }
+        public virtual TOutputs Outputs { get; set; }
 
         public virtual void SetInputs(dynamic inputs)
         {
@@ -21,7 +21,7 @@ namespace Simpler
             return Outputs;
         }
 
-        public InOutTask<TInputs, TOutputs> DoItUsing(TInputs inputs)
+        public virtual InOutTask<TInputs, TOutputs> DoItUsing(TInputs inputs)
         {
             Inputs = inputs;
             Execute();
