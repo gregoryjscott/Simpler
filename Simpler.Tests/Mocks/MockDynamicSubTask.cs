@@ -1,6 +1,6 @@
 ﻿namespace Simpler.Tests.Mocks
 {
-    public class MockSubTaskUsingDynamicProperties : Task
+    public class MockDynamicSubTask : DynamicTask
     {
         public override void Execute()
         {

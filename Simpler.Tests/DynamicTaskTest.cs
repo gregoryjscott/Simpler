@@ -5,13 +5,13 @@ using Simpler.Tests.Mocks;
 namespace Simpler.Tests
 {
     [TestFixture]
-    public class TaskTest
+    public class DynamicTaskTest
     {
         [Test]
         public void should_be_able_to_test_dynamic_Inputs_and_Outputs_properties()
         {
             // Arrange
-            var task = TaskFactory<MockSubTaskUsingDynamicProperties>.Create();
+            var task = TaskFactory<MockDynamicSubTask>.Create();
 
             // Act
             task.Execute();
@@ -24,10 +24,10 @@ namespace Simpler.Tests
         public void should_be_able_to_mock_dynamic_Inputs_and_Outputs_properties_on_subtasks()
         {
             // Arrange
-            var task = TaskFactory<MockTaskUsingDynamicProperties>.Create();
-            var mockSubTask = new Mock<MockSubTaskUsingDynamicProperties>();
+            var task = TaskFactory<MockDynamicTask>.Create();
+            var mockSubTask = new Mock<MockDynamicSubTask>();
             mockSubTask.Setup(st => st.Outputs).Returns(new { SomeOutput = 7 });
-            task.MockSubTaskUsingDynamicProperties = mockSubTask.Object;
+            task.MockDynamicSubTask = mockSubTask.Object;
 
             // Act
             task.Execute();
@@ -40,7 +40,7 @@ namespace Simpler.Tests
         public void should_be_execute_using_shorthand_syntax()
         {
             // Arrange
-            var task = TaskFactory<MockTaskUsingDynamicProperties>.Create();
+            var task = TaskFactory<MockDynamicTask>.Create();
             
             // Act
             var something = task.Execute(new {SendSomething = "something"}).Outputs.InputsReceived.SendSomething;

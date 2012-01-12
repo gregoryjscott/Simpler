@@ -4,17 +4,17 @@ using Simpler.Injection;
 namespace Simpler.Tests.Mocks
 {
     [InjectSubTasks]
-    public class MockTaskUsingDynamicProperties : Task
+    public class MockDynamicTask : DynamicTask
     {
-        public MockSubTaskUsingDynamicProperties MockSubTaskUsingDynamicProperties { get; set; }
+        public MockDynamicSubTask MockDynamicSubTask { get; set; }
 
         public override void Execute()
         {
-            MockSubTaskUsingDynamicProperties.Execute();
+            MockDynamicSubTask.Execute();
             Outputs = new
                           {
                               InputsReceived = Inputs,
-                              SubTaskOutputs = MockSubTaskUsingDynamicProperties.Outputs
+                              SubTaskOutputs = MockDynamicSubTask.Outputs
                           };
         }
     }

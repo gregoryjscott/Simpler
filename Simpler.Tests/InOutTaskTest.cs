@@ -4,7 +4,7 @@ using Simpler.Tests.Mocks;
 namespace Simpler.Tests
 {
     [TestFixture]
-    public class TaskTITOTest
+    public class InOutTaskTest
     {
         [Test]
         public void should_update_Inputs_when_SetInputs_is_called()
@@ -13,10 +13,10 @@ namespace Simpler.Tests
             var task = TaskFactory<MockInOutTask>.Create();
 
             // Act
-            task.SetInputs(new {Name = "tito"});
+            task.SetInputs(new {Name = "something"});
 
             // Assert
-            Assert.That(task.Inputs.Name, Is.EqualTo("tito"));
+            Assert.That(task.Inputs.Name, Is.EqualTo("something"));
         }
 
         [Test]
@@ -39,11 +39,11 @@ namespace Simpler.Tests
             var task = TaskFactory<MockInOutTask>.Create();
 
             // Act
-            task.SetInputs(new {Name = "tito", Age = 10});
+            task.SetInputs(new {Name = "something", Age = 10});
             task.Inputs.Age = 15;
 
             // Assert
-            Assert.That(task.Inputs.Name, Is.EqualTo("tito"));
+            Assert.That(task.Inputs.Name, Is.EqualTo("something"));
             Assert.That(task.Inputs.Age, Is.EqualTo(15));
         }
 
@@ -54,10 +54,10 @@ namespace Simpler.Tests
         //    var task = TaskFactory<MockInOutTask>.Create();
 
         //    // Act
-        //    task.Inputs = new MockObject {Name = "tito"};
+        //    task.Inputs = new MockObject {Name = "something"};
 
         //    // Assert
-        //    Assert.That(task.Inputs.Name, Is.EqualTo("tito"));
+        //    Assert.That(task.Inputs.Name, Is.EqualTo("something"));
         //}
 
         //[Test]
@@ -67,11 +67,11 @@ namespace Simpler.Tests
         //    var task = TaskFactory<MockInOutTask>.Create();
 
         //    // Act
-        //    task.Inputs = new MockObject {Name = "tito", Age = 10};
+        //    task.Inputs = new MockObject {Name = "something", Age = 10};
         //    task.Inputs.Age = 15;
 
         //    // Assert
-        //    Assert.That(task.Inputs.Name, Is.EqualTo("tito"));
+        //    Assert.That(task.Inputs.Name, Is.EqualTo("something"));
         //    Assert.That(task.Inputs.Age, Is.EqualTo(15));
         //}
 
@@ -82,10 +82,10 @@ namespace Simpler.Tests
         //    var task = TaskFactory<MockInOutTask>.Create();
 
         //    // Act
-        //    task.Outputs = new {MockObject = new {Name = "tito"}};
+        //    task.Outputs = new {MockObject = new {Name = "something"}};
 
         //    // Assert
-        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("tito"));
+        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("something"));
         //}
 
         //[Test]
@@ -108,11 +108,11 @@ namespace Simpler.Tests
         //    var task = TaskFactory<MockInOutTask>.Create();
 
         //    // Act
-        //    task.Outputs = new {MockObject = new {Name = "tito", Age = 10}};
+        //    task.Outputs = new {MockObject = new {Name = "something", Age = 10}};
         //    task.Outputs.MockObject.Age = 15;
 
         //    // Assert
-        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("tito"));
+        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("something"));
         //    Assert.That(task.Outputs.MockObject.Age, Is.EqualTo(15));
         //}
 
@@ -123,10 +123,10 @@ namespace Simpler.Tests
         //    var task = TaskFactory<MockInOutTask>.Create();
 
         //    // Act
-        //    task.Outputs = new MockComplexObject {MockObject = new MockObject {Name = "tito"}};
+        //    task.Outputs = new MockComplexObject {MockObject = new MockObject {Name = "something"}};
 
         //    // Assert
-        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("tito"));
+        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("something"));
         //}
 
         //[Test]
@@ -136,11 +136,11 @@ namespace Simpler.Tests
         //    var task = TaskFactory<MockInOutTask>.Create();
 
         //    // Act
-        //    task.Outputs = new MockComplexObject {MockObject = new MockObject {Name = "tito", Age = 10}};
+        //    task.Outputs = new MockComplexObject {MockObject = new MockObject {Name = "something", Age = 10}};
         //    task.Outputs.MockObject.Age = 15;
 
         //    // Assert
-        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("tito"));
+        //    Assert.That(task.Outputs.MockObject.Name, Is.EqualTo("something"));
         //    Assert.That(task.Outputs.MockObject.Age, Is.EqualTo(15));
         //}
     }
