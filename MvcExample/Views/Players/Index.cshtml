@@ -16,7 +16,7 @@
             @foreach (var player in Model.PlayerIndexItems)
             {
                 <tr>
-                    <td>@player.Name</td>
+                    <td><a href="/Players/Show/@player.PlayerId">@player.Name</a></td>
                     <td>@player.Team</td>
                 </tr>
             }

@@ -85,6 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskFactory.cs" />
     <Compile Include="InOutTask.cs" />
+    <Compile Include="Web\Models\ShowResult.cs" />
     <Compile Include="Web\Models\UpdateResult.cs" />
     <Compile Include="Web\Models\IndexResult.cs" />
     <Compile Include="Web\Resource.cs" />

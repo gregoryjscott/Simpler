@@ -1,20 +1,26 @@
-﻿using MvcExample.Models.Players;
+﻿using System.Linq;
+using MvcExample.Models.Players;
 using Simpler;
 using Simpler.Data.Tasks;
 using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Index : InOutTask<object, IndexResult<PlayerIndex>>
+    public class Show : InOutTask<Show.In, ShowResult<PlayerShow>>
     {
-        public RunSqlAndReturn<PlayerIndexItem> FetchPlayers { get; set; }
+        public class In
+        {
+            public int PlayerId;
+        }
+
+        public RunSqlAndReturn<PlayerShow> FetchPlayers { get; set; }
 
         public override void Execute()
         {
             FetchPlayers.ConnectionName = Config.Database;
             FetchPlayers.Sql =
                 @"
-                select 
+                select
                     PlayerId,
                     Player.FirstName + ' ' + Player.LastName as Name,
                     Team.Mascot as Team
@@ -26,12 +32,9 @@ namespace MvcExample.Tasks.Players
                 ";
             FetchPlayers.Execute();
 
-            Outputs = new IndexResult<PlayerIndex>
+            Outputs = new ShowResult<PlayerShow>
                       {
-                          Model = new PlayerIndex
-                                  {
-                                      PlayerIndexItems = FetchPlayers.Models
-                                  }
+                          Model = FetchPlayers.Models.Single()
                       };
         }
     }
