@@ -11,7 +11,7 @@ namespace MvcExample.Tasks.Players
 
         public override void Execute()
         {
-            FetchPlayers.ConnectionName = "ExampleData";
+            FetchPlayers.ConnectionName = Config.Database;
             FetchPlayers.Sql =
                 @"
                 select 

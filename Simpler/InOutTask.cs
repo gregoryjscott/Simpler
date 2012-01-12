@@ -12,27 +12,6 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InOutTask<TInputs, TOutputs> : Task
     {
-        //public override dynamic Inputs
-        //{
-        //    get { return InputsModel; }
-        //    set
-        //    {
-        //        InputsModel = value == null
-        //                          ? default(TInputs)
-        //                          : Mapper.Map<TInputs>(value);
-        //    }
-        //}
-        //public override dynamic Outputs
-        //{
-        //    get { return OutputsModel; }
-        //    set
-        //    {
-        //        OutputsModel = value == null
-        //                          ? default(TOutputs)
-        //                          : Mapper.Map<TOutputs>(value);
-        //    }
-        //}
-
         public new virtual TInputs Inputs { get; set; }
 
         public new virtual TOutputs Outputs { get; set; }

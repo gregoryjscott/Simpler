@@ -19,7 +19,7 @@ namespace MvcExample.Tests.Tasks.Players
         {
             var index = TaskFactory<Index>.Create();
             index.Execute();
-            Assert.That(index.Outputs.PlayerIndexItems.Length, Is.GreaterThan(0));
+            Assert.That(index.Outputs.Model.PlayerIndexItems.Length, Is.GreaterThan(0));
         }
     }
 }
