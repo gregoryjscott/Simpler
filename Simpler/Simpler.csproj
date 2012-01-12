@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Construction\ExecutionOverrideAttribute.cs" />
     <Compile Include="Construction\ExecutionCallbacksAttribute.cs" />
+    <Compile Include="InTask.cs" />
+    <Compile Include="OutTask.cs" />
     <Compile Include="Data\Exceptions\CreateConnectionException.cs" />
     <Compile Include="Data\Tasks\BuildParameters.cs" />
     <Compile Include="Data\Tasks\Internal\RunCommandAction.cs" />

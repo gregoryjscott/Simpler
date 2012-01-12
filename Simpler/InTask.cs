@@ -3,11 +3,9 @@
 namespace Simpler
 {
     [InjectSubTasks]
-    public abstract class InOutTask<TInputs, TOutputs> : Task
+    public abstract class InTask<TInputs> : Task
     {
         public new virtual TInputs Inputs { get; set; }
-
-        public new virtual TOutputs Outputs { get; set; }
 
         public virtual void SetInputs(dynamic inputs)
         {
@@ -16,16 +14,10 @@ namespace Simpler
                          : Mapper.Map<TInputs>(inputs);
         }
 
-        public virtual dynamic GetOutputs()
+        public void DoItUsing(dynamic inputs)
         {
-            return Outputs;
-        }
-
-        public InOutTask<TInputs, TOutputs> DoItUsing(TInputs inputs)
-        {
-            Inputs = inputs;
+            SetInputs(inputs);
             Execute();
-            return this;
         }
     }
 }
