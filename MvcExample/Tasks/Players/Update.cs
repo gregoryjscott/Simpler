@@ -6,7 +6,7 @@ using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Update : InOutTask<PlayerEdit, UpdateResult<PlayerEdit>>
+    public class Update : InOutTask<PlayerEdit, UpdateResult>
     {
         public RunSql UpdatePlayer { get; set; }
 
@@ -25,7 +25,7 @@ namespace MvcExample.Tasks.Players
             UpdatePlayer.Values = Inputs;
             UpdatePlayer.Execute();
 
-            Outputs = new UpdateResult<PlayerEdit>
+            Outputs = new UpdateResult
                       {
                           RowsAffected = UpdatePlayer.RowsAffected
                       };
