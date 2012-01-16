@@ -6,18 +6,20 @@ namespace MvcExample.Controllers
 {
     public class PlayersController : ResourceController
     {
+        [HttpGet]
         public ActionResult Index()
         {
-            return Index(inputs => null,
-                         outputs => View(outputs.Model));
+            return Index(outputs => View(outputs.Model));
         }
 
+        [HttpGet]
         public ActionResult Show(int id)
         {
             return Show(inputs => new PlayerKey(id),
                         outputs => View(outputs.Model));
         }
 
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             return Edit(inputs => new PlayerKey(id),

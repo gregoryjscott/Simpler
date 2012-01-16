@@ -37,6 +37,17 @@ namespace Simpler.Web
 
         protected Resource Resource { get; set; }
 
+        static ActionResult ExecuteTask(dynamic task, Func<dynamic, ActionResult> outputs)
+        {
+            if (task == null)
+            {
+                throw new HttpException(404, "HTTP/1.1 404 Not Found");
+            }
+
+            task.Execute();
+            return outputs(task.GetOutputs());
+        }
+
         static ActionResult ExecuteTask(dynamic task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
             if (task == null)
@@ -47,6 +58,16 @@ namespace Simpler.Web
             task.SetInputs(inputs(null));
             task.Execute();
             return outputs(task.GetOutputs());
+        }
+
+        /// <summary>
+        /// Helper method that executes the Index task tied to this Controller.
+        /// </summary>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided Index task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
+        protected ActionResult Index(Func<dynamic, ActionResult> outputs)
+        {
+            return ExecuteTask(Resource.Index, outputs);
         }
 
         /// <summary>
@@ -69,6 +90,16 @@ namespace Simpler.Web
         protected ActionResult Show(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
             return ExecuteTask(Resource.Show, inputs, outputs);
+        }
+
+        /// <summary>
+        /// Helper method that executes the New task tied to this Controller.
+        /// </summary>
+        /// <param name="outputs">Lamda function that returns an ActionResult using the provided New task Outputs.</param>
+        /// <returns>The ActionResult that should be returned from the action.</returns>
+        protected ActionResult New(Func<dynamic, ActionResult> outputs)
+        {
+            return ExecuteTask(Resource.New, outputs);
         }
 
         /// <summary>
