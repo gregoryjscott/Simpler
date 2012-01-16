@@ -33,7 +33,7 @@ namespace Simpler.Tests
         }
 
         [Test]
-        public void should_update_InputsModel_property_when_Inputs_property_is_set_after_SetInputs()
+        public void should_update_Inputs_property_when_Inputs_property_is_set_after_SetInputs()
         {
             // Arrange
             var task = TaskFactory<MockInOutTask>.Create();
@@ -48,7 +48,7 @@ namespace Simpler.Tests
         }
 
         //[Test]
-        //public void should_update_Inputs_when_InputsModel_is_set()
+        //public void should_update_Inputs_when_Inputs_is_set()
         //{
         //    // Arrange
         //    var task = TaskFactory<MockInOutTask>.Create();
@@ -61,7 +61,7 @@ namespace Simpler.Tests
         //}
 
         //[Test]
-        //public void should_update_Inputs_property_when_InputsModel_property_is_set()
+        //public void should_update_Inputs_property_when_Inputs_property_is_set()
         //{
         //    // Arrange
         //    var task = TaskFactory<MockInOutTask>.Create();

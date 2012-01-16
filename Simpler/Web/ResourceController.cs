@@ -44,7 +44,6 @@ namespace Simpler.Web
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            task.Execute();
             return outputs(task.GetOutputs());
         }
 
@@ -55,9 +54,7 @@ namespace Simpler.Web
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            task.SetInputs(inputs(null));
-            task.Execute();
-            return outputs(task.GetOutputs());
+            return outputs(task.SetInputs(inputs(null)).GetOutputs());
         }
 
         /// <summary>

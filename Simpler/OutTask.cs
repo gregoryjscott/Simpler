@@ -7,15 +7,10 @@ namespace Simpler
     {
         public virtual TOutputs Outputs { get; set; }
 
-        public virtual dynamic GetOutputs()
-        {
-            return Outputs;
-        }
-
-        public virtual OutTask<TOutputs> DoIt()
+        public virtual TOutputs GetOutputs()
         {
             Execute();
-            return this;
+            return Outputs;
         }
     }
 }

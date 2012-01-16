@@ -43,10 +43,12 @@ namespace Simpler.Tests
             var task = TaskFactory<MockDynamicTask>.Create();
             
             // Act
-            var something = task.Execute(new {SendSomething = "something"}).Outputs.InputsReceived.SendSomething;
+            var outputs = task
+                .SetInputs(new {SendSomething = "something"})
+                .GetOutputs();
 
             // Assert
-            Assert.That(something, Is.EqualTo("something"));
+            Assert.That(outputs.InputsReceived.SendSomething, Is.EqualTo("something"));
         }
     }
 }

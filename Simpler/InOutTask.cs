@@ -9,23 +9,24 @@ namespace Simpler
 
         public virtual TOutputs Outputs { get; set; }
 
-        public virtual void SetInputs(dynamic inputs)
+        public virtual InOutTask<TInputs, TOutputs> SetInputs(object inputs)
         {
             Inputs = inputs == null
                          ? default(TInputs)
                          : Mapper.Map<TInputs>(inputs);
+            return this;
         }
 
-        public virtual dynamic GetOutputs()
-        {
-            return Outputs;
-        }
-
-        public virtual InOutTask<TInputs, TOutputs> DoItUsing(TInputs inputs)
+        public virtual InOutTask<TInputs, TOutputs> SetInputs(TInputs inputs)
         {
             Inputs = inputs;
-            Execute();
             return this;
+        }
+
+        public virtual TOutputs GetOutputs()
+        {
+            Execute();
+            return Outputs;
         }
     }
 }

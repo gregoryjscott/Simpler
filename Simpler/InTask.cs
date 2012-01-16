@@ -7,17 +7,19 @@ namespace Simpler
     {
         public virtual TInputs Inputs { get; set; }
 
-        public virtual void SetInputs(dynamic inputs)
+        public virtual InTask<TInputs> SetInputs(object inputs)
         {
             Inputs = inputs == null
                          ? default(TInputs)
                          : Mapper.Map<TInputs>(inputs);
+
+            return this;
         }
 
-        public virtual void DoItUsing(dynamic inputs)
+        public virtual InTask<TInputs> SetInputs(TInputs inputs)
         {
-            SetInputs(inputs);
-            Execute();
+            Inputs = inputs;
+            return this;
         }
     }
 }
