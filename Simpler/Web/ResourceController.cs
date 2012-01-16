@@ -136,5 +136,15 @@ namespace Simpler.Web
         {
             return ExecuteTask(Resource.Destroy, inputs, outputs);
         }
+
+        protected RedirectToRouteResult RedirectToIndex(object routeValues)
+        {
+            return RedirectToAction("Index", routeValues);
+        }
+
+        protected RedirectToRouteResult RedirectToShow(object routeValues)
+        {
+            return RedirectToAction("Show", routeValues);
+        }
     }
 }

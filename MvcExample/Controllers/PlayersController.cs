@@ -31,7 +31,7 @@ namespace MvcExample.Controllers
                        ? Edit(inputs => new PlayerKey(model.PlayerId),
                               outputs => View(outputs))
                        : Update(inputs => model,
-                                outputs => RedirectToAction("Show", new {id = model.PlayerId}));
+                                outputs => RedirectToShow(new {id = model.PlayerId}));
         }
     }
 }
