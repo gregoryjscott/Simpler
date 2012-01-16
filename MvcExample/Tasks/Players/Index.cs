@@ -5,7 +5,8 @@ using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Index : OutTask<IndexResult<PlayerIndex>>
+    // TODO - change to OutTask
+    public class Index : InOutTask<object, IndexResult<PlayerIndex>>
     {
         public RunSqlAndReturn<PlayerIndexItem> FetchPlayers { get; set; }
 

@@ -7,7 +7,7 @@ using Simpler;
 namespace MvcExample.Tests.Tasks.Players
 {
     [TestFixture]
-    public class ShowTest
+    public class EditTest
     {
         [SetUp]
         public void SetDataDirectoryForConnectionString()
@@ -16,12 +16,12 @@ namespace MvcExample.Tests.Tasks.Players
         }
 
         [Test]
-        public void should_return_a_player()
+        public void should_return_a_player_for_editing()
         {
-            var show = TaskFactory<Show>.Create();
-            show.Inputs = new PlayerKey(1);
-            show.Execute();
-            Assert.That(show.Outputs.Model.PlayerId, Is.GreaterThan(0));
+            var edit = TaskFactory<Edit>.Create();
+            edit.Inputs = new PlayerKey(1);
+            edit.Execute();
+            Assert.That(edit.Outputs.Model.PlayerId, Is.EqualTo(1));
         }
     }
 }

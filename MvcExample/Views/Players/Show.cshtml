@@ -5,7 +5,22 @@
     <title>Player</title>
 </head>
 <body>
-    <div>@Model.Name</div>
-    <div>@Model.Team</div>
+    <fieldset>
+        <legend>Player</legend>
+    
+        <div class="display-label">Name</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+    
+        <div class="display-label">Team</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Team)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.PlayerId }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </body>
 </html>

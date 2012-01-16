@@ -6,9 +6,9 @@ using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Show : InOutTask<PlayerKey, ShowResult<PlayerShow>>
+    public class Edit : InOutTask<PlayerKey, EditResult<PlayerEdit>>
     {
-        public RunSqlAndReturn<PlayerShow> FetchPlayer { get; set; }
+        public RunSqlAndReturn<PlayerEdit> FetchPlayer { get; set; }
 
         public override void Execute()
         {
@@ -17,8 +17,9 @@ namespace MvcExample.Tasks.Players
                 @"
                 select
                     PlayerId,
-                    Player.FirstName + ' ' + Player.LastName as Name,
-                    Team.Mascot as Team
+                    Player.FirstName,
+                    Player.LastName,
+                    Player.TeamId
                 from 
                     Player
                     inner join
@@ -30,7 +31,7 @@ namespace MvcExample.Tasks.Players
             FetchPlayer.Values = Inputs;
             FetchPlayer.Execute();
 
-            Outputs = new ShowResult<PlayerShow>
+            Outputs = new EditResult<PlayerEdit>
                       {
                           Model = FetchPlayer.Models.Single()
                       };

@@ -1,10 +1,9 @@
 ﻿namespace Simpler.Web.Models
 {
-    public class UpdateResult<TModel>
+    public class EditResult<TModel>
     {
         public bool ErrorOccurred { get; set; }
         public string ErrorMessage { get; set; }
-        public int RowsAffected { get; set; }
-        //public TModel Model { get; set; }
+        public TModel Model { get; set; }
     }
 }
