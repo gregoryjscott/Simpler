@@ -3,16 +3,16 @@ using Simpler;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Edit : InOutTask<Edit.Ins, Edit.Outs>
+    public class Edit : InOutTask<Edit.Inputs, Edit.Outputs>
     {
-        public class Ins
+        public class Inputs
         {
             public int PlayerId { get; set; }
         }
 
-        public class Outs
+        public class Outputs
         {
-            public Player.Data Data { get; set; }
+            public PlayersResource.Data Data { get; set; }
         }
 
         public FetchPlayerDataById FetchPlayerData { get; set; }
@@ -24,7 +24,7 @@ namespace MvcExample.Tasks.Players
                 .GetOutputs()
                 .PlayerData;
 
-            Out = new Outs {Data = player};
+            Out = new Outputs {Data = player};
         }
     }
 }

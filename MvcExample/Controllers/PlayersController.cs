@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using MvcExample.Resources;
-using MvcExample.Tasks.Players;
 using Simpler.Web;
 
 namespace MvcExample.Controllers
@@ -28,7 +27,7 @@ namespace MvcExample.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(PostData<Player.Data> model)
+        public ActionResult Update(PostData<PlayersResource.Data> model)
         {
             return !ModelState.IsValid
 

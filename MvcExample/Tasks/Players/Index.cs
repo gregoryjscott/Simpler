@@ -4,14 +4,14 @@ using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Index : OutTask<Index.Outs>
+    public class Index : OutTask<Index.Outputs>
     {
-        public class Outs
+        public class Outputs
         {
-            public Player.Data[] Data { get; set; }
+            public PlayersResource.Data[] Data { get; set; }
         }
 
-        public RunSqlAndReturn<Player.Data> FetchPlayersData { get; set; }
+        public RunSqlAndReturn<PlayersResource.Data> FetchPlayersData { get; set; }
 
         public override void Execute()
         {
@@ -33,7 +33,7 @@ namespace MvcExample.Tasks.Players
                 ";
             FetchPlayersData.Execute();
 
-            Out = new Outs {Data = FetchPlayersData.Models};
+            Out = new Outputs {Data = FetchPlayersData.Models};
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Simpler.Web
 {
-    public class Resource
+    public class Resource//<TData>
     {
         public Task Index { get; set; }
         public Task Show { get; set; }

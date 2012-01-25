@@ -5,19 +5,19 @@ using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
-    public class FetchPlayerDataById : InOutTask<FetchPlayerDataById.Ins, FetchPlayerDataById.Outs>
+    public class FetchPlayerDataById : InOutTask<FetchPlayerDataById.Inputs, FetchPlayerDataById.Outputs>
     {
-        public class Ins
+        public class Inputs
         {
             public int PlayerId { get; set; }
         }
 
-        public class Outs
+        public class Outputs
         {
-            public Player.Data PlayerData { get; set; }
+            public PlayersResource.Data PlayerData { get; set; }
         }
 
-        public RunSqlAndReturn<Player.Data> FetchPlayerData { get; set; }
+        public RunSqlAndReturn<PlayersResource.Data> FetchPlayerData { get; set; }
 
         public override void Execute()
         {
@@ -42,7 +42,7 @@ namespace MvcExample.Tasks.Players
             FetchPlayerData.Values = In;
             FetchPlayerData.Execute();
 
-            Out = new Outs {PlayerData = FetchPlayerData.Models.Single()};
+            Out = new Outputs {PlayerData = FetchPlayerData.Models.Single()};
         }
     }
 }

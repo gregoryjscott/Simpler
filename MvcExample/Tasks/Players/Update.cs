@@ -4,11 +4,11 @@ using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Update : InTask<Update.Ins>
+    public class Update : InTask<Update.Inputs>
     {
-        public class Ins
+        public class Inputs
         {
-            public Player.Data Data { get; set; }
+            public PlayersResource.Data Data { get; set; }
         }
 
         public RunSql UpdatePlayer { get; set; }

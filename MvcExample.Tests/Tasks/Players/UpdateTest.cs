@@ -1,5 +1,4 @@
 ﻿using System;
-using MvcExample.Resources;
 using MvcExample.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
@@ -18,7 +17,7 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_update_a_player()
         {
-            var data = new Player.Data
+            var data = new Resources.PlayersResource.Data
                          {
                              PlayerId = 1,
                              FirstName = "Something",
