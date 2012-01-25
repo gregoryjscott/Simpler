@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using MvcExample.Resources;
+﻿using MvcExample.Resources;
 using Simpler;
-using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
@@ -14,19 +12,19 @@ namespace MvcExample.Tasks.Players
 
         public class Outs
         {
-            public Player Player { get; set; }
+            public Player.Data Data { get; set; }
         }
 
-        public FetchPlayerById FetchPlayer { get; set; }
+        public FetchPlayerDataById FetchPlayerData { get; set; }
 
         public override void Execute()
         {
-            var player = FetchPlayer
+            var player = FetchPlayerData
                 .SetInputs(new { In.PlayerId })
                 .GetOutputs()
-                .Player;
+                .PlayerData;
 
-            Out = new Outs { Player = player };
+            Out = new Outs { Data = player };
         }
     }
 }

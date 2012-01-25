@@ -1,4 +1,4 @@
-﻿@model MvcExample.Models.Players.PlayerEdit
+﻿@model MvcExample.Tasks.Players.Edit.Outs
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,22 +10,22 @@
         <fieldset>
             <legend>PlayerEdit</legend>
     
-            @Html.HiddenFor(model => model.PlayerId)
+            @Html.HiddenFor(model => model.Data.PlayerId)
     
             <div class="editor-label">
-                @Html.LabelFor(model => model.FirstName)
+                @Html.LabelFor(model => model.Data.FirstName)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.FirstName)
-                @Html.ValidationMessageFor(model => model.FirstName)
+                @Html.EditorFor(model => model.Data.FirstName)
+                @Html.ValidationMessageFor(model => model.Data.FirstName)
             </div>
     
             <div class="editor-label">
-                @Html.LabelFor(model => model.LastName)
+                @Html.LabelFor(model => model.Data.LastName)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.LastName)
-                @Html.ValidationMessageFor(model => model.LastName)
+                @Html.EditorFor(model => model.Data.LastName)
+                @Html.ValidationMessageFor(model => model.Data.LastName)
             </div>
     
             <p>

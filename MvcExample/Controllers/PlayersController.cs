@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using MvcExample.Resources;
 using MvcExample.Tasks.Players;
 using Simpler.Web;
 
@@ -27,15 +28,15 @@ namespace MvcExample.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(Update.Ins model)
+        public ActionResult Update(PostData<Player.Data> model)
         {
             return !ModelState.IsValid
 
-                       ? Edit(inputs => new {model.Player.PlayerId},
+                       ? Edit(inputs => new {model.Data.PlayerId},
                               outputs => View(outputs))
 
-                       : Update(inputs => model,
-                                outputs => RedirectToShow(new {id = model.Player.PlayerId}));
+                       : Update(inputs => new {model.Data},
+                                outputs => RedirectToShow(new {id = model.Data.PlayerId}));
         }
     }
 }

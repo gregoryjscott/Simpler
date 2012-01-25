@@ -44,7 +44,7 @@ namespace Simpler.Web
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            return outputs(task.GetOuts());
+            return outputs(task.GetOutputs());
         }
 
         static ActionResult GetResultUsingInTask(dynamic task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
@@ -54,7 +54,7 @@ namespace Simpler.Web
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            task.SetIns(inputs(null)).Execute();
+            task.SetInputs(inputs(null)).Execute();
             return outputs(null);
         }
 
@@ -65,7 +65,7 @@ namespace Simpler.Web
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            return outputs(task.SetIns(inputs(null)).GetOuts());
+            return outputs(task.SetInputs(inputs(null)).GetOutputs());
         }
 
         /// <summary>

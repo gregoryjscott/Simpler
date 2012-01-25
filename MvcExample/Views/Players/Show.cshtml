@@ -1,4 +1,4 @@
-﻿@model MvcExample.Models.Players.PlayerShow
+﻿@model MvcExample.Tasks.Players.Show.Outs
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,18 +8,28 @@
     <fieldset>
         <legend>Player</legend>
     
-        <div class="display-label">Name</div>
+        <div class="display-label">First Name</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Data.FirstName)
+        </div>
+    
+        <div class="display-label">Last Name</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Data.LastName)
+        </div>
+    
+        <div class="display-label">Full Name</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Data.FullName)
         </div>
     
         <div class="display-label">Team</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Team)
+            @Html.DisplayFor(model => model.Data.Team)
         </div>
     </fieldset>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.PlayerId }) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Data.PlayerId }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
 </body>

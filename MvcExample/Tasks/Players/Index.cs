@@ -8,15 +8,15 @@ namespace MvcExample.Tasks.Players
     {
         public class Outs
         {
-            public Player[] Players { get; set; }
+            public Player.Data[] Data { get; set; }
         }
 
-        public RunSqlAndReturn<Player> FetchPlayers { get; set; }
+        public RunSqlAndReturn<Player.Data> FetchPlayersData { get; set; }
 
         public override void Execute()
         {
-            FetchPlayers.ConnectionName = Config.DatabaseName;
-            FetchPlayers.Sql =
+            FetchPlayersData.ConnectionName = Config.DatabaseName;
+            FetchPlayersData.Sql =
                 @"
                 select 
                     PlayerId,
@@ -31,9 +31,9 @@ namespace MvcExample.Tasks.Players
                     Team on
                         Player.TeamId = Team.TeamId
                 ";
-            FetchPlayers.Execute();
+            FetchPlayersData.Execute();
 
-            Out = new Outs {Players = FetchPlayers.Models};
+            Out = new Outs {Data = FetchPlayersData.Models};
         }
     }
 }

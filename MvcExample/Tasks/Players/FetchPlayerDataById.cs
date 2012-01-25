@@ -5,7 +5,7 @@ using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
-    public class FetchPlayerById : InOutTask<FetchPlayerById.Ins, FetchPlayerById.Outs>
+    public class FetchPlayerDataById : InOutTask<FetchPlayerDataById.Ins, FetchPlayerDataById.Outs>
     {
         public class Ins
         {
@@ -14,15 +14,15 @@ namespace MvcExample.Tasks.Players
 
         public class Outs
         {
-            public Player Player { get; set; }
+            public Player.Data PlayerData { get; set; }
         }
 
-        public RunSqlAndReturn<Player> FetchPlayer { get; set; }
+        public RunSqlAndReturn<Player.Data> FetchPlayerData { get; set; }
 
         public override void Execute()
         {
-            FetchPlayer.ConnectionName = Config.DatabaseName;
-            FetchPlayer.Sql =
+            FetchPlayerData.ConnectionName = Config.DatabaseName;
+            FetchPlayerData.Sql =
                 @"
                 select
                     PlayerId,
@@ -39,10 +39,10 @@ namespace MvcExample.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            FetchPlayer.Values = In;
-            FetchPlayer.Execute();
+            FetchPlayerData.Values = In;
+            FetchPlayerData.Execute();
 
-            Out = new Outs {Player = FetchPlayer.Models.Single()};
+            Out = new Outs {PlayerData = FetchPlayerData.Models.Single()};
         }
     }
 }

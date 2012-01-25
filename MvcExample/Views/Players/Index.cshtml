@@ -1,4 +1,4 @@
-﻿@model MvcExample.Models.Players.PlayerIndex
+﻿@model MvcExample.Tasks.Players.Index.Outs
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +13,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var player in Model.PlayerBasicses)
+            @foreach (var player in Model.Data)
             {
                 <tr>
-                    <td><a href="/Players/Show/@player.PlayerId">@player.Name</a></td>
+                    <td><a href="/Players/Show/@player.PlayerId">@player.FullName</a></td>
                     <td>@player.Team</td>
                 </tr>
             }

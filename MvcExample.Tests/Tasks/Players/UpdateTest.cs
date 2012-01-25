@@ -18,7 +18,7 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_update_a_player()
         {
-            var player = new Player
+            var data = new Player.Data
                          {
                              PlayerId = 1,
                              FirstName = "Something",
@@ -27,14 +27,14 @@ namespace MvcExample.Tests.Tasks.Players
                          };
 
             Task.Create<Update>()
-                .SetInputs(new {Player = player})
+                .SetInputs(new {Data = data})
                 .Execute();
 
             var outputs = Task.Create<Show>()
                 .SetInputs(new { PlayerId = 1})
                 .GetOutputs();
 
-            Assert.That(outputs.Player.LastName, Is.EqualTo("Different"));
+            Assert.That(outputs.Data.LastName, Is.EqualTo("Different"));
         }
     }
 }

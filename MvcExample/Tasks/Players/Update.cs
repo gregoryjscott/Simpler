@@ -8,7 +8,7 @@ namespace MvcExample.Tasks.Players
     {
         public class Ins
         {
-            public Player Player { get; set; }
+            public Player.Data Data { get; set; }
         }
 
         public RunSql UpdatePlayer { get; set; }
@@ -25,7 +25,7 @@ namespace MvcExample.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            UpdatePlayer.Values = In.Player;
+            UpdatePlayer.Values = In.Data;
             UpdatePlayer.Execute();
         }
     }
