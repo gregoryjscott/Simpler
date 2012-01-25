@@ -21,7 +21,7 @@ namespace MvcExample.Tests.Tasks.Players
                 .SetInputs(new {PlayerId = 1})
                 .GetOutputs();
 
-            Assert.That(outputs.Data.PlayerId, Is.EqualTo(1));
+            Assert.That(outputs.Player.PlayerId, Is.EqualTo(1));
         }
     }
 }

@@ -20,7 +20,7 @@ namespace MvcExample.Tests.Tasks.Players
             var outputs = Task.Create<Index>()
                 .GetOutputs();
 
-            Assert.That(outputs.Data.Length, Is.GreaterThan(0));
+            Assert.That(outputs.Players.Length, Is.GreaterThan(0));
         }
     }
 }

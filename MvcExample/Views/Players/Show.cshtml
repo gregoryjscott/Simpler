@@ -10,26 +10,26 @@
     
         <div class="display-label">First Name</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Data.FirstName)
+            @Html.DisplayFor(model => model.Player.FirstName)
         </div>
     
         <div class="display-label">Last Name</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Data.LastName)
+            @Html.DisplayFor(model => model.Player.LastName)
         </div>
     
         <div class="display-label">Full Name</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Data.FullName)
+            @Html.DisplayFor(model => model.Player.FullName)
         </div>
     
         <div class="display-label">Team</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Data.Team)
+            @Html.DisplayFor(model => model.Player.Team)
         </div>
     </fieldset>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Data.PlayerId }) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Player.PlayerId }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
 </body>

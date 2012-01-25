@@ -1,4 +1,5 @@
 ﻿using System;
+using MvcExample.Models.Players;
 using MvcExample.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
@@ -17,7 +18,7 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_update_a_player()
         {
-            var data = new Resources.PlayersResource.Data
+            var player = new Player
                          {
                              PlayerId = 1,
                              FirstName = "Something",
@@ -26,14 +27,14 @@ namespace MvcExample.Tests.Tasks.Players
                          };
 
             Task.Create<Update>()
-                .SetInputs(new {Data = data})
+                .SetInputs(new {Player = player})
                 .Execute();
 
             var outputs = Task.Create<Show>()
                 .SetInputs(new { PlayerId = 1})
                 .GetOutputs();
 
-            Assert.That(outputs.Data.LastName, Is.EqualTo("Different"));
+            Assert.That(outputs.Player.LastName, Is.EqualTo("Different"));
         }
     }
 }

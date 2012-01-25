@@ -1,4 +1,4 @@
-﻿using MvcExample.Resources;
+﻿using MvcExample.Models.Players;
 using Simpler;
 using Simpler.Data.Tasks;
 
@@ -8,15 +8,15 @@ namespace MvcExample.Tasks.Players
     {
         public class Outputs
         {
-            public PlayersResource.Data[] Data { get; set; }
+            public Player[] Players { get; set; }
         }
 
-        public RunSqlAndReturn<PlayersResource.Data> FetchPlayersData { get; set; }
+        public RunSqlAndReturn<Player> FetchPlayers { get; set; }
 
         public override void Execute()
         {
-            FetchPlayersData.ConnectionName = Config.DatabaseName;
-            FetchPlayersData.Sql =
+            FetchPlayers.ConnectionName = Config.DatabaseName;
+            FetchPlayers.Sql =
                 @"
                 select 
                     PlayerId,
@@ -31,9 +31,9 @@ namespace MvcExample.Tasks.Players
                     Team on
                         Player.TeamId = Team.TeamId
                 ";
-            FetchPlayersData.Execute();
+            FetchPlayers.Execute();
 
-            Out = new Outputs {Data = FetchPlayersData.Models};
+            Out = new Outputs {Players = FetchPlayers.Models};
         }
     }
 }

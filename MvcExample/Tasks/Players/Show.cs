@@ -1,4 +1,4 @@
-﻿using MvcExample.Resources;
+﻿using MvcExample.Models.Players;
 using Simpler;
 
 namespace MvcExample.Tasks.Players
@@ -12,7 +12,7 @@ namespace MvcExample.Tasks.Players
 
         public class Outputs
         {
-            public PlayersResource.Data Data { get; set; }
+            public Player Player { get; set; }
         }
 
         public FetchPlayerDataById FetchPlayerData { get; set; }
@@ -24,7 +24,7 @@ namespace MvcExample.Tasks.Players
                 .GetOutputs()
                 .PlayerData;
 
-            Out = new Outputs { Data = player };
+            Out = new Outputs { Player = player };
         }
     }
 }

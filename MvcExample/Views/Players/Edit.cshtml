@@ -10,22 +10,22 @@
         <fieldset>
             <legend>PlayerEdit</legend>
     
-            @Html.HiddenFor(model => model.Data.PlayerId)
+            @Html.HiddenFor(model => model.Player.PlayerId)
     
             <div class="editor-label">
-                @Html.LabelFor(model => model.Data.FirstName)
+                @Html.LabelFor(model => model.Player.FirstName)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Data.FirstName)
-                @Html.ValidationMessageFor(model => model.Data.FirstName)
+                @Html.EditorFor(model => model.Player.FirstName)
+                @Html.ValidationMessageFor(model => model.Player.FirstName)
             </div>
     
             <div class="editor-label">
-                @Html.LabelFor(model => model.Data.LastName)
+                @Html.LabelFor(model => model.Player.LastName)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Data.LastName)
-                @Html.ValidationMessageFor(model => model.Data.LastName)
+                @Html.EditorFor(model => model.Player.LastName)
+                @Html.ValidationMessageFor(model => model.Player.LastName)
             </div>
     
             <p>

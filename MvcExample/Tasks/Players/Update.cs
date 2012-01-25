@@ -1,4 +1,4 @@
-﻿using MvcExample.Resources;
+﻿using MvcExample.Models.Players;
 using Simpler;
 using Simpler.Data.Tasks;
 
@@ -8,7 +8,7 @@ namespace MvcExample.Tasks.Players
     {
         public class Inputs
         {
-            public PlayersResource.Data Data { get; set; }
+            public Player Player { get; set; }
         }
 
         public RunSql UpdatePlayer { get; set; }
@@ -25,7 +25,7 @@ namespace MvcExample.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            UpdatePlayer.Values = In.Data;
+            UpdatePlayer.Values = In.Player;
             UpdatePlayer.Execute();
         }
     }
