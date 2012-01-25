@@ -5,9 +5,9 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InOutTask<TInputs, TOutputs> : Task
     {
-        public virtual TInputs In { get; set; }
+        protected TInputs In { get; set; }
 
-        public virtual TOutputs Out { get; set; }
+        protected TOutputs Out { get; set; }
 
         public virtual InOutTask<TInputs, TOutputs> SetInputs(object inputs)
         {

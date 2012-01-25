@@ -19,18 +19,18 @@ namespace Simpler.Tests
             Assert.That(task.In.Name, Is.EqualTo("something"));
         }
 
-        [Test]
-        public void should_update_Inputs_when_SetInputs_is_sent_a_primitive_type()
-        {
-            // Arrange
-            var task = TaskFactory<MockInOutTaskUsingPrimitives>.Create();
+        //[Test]
+        //public void should_update_Inputs_when_SetInputs_is_sent_a_primitive_type()
+        //{
+        //    // Arrange
+        //    var task = TaskFactory<MockInOutTaskUsingPrimitives>.Create();
 
-            // Act
-            task.SetInputs(4);
+        //    // Act
+        //    task.SetInputs(4);
 
-            // Assert
-            Assert.That(task.In, Is.EqualTo(4));
-        }
+        //    // Assert
+        //    Assert.That(task.In, Is.EqualTo(4));
+        //}
 
         [Test]
         public void should_update_Inputs_property_when_Inputs_property_is_set_after_SetInputs()
