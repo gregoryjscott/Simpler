@@ -5,11 +5,11 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InTask<TInputs> : Task
     {
-        public virtual TInputs Inputs { get; set; }
+        public virtual TInputs In { get; set; }
 
         public virtual InTask<TInputs> SetInputs(object inputs)
         {
-            Inputs = inputs == null
+            In = inputs == null
                          ? default(TInputs)
                          : Mapper.Map<TInputs>(inputs);
 
@@ -18,7 +18,7 @@ namespace Simpler
 
         public virtual InTask<TInputs> SetInputs(TInputs inputs)
         {
-            Inputs = inputs;
+            In = inputs;
             return this;
         }
     }

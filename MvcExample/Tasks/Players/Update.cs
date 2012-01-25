@@ -1,18 +1,21 @@
-﻿using System.Linq;
-using MvcExample.Models.Players;
+﻿using MvcExample.Resources;
 using Simpler;
 using Simpler.Data.Tasks;
-using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Update : InOutTask<PlayerEdit, UpdateResult>
+    public class Update : InTask<Update.Ins>
     {
+        public class Ins
+        {
+            public Player Player { get; set; }
+        }
+
         public RunSql UpdatePlayer { get; set; }
 
         public override void Execute()
         {
-            UpdatePlayer.ConnectionName = Config.Database;
+            UpdatePlayer.ConnectionName = Config.DatabaseName;
             UpdatePlayer.Sql =
                 @"
                 update Player
@@ -22,13 +25,8 @@ namespace MvcExample.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            UpdatePlayer.Values = Inputs;
+            UpdatePlayer.Values = In.Player;
             UpdatePlayer.Execute();
-
-            Outputs = new UpdateResult
-                      {
-                          RowsAffected = UpdatePlayer.RowsAffected
-                      };
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         public override void Execute()
         {
-            Outputs = new { SomeOutput = 9 };
+            Out = new { SomeOutput = 9 };
         }
     }
 }

@@ -37,24 +37,35 @@ namespace Simpler.Web
 
         protected Resource Resource { get; set; }
 
-        static ActionResult ExecuteTask(dynamic task, Func<dynamic, ActionResult> outputs)
+        static ActionResult GetResultUsingOutTask(dynamic task, Func<dynamic, ActionResult> outputs)
         {
             if (task == null)
             {
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            return outputs(task.GetOutputs());
+            return outputs(task.GetOuts());
         }
 
-        static ActionResult ExecuteTask(dynamic task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
+        static ActionResult GetResultUsingInTask(dynamic task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
             if (task == null)
             {
                 throw new HttpException(404, "HTTP/1.1 404 Not Found");
             }
 
-            return outputs(task.SetInputs(inputs(null)).GetOutputs());
+            task.SetIns(inputs(null)).Execute();
+            return outputs(null);
+        }
+
+        static ActionResult GetResultUsingInOutTask(dynamic task, Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
+        {
+            if (task == null)
+            {
+                throw new HttpException(404, "HTTP/1.1 404 Not Found");
+            }
+
+            return outputs(task.SetIns(inputs(null)).GetOuts());
         }
 
         /// <summary>
@@ -64,7 +75,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Index(Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Index, outputs);
+            return GetResultUsingOutTask(Resource.Index, outputs);
         }
 
         /// <summary>
@@ -75,7 +86,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Index(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Index, inputs, outputs);
+            return GetResultUsingInOutTask(Resource.Index, inputs, outputs);
         }
 
         /// <summary>
@@ -86,7 +97,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Show(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Show, inputs, outputs);
+            return GetResultUsingInOutTask(Resource.Show, inputs, outputs);
         }
 
         /// <summary>
@@ -96,7 +107,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult New(Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.New, outputs);
+            return GetResultUsingOutTask(Resource.New, outputs);
         }
 
         /// <summary>
@@ -107,7 +118,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult New(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.New, inputs, outputs);
+            return GetResultUsingInOutTask(Resource.New, inputs, outputs);
         }
 
         /// <summary>
@@ -118,7 +129,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Create(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Create, inputs, outputs);
+            return GetResultUsingInTask(Resource.Create, inputs, outputs);
         }
 
         /// <summary>
@@ -129,7 +140,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Edit(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Edit, inputs, outputs);
+            return GetResultUsingInOutTask(Resource.Edit, inputs, outputs);
         }
 
         /// <summary>
@@ -140,7 +151,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Update(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Update, inputs, outputs);
+            return GetResultUsingInTask(Resource.Update, inputs, outputs);
         }
 
         /// <summary>
@@ -151,7 +162,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Delete(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Delete, inputs, outputs);
+            return GetResultUsingInOutTask(Resource.Delete, inputs, outputs);
         }
 
         /// <summary>
@@ -162,7 +173,7 @@ namespace Simpler.Web
         /// <returns>The ActionResult that should be returned from the action.</returns>
         protected ActionResult Destroy(Func<dynamic, dynamic> inputs, Func<dynamic, ActionResult> outputs)
         {
-            return ExecuteTask(Resource.Destroy, inputs, outputs);
+            return GetResultUsingInTask(Resource.Destroy, inputs, outputs);
         }
 
         protected RedirectToRouteResult RedirectToIndex(object routeValues)

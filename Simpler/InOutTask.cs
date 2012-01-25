@@ -5,13 +5,13 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InOutTask<TInputs, TOutputs> : Task
     {
-        public virtual TInputs Inputs { get; set; }
+        public virtual TInputs In { get; set; }
 
-        public virtual TOutputs Outputs { get; set; }
+        public virtual TOutputs Out { get; set; }
 
         public virtual InOutTask<TInputs, TOutputs> SetInputs(object inputs)
         {
-            Inputs = inputs == null
+            In = inputs == null
                          ? default(TInputs)
                          : Mapper.Map<TInputs>(inputs);
             return this;
@@ -19,14 +19,14 @@ namespace Simpler
 
         public virtual InOutTask<TInputs, TOutputs> SetInputs(TInputs inputs)
         {
-            Inputs = inputs;
+            In = inputs;
             return this;
         }
 
         public virtual TOutputs GetOutputs()
         {
             Execute();
-            return Outputs;
+            return Out;
         }
     }
 }

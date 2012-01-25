@@ -17,9 +17,10 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_return_list_of_players()
         {
-            var index = TaskFactory<Index>.Create();
-            index.Execute();
-            Assert.That(index.Outputs.Model.PlayerIndexItems.Length, Is.GreaterThan(0));
+            var outputs = Task.Create<Index>()
+                .GetOutputs();
+
+            Assert.That(outputs.Players.Length, Is.GreaterThan(0));
         }
     }
 }

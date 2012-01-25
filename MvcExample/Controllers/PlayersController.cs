@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using MvcExample.Models.Players;
+using MvcExample.Tasks.Players;
 using Simpler.Web;
 
 namespace MvcExample.Controllers
@@ -9,31 +9,33 @@ namespace MvcExample.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return Index(outputs => View(outputs.Model));
+            return Index(outputs => View(outputs));
         }
 
         [HttpGet]
         public ActionResult Show(int id)
         {
-            return Show(inputs => new PlayerKey(id),
-                        outputs => View(outputs.Model));
+            return Show(inputs => new {PlayerId = id},
+                        outputs => View(outputs));
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return Edit(inputs => new PlayerKey(id),
-                        outputs => View(outputs.Model));
+            return Edit(inputs => new {PlayerId = id},
+                        outputs => View(outputs));
         }
 
         [HttpPost]
-        public ActionResult Update(PlayerEdit model)
+        public ActionResult Update(Update.Ins model)
         {
             return !ModelState.IsValid
-                       ? Edit(inputs => new PlayerKey(model.PlayerId),
+
+                       ? Edit(inputs => new {model.Player.PlayerId},
                               outputs => View(outputs))
+
                        : Update(inputs => model,
-                                outputs => RedirectToShow(new {id = model.PlayerId}));
+                                outputs => RedirectToShow(new {id = model.Player.PlayerId}));
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Simpler.Tests.Mocks
         public override void Execute()
         {
             MockDynamicSubTask.Execute();
-            Outputs = new
+            Out = new
                           {
-                              InputsReceived = Inputs,
-                              SubTaskOutputs = MockDynamicSubTask.Outputs
+                              InputsReceived = In,
+                              SubTaskOutputs = MockDynamicSubTask.Out
                           };
         }
     }

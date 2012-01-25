@@ -16,7 +16,7 @@ namespace Simpler.Tests
             task.SetInputs(new {Name = "something"});
 
             // Assert
-            Assert.That(task.Inputs.Name, Is.EqualTo("something"));
+            Assert.That(task.In.Name, Is.EqualTo("something"));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Simpler.Tests
             task.SetInputs(4);
 
             // Assert
-            Assert.That(task.Inputs, Is.EqualTo(4));
+            Assert.That(task.In, Is.EqualTo(4));
         }
 
         [Test]
@@ -40,11 +40,11 @@ namespace Simpler.Tests
 
             // Act
             task.SetInputs(new {Name = "something", Age = 10});
-            task.Inputs.Age = 15;
+            task.In.Age = 15;
 
             // Assert
-            Assert.That(task.Inputs.Name, Is.EqualTo("something"));
-            Assert.That(task.Inputs.Age, Is.EqualTo(15));
+            Assert.That(task.In.Name, Is.EqualTo("something"));
+            Assert.That(task.In.Age, Is.EqualTo(15));
         }
 
         //[Test]

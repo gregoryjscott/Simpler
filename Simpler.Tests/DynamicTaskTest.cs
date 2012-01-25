@@ -17,7 +17,7 @@ namespace Simpler.Tests
             task.Execute();
 
             // Assert
-            Assert.That(task.Outputs.SomeOutput, Is.EqualTo(9));
+            Assert.That(task.Out.SomeOutput, Is.EqualTo(9));
         }
 
         [Test]
@@ -26,14 +26,14 @@ namespace Simpler.Tests
             // Arrange
             var task = TaskFactory<MockDynamicTask>.Create();
             var mockSubTask = new Mock<MockDynamicSubTask>();
-            mockSubTask.Setup(st => st.Outputs).Returns(new { SomeOutput = 7 });
+            mockSubTask.Setup(st => st.Out).Returns(new { SomeOutput = 7 });
             task.MockDynamicSubTask = mockSubTask.Object;
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(task.Outputs.SubTaskOutputs.SomeOutput, Is.EqualTo(7));
+            Assert.That(task.Out.SubTaskOutputs.SomeOutput, Is.EqualTo(7));
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace Simpler.Tests
             
             // Act
             var outputs = task
-                .SetInputs(new {SendSomething = "something"})
-                .GetOutputs();
+                .SetIns(new {SendSomething = "something"})
+                .GetOuts();
 
             // Assert
             Assert.That(outputs.InputsReceived.SendSomething, Is.EqualTo("something"));

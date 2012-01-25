@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var player in Model.PlayerIndexItems)
+            @foreach (var player in Model.PlayerBasicses)
             {
                 <tr>
                     <td><a href="/Players/Show/@player.PlayerId">@player.Name</a></td>

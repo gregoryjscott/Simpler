@@ -6,9 +6,9 @@ namespace Simpler.Data
 {
     // todo - this needs to be tested (then made public)
 
-    class TransactionAttribute : ExecutionCallbacksAttribute
+    class DtsTransactionAttribute : ExecutionCallbacksAttribute
     {
-        public TransactionAttribute(TimeSpan? timeout = null)
+        public DtsTransactionAttribute(TimeSpan? timeout = null)
         {
             // Default to 30 seconds if a timeout is not supplied.
             if (timeout == null)

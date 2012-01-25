@@ -1,5 +1,4 @@
 ﻿using System;
-using MvcExample.Models.Players;
 using MvcExample.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
@@ -18,10 +17,11 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_return_a_player_for_editing()
         {
-            var edit = TaskFactory<Edit>.Create();
-            edit.Inputs = new PlayerKey(1);
-            edit.Execute();
-            Assert.That(edit.Outputs.Model.PlayerId, Is.EqualTo(1));
+            var outputs = Task.Create<Edit>()
+                .SetInputs(new {PlayerId = 1})
+                .GetOutputs();
+
+            Assert.That(outputs.Player.PlayerId, Is.EqualTo(1));
         }
     }
 }

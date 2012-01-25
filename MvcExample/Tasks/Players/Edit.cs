@@ -1,40 +1,32 @@
 ﻿using System.Linq;
-using MvcExample.Models.Players;
+using MvcExample.Resources;
 using Simpler;
 using Simpler.Data.Tasks;
-using Simpler.Web.Models;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Edit : InOutTask<PlayerKey, EditResult<PlayerEdit>>
+    public class Edit : InOutTask<Edit.Ins, Edit.Outs>
     {
-        public RunSqlAndReturn<PlayerEdit> FetchPlayer { get; set; }
+        public class Ins
+        {
+            public int PlayerId { get; set; }
+        }
+
+        public class Outs
+        {
+            public Player Player { get; set; }
+        }
+
+        public FetchPlayerById FetchPlayer { get; set; }
 
         public override void Execute()
         {
-            FetchPlayer.ConnectionName = Config.Database;
-            FetchPlayer.Sql =
-                @"
-                select
-                    PlayerId,
-                    Player.FirstName,
-                    Player.LastName,
-                    Player.TeamId
-                from 
-                    Player
-                    inner join
-                    Team on
-                        Player.TeamId = Team.TeamId
-                where
-                    PlayerId = @PlayerId
-                ";
-            FetchPlayer.Values = Inputs;
-            FetchPlayer.Execute();
+            var player = FetchPlayer
+                .SetInputs(new {In.PlayerId})
+                .GetOutputs()
+                .Player;
 
-            Outputs = new EditResult<PlayerEdit>
-                      {
-                          Model = FetchPlayer.Models.Single()
-                      };
+            Out = new Outs {Player = player};
         }
     }
 }

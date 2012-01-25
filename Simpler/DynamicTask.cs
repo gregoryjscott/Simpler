@@ -5,20 +5,20 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class DynamicTask : Task
     {
-        public virtual dynamic Inputs { get; set; }
+        public virtual dynamic In { get; set; }
 
-        public virtual dynamic Outputs { get; set; }
+        public virtual dynamic Out { get; set; }
 
-        public virtual DynamicTask SetInputs(dynamic inputs)
+        public virtual DynamicTask SetIns(object ins)
         {
-            Inputs = inputs;
+            In = ins;
             return this;
         }
 
-        public virtual dynamic GetOutputs()
+        public virtual dynamic GetOuts()
         {
             Execute();
-            return Outputs;
+            return Out;
         }
     }
 }
