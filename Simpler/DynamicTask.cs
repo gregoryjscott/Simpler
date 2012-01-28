@@ -5,9 +5,9 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class DynamicTask : Task
     {
-        public virtual dynamic In { get; set; }
+        protected dynamic In { get; set; }
 
-        public virtual dynamic Out { get; set; }
+        protected dynamic Out { get; set; }
 
         public virtual DynamicTask SetIns(object ins)
         {

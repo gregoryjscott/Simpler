@@ -94,7 +94,9 @@
     <Content Include="Views\Players\Edit.cshtml" />
     <Content Include="Views\Players\Show.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Actions\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>

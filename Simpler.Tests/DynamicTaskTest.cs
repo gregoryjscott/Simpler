@@ -20,21 +20,21 @@ namespace Simpler.Tests
             Assert.That(task.Out.SomeOutput, Is.EqualTo(9));
         }
 
-        [Test]
-        public void should_be_able_to_mock_dynamic_Inputs_and_Outputs_properties_on_subtasks()
-        {
-            // Arrange
-            var task = TaskFactory<MockDynamicTask>.Create();
-            var mockSubTask = new Mock<MockDynamicSubTask>();
-            mockSubTask.Setup(st => st.Out).Returns(new { SomeOutput = 7 });
-            task.MockDynamicSubTask = mockSubTask.Object;
+        //[Test]
+        //public void should_be_able_to_mock_dynamic_Inputs_and_Outputs_properties_on_subtasks()
+        //{
+        //    // Arrange
+        //    var task = TaskFactory<MockDynamicTask>.Create();
+        //    var mockSubTask = new Mock<MockDynamicSubTask>();
+        //    mockSubTask.Setup(st => st.Out).Returns(new { SomeOutput = 7 });
+        //    task.MockDynamicSubTask = mockSubTask.Object;
 
-            // Act
-            task.Execute();
+        //    // Act
+        //    task.Execute();
 
-            // Assert
-            Assert.That(task.Out.SubTaskOutputs.SomeOutput, Is.EqualTo(7));
-        }
+        //    // Assert
+        //    Assert.That(task.Out.SubTaskOutputs.SomeOutput, Is.EqualTo(7));
+        //}
 
         [Test]
         public void should_be_execute_using_shorthand_syntax()
