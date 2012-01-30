@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Player</title>
+</head>
+<body>
+    <form action="/players/@Model.Player.PlayerId;" method="post">
+        <input type="hidden" name="_method" value="put" />        <fieldset>
+            <legend>PlayerEdit</legend>
+    
+            <input name="@Model.Player.PlayerId;" type="hidden" value="1" />    
+            <div class="editor-label">First Name</div>
+            <div class="editor-field">
+                <input name="@Model.Player.FirstName;" value="@Model.Player.FirstName;"/>            </div>
+    
+            <div class="editor-label">Last Name</div>
+            <div class="editor-field">
+                <input name="@Model.Player.LastName;" value="@Model.Player.LastName"/>            </div>
+    
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+    </form>
+    
+    <div>
+        <a href="/players">Back to Lis</a>
+    </div>
+</body>
+</html>
