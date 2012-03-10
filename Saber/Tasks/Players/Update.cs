@@ -8,6 +8,7 @@ namespace Saber.Tasks.Players
     {
         public class Inputs
         {
+            public string _method { get; set; }
             public Player Player { get; set; }
         }
 

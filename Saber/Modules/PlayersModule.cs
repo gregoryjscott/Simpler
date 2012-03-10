@@ -26,15 +26,16 @@ namespace Saber.Modules
                                        .SetInputs(new {this.Bind<Edit.Inputs>().PlayerId})
                                        .GetOutputs()];
 
-            //Put["/players/{Player.PlayerId}"] =
-            //    parameters =>
-            //    {
-            //        var inputs = this.Bind<Update.Inputs>();
-            //        Task.Create<Update>()
-            //            .SetInputs(new { inputs.Player })
-            //            .Execute();
-            //        return Response.AsRedirect(string.Format("/players/{0}", inputs.Player.PlayerId));
-            //    };
+            Put["/players/{PlayerId}"] =
+                parameters =>
+                    {
+                        var dynamicInputs = this.Bind();
+                        var inputs = this.Bind<Update.Inputs>();
+                        Task.Create<Update>()
+                            .SetInputs(new {inputs.Player})
+                            .Execute();
+                        return Response.AsRedirect(string.Format("/players/{0}", inputs.Player.PlayerId));
+                    };
         }
     }
 }
