@@ -29,7 +29,6 @@ namespace Saber.Modules
             Put["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var dynamicInputs = this.Bind();
                         var inputs = this.Bind<Update.Inputs>();
                         Task.Create<Update>()
                             .SetInputs(new {inputs.Player})
