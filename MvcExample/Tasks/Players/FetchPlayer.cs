@@ -14,7 +14,7 @@ namespace MvcExample.Tasks.Players
 
         public class Out
         {
-            public Player PlayerData { get; set; }
+            public Player Player { get; set; }
         }
 
         public Invoke<RunSqlAndReturn<Player>> SelectPlayer { get; set; }
@@ -47,7 +47,7 @@ namespace MvcExample.Tasks.Players
                          })
                 .Get().Models.Single();
 
-            Output = new Out {PlayerData = player};
+            Output = new Out {Player = player};
         }
     }
 }

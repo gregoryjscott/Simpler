@@ -36,7 +36,7 @@ namespace MvcExample.Tests.Tasks.Players
                                                               {
                                                                   PlayerId = player.PlayerId.GetValueOrDefault()
                                                               })
-                                    .Get().Output.PlayerData;
+                                    .Get().Output.Player;
 
                                 Assert.That(updatedPlayer.LastName, Is.EqualTo("Different"));
                             });
