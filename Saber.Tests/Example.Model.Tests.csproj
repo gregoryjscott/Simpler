@@ -8,8 +8,8 @@
     <ProjectGuid>{6118E2E2-9389-40D1-B604-E5E293DA00BB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Saber.Tests</RootNamespace>
-    <AssemblyName>Saber.Tests</AssemblyName>
+    <RootNamespace>Example.Model.Tests</RootNamespace>
+    <AssemblyName>Example.Model.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -3,7 +3,7 @@ using Example.Model.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
 
-namespace Saber.Tests.Tasks.Players
+namespace Example.Model.Tests.Tasks
 {
     [TestFixture]
     public class EditTest

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExample", "MvcExample\Mv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saber", "Saber\Saber.csproj", "{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saber.Tests", "Saber.Tests\Saber.Tests.csproj", "{6118E2E2-9389-40D1-B604-E5E293DA00BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Model.Tests", "Saber.Tests\Example.Model.Tests.csproj", "{6118E2E2-9389-40D1-B604-E5E293DA00BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Model", "Example.Model\Example.Model.csproj", "{7213C0FA-FC1B-4998-A781-5487444623CC}"
 EndProject
