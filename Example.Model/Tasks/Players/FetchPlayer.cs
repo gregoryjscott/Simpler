@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Saber.Entities;
+using System.Linq;
+using Example.Model.Entities;
 using Simpler;
 using Simpler.Data.Tasks;
 
-namespace Saber.Tasks.Players
+namespace Example.Model.Tasks.Players
 {
     public class FetchPlayer : InOutTask<FetchPlayer.In, FetchPlayer.Out>
     {
@@ -38,16 +38,16 @@ namespace Saber.Tasks.Players
                     PlayerId = @PlayerId
                 ";
 
-            var player = SelectPlayer
-                .Set(new RunSqlAndReturn<Player>.In
-                         {
-                             ConnectionName = Config.DatabaseName,
-                             Sql = sql,
-                             Values = Input
-                         })
-                .Get().Models.Single();
+            var player = Enumerable.Single(SelectPlayer
+                                         .Set(new RunSqlAndReturn<Player>.In
+                                                  {
+                                                      ConnectionName = Config.DatabaseName,
+                                                      Sql = sql,
+                                                      Values = Input
+                                                  })
+                                         .Get().Models);
 
-            Output = new Out { Player = player };
+            Output = new Out {Player = player};
         }
     }
 }

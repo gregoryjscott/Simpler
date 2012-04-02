@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using MvcExample.Tasks.Players;
+using Example.Model.Tasks.Players;
 using Simpler;
 
 namespace MvcExample.Controllers

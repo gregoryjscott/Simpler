@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExample", "MvcExample\MvcExample.csproj", "{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExample.Tests", "MvcExample.Tests\MvcExample.Tests.csproj", "{BC873E37-5D8E-4469-83A7-76A0B2E457BA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saber", "Saber\Saber.csproj", "{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saber.Tests", "Saber.Tests\Saber.Tests.csproj", "{6118E2E2-9389-40D1-B604-E5E293DA00BB}"
@@ -39,10 +37,6 @@ Global
 		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC873E37-5D8E-4469-83A7-76A0B2E457BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC873E37-5D8E-4469-83A7-76A0B2E457BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC873E37-5D8E-4469-83A7-76A0B2E457BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC873E37-5D8E-4469-83A7-76A0B2E457BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}.Release|Any CPU.ActiveCfg = Release|Any CPU

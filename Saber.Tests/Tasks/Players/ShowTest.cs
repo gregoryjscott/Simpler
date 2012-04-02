@@ -1,6 +1,6 @@
 ﻿using System;
+using Example.Model.Tasks.Players;
 using NUnit.Framework;
-using Saber.Tasks.Players;
 using Simpler;
 
 namespace Saber.Tests.Tasks.Players

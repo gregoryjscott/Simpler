@@ -1,8 +1,8 @@
-﻿using Saber.Entities;
+using Example.Model.Entities;
 using Simpler;
 using Simpler.Data.Tasks;
 
-namespace Saber.Tasks.Players
+namespace Example.Model.Tasks.Players
 {
     public class Index : OutTask<Index.Out>
     {
@@ -38,7 +38,7 @@ namespace Saber.Tasks.Players
                          })
                 .Get().Models;
 
-            Output = new Out {Players = players};
+            Output = new Out { Players = players };
         }
     }
 }

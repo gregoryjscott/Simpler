@@ -69,13 +69,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tasks\Players\FetchPlayer.cs" />
-    <Compile Include="Tasks\Players\Update.cs" />
-    <Compile Include="Tasks\Players\Edit.cs" />
-    <Compile Include="Tasks\Players\Show.cs" />
-    <Compile Include="Tasks\Players\Index.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\ExampleData.sdf">
@@ -94,10 +88,12 @@
     <Content Include="Views\Players\Edit.cshtml" />
     <Content Include="Views\Players\Show.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Actions\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Example.Model\Example.Model.csproj">
+      <Project>{7213C0FA-FC1B-4998-A781-5487444623CC}</Project>
+      <Name>Example.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>

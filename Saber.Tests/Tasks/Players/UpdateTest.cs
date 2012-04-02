@@ -1,7 +1,7 @@
 ﻿using System;
+using Example.Model.Entities;
+using Example.Model.Tasks.Players;
 using NUnit.Framework;
-using Saber.Entities;
-using Saber.Tasks.Players;
 using Simpler;
 
 namespace Saber.Tests.Tasks.Players

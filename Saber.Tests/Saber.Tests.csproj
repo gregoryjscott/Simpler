@@ -62,6 +62,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Example.Model\Example.Model.csproj">
+      <Project>{7213C0FA-FC1B-4998-A781-5487444623CC}</Project>
+      <Name>Example.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Saber\Saber.csproj">
       <Project>{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}</Project>
       <Name>Saber</Name>

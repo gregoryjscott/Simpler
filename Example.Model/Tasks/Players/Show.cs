@@ -1,9 +1,9 @@
-﻿using MvcExample.Entities;
+using Example.Model.Entities;
 using Simpler;
 
-namespace MvcExample.Tasks.Players
+namespace Example.Model.Tasks.Players
 {
-    public class Edit : InOutTask<Edit.In, Edit.Out>
+    public class Show : InOutTask<Show.In, Show.Out>
     {
         public class In
         {
@@ -15,15 +15,15 @@ namespace MvcExample.Tasks.Players
             public Player Player { get; set; }
         }
 
-        public FetchPlayer FetchPlayer { get; set; }
+        public FetchPlayer FetchPlayerData { get; set; }
 
         public override void Execute()
         {
-            var player = FetchPlayer
+            var player = FetchPlayerData
                 .Set(new FetchPlayer.In {PlayerId = Input.PlayerId})
                 .Get().Player;
 
-            Output = new Out {Player = player};
+            Output = new Out { Player = player };
         }
     }
 }

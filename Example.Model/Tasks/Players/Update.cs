@@ -1,8 +1,8 @@
-﻿using MvcExample.Entities;
+using Example.Model.Entities;
 using Simpler;
 using Simpler.Data.Tasks;
 
-namespace MvcExample.Tasks.Players
+namespace Example.Model.Tasks.Players
 {
     public class Update : InTask<Update.In>
     {
