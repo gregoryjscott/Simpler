@@ -14,10 +14,10 @@ namespace Simpler
             return this;
         }
 
-        public InOutTask<TInput, TOutput> Get()
+        public TOutput Get()
         {
             Execute();
-            return this;
+            return Output;
         }
     }
 }

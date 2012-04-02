@@ -36,7 +36,7 @@ namespace Saber.Tests.Tasks.Players
                                              {
                                                  PlayerId = player.PlayerId.GetValueOrDefault()
                                              })
-                                    .Get().Output.Player;
+                                    .Get().Player;
 
                                 Assert.That(updatedPlayer.LastName, Is.EqualTo("Different"));
                             });

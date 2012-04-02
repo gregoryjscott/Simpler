@@ -21,7 +21,7 @@ namespace MvcExample.Tasks.Players
         {
             var player = FetchPlayer
                 .Set(new FetchPlayer.In {PlayerId = Input.PlayerId})
-                .Get().Output.Player;
+                .Get().Player;
 
             Output = new Out {Player = player};
         }

@@ -13,7 +13,7 @@ namespace Saber.Modules
                 parameters =>
                     {
                         var model = Task.Create<Index>()
-                            .Get().Output;
+                            .Get();
 
                         return View["Views/Players/Index.html", model];
                     };
@@ -23,7 +23,7 @@ namespace Saber.Modules
                     {
                         var model = Task.Create<Show>()
                             .Set(this.Bind<Show.In>())
-                            .Get().Output;
+                            .Get();
 
                         return View["Views/Players/Show.html", model];
                     };
@@ -33,7 +33,7 @@ namespace Saber.Modules
                     {
                         var model = Task.Create<Edit>()
                             .Set(this.Bind<Edit.In>())
-                            .Get().Output;
+                            .Get();
 
                         return View["Views/Players/Edit.html", model];
                     };

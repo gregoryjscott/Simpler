@@ -40,12 +40,12 @@ namespace Saber.Tasks.Players
 
             var player = SelectPlayer
                 .Set(new RunSqlAndReturn<Player>.In
-                {
-                    ConnectionName = Config.DatabaseName,
-                    Sql = sql,
-                    Values = Input
-                })
-                .Get().Output.Models.Single();
+                         {
+                             ConnectionName = Config.DatabaseName,
+                             Sql = sql,
+                             Values = Input
+                         })
+                .Get().Models.Single();
 
             Output = new Out { Player = player };
         }

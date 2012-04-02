@@ -45,7 +45,7 @@ namespace MvcExample.Tasks.Players
                              Sql = sql,
                              Values = Input
                          })
-                .Get().Output.Models.Single();
+                .Get().Models.Single();
 
             Output = new Out {Player = player};
         }

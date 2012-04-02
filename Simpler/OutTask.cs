@@ -7,10 +7,10 @@ namespace Simpler
     {
         public TOutput Output { get; protected set; }
 
-        public OutTask<TOutput> Get()
+        public TOutput Get()
         {
             Execute();
-            return this;
+            return Output;
         }
     }
 }

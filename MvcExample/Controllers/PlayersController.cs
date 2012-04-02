@@ -10,7 +10,7 @@ namespace MvcExample.Controllers
         public ActionResult Index()
         {
             var model = Task.Create<Index>()
-                .Get().Output;
+                .Get();
 
             return View(model);
         }
@@ -20,7 +20,7 @@ namespace MvcExample.Controllers
         {
             var model = Task.Create<Show>()
                 .Set(new Show.In {PlayerId = id})
-                .Get().Output;
+                .Get();
 
             return View(model);
         }
@@ -30,7 +30,7 @@ namespace MvcExample.Controllers
         {
             var model = Task.Create<Edit>()
                 .Set(new Edit.In {PlayerId = id})
-                .Get().Output;
+                .Get();
 
             return View(model);
         }
@@ -42,7 +42,7 @@ namespace MvcExample.Controllers
             {
                 var editModel = Task.Create<Edit>()
                     .Set(new Edit.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
-                    .Get().Output;
+                    .Get();
 
                 return View("Edit", editModel);
             }

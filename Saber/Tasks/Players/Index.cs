@@ -32,11 +32,11 @@ namespace Saber.Tasks.Players
 
             var players = SelectPlayers
                 .Set(new RunSqlAndReturn<Player>.In
-                {
-                    ConnectionName = Config.DatabaseName,
-                    Sql = sql
-                })
-                .Get().Output.Models;
+                         {
+                             ConnectionName = Config.DatabaseName,
+                             Sql = sql
+                         })
+                .Get().Models;
 
             Output = new Out {Players = players};
         }
