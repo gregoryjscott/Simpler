@@ -38,14 +38,14 @@ namespace Example.Model.Tasks.Players
                     PlayerId = @PlayerId
                 ";
 
-            var player = Enumerable.Single(SelectPlayer
-                                         .Set(new RunSqlAndReturn<Player>.In
-                                                  {
-                                                      ConnectionName = Config.DatabaseName,
-                                                      Sql = sql,
-                                                      Values = Input
-                                                  })
-                                         .Get().Models);
+            var player = SelectPlayer
+                .Set(new RunSqlAndReturn<Player>.In
+                         {
+                             ConnectionName = Config.DatabaseName,
+                             Sql = sql,
+                             Values = Input
+                         })
+                .Get().Models.Single();
 
             Output = new Out {Player = player};
         }
