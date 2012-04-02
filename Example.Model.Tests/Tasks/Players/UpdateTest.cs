@@ -1,5 +1,4 @@
-﻿using System;
-using Example.Model.Entities;
+﻿using Example.Model.Entities;
 using Example.Model.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
@@ -10,9 +9,9 @@ namespace Example.Model.Tests.Tasks.Players
     public class UpdateTest
     {
         [SetUp]
-        public void SetDataDirectoryForConnectionString()
+        public void SetUp()
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory + @"\App_Data");
+            Config.SetDataDirectory();
         }
 
         [Test]
@@ -27,7 +26,7 @@ namespace Example.Model.Tests.Tasks.Players
                          };
 
             Test<Update>.Create()
-                .Arrange(t => t.Input = new Update.In {Player = player})
+                .Arrange(t => t.Set(new Update.In {Player = player}))
                 .Act()
                 .Assert(t =>
                             {

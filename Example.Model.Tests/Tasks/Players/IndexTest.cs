@@ -1,5 +1,4 @@
-﻿using System;
-using Example.Model.Tasks.Players;
+﻿using Example.Model.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
 
@@ -9,9 +8,9 @@ namespace Example.Model.Tests.Tasks.Players
     public class IndexTest
     {
         [SetUp]
-        public void SetDataDirectoryForConnectionString()
+        public void SetUp()
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory + @"\App_Data");
+            Config.SetDataDirectory();
         }
 
         [Test]

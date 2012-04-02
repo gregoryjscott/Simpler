@@ -1,5 +1,4 @@
-﻿using System;
-using Example.Model.Tasks.Players;
+﻿using Example.Model.Tasks.Players;
 using NUnit.Framework;
 using Simpler;
 
@@ -9,16 +8,16 @@ namespace Example.Model.Tests.Tasks.Players
     public class ShowTest
     {
         [SetUp]
-        public void SetDataDirectoryForConnectionString()
+        public void SetUp()
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", AppDomain.CurrentDomain.BaseDirectory + @"\App_Data");
+            Config.SetDataDirectory();
         }
 
         [Test]
         public void should_return_a_player()
         {
             Test<Show>.Create()
-                .Arrange(t => t.Input = new Show.In {PlayerId = 1} )
+                .Arrange(t => t.Set(new Show.In {PlayerId = 1}))
                 .Act()
                 .Assert(t => Assert.That(t.Output.Player.PlayerId, Is.GreaterThan(0)));
         }
