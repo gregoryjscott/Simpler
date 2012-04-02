@@ -66,10 +66,6 @@
       <Project>{7213C0FA-FC1B-4998-A781-5487444623CC}</Project>
       <Name>Example.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Saber\Example.Nancy.csproj">
-      <Project>{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}</Project>
-      <Name>Example.Nancy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>
