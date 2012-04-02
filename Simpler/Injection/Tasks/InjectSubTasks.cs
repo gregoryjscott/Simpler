@@ -32,6 +32,7 @@ namespace Simpler.Injection.Tasks
                 {
                     CreateTask.TaskType = propertyX.PropertyType;
                     CreateTask.Execute();
+
                     propertyX.SetValue(TaskContainingSubTasks, CreateTask.TaskInstance, null);
 
                     listOfInjected.Add(propertyX.PropertyType.FullName);

@@ -4,9 +4,9 @@ using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Update : InTask<Update.Inputs>
+    public class Update : InTask<Update.In>
     {
-        public class Inputs
+        public class In
         {
             public Player Player { get; set; }
         }
@@ -25,7 +25,7 @@ namespace MvcExample.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            UpdatePlayer.Values = In.Player;
+            UpdatePlayer.Values = base.Input.Player;
             UpdatePlayer.Execute();
         }
     }

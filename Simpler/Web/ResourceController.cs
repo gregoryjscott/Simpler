@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Simpler.Web.Tasks;
@@ -19,10 +18,9 @@ namespace Simpler.Web
         /// </summary>
         protected ResourceController()
         {
-            var findResource = TaskFactory<FindResource>.Create();
-            findResource.ControllerType = GetType();
-            findResource.Execute();
-            Resource = findResource.Resource;
+            Resource = Invoke<FindResource>.New()
+                .Set(t => t.ControllerType = GetType())
+                .Get().Resource;
         }
 
         /// <summary>

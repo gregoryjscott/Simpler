@@ -4,9 +4,9 @@ using Simpler.Data.Tasks;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Index : OutTask<Index.Outputs>
+    public class Index : OutTask<Index.Out>
     {
-        public class Outputs
+        public class Out
         {
             public Player[] Players { get; set; }
         }
@@ -33,7 +33,7 @@ namespace MvcExample.Tasks.Players
                 ";
             FetchPlayers.Execute();
 
-            Out = new Outputs {Players = FetchPlayers.Models};
+            Output = new Out {Players = FetchPlayers.Models};
         }
     }
 }

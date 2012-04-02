@@ -1,28 +1,28 @@
 ﻿using System.Linq;
-using MvcExample.Models.Players;
+using Saber.Models.Players;
 using Simpler;
 using Simpler.Data.Tasks;
 
-namespace MvcExample.Tasks.Players
+namespace Saber.Tasks.Players
 {
-    public class FetchPlayerDataById : InOutTask<FetchPlayerDataById.Inputs, FetchPlayerDataById.Outputs>
+    public class FetchPlayer : InOutTask<FetchPlayer.In, FetchPlayer.Out>
     {
-        public class Inputs
+        public class In
         {
             public int PlayerId { get; set; }
         }
 
-        public class Outputs
+        public class Out
         {
             public Player PlayerData { get; set; }
         }
 
-        public RunSqlAndReturn<Player> FetchPlayer { get; set; }
+        public RunSqlAndReturn<Player> SelectPlayer { get; set; }
 
         public override void Execute()
         {
-            FetchPlayer.ConnectionName = Config.DatabaseName;
-            FetchPlayer.Sql =
+            SelectPlayer.ConnectionName = Config.DatabaseName;
+            SelectPlayer.Sql =
                 @"
                 select
                     PlayerId,
@@ -39,10 +39,10 @@ namespace MvcExample.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            FetchPlayer.Values = In;
-            FetchPlayer.Execute();
+            SelectPlayer.Values = Input;
+            SelectPlayer.Execute();
 
-            Out = new Outputs {PlayerData = FetchPlayer.Models.Single()};
+            Output = new Out {PlayerData = SelectPlayer.Models.Single()};
         }
     }
 }

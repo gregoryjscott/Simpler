@@ -3,28 +3,27 @@ using Simpler;
 
 namespace MvcExample.Tasks.Players
 {
-    public class Show : InOutTask<Show.Inputs, Show.Outputs>
+    public class Show : InOutTask<Show.In, Show.Out>
     {
-        public class Inputs
+        public class In
         {
             public int PlayerId { get; set; }
         }
 
-        public class Outputs
+        public class Out
         {
             public Player Player { get; set; }
         }
 
-        public FetchPlayerDataById FetchPlayerData { get; set; }
+        public Invoke<FetchPlayer> FetchPlayerData { get; set; }
 
         public override void Execute()
         {
             var player = FetchPlayerData
-                .SetInputs(new { In.PlayerId })
-                .GetOutputs()
-                .PlayerData;
+                .Set(t => t.Input = new FetchPlayer.In {PlayerId = Input.PlayerId})
+                .Get().Output.PlayerData;
 
-            Out = new Outputs { Player = player };
+            Output = new Out { Player = player };
         }
     }
 }

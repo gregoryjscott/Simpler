@@ -63,7 +63,7 @@
     <Compile Include="Modules\RootModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\Players\Edit.cs" />
-    <Compile Include="Tasks\Players\FetchPlayerDataById.cs" />
+    <Compile Include="Tasks\Players\FetchPlayer.cs" />
     <Compile Include="Tasks\Players\Index.cs" />
     <Compile Include="Tasks\Players\Show.cs" />
     <Compile Include="Tasks\Players\Update.cs" />

@@ -17,11 +17,10 @@ namespace Saber.Tests.Tasks.Players
         [Test]
         public void should_return_a_player()
         {
-            var outputs = Task.Create<Show>()
-                .SetInputs(new { PlayerId = 1})
-                .GetOutputs();
-
-            Assert.That(outputs.Player.PlayerId, Is.GreaterThan(0));
+            Test<Show>.New()
+                .Arrange(t => t.Input = new Show.In {PlayerId = 1} )
+                .Act()
+                .Assert(t => Assert.That(t.Output.Player.PlayerId, Is.GreaterThan(0)));
         }
     }
 }

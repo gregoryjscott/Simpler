@@ -14,7 +14,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_return_one_object_using_the_record_returned_by_the_select_command()
         {
             // Arrange
-            var task = TaskFactory<FetchSingleOf<MockObject>>.Create();
+            var task = Invoke<FetchSingleOf<MockObject>>.New().Task;
 
             var table = new DataTable();
             table.Columns.Add("Name", Type.GetType("System.String"));
@@ -35,7 +35,7 @@ namespace Simpler.Tests.Data.Tasks
         [Test]
         public void should_throw_if_no_records_are_found()
         {
-            var task = TaskFactory<FetchSingleOf<MockObject>>.Create();
+            var task = Invoke<FetchSingleOf<MockObject>>.New().Task;
 
             var table = new DataTable();
 
@@ -50,7 +50,7 @@ namespace Simpler.Tests.Data.Tasks
         [Test]
         public void should_throw_if_more_than_one_record_is_found()
         {
-            var task = TaskFactory<FetchSingleOf<MockObject>>.Create();
+            var task = Invoke<FetchSingleOf<MockObject>>.New().Task;
 
             var table = new DataTable();
             table.Columns.Add("Name", Type.GetType("System.String"));

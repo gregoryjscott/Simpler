@@ -1,16 +1,10 @@
-﻿using Simpler.Injection;
+using Simpler.Injection;
 
 namespace Simpler
 {
     [InjectSubTasks]
-    public abstract class OutTask<TOutputs> : Task
+    public abstract class OutTask<TOutput> : Task
     {
-        protected TOutputs Out { get; set; }
-
-        public virtual TOutputs GetOutputs()
-        {
-            Execute();
-            return Out;
-        }
+        public TOutput Output { get; set; }
     }
 }

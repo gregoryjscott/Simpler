@@ -59,11 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicTaskTest.cs" />
-    <Compile Include="MapperTest.cs" />
     <Compile Include="Mocks\MockInOutTaskUsingPrimitives.cs" />
     <Compile Include="Mocks\MockInOutTask.cs" />
-    <Compile Include="InOutTaskTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Data\Tasks\FetchListOfTest.cs" />
     <Compile Include="Data\Tasks\FetchSingleOfTest.cs" />
@@ -81,7 +78,6 @@
     <Compile Include="Mocks\MockParentTask.cs" />
     <Compile Include="Mocks\MockSubTask.cs" />
     <Compile Include="Mocks\MockTask.cs" />
-    <Compile Include="Mocks\MockDynamicTask.cs" />
     <Compile Include="Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Mocks\MockTaskWithAttributesThatThrows.cs" />
     <Compile Include="Mocks\MockTaskWithOverrideAttribute.cs" />
@@ -89,8 +85,7 @@
     <Compile Include="Mocks\SecondAttribute.cs" />
     <Compile Include="Mocks\TestException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskFactoryTest.cs" />
-    <Compile Include="Mocks\MockDynamicSubTask.cs" />
+    <Compile Include="TaskTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simpler\Simpler.csproj">

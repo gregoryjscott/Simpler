@@ -3,28 +3,27 @@ using Simpler;
 
 namespace Saber.Tasks.Players
 {
-    public class Edit : InOutTask<Edit.Inputs, Edit.Outputs>
+    public class Edit : InOutTask<Edit.In, Edit.Out>
     {
-        public class Inputs
+        public class In
         {
             public int PlayerId { get; set; }
         }
 
-        public class Outputs
+        public class Out
         {
             public Player Player { get; set; }
         }
 
-        public FetchPlayerDataById FetchPlayer { get; set; }
+        public Invoke<FetchPlayer> FetchPlayer { get; set; }
 
         public override void Execute()
         {
             var player = FetchPlayer
-                .SetInputs(new {In.PlayerId})
-                .GetOutputs()
-                .PlayerData;
+                .Set(t => t.Input = new FetchPlayer.In {PlayerId = Input.PlayerId})
+                .Get().Output.PlayerData;
 
-            Out = new Outputs {Player = player};
+            Output = new Out {Player = player};
         }
     }
 }

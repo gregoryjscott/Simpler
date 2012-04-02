@@ -17,11 +17,17 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_return_a_player_for_editing()
         {
-            var outputs = Task.Create<Edit>()
-                .SetInputs(new {PlayerId = 1})
-                .GetOutputs();
-
-            Assert.That(outputs.Player.PlayerId, Is.EqualTo(1));
+            Test<Edit>.New()
+                .Arrange(t =>
+                             {
+                                 t.Input = new Edit.In {PlayerId = 1};
+                             })
+                .Act()
+                .Assert(t =>
+                            {
+                                var player = t.Output.Player;
+                                Assert.That(player.PlayerId, Is.EqualTo(1));
+                            });
         }
     }
 }

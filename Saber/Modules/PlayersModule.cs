@@ -10,30 +10,44 @@ namespace Saber.Modules
         public PlayersModule()
         {
             Get["/players"] =
-                parameters => View["Views/Players/Index.html",
-                                   Task.Create<Index>()
-                                       .GetOutputs()];
+                parameters =>
+                    {
+                        var model = Invoke<Index>.New()
+                            .Get().Output;
+
+                        return View["Views/Players/Index.html", model];
+                    };
 
             Get["/players/{PlayerId}"] =
-                parameters => View["Views/Players/Show.html",
-                                   Task.Create<Show>()
-                                       .SetInputs(new {this.Bind<Show.Inputs>().PlayerId})
-                                       .GetOutputs()];
+                parameters =>
+                    {
+                        var model = Invoke<Show>.New()
+                            .Set(t => t.Input = this.Bind<Show.In>())
+                            .Get().Output;
+
+                        return View["Views/Players/Show.html", model];
+                    };
 
             Get["/players/{PlayerId}/edit"] =
-                parameters => View["Views/Players/Edit.html",
-                                   Task.Create<Edit>()
-                                       .SetInputs(new {this.Bind<Edit.Inputs>().PlayerId})
-                                       .GetOutputs()];
+                parameters =>
+                    {
+                        var model = Invoke<Edit>.New()
+                            .Set(t => t.Input = this.Bind<Edit.In>())
+                            .Get().Output;
+
+                        return View["Views/Players/Edit.html", model];
+                    };
 
             Put["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var inputs = this.Bind<Update.Inputs>();
-                        Task.Create<Update>()
-                            .SetInputs(new {inputs.Player})
+                        var input = this.Bind<Update.In>();
+                        
+                        Invoke<Update>.New()
+                            .Set(t => t.Input = input)
                             .Execute();
-                        return Response.AsRedirect(string.Format("/players/{0}", inputs.Player.PlayerId));
+
+                        return Response.AsRedirect(string.Format("/players/{0}", input.Player.PlayerId));
                     };
         }
     }

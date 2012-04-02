@@ -26,15 +26,20 @@ namespace Saber.Tests.Tasks.Players
                              TeamId = 2
                          };
 
-            Task.Create<Update>()
-                .SetInputs(new {Player = player})
-                .Execute();
+            Test<Update>.New()
+                .Arrange(t => t.Input = new Update.In {Player = player})
+                .Act()
+                .Assert(t =>
+                            {
+                                var updatedPlayer = Invoke<FetchPlayer>.New()
+                                    .Set(t2 => t2.Input = new FetchPlayer.In
+                                                              {
+                                                                  PlayerId = player.PlayerId.GetValueOrDefault()
+                                                              })
+                                    .Get().Output.PlayerData;
 
-            var outputs = Task.Create<Show>()
-                .SetInputs(new { PlayerId = 1})
-                .GetOutputs();
-
-            Assert.That(outputs.Player.LastName, Is.EqualTo("Different"));
+                                Assert.That(updatedPlayer.LastName, Is.EqualTo("Different"));
+                            });
         }
     }
 }

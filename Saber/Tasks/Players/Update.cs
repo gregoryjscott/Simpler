@@ -4,9 +4,9 @@ using Simpler.Data.Tasks;
 
 namespace Saber.Tasks.Players
 {
-    public class Update : InTask<Update.Inputs>
+    public class Update : InTask<Update.In>
     {
-        public class Inputs
+        public class In
         {
             public string _method { get; set; }
             public Player Player { get; set; }
@@ -26,7 +26,7 @@ namespace Saber.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            UpdatePlayer.Values = In.Player;
+            UpdatePlayer.Values = Input.Player;
             UpdatePlayer.Execute();
         }
     }

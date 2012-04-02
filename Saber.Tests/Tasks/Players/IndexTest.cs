@@ -17,10 +17,9 @@ namespace Saber.Tests.Tasks.Players
         [Test]
         public void should_return_list_of_players()
         {
-            var outputs = Task.Create<Index>()
-                .GetOutputs();
-
-            Assert.That(outputs.Players.Length, Is.GreaterThan(0));
+            Test<Index>.New()
+                .Act()
+                .Assert(t => Assert.That(t.Output.Players.Length, Is.GreaterThan(0)));
         }
     }
 }

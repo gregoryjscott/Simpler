@@ -24,14 +24,10 @@ namespace Simpler.Construction.Tasks
 
         public override void Execute()
         {
-            if (Attribute.IsDefined(TaskType, typeof(ExecutionCallbacksAttribute)))
-            {
-                TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, new TaskExecutionInterceptor());
-            }
-            else
-            {
-                TaskInstance = Activator.CreateInstance(TaskType);
-            }
+            TaskInstance =
+                Attribute.IsDefined(TaskType, typeof (ExecutionCallbacksAttribute))
+                    ? ProxyGenerator.CreateClassProxy(TaskType, new TaskExecutionInterceptor())
+                    : Activator.CreateInstance(TaskType);
         }
     }
 }
