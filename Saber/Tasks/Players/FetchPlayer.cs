@@ -14,16 +14,14 @@ namespace Saber.Tasks.Players
 
         public class Out
         {
-            public Player PlayerData { get; set; }
+            public Player Player { get; set; }
         }
 
         public RunSqlAndReturn<Player> SelectPlayer { get; set; }
 
         public override void Execute()
         {
-            SelectPlayer.ConnectionName = Config.DatabaseName;
-            SelectPlayer.Sql =
-                @"
+            const string sql = @"
                 select
                     PlayerId,
                     Player.FirstName,
@@ -39,10 +37,17 @@ namespace Saber.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            SelectPlayer.Values = Input;
-            SelectPlayer.Execute();
 
-            Output = new Out {PlayerData = SelectPlayer.Models.Single()};
+            var player = SelectPlayer
+                .Set(new RunSqlAndReturn<Player>.In
+                {
+                    ConnectionName = Config.DatabaseName,
+                    Sql = sql,
+                    Values = Input
+                })
+                .Get().Output.Models.Single();
+
+            Output = new Out { Player = player };
         }
     }
 }

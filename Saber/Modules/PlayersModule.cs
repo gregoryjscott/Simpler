@@ -12,7 +12,7 @@ namespace Saber.Modules
             Get["/players"] =
                 parameters =>
                     {
-                        var model = Invoke<Index>.New()
+                        var model = Task.Create<Index>()
                             .Get().Output;
 
                         return View["Views/Players/Index.html", model];
@@ -21,8 +21,8 @@ namespace Saber.Modules
             Get["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var model = Invoke<Show>.New()
-                            .Set(t => t.Input = this.Bind<Show.In>())
+                        var model = Task.Create<Show>()
+                            .Set(this.Bind<Show.In>())
                             .Get().Output;
 
                         return View["Views/Players/Show.html", model];
@@ -31,8 +31,8 @@ namespace Saber.Modules
             Get["/players/{PlayerId}/edit"] =
                 parameters =>
                     {
-                        var model = Invoke<Edit>.New()
-                            .Set(t => t.Input = this.Bind<Edit.In>())
+                        var model = Task.Create<Edit>()
+                            .Set(this.Bind<Edit.In>())
                             .Get().Output;
 
                         return View["Views/Players/Edit.html", model];
@@ -43,8 +43,8 @@ namespace Saber.Modules
                     {
                         var input = this.Bind<Update.In>();
                         
-                        Invoke<Update>.New()
-                            .Set(t => t.Input = input)
+                        Task.Create<Update>()
+                            .Set(input)
                             .Execute();
 
                         return Response.AsRedirect(string.Format("/players/{0}", input.Player.PlayerId));

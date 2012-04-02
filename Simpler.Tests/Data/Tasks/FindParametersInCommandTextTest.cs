@@ -14,7 +14,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = @something and something_else is true
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo("@something")));
@@ -27,7 +27,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = :something and something_else is true
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo(":something")));
@@ -40,7 +40,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = @some_thing and something_else is true
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo("@some_thing")));
@@ -53,7 +53,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = @complex.object and something_else is true
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo("@complex.object")));
@@ -66,7 +66,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = @some1thing1 and something_else is true
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo("@some1thing1")));
@@ -79,7 +79,7 @@ namespace Simpler.Tests.Data.Tasks
                 insert into table set something = @something, something_else = 'whatever'
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo("@something")));
@@ -97,7 +97,7 @@ namespace Simpler.Tests.Data.Tasks
                 hopefully that covers it
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t =>
@@ -114,7 +114,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = @something
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t => Assert.That(t.ParameterNames[0], Is.EqualTo("@something")));
@@ -127,7 +127,7 @@ namespace Simpler.Tests.Data.Tasks
                 select whatever from table where something = @something and somethingelsealso = @something
                 ";
 
-            Test<FindParametersInCommandText>.New()
+            Test<FindParametersInCommandText>.Create()
                 .Arrange(t => t.CommandText = sql)
                 .Act()
                 .Assert(t =>

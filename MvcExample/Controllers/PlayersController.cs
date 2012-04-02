@@ -1,8 +1,6 @@
 ﻿using System.Web.Mvc;
 using MvcExample.Tasks.Players;
 using Simpler;
-using Simpler.Web;
-using Simpler.Web.Tasks;
 
 namespace MvcExample.Controllers
 {
@@ -11,7 +9,7 @@ namespace MvcExample.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = Invoke<Index>.New()
+            var model = Task.Create<Index>()
                 .Get().Output;
 
             return View(model);
@@ -20,8 +18,8 @@ namespace MvcExample.Controllers
         [HttpGet]
         public ActionResult Show(int id)
         {
-            var model = Invoke<Show>.New()
-                .Set(t => t.Input = new Show.In {PlayerId = id})
+            var model = Task.Create<Show>()
+                .Set(new Show.In {PlayerId = id})
                 .Get().Output;
 
             return View(model);
@@ -30,8 +28,8 @@ namespace MvcExample.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var model = Invoke<Edit>.New()
-                .Set(t => t.Input = new Edit.In {PlayerId = id})
+            var model = Task.Create<Edit>()
+                .Set(new Edit.In {PlayerId = id})
                 .Get().Output;
 
             return View(model);
@@ -42,15 +40,15 @@ namespace MvcExample.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var editModel = Invoke<Edit>.New()
-                    .Set(t => t.Input = new Edit.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
+                var editModel = Task.Create<Edit>()
+                    .Set(new Edit.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
                     .Get().Output;
 
                 return View("Edit", editModel);
             }
 
-            Invoke<Update>.New()
-                .Set(t => t.Input = new Update.In { Player = model.Player })
+            Task.Create<Update>()
+                .Set(new Update.In { Player = model.Player })
                 .Execute();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });

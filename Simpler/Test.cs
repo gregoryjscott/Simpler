@@ -7,10 +7,8 @@ namespace Simpler
     {
         TTask Task { get; set; }
 
-        public static Test<TTask> New()
+        public static Test<TTask> Create()
         {
-            // TODO - automatically set all subtasks to mocked subtasks
-
             var createTask = new CreateTask { TaskType = typeof(TTask) };
             createTask.Execute();
 
@@ -20,9 +18,9 @@ namespace Simpler
             return test;
         }
 
-        public Test<TTask> Arrange(Action<TTask> set)
+        public Test<TTask> Arrange(Action<TTask> arrange)
         {
-            set(Task);
+            arrange(Task);
             return this;
         }
 

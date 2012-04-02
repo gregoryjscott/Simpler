@@ -17,7 +17,7 @@ namespace MvcExample.Tasks.Players
             public Player Player { get; set; }
         }
 
-        public Invoke<RunSqlAndReturn<Player>> SelectPlayer { get; set; }
+        public RunSqlAndReturn<Player> SelectPlayer { get; set; }
 
         public override void Execute()
         {
@@ -39,13 +39,13 @@ namespace MvcExample.Tasks.Players
                 ";
 
             var player = SelectPlayer
-                .Set(t =>
+                .Set(new RunSqlAndReturn<Player>.In
                          {
-                             t.ConnectionName = Config.DatabaseName;
-                             t.Sql = sql;
-                             t.Values = Input;
+                             ConnectionName = Config.DatabaseName,
+                             Sql = sql,
+                             Values = Input
                          })
-                .Get().Models.Single();
+                .Get().Output.Models.Single();
 
             Output = new Out {Player = player};
         }

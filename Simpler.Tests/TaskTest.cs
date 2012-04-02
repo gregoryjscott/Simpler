@@ -10,7 +10,7 @@ namespace Simpler.Tests
         public void should_inject_sub_tasks_before_execution_if_given_type_is_decorated_with_inject_sub_tasks_attribute()
         {
             // Arrange
-            var task = Invoke<MockParentTask>.New().Task;
+            var task = Task.Create<MockParentTask>();
 
             // Act
             task.Execute();

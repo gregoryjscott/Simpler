@@ -17,7 +17,7 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_return_list_of_players()
         {
-            Test<Index>.New()
+            Test<Index>.Create()
                 .Act()
                 .Assert(t => Assert.That(t.Output.Players.Length, Is.GreaterThan(0)));
         }

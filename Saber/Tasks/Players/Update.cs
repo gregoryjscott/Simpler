@@ -16,8 +16,7 @@ namespace Saber.Tasks.Players
 
         public override void Execute()
         {
-            UpdatePlayer.ConnectionName = Config.DatabaseName;
-            UpdatePlayer.Sql =
+            const string sql =
                 @"
                 update Player
                 set
@@ -26,8 +25,15 @@ namespace Saber.Tasks.Players
                 where
                     PlayerId = @PlayerId
                 ";
-            UpdatePlayer.Values = Input.Player;
-            UpdatePlayer.Execute();
+
+            UpdatePlayer
+                .Set(new RunSql.In
+                         {
+                             ConnectionName = Config.DatabaseName,
+                             Sql = sql,
+                             Values = Input.Player
+                         })
+                .Execute();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace MvcExample.Tests.Tasks.Players
         [Test]
         public void should_return_a_player()
         {
-            Test<Show>.New()
+            Test<Show>.Create()
                 .Arrange(t => t.Input = new Show.In {PlayerId = 1})
                 .Act()
                 .Assert(t => Assert.That(t.Output.Player.PlayerId, Is.GreaterThan(0)));

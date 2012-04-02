@@ -14,7 +14,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_call_command_to_persist_the_object()
         {
             // Arrange
-            var task = Invoke<PersistSingleOf<MockObject>>.New().Task;
+            var task = Task.Create<PersistSingleOf<MockObject>>();
 
             var mockBuildParameters = new Mock<BuildParametersUsing<MockObject>>();
             task.BuildParameters = mockBuildParameters.Object;
@@ -39,7 +39,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_no_database_rows_are_affected()
         {
             // Arrange
-            var task = Invoke<PersistSingleOf<MockObject>>.New().Task;
+            var task = Task.Create<PersistSingleOf<MockObject>>();
 
             var mockBuildParameters = new Mock<BuildParametersUsing<MockObject>>();
             task.BuildParameters = mockBuildParameters.Object;
@@ -56,7 +56,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_more_than_one_database_row_is_affected()
         {
             // Arrange
-            var task = Invoke<PersistSingleOf<MockObject>>.New().Task;
+            var task = Task.Create<PersistSingleOf<MockObject>>();
 
             var mockBuildParameters = new Mock<BuildParametersUsing<MockObject>>();
             task.BuildParameters = mockBuildParameters.Object;

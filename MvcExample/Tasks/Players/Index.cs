@@ -11,13 +11,11 @@ namespace MvcExample.Tasks.Players
             public Player[] Players { get; set; }
         }
 
-        public RunSqlAndReturn<Player> FetchPlayers { get; set; }
+        public RunSqlAndReturn<Player> SelectPlayers { get; set; }
 
         public override void Execute()
         {
-            FetchPlayers.ConnectionName = Config.DatabaseName;
-            FetchPlayers.Sql =
-                @"
+            const string sql = @"
                 select 
                     PlayerId,
                     Player.FirstName,
@@ -31,9 +29,16 @@ namespace MvcExample.Tasks.Players
                     Team on
                         Player.TeamId = Team.TeamId
                 ";
-            FetchPlayers.Execute();
 
-            Output = new Out {Players = FetchPlayers.Models};
+            var players = SelectPlayers
+                .Set(new RunSqlAndReturn<Player>.In
+                {
+                    ConnectionName = Config.DatabaseName,
+                    Sql = sql
+                })
+                .Get().Output.Models;
+
+            Output = new Out { Players = players };
         }
     }
 }

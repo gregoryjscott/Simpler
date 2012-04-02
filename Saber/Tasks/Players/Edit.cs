@@ -15,13 +15,13 @@ namespace Saber.Tasks.Players
             public Player Player { get; set; }
         }
 
-        public Invoke<FetchPlayer> FetchPlayer { get; set; }
+        public FetchPlayer FetchPlayer { get; set; }
 
         public override void Execute()
         {
             var player = FetchPlayer
-                .Set(t => t.Input = new FetchPlayer.In {PlayerId = Input.PlayerId})
-                .Get().Output.PlayerData;
+                .Set(new FetchPlayer.In {PlayerId = Input.PlayerId})
+                .Get().Output.Player;
 
             Output = new Out {Player = player};
         }

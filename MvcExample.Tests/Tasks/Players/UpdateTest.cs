@@ -26,13 +26,13 @@ namespace MvcExample.Tests.Tasks.Players
                 TeamId = 2
             };
 
-            Test<Update>.New()
+            Test<Update>.Create()
                 .Arrange(t => t.Input = new Update.In {Player = player})
                 .Act()
                 .Assert(t =>
                             {
-                                var updatedPlayer = Invoke<FetchPlayer>.New()
-                                    .Set(t2 => t2.Input = new FetchPlayer.In
+                                var updatedPlayer = Task.Create<FetchPlayer>()
+                                    .Set(new FetchPlayer.In
                                                               {
                                                                   PlayerId = player.PlayerId.GetValueOrDefault()
                                                               })

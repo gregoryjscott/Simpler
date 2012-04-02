@@ -5,6 +5,12 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InTask<TInput> : Task
     {
-        public TInput Input { get; set; }
+        public TInput Input { protected get; set; }
+
+        public InTask<TInput> Set(TInput input)
+        {
+            Input = input;
+            return this;
+        }
     }
 }

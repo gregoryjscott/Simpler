@@ -5,7 +5,19 @@ namespace Simpler
     [InjectSubTasks]
     public abstract class InOutTask<TInput, TOutput> : Task
     {
-        public TInput Input { get; set; }
-        public TOutput Output { get; set; }
+        public TInput Input { protected get; set; }
+        public TOutput Output { get; protected set; }
+
+        public InOutTask<TInput, TOutput> Set(TInput input)
+        {
+            Input = input;
+            return this;
+        }
+
+        public InOutTask<TInput, TOutput> Get()
+        {
+            Execute();
+            return this;
+        }
     }
 }

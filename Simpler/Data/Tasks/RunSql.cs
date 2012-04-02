@@ -3,28 +3,31 @@
 namespace Simpler.Data.Tasks
 {
     // todo - Using Task<TI, TO> here just to get the InjectSubTasks attribute.
-    public class RunSql : InOutTask<object, object>
+    public class RunSql : InOutTask<RunSql.In, RunSql.Out>
     {
-        // Inputs
-        public string ConnectionName { get; set; }
-        public string Sql { get; set; }
-        public object Values { get; set; }
+        public class In
+        {
+            public string ConnectionName { get; set; }
+            public string Sql { get; set; }
+            public object Values { get; set; }
+        }
 
-        // Outputs
-        public int RowsAffected { get; private set; }
+        public class Out
+        {
+            public int RowsAffected { get; set; }
+        }
 
-        // Sub-tasks
         public RunCommandAction RunCommandAction { get; set; }
 
         public override void Execute()
         {
-            RunCommandAction.ConnectionName = ConnectionName;
-            RunCommandAction.Sql = Sql;
-            RunCommandAction.Values = Values;
+            RunCommandAction.ConnectionName = Input.ConnectionName;
+            RunCommandAction.Sql = Input.Sql;
+            RunCommandAction.Values = Input.Values;
             RunCommandAction.CommandAction = command =>
-                                             {
-                                                 RowsAffected = command.ExecuteNonQuery();
-                                             };
+                                                 {
+                                                     Output = new Out {RowsAffected = command.ExecuteNonQuery()};
+                                                 };
             RunCommandAction.Execute();
         }
     }

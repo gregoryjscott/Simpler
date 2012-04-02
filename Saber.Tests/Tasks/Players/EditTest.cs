@@ -17,7 +17,7 @@ namespace Saber.Tests.Tasks.Players
         [Test]
         public void should_return_a_player_for_editing()
         {
-            Test<Edit>.New()
+            Test<Edit>.Create()
                 .Arrange(t => t.Input = new Edit.In {PlayerId = 1})
                 .Act()
                 .Assert(t => Assert.That(t.Output.Player.PlayerId, Is.EqualTo(1)));
