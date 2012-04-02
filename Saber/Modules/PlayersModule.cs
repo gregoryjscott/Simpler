@@ -3,7 +3,7 @@ using Nancy;
 using Simpler;
 using Nancy.ModelBinding;
 
-namespace Saber.Modules
+namespace Example.Nancy.Modules
 {
     public class PlayersModule : NancyModule
     {

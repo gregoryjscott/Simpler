@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Simpler.1.1.nupkg = Simpler.1.1.nupkg
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExample", "MvcExample\MvcExample.csproj", "{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Mvc", "MvcExample\Example.Mvc.csproj", "{65DFE18C-FC22-47B6-8F6C-E2AD776937DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saber", "Saber\Saber.csproj", "{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Nancy", "Saber\Example.Nancy.csproj", "{5E19A947-84C7-4C05-8FA3-CEC74C1BBA22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Model.Tests", "Saber.Tests\Example.Model.Tests.csproj", "{6118E2E2-9389-40D1-B604-E5E293DA00BB}"
 EndProject

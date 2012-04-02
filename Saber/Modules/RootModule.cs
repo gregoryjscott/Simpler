@@ -1,6 +1,6 @@
 using Nancy;
 
-namespace Saber.Modules
+namespace Example.Nancy.Modules
 {
     public class RootModule : NancyModule
     {

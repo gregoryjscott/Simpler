@@ -2,7 +2,7 @@
 using Example.Model.Tasks.Players;
 using Simpler;
 
-namespace MvcExample.Controllers
+namespace Example.Mvc.Controllers
 {
     public class PlayersController : Controller
     {

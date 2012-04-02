@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace MvcExample.Controllers
+namespace Example.Mvc.Controllers
 {
     public class HomeController : Controller
     {

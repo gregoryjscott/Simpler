@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Project template for a blank Nancy web application")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nancy")]
-[assembly: AssemblyProduct("Saber")]
+[assembly: AssemblyProduct("Example.Nancy")]
 [assembly: AssemblyCopyright("Copyright © Nancy 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

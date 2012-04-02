@@ -1,4 +1,4 @@
-﻿namespace MvcExample
+﻿namespace Example.Mvc
 {
     public static class Config
     {
