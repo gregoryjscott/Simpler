@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using Saber.Models.Players;
+using Saber.Entities;
 using Saber.Tasks.Players;
 using Simpler;
 

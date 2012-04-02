@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Saber.Models.Players;
+using Saber.Entities;
 using Simpler;
 using Simpler.Data.Tasks;
 

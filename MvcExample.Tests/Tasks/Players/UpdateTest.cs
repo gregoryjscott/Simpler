@@ -1,5 +1,5 @@
 ﻿using System;
-using MvcExample.Models.Players;
+using MvcExample.Entities;
 using MvcExample.Tasks.Players;
 using NUnit.Framework;
 using Simpler;

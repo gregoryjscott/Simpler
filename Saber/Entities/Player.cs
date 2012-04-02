@@ -1,4 +1,4 @@
-namespace MvcExample.Models.Players
+namespace Saber.Entities
 {
     public class Player
     {

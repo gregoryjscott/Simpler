@@ -1,4 +1,4 @@
-﻿using MvcExample.Models.Players;
+﻿using MvcExample.Entities;
 using Simpler;
 
 namespace MvcExample.Tasks.Players

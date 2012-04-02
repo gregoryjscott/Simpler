@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using MvcExample.Models.Players;
+using MvcExample.Entities;
 using Simpler;
 using Simpler.Data.Tasks;
 

@@ -1,4 +1,4 @@
-﻿using Saber.Models.Players;
+﻿using Saber.Entities;
 using Simpler;
 
 namespace Saber.Tasks.Players
