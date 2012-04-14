@@ -2,7 +2,7 @@
 
 namespace Simpler.Tests.Mocks
 {
-    public class MockInOutTask : InOutTask<MockObject, MockComplexObject>
+    public class MockInOutJob : InOutJob<MockObject, MockComplexObject>
     {
         public new MockObject In { get { return base.Input; } set { base.Input = value; } }
 

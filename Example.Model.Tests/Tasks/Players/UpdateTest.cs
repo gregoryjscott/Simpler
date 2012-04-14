@@ -1,9 +1,9 @@
 ﻿using Example.Model.Entities;
-using Example.Model.Tasks.Players;
+using Example.Model.Jobs.Players;
 using NUnit.Framework;
 using Simpler;
 
-namespace Example.Model.Tests.Tasks.Players
+namespace Example.Model.Tests.Jobs.Players
 {
     [TestFixture]
     public class UpdateTest
@@ -30,7 +30,7 @@ namespace Example.Model.Tests.Tasks.Players
                 .Act()
                 .Assert(t =>
                             {
-                                var updatedPlayer = Task.Create<FetchPlayer>()
+                                var updatedPlayer = Job.Create<FetchPlayer>()
                                     .Set(new FetchPlayer.In
                                              {
                                                  PlayerId = player.PlayerId.GetValueOrDefault()

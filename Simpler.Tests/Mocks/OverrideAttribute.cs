@@ -9,7 +9,7 @@ namespace Simpler.Tests.Mocks
     {
         public override void ExecutionOverride(IInvocation executeInvocation)
         {
-            ((MockTaskWithOverrideAttribute)executeInvocation.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
+            ((MockJobWithOverrideAttribute)executeInvocation.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
             Thread.Sleep(100);
             executeInvocation.Proceed();
         }

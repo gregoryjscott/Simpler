@@ -1,9 +1,9 @@
 using Example.Model.Entities;
 using Simpler;
 
-namespace Example.Model.Tasks.Players
+namespace Example.Model.Jobs.Players
 {
-    public class Edit : InOutTask<Edit.In, Edit.Out>
+    public class Show : InOutJob<Show.In, Show.Out>
     {
         public class In
         {
@@ -15,15 +15,15 @@ namespace Example.Model.Tasks.Players
             public Player Player { get; set; }
         }
 
-        public FetchPlayer FetchPlayer { get; set; }
+        public FetchPlayer FetchPlayerData { get; set; }
 
         public override void Execute()
         {
-            var player = FetchPlayer
+            var player = FetchPlayerData
                 .Set(new FetchPlayer.In {PlayerId = Input.PlayerId})
                 .Get().Player;
 
-            Output = new Out {Player = player};
+            Output = new Out { Player = player };
         }
     }
 }

@@ -1,10 +1,10 @@
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Tasks;
+using Simpler.Data.Jobs;
 
-namespace Example.Model.Tasks.Players
+namespace Example.Model.Jobs.Players
 {
-    public class Update : InTask<Update.In>
+    public class Update : InJob<Update.In>
     {
         public class In
         {

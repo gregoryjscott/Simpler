@@ -2,7 +2,7 @@
 using System.Data;
 using System.Reflection;
 
-namespace Simpler.Data.Tasks
+namespace Simpler.Data.Jobs
 {
     // todo - this is obsolete
     public class BuildParametersUsing<T> : BuildParameters
@@ -10,21 +10,21 @@ namespace Simpler.Data.Tasks
     }
 
     /// <summary>
-    /// Task that looks in the given command's CommandText for parameters and uses the given object's property
+    /// Job that looks in the given command's CommandText for parameters and uses the given object's property
     /// values to build the command parameters.
     /// </summary>
-    public class BuildParameters : Task
+    public class BuildParameters : Job
     {
         // Inputs
         public virtual IDbCommand CommandWithParameters { get; set; }
         public virtual object ObjectWithValues { get; set; }
 
-        // Sub-tasks
+        // Sub-jobs
         public virtual FindParametersInCommandText FindParametersInCommandText { get; set; }
 
         public override void Execute()
         {
-            // Create the sub-tasks.
+            // Create the sub-jobs.
             if (FindParametersInCommandText == null) FindParametersInCommandText = new FindParametersInCommandText();
 
             FindParametersInCommandText.CommandText = CommandWithParameters.CommandText;

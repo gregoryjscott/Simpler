@@ -2,12 +2,12 @@
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace Simpler.Data.Tasks
+namespace Simpler.Data.Jobs
 {
     /// <summary>
-    /// Task that will search the given command text for parameter placeholders.  Placeholders can begin with a ":" or a "@".
+    /// Job that will search the given command text for parameter placeholders.  Placeholders can begin with a ":" or a "@".
     /// </summary>
-    public class FindParametersInCommandText : Task
+    public class FindParametersInCommandText : Job
     {
         // Inputs
         public virtual string CommandText { get; set; }

@@ -1,9 +1,9 @@
-﻿using Simpler.Data.Tasks.Internal;
+﻿using Simpler.Data.Jobs.Internal;
 
-namespace Simpler.Data.Tasks
+namespace Simpler.Data.Jobs
 {
-    // todo - Using Task<TI, TO> here just to get the InjectSubTasks attribute.
-    public class RunSql : InOutTask<RunSql.In, RunSql.Out>
+    // todo - Using Job<TI, TO> here just to get the InjectSubJobs attribute.
+    public class RunSql : InOutJob<RunSql.In, RunSql.Out>
     {
         public class In
         {

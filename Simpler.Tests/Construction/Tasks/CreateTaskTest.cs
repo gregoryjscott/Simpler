@@ -1,38 +1,38 @@
 ﻿using NUnit.Framework;
-using Simpler.Construction.Tasks;
+using Simpler.Construction.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Construction.Tasks
+namespace Simpler.Tests.Construction.Jobs
 {
     [TestFixture]
-    public class CreateTaskTest
+    public class CreateJobTest
     {
         [Test]
         public void should_just_provide_instance_if_given_type_is_not_decorated_with_execution_callbacks_attribute()
         {
             // Arrange
-            var task = new CreateTask { TaskType = typeof(MockTask) };
+            var job = new CreateJob { JobType = typeof(MockJob) };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(task.TaskInstance, Is.InstanceOf<MockTask>());
-            Assert.That(task.TaskInstance.GetType().Name, Is.Not.EqualTo("MockTaskWithOnExecuteAttributeProxy"));
+            Assert.That(job.JobInstance, Is.InstanceOf<MockJob>());
+            Assert.That(job.JobInstance.GetType().Name, Is.Not.EqualTo("MockJobWithOnExecuteAttributeProxy"));
         }
 
         [Test]
         public void should_provide_proxy_instance_if_given_type_is_decorated_with_execution_callbacks_attribute()
         {
             // Arrange
-            var task = new CreateTask { TaskType = typeof(MockTaskWithAttributes) };
+            var job = new CreateJob { JobType = typeof(MockJobWithAttributes) };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(task.TaskInstance, Is.InstanceOf<MockTaskWithAttributes>());
-            Assert.That(task.TaskInstance.GetType().Name, Is.EqualTo("MockTaskWithAttributesProxy"));
+            Assert.That(job.JobInstance, Is.InstanceOf<MockJobWithAttributes>());
+            Assert.That(job.JobInstance.GetType().Name, Is.EqualTo("MockJobWithAttributesProxy"));
         }
     }
 }

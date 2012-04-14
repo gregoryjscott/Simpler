@@ -21,7 +21,7 @@ namespace Simpler.Data
         TransactionScope _transactionScope;
         bool _errorOccurred;
 
-        public override void BeforeExecute(Task taskBeingExecuted)
+        public override void BeforeExecute(Job jobBeingExecuted)
         {
             // Reset the flag.
             _errorOccurred = false;
@@ -32,7 +32,7 @@ namespace Simpler.Data
             }
         }
 
-        public override void AfterExecute(Task taskBeingExecuted)
+        public override void AfterExecute(Job jobBeingExecuted)
         {
             if (!_errorOccurred)
             {
@@ -43,7 +43,7 @@ namespace Simpler.Data
             _transactionScope = null;
         }
 
-        public override void OnError(Task taskBeingExecuted, Exception exception)
+        public override void OnError(Job jobBeingExecuted, Exception exception)
         {
             // Set the flag so that the transaction will not be committed.
             _errorOccurred = true;

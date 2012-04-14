@@ -1,10 +1,10 @@
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Tasks;
+using Simpler.Data.Jobs;
 
-namespace Example.Model.Tasks.Players
+namespace Example.Model.Jobs.Players
 {
-    public class Index : OutTask<Index.Out>
+    public class Index : OutJob<Index.Out>
     {
         public class Out
         {

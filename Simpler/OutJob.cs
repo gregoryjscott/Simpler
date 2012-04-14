@@ -2,8 +2,8 @@ using Simpler.Injection;
 
 namespace Simpler
 {
-    [InjectSubTasks]
-    public abstract class OutTask<TOutput> : Task
+    [InjectSubJobs]
+    public abstract class OutJob<TOutput> : Job
     {
         public TOutput Output { get; protected set; }
 

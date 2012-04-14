@@ -1,118 +1,118 @@
 ﻿using System;
 using Castle.DynamicProxy;
 using NUnit.Framework;
-using Simpler.Construction.Tasks;
+using Simpler.Construction.Jobs;
 using Moq;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Construction.Tasks
+namespace Simpler.Tests.Construction.Jobs
 {
     [TestFixture]
-    public class NotifySubscribersOfTaskExecutionTest
+    public class NotifySubscribersOfJobExecutionTest
     {
-        static void VerifyFiveCallbacks(MockTaskWithAttributes taskWithAttributes)
+        static void VerifyFiveCallbacks(MockJobWithAttributes jobWithAttributes)
         {
-            Assert.That(taskWithAttributes.CallbackQueue.Count, Is.EqualTo(5));
+            Assert.That(jobWithAttributes.CallbackQueue.Count, Is.EqualTo(5));
 
             // Note: Attributes on a class are not returned in any order and therefore the it can not be assumed that the
             // first attribute will receive the first callback.
-            if (taskWithAttributes.CallbackQueue.Peek().Contains("First"))
+            if (jobWithAttributes.CallbackQueue.Peek().Contains("First"))
             {
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
             }
             else
             {
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(jobWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
             }
         }
-        static void VerifySevenCallbacks(MockTaskWithAttributesThatThrows taskWithAttributesThatThrows)
+        static void VerifySevenCallbacks(MockJobWithAttributesThatThrows jobWithAttributesThatThrows)
         {
-            Assert.That(taskWithAttributesThatThrows.CallbackQueue.Count, Is.EqualTo(7));
+            Assert.That(jobWithAttributesThatThrows.CallbackQueue.Count, Is.EqualTo(7));
 
             // Note: Attributes on a class are not returned in any order and therefore the it can not be assumed that the
             // first attribute will receive the first callback.
-            if (taskWithAttributesThatThrows.CallbackQueue.Peek().Contains("First"))
+            if (jobWithAttributesThatThrows.CallbackQueue.Peek().Contains("First"))
             {
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
             }
             else
             {
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
-                Assert.That(taskWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(jobWithAttributesThatThrows.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
             }
         }
 
         [Test]
-        public void should_send_notifications_before_and_after_the_task_is_executed()
+        public void should_send_notifications_before_and_after_the_job_is_executed()
         {
             // Arrange
-            var task = new NotifySubscribersOfTaskExecution();
+            var job = new NotifySubscribersOfJobExecution();
 
-            var taskWithAttributes = new MockTaskWithAttributes();
-            task.ExecutingTask = taskWithAttributes;
+            var jobWithAttributes = new MockJobWithAttributes();
+            job.ExecutingJob = jobWithAttributes;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
-            task.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithAttributes.Execute);
+            job.Invocation = mockInvocation.Object;
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            VerifyFiveCallbacks(taskWithAttributes);
+            VerifyFiveCallbacks(jobWithAttributes);
         }
 
         [Test]
-        public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
+        public void should_send_notifications_if_job_execution_throws_an_unhandled_exception()
         {
             // Arrange
-            var task = new NotifySubscribersOfTaskExecution();
+            var job = new NotifySubscribersOfJobExecution();
 
-            var taskWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
-            task.ExecutingTask = taskWithAttributesThatThrows;
+            var jobWithAttributesThatThrows = new MockJobWithAttributesThatThrows();
+            job.ExecutingJob = jobWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithAttributesThatThrows.Execute);
+            job.Invocation = mockInvocation.Object;
 
             // Act
-            Assert.Throws(typeof(TestException), task.Execute);
+            Assert.Throws(typeof(TestException), job.Execute);
 
             // Assert
-            VerifySevenCallbacks(taskWithAttributesThatThrows);
+            VerifySevenCallbacks(jobWithAttributesThatThrows);
         }
 
         [Test]
-        public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
+        public void should_send_notifications_after_the_job_is_executed_even_if_exception_occurs()
         {
             // Arrange
-            var task = new NotifySubscribersOfTaskExecution();
+            var job = new NotifySubscribersOfJobExecution();
 
-            var taskWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
-            task.ExecutingTask = taskWithAttributesThatThrows;
+            var jobWithAttributesThatThrows = new MockJobWithAttributesThatThrows();
+            job.ExecutingJob = jobWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithAttributesThatThrows.Execute);
+            job.Invocation = mockInvocation.Object;
 
             var throwHappened = false;
             try
@@ -120,12 +120,12 @@ namespace Simpler.Tests.Construction.Tasks
                 try
                 {
                     // Act (this will throw an exception)
-                    task.Execute();
+                    job.Execute();
                 }
                 finally
                 {
                     // Assert
-                    VerifySevenCallbacks(taskWithAttributesThatThrows);
+                    VerifySevenCallbacks(jobWithAttributesThatThrows);
                 }
             }
             catch (TestException)
@@ -136,24 +136,24 @@ namespace Simpler.Tests.Construction.Tasks
         }
 
         [Test]
-        public void should_allow_the_task_execution_to_be_overriden()
+        public void should_allow_the_job_execution_to_be_overriden()
         {
             // Arrange
-            var task = new NotifySubscribersOfTaskExecution();
+            var job = new NotifySubscribersOfJobExecution();
 
-            var taskWithOverride = new MockTaskWithOverrideAttribute();
-            task.ExecutingTask = taskWithOverride;
+            var jobWithOverride = new MockJobWithOverrideAttribute();
+            job.ExecutingJob = jobWithOverride;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
-            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
-            task.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithOverride.Execute);
+            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(jobWithOverride);
+            job.Invocation = mockInvocation.Object;
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
+            Assert.That(jobWithOverride.OverrideWasCalledBeforeTheJobWasExecuted);
         }
     }
 }

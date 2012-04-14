@@ -2,14 +2,14 @@
 using System.Data;
 using Simpler.Data.Exceptions;
 
-namespace Simpler.Data.Tasks
+namespace Simpler.Data.Jobs
 {
     /// <summary>
-    /// Task that builds an instance of the given type T using the values found in the given DataRecord.  If the DataRecord contains
+    /// Job that builds an instance of the given type T using the values found in the given DataRecord.  If the DataRecord contains
     /// any columns that match the name of the property on T, then that column's value will be used to set the property.
     /// </summary>
     /// <typeparam name="T">The type of object to build.</typeparam>
-    public class UseDataRecordToBuild<T> : Task
+    public class UseDataRecordToBuild<T> : Job
     {
         // Inputs
         public virtual IDataRecord DataRecord { get; set; }

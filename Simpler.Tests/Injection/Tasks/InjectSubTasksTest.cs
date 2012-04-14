@@ -1,55 +1,55 @@
 ﻿using Moq;
 using NUnit.Framework;
-using Simpler.Injection.Tasks;
+using Simpler.Injection.Jobs;
 using System;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Injection.Tasks
+namespace Simpler.Tests.Injection.Jobs
 {
     [TestFixture]
-    public class InjectSubTasksTest
+    public class InjectSubJobsTest
     {
         [Test]
-        public void should_inject_sub_task_if_null()
+        public void should_inject_sub_job_if_null()
         {
             // Arrange
-            var mockParentTask = new MockParentTask();
-            var task = new InjectSubTasks { TaskContainingSubTasks = mockParentTask };
+            var mockParentJob = new MockParentJob();
+            var job = new InjectSubJobs { JobContainingSubJobs = mockParentJob };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(mockParentTask.MockSubClass, Is.Not.Null);
+            Assert.That(mockParentJob.MockSubClass, Is.Not.Null);
         }
 
         [Test]
-        public void should_not_inject_sub_task_if_not_null()
+        public void should_not_inject_sub_job_if_not_null()
         {
             // Arrange
-            var mockDifferentSubTask = new Mock<MockSubTask<DateTime>>();
-            var mockParentTask = new MockParentTask { MockSubClass = mockDifferentSubTask.Object };
-            var task = new InjectSubTasks { TaskContainingSubTasks = mockParentTask };
+            var mockDifferentSubJob = new Mock<MockSubJob<DateTime>>();
+            var mockParentJob = new MockParentJob { MockSubClass = mockDifferentSubJob.Object };
+            var job = new InjectSubJobs { JobContainingSubJobs = mockParentJob };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(task.InjectedSubTaskPropertyNames.Length, Is.EqualTo(0));
+            Assert.That(job.InjectedSubJobPropertyNames.Length, Is.EqualTo(0));
         }
 
         [Test]
-        public void should_return_a_list_of_all_sub_tasks_that_were_injected()
+        public void should_return_a_list_of_all_sub_jobs_that_were_injected()
         {
             // Arrange
-            var mockParentTask = new MockParentTask();
-            var task = new InjectSubTasks { TaskContainingSubTasks = mockParentTask };
+            var mockParentJob = new MockParentJob();
+            var job = new InjectSubJobs { JobContainingSubJobs = mockParentJob };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(task.InjectedSubTaskPropertyNames[0], Is.EqualTo(typeof(MockSubTask<DateTime>).FullName));
+            Assert.That(job.InjectedSubJobPropertyNames[0], Is.EqualTo(typeof(MockSubJob<DateTime>).FullName));
         }
     }
 }

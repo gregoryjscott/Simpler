@@ -1,4 +1,4 @@
-using Example.Model.Tasks.Players;
+using Example.Model.Jobs.Players;
 using Nancy;
 using Simpler;
 using Nancy.ModelBinding;
@@ -12,7 +12,7 @@ namespace Example.Nancy.Modules
             Get["/players"] =
                 parameters =>
                     {
-                        var model = Task.Create<Index>()
+                        var model = Job.Create<Index>()
                             .Get();
 
                         return View["Views/Players/Index.html", model];
@@ -21,7 +21,7 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var model = Task.Create<Show>()
+                        var model = Job.Create<Show>()
                             .Set(this.Bind<Show.In>())
                             .Get();
 
@@ -31,7 +31,7 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}/edit"] =
                 parameters =>
                     {
-                        var model = Task.Create<Edit>()
+                        var model = Job.Create<Edit>()
                             .Set(this.Bind<Edit.In>())
                             .Get();
 
@@ -43,7 +43,7 @@ namespace Example.Nancy.Modules
                     {
                         var input = this.Bind<Update.In>();
                         
-                        Task.Create<Update>()
+                        Job.Create<Update>()
                             .Set(input)
                             .Execute();
 

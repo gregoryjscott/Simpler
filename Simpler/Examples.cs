@@ -1,11 +1,11 @@
 ﻿//using System;
 //using System.Data.SqlClient;
-//using Simpler.Data.Tasks;
+//using Simpler.Data.Jobs;
 //using Simpler.Injection;
 
 //namespace Simpler
 //{
-//    class AnswerUsingDynamicProperties : Task
+//    class AnswerUsingDynamicProperties : Job
 //    {
 //        public override void Execute()
 //        {
@@ -19,7 +19,7 @@
 //        }
 //    }
 
-//    class AnswerUsingStaticProperies : Task
+//    class AnswerUsingStaticProperies : Job
 //    {
 //        // Inputs
 //        public string Question { get; set; }
@@ -36,10 +36,10 @@
 //        }
 //    }
 
-//    [InjectSubTasks]
-//    class CompareAnswers : Task
+//    [InjectSubJobs]
+//    class CompareAnswers : Job
 //    {
-//        // Sub-tasks
+//        // Sub-jobs
 //        public AnswerUsingDynamicProperties AnswerUsingDynamicProperties { get; set; }
 //        public AnswerUsingStaticProperies AnswerUsingStaticProperies { get; set; }
 
@@ -67,7 +67,7 @@
 //    {
 //        Program()
 //        {
-//            var compareAnswers = TaskFactory<CompareAnswers>.Create();
+//            var compareAnswers = JobFactory<CompareAnswers>.Create();
 //            compareAnswers.Execute();
 //            Console.WriteLine(compareAnswers.Outputs.AnswersMatch);
 //        }
@@ -75,8 +75,8 @@
 
 //    class SomeStuff {}
 
-//    [InjectSubTasks]
-//    class FetchSomeStuff : Task
+//    [InjectSubJobs]
+//    class FetchSomeStuff : Job
 //    {
 //        // Inputs
 //        public string SomeCriteria { get; set; }
@@ -84,7 +84,7 @@
 //        // Outputs
 //        public SomeStuff[] SomeStuff { get; set; }
 
-//        // Sub-tasks (BuildParametersUsing<T> and FetchListOf<T> are built-in Simpler Tasks)
+//        // Sub-jobs (BuildParametersUsing<T> and FetchListOf<T> are built-in Simpler Jobs)
 //        public BuildParametersUsing<FetchSomeStuff> BuildParameters { get; set; }
 //        public FetchListOf<SomeStuff> FetchList { get; set; }
 
@@ -105,7 +105,7 @@
 //                        OneOfTheTables.SomeColumn = @SomeCriteria 
 //                    ";
 
-//                // Use the SomeCriteria property value on this Task to build the @SomeCriteria parameter.
+//                // Use the SomeCriteria property value on this Job to build the @SomeCriteria parameter.
 //                BuildParameters.CommandWithParameters = command;
 //                BuildParameters.ObjectWithValues = this;
 //                BuildParameters.Execute();

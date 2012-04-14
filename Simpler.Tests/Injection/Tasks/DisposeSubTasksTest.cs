@@ -1,69 +1,69 @@
 ﻿using NUnit.Framework;
-using Simpler.Injection.Tasks;
+using Simpler.Injection.Jobs;
 using System;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Injection.Tasks
+namespace Simpler.Tests.Injection.Jobs
 {
     [TestFixture]
-    public class DisposeSubTasksTest
+    public class DisposeSubJobsTest
     {
         [Test]
-        public void should_dispose_sub_task_property_that_is_included_in_list_of_injected_property_names()
+        public void should_dispose_sub_job_property_that_is_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockSubTask = new MockSubTask<DateTime>();
-            var mockParentTask = new MockParentTask { MockSubClass = mockSubTask };
-            var task = new DisposeSubTasks { TaskContainingSubTasks = mockParentTask, InjectedSubTaskPropertyNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
+            var mockSubJob = new MockSubJob<DateTime>();
+            var mockParentJob = new MockParentJob { MockSubClass = mockSubJob };
+            var job = new DisposeSubJobs { JobContainingSubJobs = mockParentJob, InjectedSubJobPropertyNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(mockSubTask.DisposeWasCalled, Is.True);
+            Assert.That(mockSubJob.DisposeWasCalled, Is.True);
         }
 
         [Test]
-        public void should_not_dispose_sub_task_property_that_is_not_included_in_list_of_injected_property_names()
+        public void should_not_dispose_sub_job_property_that_is_not_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockSubTask = new MockSubTask<DateTime>();
-            var mockParentTask = new MockParentTask { MockSubClass = mockSubTask };
-            var task = new DisposeSubTasks { TaskContainingSubTasks = mockParentTask, InjectedSubTaskPropertyNames = new string[] { "bogus" } };
+            var mockSubJob = new MockSubJob<DateTime>();
+            var mockParentJob = new MockParentJob { MockSubClass = mockSubJob };
+            var job = new DisposeSubJobs { JobContainingSubJobs = mockParentJob, InjectedSubJobPropertyNames = new string[] { "bogus" } };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(mockSubTask.DisposeWasCalled, Is.False);
+            Assert.That(mockSubJob.DisposeWasCalled, Is.False);
         }
 
         [Test]
-        public void should_set_sub_task_property_to_null_that_is_included_in_list_of_injected_property_names()
+        public void should_set_sub_job_property_to_null_that_is_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockParentTask = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
-            var task = new DisposeSubTasks { TaskContainingSubTasks = mockParentTask, InjectedSubTaskPropertyNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
+            var mockParentJob = new MockParentJob { MockSubClass = new MockSubJob<DateTime>() };
+            var job = new DisposeSubJobs { JobContainingSubJobs = mockParentJob, InjectedSubJobPropertyNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(mockParentTask.MockSubClass, Is.Null);
+            Assert.That(mockParentJob.MockSubClass, Is.Null);
         }
 
         [Test]
-        public void should_not_set_sub_task_property_to_null_that_is_not_included_in_list_of_injected_property_names()
+        public void should_not_set_sub_job_property_to_null_that_is_not_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockParentTask = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
-            var task = new DisposeSubTasks { TaskContainingSubTasks = mockParentTask, InjectedSubTaskPropertyNames = new string[] { "bogus" } };
+            var mockParentJob = new MockParentJob { MockSubClass = new MockSubJob<DateTime>() };
+            var job = new DisposeSubJobs { JobContainingSubJobs = mockParentJob, InjectedSubJobPropertyNames = new string[] { "bogus" } };
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(mockParentTask.MockSubClass, Is.Not.Null);
+            Assert.That(mockParentJob.MockSubClass, Is.Not.Null);
         }
     }
 }

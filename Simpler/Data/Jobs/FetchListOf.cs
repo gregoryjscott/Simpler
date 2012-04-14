@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 
-namespace Simpler.Data.Tasks
+namespace Simpler.Data.Jobs
 {
     /// <summary>
-    /// Task that will create a list of objects of the given type T using the results of the given command.
+    /// Job that will create a list of objects of the given type T using the results of the given command.
     /// </summary>
     /// <typeparam name="T">The type of the objects in the list to return.</typeparam>
-    public class FetchListOf<T> : Task
+    public class FetchListOf<T> : Job
     {
         // Inputs
         public virtual IDbCommand SelectCommand { get; set; }
@@ -15,12 +15,12 @@ namespace Simpler.Data.Tasks
         // Outputs
         public virtual T[] ObjectsFetched { get; private set; }
 
-        // Sub-tasks
+        // Sub-jobs
         public virtual UseDataRecordToBuild<T> UseDataRecordToBuild { get; set; }
 
         public override void Execute()
         {
-            // Create the sub-tasks.
+            // Create the sub-jobs.
             if (UseDataRecordToBuild == null) UseDataRecordToBuild = new UseDataRecordToBuild<T>();
 
             var objectList = new List<T>();

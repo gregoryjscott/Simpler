@@ -4,10 +4,10 @@ using System.Data;
 using System.Data.Common;
 using Simpler.Data.Exceptions;
 
-namespace Simpler.Data.Tasks.Internal
+namespace Simpler.Data.Jobs.Internal
 {
-    // todo - Using Task<TI, TO> here just to get the InjectSubTasks attribute.
-    public class RunCommandAction : InOutTask<object, object>
+    // todo - Using Job<TI, TO> here just to get the InjectSubJobs attribute.
+    public class RunCommandAction : InOutJob<object, object>
     {
         // Inputs
         public string ConnectionName { get; set; }
@@ -15,7 +15,7 @@ namespace Simpler.Data.Tasks.Internal
         public object Values { get; set; }
         public Action<IDbCommand> CommandAction { get; set; }
 
-        // Sub-tasks
+        // Sub-jobs
         public BuildParameters BuildParameters { get; set; }
 
         public override void Execute()

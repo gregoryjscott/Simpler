@@ -20,7 +20,7 @@ namespace Simpler.Impersonation
         public string Password { get; set; }
         public string Domain { get; set; }
 
-        public override void BeforeExecute(Task taskBeingExecuted)
+        public override void BeforeExecute(Job jobBeingExecuted)
         {
             if (_impersonationContext == null)
             {
@@ -28,12 +28,12 @@ namespace Simpler.Impersonation
             }
         }
 
-        public override void AfterExecute(Task taskBeingExecuted)
+        public override void AfterExecute(Job jobBeingExecuted)
         {
             _impersonationContext.Dispose();
             _impersonationContext = null;
         }
 
-        public override void OnError(Task taskBeingExecuted, Exception exception) { }
+        public override void OnError(Job jobBeingExecuted, Exception exception) { }
     }
 }

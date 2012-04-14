@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
 using Simpler.Construction;
-using Simpler.Injection.Tasks;
+using Simpler.Injection.Jobs;
 using System;
 
 namespace Simpler.Injection
 {
     /// <summary>
-    /// Task attribute that will automatically inject sub-tasks properties on the task before the task is executed.
+    /// Job attribute that will automatically inject sub-jobs properties on the job before the job is executed.
     /// </summary>
-    public class InjectSubTasksAttribute : ExecutionCallbacksAttribute
+    public class InjectSubJobsAttribute : ExecutionCallbacksAttribute
     {
-        readonly List<string> _injectedSubTaskPropertyNames = new List<string>();
+        readonly List<string> _injectedSubJobPropertyNames = new List<string>();
 
-        public override void BeforeExecute(Task taskBeingExecuted)
+        public override void BeforeExecute(Job jobBeingExecuted)
         {
-            var inject = new InjectSubTasks { TaskContainingSubTasks = taskBeingExecuted };
+            var inject = new InjectSubJobs { JobContainingSubJobs = jobBeingExecuted };
             inject.Execute();
-            _injectedSubTaskPropertyNames.AddRange(inject.InjectedSubTaskPropertyNames);
+            _injectedSubJobPropertyNames.AddRange(inject.InjectedSubJobPropertyNames);
         }
 
-        public override void AfterExecute(Task taskBeingExecuted)
+        public override void AfterExecute(Job jobBeingExecuted)
         {
-            var dispose = new DisposeSubTasks { TaskContainingSubTasks = taskBeingExecuted, InjectedSubTaskPropertyNames = _injectedSubTaskPropertyNames.ToArray() };
+            var dispose = new DisposeSubJobs { JobContainingSubJobs = jobBeingExecuted, InjectedSubJobPropertyNames = _injectedSubJobPropertyNames.ToArray() };
             dispose.Execute();
         }
 
-        public override void OnError(Task taskBeingExecuted, Exception exception) { }
+        public override void OnError(Job jobBeingExecuted, Exception exception) { }
     }
 }

@@ -1,8 +1,8 @@
-﻿using Example.Model.Tasks.Players;
+﻿using Example.Model.Jobs.Players;
 using NUnit.Framework;
 using Simpler;
 
-namespace Example.Model.Tests.Tasks.Players
+namespace Example.Model.Tests.Jobs.Players
 {
     [TestFixture]
     public class IndexTest

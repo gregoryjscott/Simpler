@@ -1,11 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
-using Simpler.Data.Tasks;
+using Simpler.Data.Jobs;
 using System.Data;
 using Moq;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Data.Tasks
+namespace Simpler.Tests.Data.Jobs
 {
     [TestFixture]
     public class FetchSingleOfTest
@@ -14,7 +14,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_return_one_object_using_the_record_returned_by_the_select_command()
         {
             // Arrange
-            var task = Task.Create<FetchSingleOf<MockObject>>();
+            var job = Job.Create<FetchSingleOf<MockObject>>();
 
             var table = new DataTable();
             table.Columns.Add("Name", Type.GetType("System.String"));
@@ -23,34 +23,34 @@ namespace Simpler.Tests.Data.Tasks
 
             var mockSelectCommand = new Mock<IDbCommand>();
             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
-            task.SelectCommand = mockSelectCommand.Object;
+            job.SelectCommand = mockSelectCommand.Object;
 
             // Act
-            task.Execute();
+            job.Execute();
 
             // Assert
-            Assert.That(task.ObjectFetched.Name, Is.EqualTo("John Doe"));
+            Assert.That(job.ObjectFetched.Name, Is.EqualTo("John Doe"));
         }
 
         [Test]
         public void should_throw_if_no_records_are_found()
         {
-            var task = Task.Create<FetchSingleOf<MockObject>>();
+            var job = Job.Create<FetchSingleOf<MockObject>>();
 
             var table = new DataTable();
 
             var mockSelectCommand = new Mock<IDbCommand>();
             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
-            task.SelectCommand = mockSelectCommand.Object;
+            job.SelectCommand = mockSelectCommand.Object;
 
             // Act & Assert
-            Assert.Throws(typeof(InvalidOperationException), task.Execute);
+            Assert.Throws(typeof(InvalidOperationException), job.Execute);
         }
 
         [Test]
         public void should_throw_if_more_than_one_record_is_found()
         {
-            var task = Task.Create<FetchSingleOf<MockObject>>();
+            var job = Job.Create<FetchSingleOf<MockObject>>();
 
             var table = new DataTable();
             table.Columns.Add("Name", Type.GetType("System.String"));
@@ -60,10 +60,10 @@ namespace Simpler.Tests.Data.Tasks
 
             var mockSelectCommand = new Mock<IDbCommand>();
             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
-            task.SelectCommand = mockSelectCommand.Object;
+            job.SelectCommand = mockSelectCommand.Object;
 
             // Act & Assert
-            Assert.Throws(typeof(InvalidOperationException), task.Execute);
+            Assert.Throws(typeof(InvalidOperationException), job.Execute);
         }
     }
 }

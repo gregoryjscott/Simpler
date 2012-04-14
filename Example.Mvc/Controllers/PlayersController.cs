@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Example.Model.Tasks.Players;
+using Example.Model.Jobs.Players;
 using Simpler;
 
 namespace Example.Mvc.Controllers
@@ -9,7 +9,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = Task.Create<Index>()
+            var model = Job.Create<Index>()
                 .Get();
 
             return View(model);
@@ -18,7 +18,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Show(int id)
         {
-            var model = Task.Create<Show>()
+            var model = Job.Create<Show>()
                 .Set(new Show.In {PlayerId = id})
                 .Get();
 
@@ -28,7 +28,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var model = Task.Create<Edit>()
+            var model = Job.Create<Edit>()
                 .Set(new Edit.In {PlayerId = id})
                 .Get();
 
@@ -40,14 +40,14 @@ namespace Example.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var editModel = Task.Create<Edit>()
+                var editModel = Job.Create<Edit>()
                     .Set(new Edit.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
                     .Get();
 
                 return View("Edit", editModel);
             }
 
-            Task.Create<Update>()
+            Job.Create<Update>()
                 .Set(new Update.In { Player = model.Player })
                 .Execute();
 

@@ -1,7 +1,7 @@
 namespace Simpler.Tests.Mocks
 {
     [First, Second]
-    public class MockTaskWithAttributesThatThrows : MockTaskWithAttributes
+    public class MockJobWithAttributesThatThrows : MockJobWithAttributes
     {
         public override void Execute()
         {

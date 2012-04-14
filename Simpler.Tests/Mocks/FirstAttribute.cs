@@ -5,19 +5,19 @@ namespace Simpler.Tests.Mocks
 {
     public class FirstAttribute : ExecutionCallbacksAttribute
     {
-        public override void BeforeExecute(Task taskBeingExecuted)
+        public override void BeforeExecute(Job jobBeingExecuted)
         {
-            ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("First.Before");
+            ((MockJobWithAttributes)jobBeingExecuted).CallbackQueue.Enqueue("First.Before");
         }
 
-        public override void AfterExecute(Task taskBeingExecuted)
+        public override void AfterExecute(Job jobBeingExecuted)
         {
-            ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("First.After");
+            ((MockJobWithAttributes)jobBeingExecuted).CallbackQueue.Enqueue("First.After");
         }
 
-        public override void OnError(Task taskBeingExecuted, Exception exception)
+        public override void OnError(Job jobBeingExecuted, Exception exception)
         {
-            ((MockTaskWithAttributes)taskBeingExecuted).CallbackQueue.Enqueue("First.OnError");
+            ((MockJobWithAttributes)jobBeingExecuted).CallbackQueue.Enqueue("First.OnError");
         }
     }
 }

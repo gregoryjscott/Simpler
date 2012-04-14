@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using NUnit.Framework;
-using Simpler.Data.Tasks;
+﻿using NUnit.Framework;
+using Simpler.Data.Jobs;
 
-namespace Simpler.Tests.Data.Tasks
+namespace Simpler.Tests.Data.Jobs
 {
     [TestFixture]
     public class FindParametersInCommandTextTest

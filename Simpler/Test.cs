@@ -1,38 +1,38 @@
 using System;
-using Simpler.Construction.Tasks;
+using Simpler.Construction.Jobs;
 
 namespace Simpler
 {
-    public class Test<TTask> where TTask : Task
+    public class Test<TJob> where TJob : Job
     {
-        TTask Task { get; set; }
+        TJob Job { get; set; }
 
-        public static Test<TTask> Create()
+        public static Test<TJob> Create()
         {
-            var createTask = new CreateTask { TaskType = typeof(TTask) };
-            createTask.Execute();
+            var createJob = new CreateJob { JobType = typeof(TJob) };
+            createJob.Execute();
 
-            var task = (TTask)createTask.TaskInstance;
-            var test = new Test<TTask> { Task = task };
+            var job = (TJob)createJob.JobInstance;
+            var test = new Test<TJob> { Job = job };
 
             return test;
         }
 
-        public Test<TTask> Arrange(Action<TTask> arrange)
+        public Test<TJob> Arrange(Action<TJob> arrange)
         {
-            arrange(Task);
+            arrange(Job);
             return this;
         }
 
-        public Test<TTask> Act()
+        public Test<TJob> Act()
         {
-            Task.Execute();
+            Job.Execute();
             return this;
         }
 
-        public void Assert(Action<TTask> assert)
+        public void Assert(Action<TJob> assert)
         {
-            assert(Task);
+            assert(Job);
         }
     }
 }

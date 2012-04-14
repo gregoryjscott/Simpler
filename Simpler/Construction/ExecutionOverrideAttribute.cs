@@ -4,9 +4,9 @@ using Castle.DynamicProxy;
 namespace Simpler.Construction
 {
     /// <summary>
-    /// Base class for custom attributes that can be used to completely override the task
+    /// Base class for custom attributes that can be used to completely override the job
     /// execution.  It becomes the responsibility of the ExecutionOverride() to execute
-    /// the task by calling Proceed() on the given execution invocation.
+    /// the job by calling Proceed() on the given execution invocation.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public abstract class ExecutionOverrideAttribute : Attribute
