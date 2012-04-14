@@ -3,9 +3,9 @@ namespace Simpler.Tests.Mocks
     [First, Second]
     public class MockJobWithAttributesThatThrows : MockJobWithAttributes
     {
-        public override void Execute()
+        public override void Run()
         {
-            base.Execute();
+            base.Run();
             throw new TestException();
         }
     }

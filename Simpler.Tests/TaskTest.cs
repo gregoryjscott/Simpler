@@ -10,10 +10,10 @@ namespace Simpler.Tests
         public void should_inject_sub_jobs_before_execution_if_given_type_is_decorated_with_inject_sub_jobs_attribute()
         {
             // Arrange
-            var job = Job.Create<MockParentJob>();
+            var job = Job.New<MockParentJob>();
 
             // Act
-            job.Execute();
+            job.Run();
 
             // Assert
             Assert.That(job.SubJobWasInjected, Is.True);

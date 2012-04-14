@@ -1,6 +1,6 @@
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Jobs;
+using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs.Players
 {
@@ -11,9 +11,9 @@ namespace Example.Model.Jobs.Players
             public Player Player { get; set; }
         }
 
-        public RunSql UpdatePlayer { get; set; }
+        public ReturnResult UpdatePlayer { get; set; }
 
-        public override void Execute()
+        public override void Run()
         {
             const string sql =
                 @"
@@ -26,13 +26,13 @@ namespace Example.Model.Jobs.Players
                 ";
 
             UpdatePlayer
-                .Set(new RunSql.In
+                .Set(new ReturnResult.In
                          {
                              ConnectionName = Config.DatabaseName,
                              Sql = sql,
-                             Values = Input.Player
+                             Values = _In.Player
                          })
-                .Execute();
+                .Run();
         }
     }
 }

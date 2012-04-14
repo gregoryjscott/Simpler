@@ -1,23 +1,23 @@
 using System;
-using Simpler.Construction;
+using Simpler.Proxy;
 
 namespace Simpler.Tests.Mocks
 {
-    public class SecondAttribute : ExecutionCallbacksAttribute
+    public class SecondAttribute : EventsAttribute
     {
-        public override void BeforeExecute(Job jobBeingExecuted)
+        public override void BeforeRun(Job job)
         {
-            ((MockJobWithAttributes)jobBeingExecuted).CallbackQueue.Enqueue("Second.Before");
+            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("Second.Before");
         }
 
-        public override void AfterExecute(Job jobBeingExecuted)
+        public override void AfterRun(Job job)
         {
-            ((MockJobWithAttributes)jobBeingExecuted).CallbackQueue.Enqueue("Second.After");
+            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("Second.After");
         }
 
-        public override void OnError(Job jobBeingExecuted, Exception exception)
+        public override void OnError(Job job, Exception exception)
         {
-            ((MockJobWithAttributes)jobBeingExecuted).CallbackQueue.Enqueue("Second.OnError");
+            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("Second.OnError");
         }
     }
 }

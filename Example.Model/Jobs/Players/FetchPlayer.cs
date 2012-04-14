@@ -1,7 +1,7 @@
 using System.Linq;
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Jobs;
+using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs.Players
 {
@@ -17,9 +17,9 @@ namespace Example.Model.Jobs.Players
             public Player Player { get; set; }
         }
 
-        public RunSqlAndReturn<Player> SelectPlayer { get; set; }
+        public ReturnMany<Player> SelectPlayer { get; set; }
 
-        public override void Execute()
+        public override void Run()
         {
             const string sql = @"
                 select
@@ -39,15 +39,15 @@ namespace Example.Model.Jobs.Players
                 ";
 
             var player = SelectPlayer
-                .Set(new RunSqlAndReturn<Player>.In
+                .Set(new ReturnMany<Player>.In
                          {
                              ConnectionName = Config.DatabaseName,
                              Sql = sql,
-                             Values = Input
+                             Values = _In
                          })
                 .Get().Models.Single();
 
-            Output = new Out {Player = player};
+            _Out = new Out {Player = player};
         }
     }
 }

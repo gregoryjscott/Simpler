@@ -1,23 +1,23 @@
-using Simpler.Injection;
+using Simpler.Proxy;
 
 namespace Simpler
 {
-    [InjectSubJobs]
-    public abstract class InOutJob<TInput, TOutput> : Job
+    [InjectJobs]
+    public abstract class InOutJob<TIn, TOut> : Job
     {
-        public TInput Input { protected get; set; }
-        public TOutput Output { get; protected set; }
+        public TIn _In { get; set; }
+        public TOut _Out { get; protected set; }
 
-        public InOutJob<TInput, TOutput> Set(TInput input)
+        public virtual InOutJob<TIn, TOut> Set(TIn _in)
         {
-            Input = input;
+            _In = _in;
             return this;
         }
 
-        public TOutput Get()
+        public virtual TOut Get()
         {
-            Execute();
-            return Output;
+            Run();
+            return _Out;
         }
     }
 }

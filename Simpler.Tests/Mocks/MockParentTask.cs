@@ -1,9 +1,9 @@
 using System;
-using Simpler.Injection;
+using Simpler.Proxy;
 
 namespace Simpler.Tests.Mocks
 {
-    [InjectSubJobs]
+    [InjectJobs]
     public class MockParentJob : Job
     {
         // Sub-jobs
@@ -12,7 +12,7 @@ namespace Simpler.Tests.Mocks
         // Outputs
         public bool SubJobWasInjected { get; private set; }
 
-        public override void Execute()
+        public override void Run()
         {
             SubJobWasInjected = (MockSubClass != null);
         }

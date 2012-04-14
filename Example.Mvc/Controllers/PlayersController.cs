@@ -9,7 +9,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = Job.Create<Index>()
+            var model = Job.New<Index>()
                 .Get();
 
             return View(model);
@@ -18,7 +18,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Show(int id)
         {
-            var model = Job.Create<Show>()
+            var model = Job.New<Show>()
                 .Set(new Show.In {PlayerId = id})
                 .Get();
 
@@ -28,7 +28,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var model = Job.Create<Edit>()
+            var model = Job.New<Edit>()
                 .Set(new Edit.In {PlayerId = id})
                 .Get();
 
@@ -40,16 +40,16 @@ namespace Example.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var editModel = Job.Create<Edit>()
+                var editModel = Job.New<Edit>()
                     .Set(new Edit.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
                     .Get();
 
                 return View("Edit", editModel);
             }
 
-            Job.Create<Update>()
+            Job.New<Update>()
                 .Set(new Update.In { Player = model.Player })
-                .Execute();
+                .Run();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });
         }

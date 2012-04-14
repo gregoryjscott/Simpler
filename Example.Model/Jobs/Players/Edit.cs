@@ -17,13 +17,13 @@ namespace Example.Model.Jobs.Players
 
         public FetchPlayer FetchPlayer { get; set; }
 
-        public override void Execute()
+        public override void Run()
         {
             var player = FetchPlayer
-                .Set(new FetchPlayer.In {PlayerId = Input.PlayerId})
+                .Set(new FetchPlayer.In {PlayerId = _In.PlayerId})
                 .Get().Player;
 
-            Output = new Out {Player = player};
+            _Out = new Out {Player = player};
         }
     }
 }

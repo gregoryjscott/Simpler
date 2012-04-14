@@ -1,15 +1,15 @@
-using Simpler.Injection;
+using Simpler.Proxy;
 
 namespace Simpler
 {
-    [InjectSubJobs]
-    public abstract class InJob<TInput> : Job
+    [InjectJobs]
+    public abstract class InJob<TIn> : Job
     {
-        public TInput Input { protected get; set; }
+        public TIn _In { protected get; set; }
 
-        public InJob<TInput> Set(TInput input)
+        public InJob<TIn> Set(TIn _in)
         {
-            Input = input;
+            _In = _in;
             return this;
         }
     }

@@ -1,5 +1,5 @@
 using System;
-using Simpler.Construction.Jobs;
+using Simpler.Proxy.Jobs;
 
 namespace Simpler
 {
@@ -7,14 +7,13 @@ namespace Simpler
     {
         TJob Job { get; set; }
 
-        public static Test<TJob> Create()
+        public static Test<TJob> New()
         {
             var createJob = new CreateJob { JobType = typeof(TJob) };
-            createJob.Execute();
+            createJob.Run();
 
             var job = (TJob)createJob.JobInstance;
             var test = new Test<TJob> { Job = job };
-
             return test;
         }
 
@@ -26,7 +25,7 @@ namespace Simpler
 
         public Test<TJob> Act()
         {
-            Job.Execute();
+            Job.Run();
             return this;
         }
 

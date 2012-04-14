@@ -12,7 +12,7 @@ namespace Simpler.Tests.Mocks
 
         public virtual Queue<string> CallbackQueue { get; private set; }
 
-        public override void Execute()
+        public override void Run()
         {
             CallbackQueue.Enqueue("Execute");
         }

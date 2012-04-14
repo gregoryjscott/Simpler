@@ -1,0 +1,25 @@
+﻿using Example.Model.Jobs.Players;
+using NUnit.Framework;
+using Simpler;
+
+namespace Example.Model.Tests.Jobs.Players
+{
+    [TestFixture]
+    public class ShowTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            Config.SetDataDirectory();
+        }
+
+        [Test]
+        public void should_return_a_player()
+        {
+            Test<Show>.New()
+                .Arrange(job => job.Set(new Show.In {PlayerId = 1}))
+                .Act()
+                .Assert(job => Assert.That(job._Out.Player.PlayerId, Is.GreaterThan(0)));
+        }
+    }
+}

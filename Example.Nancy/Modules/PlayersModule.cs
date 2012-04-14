@@ -12,7 +12,7 @@ namespace Example.Nancy.Modules
             Get["/players"] =
                 parameters =>
                     {
-                        var model = Job.Create<Index>()
+                        var model = Job.New<Index>()
                             .Get();
 
                         return View["Views/Players/Index.html", model];
@@ -21,7 +21,7 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var model = Job.Create<Show>()
+                        var model = Job.New<Show>()
                             .Set(this.Bind<Show.In>())
                             .Get();
 
@@ -31,7 +31,7 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}/edit"] =
                 parameters =>
                     {
-                        var model = Job.Create<Edit>()
+                        var model = Job.New<Edit>()
                             .Set(this.Bind<Edit.In>())
                             .Get();
 
@@ -43,9 +43,9 @@ namespace Example.Nancy.Modules
                     {
                         var input = this.Bind<Update.In>();
                         
-                        Job.Create<Update>()
+                        Job.New<Update>()
                             .Set(input)
-                            .Execute();
+                            .Run();
 
                         return Response.AsRedirect(string.Format("/players/{0}", input.Player.PlayerId));
                     };

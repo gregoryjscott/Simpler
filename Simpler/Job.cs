@@ -1,15 +1,15 @@
-﻿using Simpler.Construction.Jobs;
+﻿using Simpler.Proxy.Jobs;
 
 namespace Simpler
 {
     public abstract class Job
     {
-        public abstract void Execute();
+        public abstract void Run();
 
-        public static T Create<T>()
+        public static T New<T>()
         {
             var createJob = new CreateJob { JobType = typeof(T) };
-            createJob.Execute();
+            createJob.Run();
             return (T)createJob.JobInstance;
         }
     }

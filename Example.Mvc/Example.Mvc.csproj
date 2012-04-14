@@ -72,9 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\ExampleData.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <None Include="Views\Home\Index.cshtml" />

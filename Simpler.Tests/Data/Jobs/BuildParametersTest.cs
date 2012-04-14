@@ -1,0 +1,261 @@
+﻿using System;
+using Moq;
+using NUnit.Framework;
+using System.Data;
+using Simpler.Sql.Jobs;
+using Simpler.Tests.Mocks;
+
+namespace Simpler.Tests.Data.Jobs
+{
+    [TestFixture]
+    public class BuildParametersTest
+    {
+        [Test]
+        public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_static_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            job.ObjectWithValues = mockObject;
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(param => param.ParameterName = "@Age");
+            mockDbDataParameter.VerifySet(param => param.Value = 21);
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+        }
+
+        [Test]
+        public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_anonymous_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            job.ObjectWithValues = new { Name = "John Doe", Age = 21 };
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(param => param.ParameterName = "@Age");
+            mockDbDataParameter.VerifySet(param => param.Value = 21);
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+        }
+
+        [Test]
+        public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_static_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            job.ObjectWithValues = mockObject;
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Name");
+            mockDbDataParameter.VerifySet(parameter => parameter.Value = "John Doe");
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+        }
+
+        [Test]
+        public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_anonymous_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            job.ObjectWithValues = new { Name = "John Doe", Age = 21 };
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Name");
+            mockDbDataParameter.VerifySet(parameter => parameter.Value = "John Doe");
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+        }
+
+        [Test]
+        public void should_ignore_parameters_found_in_the_command_text_without_matching_properties_in_the_static_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            job.ObjectWithValues = mockObject;
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Whatever" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act & Assert
+            job.Run();
+
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Never());
+
+        }
+
+        [Test]
+        public void should_set_parameter_to_dbnull_if_value_found_in_the_matching_property_of_the_static_object_is_null()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            var mockObject = new MockObject {Age = null};
+            job.ObjectWithValues = mockObject;
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Age");
+            mockDbDataParameter.VerifySet(parameter => parameter.Value = DBNull.Value);
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+        }
+
+        [Test]
+        public void should_set_parameter_to_dbnull_if_a_matching_property_is_not_found_in_the_anonymous_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            job.ObjectWithValues = new { NotAge = "A" };
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Age");
+            mockDbDataParameter.VerifySet(parameter => parameter.Value = DBNull.Value);
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+        }
+
+        [Test]
+        public void should_support_setting_parameter_using_a_complex_static_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("select something from table where @MockObject.Age = 21");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            var mockComplexObject = new MockComplexObject { MockObject = new MockObject { Name = "John Doe", Age = 21 } };
+            job.ObjectWithValues = mockComplexObject;
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@MockObject.Age" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(param => param.ParameterName = "@MockObject_Age");
+            mockDbDataParameter.VerifySet(param => param.Value = 21);
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+            mockDbCommand.VerifySet(dbCommand => dbCommand.CommandText = "select something from table where @MockObject_Age = 21");
+        }
+
+        [Test]
+        public void should_support_setting_parameter_using_a_complex_anonymous_object()
+        {
+            // Arrange
+            var job = Job.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("select something from table where @MockObject.Age = 21");
+            job.CommandWithParameters = mockDbCommand.Object;
+
+            job.ObjectWithValues = new { MockObject = new { Name = "John Doe", Age = 21 } };
+
+            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new[] { "@MockObject.Age" });
+            job.FindParametersInCommandText = mockFindParameters.Object;
+
+            // Act
+            job.Run();
+
+            // Assert
+            mockDbDataParameter.VerifySet(param => param.ParameterName = "@MockObject_Age");
+            mockDbDataParameter.VerifySet(param => param.Value = 21);
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
+            mockDbCommand.VerifySet(dbCommand => dbCommand.CommandText = "select something from table where @MockObject_Age = 21");
+        }
+    }
+}

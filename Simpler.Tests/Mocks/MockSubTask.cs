@@ -4,7 +4,7 @@ namespace Simpler.Tests.Mocks
 {
 	public class MockSubJob<T> : Job, IDisposable
 	{
-        public override void Execute()
+        public override void Run()
         {
             throw new System.NotImplementedException();
         }
