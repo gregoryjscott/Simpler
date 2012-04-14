@@ -14,7 +14,7 @@ namespace Simpler.Tests.Injection.Jobs
         {
             // Arrange
             var mockParentJob = new MockParentJob();
-            var job = new InjectJobs { JobContainingSubJobs = mockParentJob };
+            var job = new _InjectJobs { JobContainingSubJobs = mockParentJob };
 
             // Act
             job.Run();
@@ -29,7 +29,7 @@ namespace Simpler.Tests.Injection.Jobs
             // Arrange
             var mockDifferentSubJob = new Mock<MockSubJob<DateTime>>();
             var mockParentJob = new MockParentJob { MockSubClass = mockDifferentSubJob.Object };
-            var job = new InjectJobs { JobContainingSubJobs = mockParentJob };
+            var job = new _InjectJobs { JobContainingSubJobs = mockParentJob };
 
             // Act
             job.Run();
@@ -43,7 +43,7 @@ namespace Simpler.Tests.Injection.Jobs
         {
             // Arrange
             var mockParentJob = new MockParentJob();
-            var job = new InjectJobs { JobContainingSubJobs = mockParentJob };
+            var job = new _InjectJobs { JobContainingSubJobs = mockParentJob };
 
             // Act
             job.Run();

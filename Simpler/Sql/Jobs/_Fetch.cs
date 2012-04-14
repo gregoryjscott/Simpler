@@ -3,11 +3,7 @@ using System.Data;
 
 namespace Simpler.Sql.Jobs
 {
-    /// <summary>
-    /// Job that will create a list of objects of the given type T using the results of the given command.
-    /// </summary>
-    /// <typeparam name="T">The type of the objects in the list to return.</typeparam>
-    public class FetchListOf<T> : Job
+    public class _Fetch<T> : Job
     {
         // Inputs
         public virtual IDbCommand SelectCommand { get; set; }
@@ -16,12 +12,12 @@ namespace Simpler.Sql.Jobs
         public virtual T[] ObjectsFetched { get; private set; }
 
         // Sub-jobs
-        public virtual UseDataRecordToBuild<T> UseDataRecordToBuild { get; set; }
+        public virtual _Build<T> Build { get; set; }
 
         public override void Run()
         {
             // Create the sub-jobs.
-            if (UseDataRecordToBuild == null) UseDataRecordToBuild = new UseDataRecordToBuild<T>();
+            if (Build == null) Build = new _Build<T>();
 
             var objectList = new List<T>();
 
@@ -29,9 +25,9 @@ namespace Simpler.Sql.Jobs
             {
                 while (dataReader.Read())
                 {
-                    UseDataRecordToBuild.DataRecord = dataReader;
-                    UseDataRecordToBuild.Run();
-                    objectList.Add(UseDataRecordToBuild.Object);
+                    Build.DataRecord = dataReader;
+                    Build.Run();
+                    objectList.Add(Build.Object);
                 }
             }
 

@@ -3,7 +3,7 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Proxy.Jobs
 {
-    public class FireEvents : Job
+    public class _FireEvents : Job
     {
         // Inputs
         public virtual Job Job { get; set; }

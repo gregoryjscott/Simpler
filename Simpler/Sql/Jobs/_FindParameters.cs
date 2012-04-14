@@ -4,10 +4,7 @@ using System.Collections.Generic;
 
 namespace Simpler.Sql.Jobs
 {
-    /// <summary>
-    /// Job that will search the given command text for parameter placeholders.  Placeholders can begin with a ":" or a "@".
-    /// </summary>
-    public class FindParametersInCommandText : Job
+    public class _FindParameters : Job
     {
         // Inputs
         public virtual string CommandText { get; set; }

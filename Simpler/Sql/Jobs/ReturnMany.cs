@@ -1,6 +1,4 @@
-﻿using Simpler.Sql.Jobs.Internal;
-
-namespace Simpler.Sql.Jobs
+﻿namespace Simpler.Sql.Jobs
 {
     public class ReturnMany<TModel> : InOutJob<ReturnMany<TModel>.In, ReturnMany<TModel>.Out>
     {
@@ -16,22 +14,22 @@ namespace Simpler.Sql.Jobs
             public TModel[] Models { get; set; }
         }
 
-        public RunCommandAction RunCommandAction { get; set; }
-        public FetchListOf<TModel> FetchModels { get; set; }
+        public _RunSqlAction RunSqlAction { get; set; }
+        public _Fetch<TModel> Fetch { get; set; }
 
         public override void Run()
         {
-            RunCommandAction.ConnectionName = _In.ConnectionName;
-            RunCommandAction.Sql = _In.Sql;
-            RunCommandAction.Values = _In.Values;
-            RunCommandAction.CommandAction =
+            RunSqlAction.ConnectionName = _In.ConnectionName;
+            RunSqlAction.Sql = _In.Sql;
+            RunSqlAction.Values = _In.Values;
+            RunSqlAction.CommandAction =
                 command =>
                 {
-                    FetchModels.SelectCommand = command;
-                    FetchModels.Run();
-                    _Out = new Out {Models = FetchModels.ObjectsFetched};
+                    Fetch.SelectCommand = command;
+                    Fetch.Run();
+                    _Out = new Out {Models = Fetch.ObjectsFetched};
                 };
-            RunCommandAction.Run();
+            RunSqlAction.Run();
         }
     }
 }

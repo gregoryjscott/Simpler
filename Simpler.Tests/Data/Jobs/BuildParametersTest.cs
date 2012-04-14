@@ -14,7 +14,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_static_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -25,9 +25,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
             job.ObjectWithValues = mockObject;
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -42,7 +42,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_anonymous_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -52,9 +52,9 @@ namespace Simpler.Tests.Data.Jobs
 
             job.ObjectWithValues = new { Name = "John Doe", Age = 21 };
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -69,7 +69,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_static_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -80,9 +80,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
             job.ObjectWithValues = mockObject;
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -97,7 +97,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_anonymous_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -107,9 +107,9 @@ namespace Simpler.Tests.Data.Jobs
 
             job.ObjectWithValues = new { Name = "John Doe", Age = 21 };
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -124,7 +124,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_ignore_parameters_found_in_the_command_text_without_matching_properties_in_the_static_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -135,9 +135,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
             job.ObjectWithValues = mockObject;
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Whatever" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act & Assert
             job.Run();
@@ -150,7 +150,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_set_parameter_to_dbnull_if_value_found_in_the_matching_property_of_the_static_object_is_null()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -161,9 +161,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockObject = new MockObject {Age = null};
             job.ObjectWithValues = mockObject;
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -178,7 +178,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_set_parameter_to_dbnull_if_a_matching_property_is_not_found_in_the_anonymous_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -188,9 +188,9 @@ namespace Simpler.Tests.Data.Jobs
 
             job.ObjectWithValues = new { NotAge = "A" };
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -205,7 +205,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_support_setting_parameter_using_a_complex_static_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -216,9 +216,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockComplexObject = new MockComplexObject { MockObject = new MockObject { Name = "John Doe", Age = 21 } };
             job.ObjectWithValues = mockComplexObject;
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@MockObject.Age" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();
@@ -234,7 +234,7 @@ namespace Simpler.Tests.Data.Jobs
         public void should_support_setting_parameter_using_a_complex_anonymous_object()
         {
             // Arrange
-            var job = Job.New<BuildParameters>();
+            var job = Job.New<_BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -244,9 +244,9 @@ namespace Simpler.Tests.Data.Jobs
 
             job.ObjectWithValues = new { MockObject = new { Name = "John Doe", Age = 21 } };
 
-            var mockFindParameters = new Mock<FindParametersInCommandText>();
+            var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new[] { "@MockObject.Age" });
-            job.FindParametersInCommandText = mockFindParameters.Object;
+            job.FindParameters = mockFindParameters.Object;
 
             // Act
             job.Run();

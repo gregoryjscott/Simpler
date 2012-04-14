@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using Simpler.Sql.Exceptions;
 
-namespace Simpler.Sql.Jobs.Internal
+namespace Simpler.Sql.Jobs
 {
-    // todo - Using Job<TI, TO> here just to get the InjectSubJobs attribute.
-    public class RunCommandAction : InOutJob<object, object>
+    public class _RunSqlAction : InOutJob<object, object>
     {
         // Inputs
         public string ConnectionName { get; set; }
@@ -16,7 +15,7 @@ namespace Simpler.Sql.Jobs.Internal
         public Action<IDbCommand> CommandAction { get; set; }
 
         // Sub-jobs
-        public BuildParameters BuildParameters { get; set; }
+        public _BuildParameters BuildParameters { get; set; }
 
         public override void Run()
         {

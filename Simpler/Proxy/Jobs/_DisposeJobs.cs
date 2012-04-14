@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Simpler.Proxy.Jobs
 {
-    public class DisposeJobs : Job
+    public class _DisposeJobs : Job
     {
         // Inputs
         public virtual Job Owner { get; set; }

@@ -8,7 +8,7 @@ namespace Simpler
 
         public static T New<T>()
         {
-            var createJob = new CreateJob { JobType = typeof(T) };
+            var createJob = new _CreateJob { JobType = typeof(T) };
             createJob.Run();
             return (T)createJob.JobInstance;
         }

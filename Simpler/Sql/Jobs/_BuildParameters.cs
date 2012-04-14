@@ -4,33 +4,24 @@ using System.Reflection;
 
 namespace Simpler.Sql.Jobs
 {
-    // todo - this is obsolete
-    public class BuildParametersUsing<T> : BuildParameters
-    {
-    }
-
-    /// <summary>
-    /// Job that looks in the given command's CommandText for parameters and uses the given object's property
-    /// values to build the command parameters.
-    /// </summary>
-    public class BuildParameters : Job
+    public class _BuildParameters : Job
     {
         // Inputs
         public virtual IDbCommand CommandWithParameters { get; set; }
         public virtual object ObjectWithValues { get; set; }
 
         // Sub-jobs
-        public virtual FindParametersInCommandText FindParametersInCommandText { get; set; }
+        public virtual _FindParameters FindParameters { get; set; }
 
         public override void Run()
         {
             // Create the sub-jobs.
-            if (FindParametersInCommandText == null) FindParametersInCommandText = new FindParametersInCommandText();
+            if (FindParameters == null) FindParameters = new _FindParameters();
 
-            FindParametersInCommandText.CommandText = CommandWithParameters.CommandText;
-            FindParametersInCommandText.Run();
+            FindParameters.CommandText = CommandWithParameters.CommandText;
+            FindParameters.Run();
 
-            foreach (var parameterNameX in FindParametersInCommandText.ParameterNames)
+            foreach (var parameterNameX in FindParameters.ParameterNames)
             {
                 var objectType = ObjectWithValues.GetType();
                 var objectContainingPropertyValue = ObjectWithValues;

@@ -9,7 +9,7 @@ namespace Simpler
 
         public static Test<TJob> New()
         {
-            var createJob = new CreateJob { JobType = typeof(TJob) };
+            var createJob = new _CreateJob { JobType = typeof(TJob) };
             createJob.Run();
 
             var job = (TJob)createJob.JobInstance;

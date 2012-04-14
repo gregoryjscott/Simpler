@@ -9,7 +9,7 @@ namespace Simpler.Sql.Jobs
     /// any columns that match the name of the property on T, then that column's value will be used to set the property.
     /// </summary>
     /// <typeparam name="T">The type of object to build.</typeparam>
-    public class UseDataRecordToBuild<T> : Job
+    public class _Build<T> : Job
     {
         // Inputs
         public virtual IDataRecord DataRecord { get; set; }

@@ -65,7 +65,6 @@
     <Compile Include="Data\Jobs\FetchListOfTest.cs" />
     <Compile Include="Data\Jobs\FetchSingleOfTest.cs" />
     <Compile Include="Data\Jobs\FindParametersInCommandTextTest.cs" />
-    <Compile Include="Data\Jobs\PersistSingleOfTest.cs" />
     <Compile Include="Data\Jobs\UseDataRecordToBuildTest.cs" />
     <Compile Include="Injection\Jobs\DisposeSubTasksTest.cs" />
     <Compile Include="Injection\Jobs\InjectSubTasksTest.cs" />

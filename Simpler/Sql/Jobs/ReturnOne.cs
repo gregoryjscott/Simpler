@@ -1,6 +1,8 @@
-﻿namespace Simpler.Sql.Jobs
+﻿using System.Linq;
+
+namespace Simpler.Sql.Jobs
 {
-    public class ReturnResult : InOutJob<ReturnResult.In, ReturnResult.Out>
+    public class ReturnOne<TModel> : InOutJob<ReturnOne<TModel>.In, ReturnOne<TModel>.Out>
     {
         public class In
         {
@@ -11,10 +13,11 @@
 
         public class Out
         {
-            public int RowsAffected { get; set; }
+            public TModel Model { get; set; }
         }
 
         public _RunSqlAction RunSqlAction { get; set; }
+        public _Fetch<TModel> Fetch { get; set; }
 
         public override void Run()
         {
@@ -24,7 +27,9 @@
             RunSqlAction.CommandAction =
                 command =>
                 {
-                    _Out = new Out {RowsAffected = command.ExecuteNonQuery()};
+                    Fetch.SelectCommand = command;
+                    Fetch.Run();
+                    _Out = new Out {Model = Fetch.ObjectsFetched.Single()};
                 };
             RunSqlAction.Run();
         }
