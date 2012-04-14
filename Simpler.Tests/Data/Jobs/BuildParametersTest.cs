@@ -20,10 +20,10 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
-            job.ObjectWithValues = mockObject;
+            job.Values = mockObject;
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
@@ -48,9 +48,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
-            job.ObjectWithValues = new { Name = "John Doe", Age = 21 };
+            job.Values = new { Name = "John Doe", Age = 21 };
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
@@ -75,10 +75,10 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
-            job.ObjectWithValues = mockObject;
+            job.Values = mockObject;
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
@@ -103,9 +103,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
-            job.ObjectWithValues = new { Name = "John Doe", Age = 21 };
+            job.Values = new { Name = "John Doe", Age = 21 };
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
@@ -130,10 +130,10 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
             var mockObject = new MockObject { Name = "John Doe", Age = 21 };
-            job.ObjectWithValues = mockObject;
+            job.Values = mockObject;
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Whatever" });
@@ -156,10 +156,10 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
             var mockObject = new MockObject {Age = null};
-            job.ObjectWithValues = mockObject;
+            job.Values = mockObject;
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
@@ -184,9 +184,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
-            job.ObjectWithValues = new { NotAge = "A" };
+            job.Values = new { NotAge = "A" };
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
@@ -211,10 +211,10 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("select something from table where @MockObject.Age = 21");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
             var mockComplexObject = new MockComplexObject { MockObject = new MockObject { Name = "John Doe", Age = 21 } };
-            job.ObjectWithValues = mockComplexObject;
+            job.Values = mockComplexObject;
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@MockObject.Age" });
@@ -240,9 +240,9 @@ namespace Simpler.Tests.Data.Jobs
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("select something from table where @MockObject.Age = 21");
-            job.CommandWithParameters = mockDbCommand.Object;
+            job.Command = mockDbCommand.Object;
 
-            job.ObjectWithValues = new { MockObject = new { Name = "John Doe", Age = 21 } };
+            job.Values = new { MockObject = new { Name = "John Doe", Age = 21 } };
 
             var mockFindParameters = new Mock<_FindParameters>();
             mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new[] { "@MockObject.Age" });

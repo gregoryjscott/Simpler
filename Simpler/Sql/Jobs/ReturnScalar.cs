@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 
 namespace Simpler.Sql.Jobs
 {
-    public class ReturnOne<TModel> : InOutJob<ReturnOne<TModel>.In, ReturnOne<TModel>.Out>
+    public class ReturnScalar : InOutJob<ReturnScalar.In, ReturnScalar.Out>
     {
         public class In
         {
@@ -15,20 +14,17 @@ namespace Simpler.Sql.Jobs
 
         public class Out
         {
-            public TModel Model { get; set; }
+            public Object Object { get; set; }
         }
 
         public _RunAction RunAction { get; set; }
-        public _Fetch<TModel> Fetch { get; set; }
 
         public override void Run()
         {
             Action<IDbCommand> action =
                 command =>
                 {
-                    Fetch.SelectCommand = command;
-                    Fetch.Run();
-                    _Out = new Out {Model = Fetch.ObjectsFetched.Single()};
+                    _Out = new Out {Object = command.ExecuteScalar()};
                 };
 
             RunAction

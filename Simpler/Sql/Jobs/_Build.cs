@@ -4,27 +4,26 @@ using Simpler.Sql.Exceptions;
 
 namespace Simpler.Sql.Jobs
 {
-    /// <summary>
-    /// Job that builds an instance of the given type T using the values found in the given DataRecord.  If the DataRecord contains
-    /// any columns that match the name of the property on T, then that column's value will be used to set the property.
-    /// </summary>
-    /// <typeparam name="T">The type of object to build.</typeparam>
-    public class _Build<T> : Job
+    public class _Build<T> : InOutJob<_Build<T>.In, _Build<T>.Out> 
     {
-        // Inputs
-        public virtual IDataRecord DataRecord { get; set; }
+        public class In
+        {
+            public virtual IDataRecord DataRecord { get; set; }
+        }
 
-        // Outputs
-        public virtual T Object { get; private set; }
+        public class Out
+        {
+            public virtual T Object { get; set; }
+        }
 
         public override void Run()
         {
-            Object = (T)Activator.CreateInstance(typeof(T));
+            _Out = new Out {Object = (T) Activator.CreateInstance(typeof (T))};
             var objectType = typeof(T);
 
-            for (var i = 0; i < DataRecord.FieldCount; i++)
+            for (var i = 0; i < _In.DataRecord.FieldCount; i++)
             {
-                var columnName = DataRecord.GetName(i);
+                var columnName = _In.DataRecord.GetName(i);
                 var propertyInfo = objectType.GetProperty(columnName);
 
                 if (propertyInfo == null)
@@ -32,7 +31,7 @@ namespace Simpler.Sql.Jobs
                     throw new NoPropertyForColumnException(columnName, objectType.FullName);
                 }
 
-                var columnValue = DataRecord[columnName];
+                var columnValue = _In.DataRecord[columnName];
                 if (columnValue.GetType() != typeof(System.DBNull))
                 {
                     var propertyType = propertyInfo.PropertyType;
@@ -43,7 +42,7 @@ namespace Simpler.Sql.Jobs
                     }
 
                     columnValue = Convert.ChangeType(columnValue, propertyType);
-                    propertyInfo.SetValue(Object, columnValue, null);
+                    propertyInfo.SetValue(_Out.Object, columnValue, null);
                 }
             }
         }

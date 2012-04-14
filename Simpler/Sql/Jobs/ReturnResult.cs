@@ -1,4 +1,7 @@
-﻿namespace Simpler.Sql.Jobs
+﻿using System;
+using System.Data;
+
+namespace Simpler.Sql.Jobs
 {
     public class ReturnResult : InOutJob<ReturnResult.In, ReturnResult.Out>
     {
@@ -14,19 +17,25 @@
             public int RowsAffected { get; set; }
         }
 
-        public _RunSqlAction RunSqlAction { get; set; }
+        public _RunAction RunAction { get; set; }
 
         public override void Run()
         {
-            RunSqlAction.ConnectionName = _In.ConnectionName;
-            RunSqlAction.Sql = _In.Sql;
-            RunSqlAction.Values = _In.Values;
-            RunSqlAction.CommandAction =
+            Action<IDbCommand> action =
                 command =>
                 {
                     _Out = new Out {RowsAffected = command.ExecuteNonQuery()};
                 };
-            RunSqlAction.Run();
+
+            RunAction
+                .Set(new _RunAction.In
+                     {
+                         ConnectionName = _In.ConnectionName,
+                         Sql = _In.Sql,
+                         Values = _In.Values,
+                         Action = action
+                     })
+                .Run();
         }
     }
 }

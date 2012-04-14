@@ -56,6 +56,7 @@
     <Compile Include="Proxy\OverrideAttribute.cs" />
     <Compile Include="Proxy\EventsAttribute.cs" />
     <Compile Include="Sql\Exceptions\CreateConnectionException.cs" />
+    <Compile Include="Sql\Jobs\ReturnScalar.cs" />
     <Compile Include="Sql\Jobs\ReturnOne.cs" />
     <Compile Include="Sql\Jobs\_BuildParameters.cs" />
     <Compile Include="Sql\Jobs\ReturnResult.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="Sql\Exceptions\ObjectPersistanceException.cs" />
     <Compile Include="Sql\Jobs\_Fetch.cs" />
     <Compile Include="Sql\Jobs\_FindParameters.cs" />
-    <Compile Include="Sql\Jobs\_RunSqlAction.cs" />
+    <Compile Include="Sql\Jobs\_RunAction.cs" />
     <Compile Include="Sql\Jobs\_Build.cs" />
     <Compile Include="Proxy\Jobs\_FireEvents.cs" />
     <Compile Include="Proxy\Jobs\_InterceptRun.cs" />

@@ -7,8 +7,8 @@ namespace Simpler.Sql.Jobs
     public class _BuildParameters : Job
     {
         // Inputs
-        public virtual IDbCommand CommandWithParameters { get; set; }
-        public virtual object ObjectWithValues { get; set; }
+        public virtual IDbCommand Command { get; set; }
+        public virtual object Values { get; set; }
 
         // Sub-jobs
         public virtual _FindParameters FindParameters { get; set; }
@@ -18,13 +18,13 @@ namespace Simpler.Sql.Jobs
             // Create the sub-jobs.
             if (FindParameters == null) FindParameters = new _FindParameters();
 
-            FindParameters.CommandText = CommandWithParameters.CommandText;
+            FindParameters.CommandText = Command.CommandText;
             FindParameters.Run();
 
             foreach (var parameterNameX in FindParameters.ParameterNames)
             {
-                var objectType = ObjectWithValues.GetType();
-                var objectContainingPropertyValue = ObjectWithValues;
+                var objectType = Values.GetType();
+                var objectContainingPropertyValue = Values;
 
                 // Strip off the first character of the parameter name to find a matching property (e.g. make @Name => Name).
                 var nameOfPropertyContainingValue = parameterNameX.Substring(1);
@@ -55,18 +55,18 @@ namespace Simpler.Sql.Jobs
                     ||
                     (property != null))
                 {
-                    var dbDataParameter = CommandWithParameters.CreateParameter();
+                    var dbDataParameter = Command.CreateParameter();
 
                     // If the property came from a complex object then it contains a dot, and dots aren't allowed in parameter names.
                     dbDataParameter.ParameterName = parameterNameX.Replace(".", "_");
-                    CommandWithParameters.CommandText = CommandWithParameters.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
+                    Command.CommandText = Command.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
 
                     dbDataParameter.Value =
                         property != null
                         ? property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value
                         : DBNull.Value;
 
-                    CommandWithParameters.Parameters.Add(dbDataParameter);
+                    Command.Parameters.Add(dbDataParameter);
                 }
             }
         }
