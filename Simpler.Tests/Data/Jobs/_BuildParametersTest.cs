@@ -8,7 +8,7 @@ using Simpler.Tests.Mocks;
 namespace Simpler.Tests.Data.Jobs
 {
     [TestFixture]
-    public class BuildParametersTest
+    public class _BuildParametersTest
     {
         [Test]
         public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_static_object()

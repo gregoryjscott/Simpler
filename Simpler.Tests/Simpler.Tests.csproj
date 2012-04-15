@@ -61,7 +61,7 @@
   <ItemGroup>
     <Compile Include="Mocks\MockInOutTaskUsingPrimitives.cs" />
     <Compile Include="Mocks\MockInOutTask.cs" />
-    <Compile Include="Data\Jobs\BuildParametersTest.cs" />
+    <Compile Include="Data\Jobs\_BuildParametersTest.cs" />
     <Compile Include="Data\Jobs\FetchListOfTest.cs" />
     <Compile Include="Data\Jobs\FetchSingleOfTest.cs" />
     <Compile Include="Data\Jobs\FindParametersInCommandTextTest.cs" />

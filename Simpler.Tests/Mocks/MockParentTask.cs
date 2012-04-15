@@ -3,7 +3,7 @@ using Simpler.Proxy;
 
 namespace Simpler.Tests.Mocks
 {
-    [InjectJobs]
+    [_InjectJobs]
     public class MockParentJob : Job
     {
         // Sub-jobs

@@ -46,5 +46,25 @@ namespace Simpler.Sql.Jobs
                 }
             }
         }
+
+        //public override void Test()
+        //{
+        //    Test<_Build<MockObject>>.Should(
+        //        "allow object to have properties w/o matching columns in record",
+        //        job =>
+        //        {
+        //            var mockDataRecord = new Mock<IDataRecord>();
+        //            mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
+        //            mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
+        //            mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
+
+        //            var newObject = job
+        //                .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+        //                .Get().Object;
+
+        //            Assert.That(newObject.Name, Is.EqualTo("John Doe"));
+        //            Assert.That(newObject.Age, Is.Null);
+        //        });
+        //}
     }
 }

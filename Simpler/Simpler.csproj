@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Proxy\InjectJobsAttribute.cs" />
+    <Compile Include="Proxy\_InjectJobsAttribute.cs" />
     <Compile Include="Proxy\_Interceptor.cs" />
     <Compile Include="Proxy\Jobs\_DisposeJobs.cs" />
     <Compile Include="Proxy\Jobs\_InjectJobs.cs" />

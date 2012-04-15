@@ -4,7 +4,7 @@ using Simpler.Proxy.Jobs;
 
 namespace Simpler.Proxy
 {
-    public class InjectJobsAttribute : EventsAttribute
+    public class _InjectJobsAttribute : EventsAttribute
     {
         readonly List<string> _injectedSubJobPropertyNames = new List<string>();
 
