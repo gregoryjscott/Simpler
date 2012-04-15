@@ -6,7 +6,7 @@ using System.Data;
 using Simpler.Sql.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Data.Jobs
+namespace Simpler.Tests.Sql.Jobs
 {
     [TestFixture]
     public class FetchListOfTest

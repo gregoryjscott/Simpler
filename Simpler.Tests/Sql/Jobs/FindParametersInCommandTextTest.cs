@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Simpler.Sql.Jobs;
 
-namespace Simpler.Tests.Data.Jobs
+namespace Simpler.Tests.Sql.Jobs
 {
     [TestFixture]
     public class FindParametersInCommandTextTest

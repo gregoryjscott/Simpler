@@ -6,7 +6,7 @@ namespace Simpler
     public abstract class InOutJob<TIn, TOut> : Job
     {
         public TIn _In { get; set; }
-        public TOut _Out { get; protected set; }
+        public TOut _Out { get; set; }
 
         public virtual InOutJob<TIn, TOut> Set(TIn _in)
         {

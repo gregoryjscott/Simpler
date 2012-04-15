@@ -5,7 +5,7 @@ namespace Simpler
     [_InjectJobs]
     public abstract class InJob<TIn> : Job
     {
-        public TIn _In { protected get; set; }
+        public TIn _In { get; set; }
 
         public InJob<TIn> Set(TIn _in)
         {

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Data;
+using Moq;
+using NUnit.Framework;
 using Simpler.Sql.Exceptions;
+using Simpler._Mocks;
 
 namespace Simpler.Sql.Jobs
 {
@@ -47,24 +50,70 @@ namespace Simpler.Sql.Jobs
             }
         }
 
-        //public override void Test()
-        //{
-        //    Test<_Build<MockObject>>.Should(
-        //        "allow object to have properties w/o matching columns in record",
-        //        job =>
-        //        {
-        //            var mockDataRecord = new Mock<IDataRecord>();
-        //            mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
-        //            mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
-        //            mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
+        public override void Test()
+        {
+            Test<_Build<MockObject>>.Should(
+                "create an instance of given object type",
+                job =>
+                {
+                    var mockDataRecord = new Mock<IDataRecord>();
 
-        //            var newObject = job
-        //                .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
-        //                .Get().Object;
+                    var newObject = job
+                        .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+                        .Get().Object;
 
-        //            Assert.That(newObject.Name, Is.EqualTo("John Doe"));
-        //            Assert.That(newObject.Age, Is.Null);
-        //        });
-        //}
+                    Assert.That(newObject, Is.InstanceOf(typeof (MockObject)));
+                });
+
+            Test<_Build<MockObject>>.Should(
+                "populate object using all columns in the data record",
+                job =>
+                {
+                    var mockDataRecord = new Mock<IDataRecord>();
+                    mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(2);
+                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
+                    mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
+                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(1)).Returns("Age");
+                    mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
+
+                    var newObject = job
+                        .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+                        .Get().Object;
+
+                    Assert.That(newObject.Name, Is.EqualTo("John Doe"));
+                    Assert.That(newObject.Age, Is.EqualTo(21));
+                });
+
+            Test<_Build<MockObject>>.Should(
+                "throw exception if a data record column is not a property of the object class",
+                job =>
+                {
+                    var mockDataRecord = new Mock<IDataRecord>();
+                    mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
+                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("SomeOtherColumn");
+                    mockDataRecord.Setup(dataRecord => dataRecord["SomeOtherColumn"]).Returns("whatever");
+
+                    job.Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object });
+
+                    Assert.Throws(typeof(NoPropertyForColumnException), job.Run);
+                });
+
+            Test<_Build<MockObject>>.Should(
+                "allow object to have properties w/o matching columns in record",
+                job =>
+                {
+                    var mockDataRecord = new Mock<IDataRecord>();
+                    mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
+                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
+                    mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
+
+                    var newObject = job
+                        .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+                        .Get().Object;
+
+                    Assert.That(newObject.Name, Is.EqualTo("John Doe"));
+                    Assert.That(newObject.Age, Is.Null);
+                });
+        }
     }
 }

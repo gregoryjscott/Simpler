@@ -5,7 +5,7 @@ namespace Simpler
     [_InjectJobs]
     public abstract class OutJob<TOut> : Job
     {
-        public TOut _Out { get; protected set; }
+        public TOut _Out { get; set; }
 
         public TOut Get()
         {

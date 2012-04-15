@@ -61,11 +61,11 @@
   <ItemGroup>
     <Compile Include="Mocks\MockInOutTaskUsingPrimitives.cs" />
     <Compile Include="Mocks\MockInOutTask.cs" />
-    <Compile Include="Data\Jobs\_BuildParametersTest.cs" />
-    <Compile Include="Data\Jobs\FetchListOfTest.cs" />
-    <Compile Include="Data\Jobs\FetchSingleOfTest.cs" />
-    <Compile Include="Data\Jobs\FindParametersInCommandTextTest.cs" />
-    <Compile Include="Data\Jobs\_BuildTest.cs" />
+    <Compile Include="Sql\Jobs\_BuildParametersTest.cs" />
+    <Compile Include="Sql\Jobs\FetchListOfTest.cs" />
+    <Compile Include="Sql\Jobs\FetchSingleOfTest.cs" />
+    <Compile Include="Sql\Jobs\FindParametersInCommandTextTest.cs" />
+    <Compile Include="Sql\Jobs\Tests.cs" />
     <Compile Include="Injection\Jobs\DisposeSubTasksTest.cs" />
     <Compile Include="Injection\Jobs\InjectSubTasksTest.cs" />
     <Compile Include="Construction\Jobs\NotifySubscribersOfTaskExecutionTest.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Mocks\SecondAttribute.cs" />
     <Compile Include="Mocks\TestException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskTest.cs" />
+    <Compile Include="JobTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
