@@ -16,7 +16,7 @@ namespace Example.Model.Tests.Jobs.Players
         [Test]
         public void should_return_list_of_players()
         {
-            Test<Index>.New()
+            Test<FetchPlayers>.New()
                 .Act()
                 .Assert(job => Assert.That(job._Out.Players.Length, Is.GreaterThan(0)));
         }

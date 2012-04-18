@@ -9,7 +9,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = Job.New<Index>()
+            var model = Job.New<FetchPlayers>()
                 .Get();
 
             return View(model);
@@ -18,8 +18,8 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Show(int id)
         {
-            var model = Job.New<Show>()
-                .Set(new Show.In {PlayerId = id})
+            var model = Job.New<FetchPlayer>()
+                .Set(new FetchPlayer.In {PlayerId = id})
                 .Get();
 
             return View(model);
@@ -28,27 +28,27 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var model = Job.New<Edit>()
-                .Set(new Edit.In {PlayerId = id})
+            var model = Job.New<FetchPlayer>()
+                .Set(new FetchPlayer.In {PlayerId = id})
                 .Get();
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Update(Update.In model)
+        public ActionResult Update(UpdatePlayer.In model)
         {
             if (!ModelState.IsValid)
             {
-                var editModel = Job.New<Edit>()
-                    .Set(new Edit.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
+                var editModel = Job.New<FetchPlayer>()
+                    .Set(new FetchPlayer.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
                     .Get();
 
                 return View("Edit", editModel);
             }
 
-            Job.New<Update>()
-                .Set(new Update.In { Player = model.Player })
+            Job.New<UpdatePlayer>()
+                .Set(new UpdatePlayer.In { Player = model.Player })
                 .Run();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });

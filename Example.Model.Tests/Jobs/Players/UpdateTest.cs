@@ -26,8 +26,8 @@ namespace Example.Model.Tests.Jobs.Players
                     TeamId = 2
                 };
 
-            Test<Update>.New()
-                .Arrange(job => job.Set(new Update.In {Player = player}))
+            Test<UpdatePlayer>.New()
+                .Arrange(job => job.Set(new UpdatePlayer.In {Player = player}))
                 .Act()
                 .Assert(
                     job =>

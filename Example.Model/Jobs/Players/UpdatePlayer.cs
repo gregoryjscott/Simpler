@@ -4,14 +4,14 @@ using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs.Players
 {
-    public class Update : InJob<Update.In>
+    public class UpdatePlayer : InJob<UpdatePlayer.In>
     {
         public class In
         {
             public Player Player { get; set; }
         }
 
-        public ReturnResult UpdatePlayer { get; set; }
+        public ReturnResult Update { get; set; }
 
         public override void Run()
         {
@@ -25,7 +25,7 @@ namespace Example.Model.Jobs.Players
                     PlayerId = @PlayerId
                 ";
 
-            UpdatePlayer
+            Update
                 .Set(new ReturnResult.In
                          {
                              ConnectionName = Config.DatabaseName,

@@ -4,7 +4,7 @@ using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs.Players
 {
-    public class Index : OutJob<Index.Out>
+    public class FetchPlayers : OutJob<FetchPlayers.Out>
     {
         public class Out
         {
