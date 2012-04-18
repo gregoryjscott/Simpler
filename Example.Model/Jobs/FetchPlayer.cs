@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Simpler;
 using Simpler.Sql.Jobs;
 
-namespace Example.Model.Jobs.Players
+namespace Example.Model.Jobs
 {
     public class FetchPlayer : InOutJob<FetchPlayer.In, FetchPlayer.Out>
     {

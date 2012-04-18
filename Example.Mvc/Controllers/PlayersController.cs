@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Example.Model.Jobs.Players;
+using Example.Model.Jobs;
 using Simpler;
 
 namespace Example.Mvc.Controllers
@@ -9,8 +9,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var model = Job.New<FetchPlayers>()
-                .Get();
+            var model = Job.New<FetchPlayers>().Get();
 
             return View(model);
         }

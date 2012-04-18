@@ -2,7 +2,7 @@ using Example.Model.Entities;
 using Simpler;
 using Simpler.Sql.Jobs;
 
-namespace Example.Model.Jobs.Players
+namespace Example.Model.Jobs
 {
     public class FetchPlayers : OutJob<FetchPlayers.Out>
     {

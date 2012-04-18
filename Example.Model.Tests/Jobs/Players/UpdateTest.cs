@@ -1,5 +1,5 @@
 ﻿using Example.Model.Entities;
-using Example.Model.Jobs.Players;
+using Example.Model.Jobs;
 using NUnit.Framework;
 using Simpler;
 

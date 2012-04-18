@@ -52,10 +52,10 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Jobs\FetchPlayer.cs" />
+    <Compile Include="Jobs\FetchPlayers.cs" />
+    <Compile Include="Jobs\UpdatePlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Jobs\Players\FetchPlayer.cs" />
-    <Compile Include="Jobs\Players\FetchPlayers.cs" />
-    <Compile Include="Jobs\Players\UpdatePlayer.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +73,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

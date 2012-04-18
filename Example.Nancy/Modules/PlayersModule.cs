@@ -1,4 +1,4 @@
-using Example.Model.Jobs.Players;
+using Example.Model.Jobs;
 using Nancy;
 using Simpler;
 using Nancy.ModelBinding;
@@ -12,8 +12,7 @@ namespace Example.Nancy.Modules
             Get["/players"] =
                 parameters =>
                     {
-                        var model = Job.New<FetchPlayers>()
-                            .Get();
+                        var model = Job.New<FetchPlayers>().Get();
 
                         return View["Views/Players/Index.html", model];
                     };
@@ -43,9 +42,7 @@ namespace Example.Nancy.Modules
                     {
                         var input = this.Bind<UpdatePlayer.In>();
                         
-                        Job.New<UpdatePlayer>()
-                            .Set(input)
-                            .Run();
+                        Job.New<UpdatePlayer>().Set(input).Run();
 
                         return Response.AsRedirect(string.Format("/players/{0}", input.Player.PlayerId));
                     };
