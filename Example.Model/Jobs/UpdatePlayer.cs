@@ -15,8 +15,7 @@ namespace Example.Model.Jobs
 
         public override void Run()
         {
-            const string sql =
-                @"
+            const string sql = @"
                 update Player
                 set
                     FirstName = @FirstName,

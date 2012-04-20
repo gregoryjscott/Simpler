@@ -11,7 +11,7 @@ namespace Example.Model.Jobs
             public Player[] Players { get; set; }
         }
 
-        public ReturnMany<Player> SelectPlayers { get; set; }
+        public ReturnMany<Player> Select { get; set; }
 
         public override void Run()
         {
@@ -30,7 +30,7 @@ namespace Example.Model.Jobs
                         Player.TeamId = Team.TeamId
                 ";
 
-            var players = SelectPlayers
+            var players = Select
                 .Set(new ReturnMany<Player>.In
                          {
                              ConnectionName = Config.DatabaseName,
