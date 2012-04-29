@@ -59,7 +59,7 @@ namespace Example.Model.Jobs
                 "return player identified by given id",
                 job =>
                 {
-                    job._In.PlayerId = 1;
+                    job._In = new Input {PlayerId = 1};
                     job.Run();
                     var player = job._Out.Player;
 
