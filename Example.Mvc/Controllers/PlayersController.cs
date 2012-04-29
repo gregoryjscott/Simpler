@@ -18,7 +18,7 @@ namespace Example.Mvc.Controllers
         public ActionResult Show(int id)
         {
             var model = Job.New<FetchPlayer>()
-                .Set(new FetchPlayer.In {PlayerId = id})
+                .Set(new FetchPlayer.Input {PlayerId = id})
                 .Get();
 
             return View(model);
@@ -28,7 +28,7 @@ namespace Example.Mvc.Controllers
         public ActionResult Edit(int id)
         {
             var model = Job.New<FetchPlayer>()
-                .Set(new FetchPlayer.In {PlayerId = id})
+                .Set(new FetchPlayer.Input {PlayerId = id})
                 .Get();
 
             return View(model);
@@ -40,7 +40,7 @@ namespace Example.Mvc.Controllers
             if (!ModelState.IsValid)
             {
                 var editModel = Job.New<FetchPlayer>()
-                    .Set(new FetchPlayer.In {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
+                    .Set(new FetchPlayer.Input {PlayerId = model.Player.PlayerId.GetValueOrDefault()})
                     .Get();
 
                 return View("Edit", editModel);

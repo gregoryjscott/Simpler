@@ -33,7 +33,7 @@ namespace Example.Model.Tests.Jobs.Players
                     job =>
                     {
                         var updatedPlayer = Job.New<FetchPlayer>()
-                            .Set(new FetchPlayer.In
+                            .Set(new FetchPlayer.Input
                                  {
                                      PlayerId = player.PlayerId.GetValueOrDefault()
                                  })

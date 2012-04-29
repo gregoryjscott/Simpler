@@ -8,7 +8,7 @@ namespace Simpler
     // todo - change syntax to
     // Test.Assembly("Simpler");
     // Test.Namespace("Simpler.Sql.Jobs");
-    // Test.Job<FetchSomething>.Can("allow ...", job => { });
+    // It<FetchSomething>.Should("allow ...", job => { });
 
     public class Test
     {
@@ -68,29 +68,26 @@ namespace Simpler
         }
     }
 
-    public class Verify : NUnit.Framework.Assert
+    public class It<TJob> where TJob : Job
     {
-        public class Job<TJob> where TJob : Job
+        public static void Should(string expectation, Action<TJob> action)
         {
-            public static void Can(string expectation, Action<TJob> action)
-            {
-                var createJob = new _CreateJob { JobType = typeof(TJob) };
-                createJob.Run();
-                var job = (TJob)createJob.JobInstance;
+            var createJob = new _CreateJob {JobType = typeof (TJob)};
+            createJob.Run();
+            var job = (TJob) createJob.JobInstance;
 
-                Console.WriteLine(job.Name);
-                try
-                {
-                    action(job);
-                    Console.WriteLine("  can " + expectation);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine("  failed to " + expectation);
-                    throw new Exception("Test failed.", exception);
-                }
-                Console.WriteLine("");
+            Console.WriteLine(job.Name);
+            try
+            {
+                action(job);
+                Console.WriteLine("  can " + expectation);
             }
+            catch (Exception exception)
+            {
+                Console.WriteLine("  failed to " + expectation);
+                throw;
+            }
+            Console.WriteLine("");
         }
     }
 

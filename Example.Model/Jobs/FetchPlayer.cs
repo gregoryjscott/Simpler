@@ -6,14 +6,14 @@ using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs
 {
-    public class FetchPlayer : InOutJob<FetchPlayer.In, FetchPlayer.Out>
+    public class FetchPlayer : InOutJob<FetchPlayer.Input, FetchPlayer.Output>
     {
-        public class In
+        public class Input
         {
             public int PlayerId { get; set; }
         }
 
-        public class Out
+        public class Output
         {
             public Player Player { get; set; }
         }
@@ -48,20 +48,24 @@ namespace Example.Model.Jobs
                          })
                 .Get().Models.Single();
 
-            _Out = new Out {Player = player};
+            _Out = new Output {Player = player};
         }
 
         public override void Test()
         {
             Config.SetDataDirectory();
 
-            Verify.Job<FetchPlayer>.Can(
+            It<FetchPlayer>.Should(
                 "return player identified by given id",
                 job =>
                 {
-                    var player = job
-                        .Set(new In {PlayerId = 1})
-                        .Get().Player;
+                    //var player = job
+                    //    .Set(new In {PlayerId = 1})
+                    //    .Get().Player;
+
+                    job._In.PlayerId = 1;
+                    job.Run();
+                    var player = job._Out.Player;
 
                     Assert.True(player.PlayerId == 1);
                 });

@@ -21,7 +21,7 @@ namespace Example.Nancy.Modules
                 parameters =>
                     {
                         var model = Job.New<FetchPlayer>()
-                            .Set(this.Bind<FetchPlayer.In>())
+                            .Set(this.Bind<FetchPlayer.Input>())
                             .Get();
 
                         return View["Views/Players/Show.html", model];
@@ -31,7 +31,7 @@ namespace Example.Nancy.Modules
                 parameters =>
                     {
                         var model = Job.New<FetchPlayer>()
-                            .Set(this.Bind<FetchPlayer.In>())
+                            .Set(this.Bind<FetchPlayer.Input>())
                             .Get();
 
                         return View["Views/Players/Edit.html", model];
