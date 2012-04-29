@@ -5,6 +5,13 @@ namespace Simpler
 {
     public abstract class Job
     {
+        public static T New<T>()
+        {
+            var createJob = new _CreateJob { JobType = typeof(T) };
+            createJob.Run();
+            return (T)createJob.JobInstance;
+        }
+
         public string Name
         {
             get
@@ -18,13 +25,11 @@ namespace Simpler
 
         public abstract void Run();
         
-        public virtual void Test() { throw new NoTestsException(); }
+        public virtual void Test() { throw new SimplerException("No tests."); }
 
-        public static T New<T>()
+        public virtual void Check(bool condition, string errorMessage)
         {
-            var createJob = new _CreateJob { JobType = typeof(T) };
-            createJob.Run();
-            return (T)createJob.JobInstance;
+            if (!condition) throw new SimplerException(errorMessage);
         }
     }
 }

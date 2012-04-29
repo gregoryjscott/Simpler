@@ -1,6 +1,6 @@
+using System;
 using System.Linq;
 using Example.Model.Entities;
-using NUnit.Framework;
 using Simpler;
 using Simpler.Sql.Jobs;
 
@@ -59,15 +59,11 @@ namespace Example.Model.Jobs
                 "return player identified by given id",
                 job =>
                 {
-                    //var player = job
-                    //    .Set(new In {PlayerId = 1})
-                    //    .Get().Player;
-
                     job._In.PlayerId = 1;
                     job.Run();
                     var player = job._Out.Player;
 
-                    Assert.True(player.PlayerId == 1);
+                    Check(player.PlayerId == 1, String.Format("Expect {0} to be equal to 1.", player.PlayerId));
                 });
         }
     }

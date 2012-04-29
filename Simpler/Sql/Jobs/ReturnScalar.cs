@@ -14,7 +14,7 @@ namespace Simpler.Sql.Jobs
 
         public class Out
         {
-            public Object Object { get; set; }
+            public object Object { get; set; }
         }
 
         public _RunAction RunAction { get; set; }

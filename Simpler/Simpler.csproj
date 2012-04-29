@@ -63,7 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NoTestsException.cs" />
+    <Compile Include="It.cs" />
+    <Compile Include="SimplerException.cs" />
     <Compile Include="Proxy\_InjectJobsAttribute.cs" />
     <Compile Include="Proxy\_Interceptor.cs" />
     <Compile Include="Proxy\Jobs\_DisposeJobs.cs" />

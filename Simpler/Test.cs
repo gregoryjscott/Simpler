@@ -41,7 +41,7 @@ namespace Simpler
                 {
                     job.Test();
                 }
-                catch (NoTestsException)
+                catch (SimplerException)
                 {
                     noTests.Add(job.Name);
                 }
@@ -63,29 +63,7 @@ namespace Simpler
         }
     }
 
-    public class It<TJob> where TJob : Job
-    {
-        public static void Should(string expectation, Action<TJob> action)
-        {
-            var createJob = new _CreateJob {JobType = typeof (TJob)};
-            createJob.Run();
-            var job = (TJob) createJob.JobInstance;
-
-            Console.WriteLine(job.Name);
-            try
-            {
-                action(job);
-                Console.WriteLine("  can " + expectation);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine("  failed to " + expectation);
-                throw;
-            }
-            Console.WriteLine("");
-        }
-    }
-
+    // todo - delete after everything has been changed to use Test() and It<TJob>
     public class Test<TJob> where TJob : Job
     {
         private TJob Job { get; set; }
@@ -170,7 +148,7 @@ namespace Simpler
                 {
                     job.Test();
                 }
-                catch (NoTestsException)
+                catch (SimplerException)
                 {
                     noTests.Add(job.Name);
                 }
