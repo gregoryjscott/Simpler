@@ -5,11 +5,6 @@ using Simpler.Proxy.Jobs;
 
 namespace Simpler
 {
-    // todo - change syntax to
-    // Test.Assembly("Simpler");
-    // Test.Namespace("Simpler.Sql.Jobs");
-    // It<FetchSomething>.Should("allow ...", job => { });
-
     public class Test
     {
         public static void Assembly(string assemblyName)
