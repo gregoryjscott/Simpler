@@ -46,9 +46,9 @@ namespace Example.Mvc.Controllers
                 return View("Edit", editModel);
             }
 
-            Job.New<UpdatePlayer>()
-                .Set(new UpdatePlayer.Input { Player = model.Player })
-                .Run();
+            var update = Job.New<UpdatePlayer>();
+            update._In.Player = model.Player;
+            update.Run();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });
         }

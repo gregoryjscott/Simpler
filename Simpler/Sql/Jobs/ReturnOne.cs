@@ -31,15 +31,14 @@ namespace Simpler.Sql.Jobs
                     _Out = new Output {Model = Fetch.ObjectsFetched.Single()};
                 };
 
-            RunAction
-                .Set(new _RunAction.Input
-                     {
-                         ConnectionName = _In.ConnectionName,
-                         Sql = _In.Sql,
-                         Values = _In.Values,
-                         Action = action
-                     })
-                .Run();
+            RunAction._In = new _RunAction.Input
+                                {
+                                    ConnectionName = _In.ConnectionName,
+                                    Sql = _In.Sql,
+                                    Values = _In.Values,
+                                    Action = action
+                                };
+            RunAction.Run();
         }
     }
 }

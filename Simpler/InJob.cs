@@ -1,16 +1,23 @@
+using System;
 using Simpler.Proxy;
 
 namespace Simpler
 {
     [_InjectJobs]
-    public abstract class InJob<TIn> : Job
+    public abstract class InJob<TIn> : Job 
+        where TIn : class
     {
-        public TIn _In { get; set; }
-
-        public InJob<TIn> Set(TIn _in)
+        TIn _in;
+        public TIn _In
         {
-            _In = _in;
-            return this;
+            get { return _in ?? (_in = (TIn) Activator.CreateInstance(typeof (TIn))); }
+            set { _in = value; }
         }
+
+        //public InJob<TIn> Set(TIn _in)
+        //{
+        //    _In = _in;
+        //    return this;
+        //}
     }
 }

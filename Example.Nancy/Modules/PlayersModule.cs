@@ -42,7 +42,9 @@ namespace Example.Nancy.Modules
                     {
                         var input = this.Bind<UpdatePlayer.Input>();
                         
-                        Job.New<UpdatePlayer>().Set(input).Run();
+                        var update = Job.New<UpdatePlayer>();
+                        update._In = input;
+                        update.Run();
 
                         return Response.AsRedirect(string.Format("/players/{0}", input.Player.PlayerId));
                     };

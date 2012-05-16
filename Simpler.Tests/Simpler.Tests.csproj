@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mocks\MockInOutTaskUsingPrimitives.cs" />
     <Compile Include="Mocks\MockInOutTask.cs" />
     <Compile Include="Sql\Jobs\_BuildParametersTest.cs" />
     <Compile Include="Sql\Jobs\FetchListOfTest.cs" />

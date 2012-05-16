@@ -27,20 +27,18 @@ namespace Example.Model.Tests.Jobs.Players
                 };
 
             Test<UpdatePlayer>.New()
-                .Arrange(job => job.Set(new UpdatePlayer.Input {Player = player}))
+                .Arrange(job => job._In.Player = player)
                 .Act()
                 .Assert(
                     job =>
-                    {
-                        var updatedPlayer = Job.New<FetchPlayer>()
-                            .Set(new FetchPlayer.Input
-                                 {
-                                     PlayerId = player.PlayerId.GetValueOrDefault()
-                                 })
-                            .Get().Player;
+                        {
+                            var fetch = Job.New<FetchPlayer>();
+                            fetch._In.PlayerId = player.PlayerId.GetValueOrDefault();
+                            fetch.Run();
+                            var updatedPlayer = fetch._Out.Player;
 
-                        Assert.That(updatedPlayer.LastName, Is.EqualTo("Different"));
-                    });
+                            Assert.That(updatedPlayer.LastName, Is.EqualTo("Different"));
+                        });
         }
     }
 }
