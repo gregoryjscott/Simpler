@@ -21,17 +21,5 @@ namespace Simpler
             get { return _out ?? (_out = (TOut)Activator.CreateInstance(typeof(TOut))); }
             set { _out = value; }
         }
-
-        public virtual InOutJob<TIn, TOut> Set(TIn _in)
-        {
-            _In = _in;
-            return this;
-        }
-
-        public virtual TOut Get()
-        {
-            Run();
-            return _Out;
-        }
     }
 }

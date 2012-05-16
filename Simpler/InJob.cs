@@ -13,11 +13,5 @@ namespace Simpler
             get { return _in ?? (_in = (TIn) Activator.CreateInstance(typeof (TIn))); }
             set { _in = value; }
         }
-
-        //public InJob<TIn> Set(TIn _in)
-        //{
-        //    _In = _in;
-        //    return this;
-        //}
     }
 }

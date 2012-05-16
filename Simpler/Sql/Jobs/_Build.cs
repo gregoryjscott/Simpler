@@ -56,11 +56,9 @@ namespace Simpler.Sql.Jobs
                 "create an instance of given object type",
                 job =>
                 {
-                    var mockDataRecord = new Mock<IDataRecord>();
-
-                    var newObject = job
-                        .Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object })
-                        .Get().Object;
+                    job._In.DataRecord = new Mock<IDataRecord>().Object;
+                    job.Run();
+                    var newObject = job._Out.Object;
 
                     Assert.That(newObject, Is.InstanceOf(typeof (MockObject)));
                 });
@@ -76,9 +74,9 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(1)).Returns("Age");
                     mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
 
-                    var newObject = job
-                        .Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object })
-                        .Get().Object;
+                    job._In.DataRecord = mockDataRecord.Object;
+                    job.Run();
+                    var newObject = job._Out.Object;
 
                     Assert.That(newObject.Name, Is.EqualTo("John Doe"));
                     Assert.That(newObject.Age, Is.EqualTo(21));
@@ -93,7 +91,7 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("SomeOtherColumn");
                     mockDataRecord.Setup(dataRecord => dataRecord["SomeOtherColumn"]).Returns("whatever");
 
-                    job.Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object });
+                    job._In.DataRecord = mockDataRecord.Object;
 
                     Assert.Throws(typeof(NoPropertyForColumnException), job.Run);
                 });
@@ -107,9 +105,9 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
                     mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
 
-                    var newObject = job
-                        .Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object })
-                        .Get().Object;
+                    job._In.DataRecord = mockDataRecord.Object;
+                    job.Run();
+                    var newObject = job._Out.Object;
 
                     Assert.That(newObject.Name, Is.EqualTo("John Doe"));
                     Assert.That(newObject.Age, Is.Null);

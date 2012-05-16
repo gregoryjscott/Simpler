@@ -24,14 +24,13 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            Update
-                .Set(new ReturnResult.Input
-                         {
-                             ConnectionName = Config.DatabaseName,
-                             Sql = sql,
-                             Values = _In.Player
-                         })
-                .Run();
+            Update._In = new ReturnResult.Input
+                             {
+                                 ConnectionName = Config.DatabaseName,
+                                 Sql = sql,
+                                 Values = _In.Player
+                             };
+            Update.Run();
         }
     }
 }

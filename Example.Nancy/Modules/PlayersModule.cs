@@ -12,7 +12,9 @@ namespace Example.Nancy.Modules
             Get["/players"] =
                 parameters =>
                     {
-                        var model = Job.New<FetchPlayers>().Get();
+                        var fetch = Job.New<FetchPlayers>();
+                        fetch.Run();
+                        var model = fetch._Out;
 
                         return View["Views/Players/Index.html", model];
                     };
@@ -20,9 +22,9 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var model = Job.New<FetchPlayer>()
-                            .Set(this.Bind<FetchPlayer.Input>())
-                            .Get();
+                        var fetch = Job.New<FetchPlayer>();
+                        fetch._In = this.Bind<FetchPlayer.Input>();
+                        var model = fetch._Out;
 
                         return View["Views/Players/Show.html", model];
                     };
@@ -30,9 +32,9 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}/edit"] =
                 parameters =>
                     {
-                        var model = Job.New<FetchPlayer>()
-                            .Set(this.Bind<FetchPlayer.Input>())
-                            .Get();
+                        var fetch = Job.New<FetchPlayer>();
+                        fetch._In = this.Bind<FetchPlayer.Input>();
+                        var model = fetch._Out;
 
                         return View["Views/Players/Edit.html", model];
                     };

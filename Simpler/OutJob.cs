@@ -13,11 +13,5 @@ namespace Simpler
             get { return _out ?? (_out = (TOut)Activator.CreateInstance(typeof(TOut))); }
             set { _out = value; }
         }
-
-        public TOut Get()
-        {
-            Run();
-            return _Out;
-        }
     }
 }
