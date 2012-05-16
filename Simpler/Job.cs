@@ -25,7 +25,12 @@ namespace Simpler
 
         public abstract void Run();
         
-        public virtual void Test() { throw new SimplerException("No tests."); }
+        public virtual void Test() { throw new NoTestsException(); }
+
+        public virtual void Check(bool condition)
+        {
+            if (!condition) throw new SimplerException(String.Format("A check failed in {0}.", Name));
+        }
 
         public virtual void Check(bool condition, string errorMessage)
         {

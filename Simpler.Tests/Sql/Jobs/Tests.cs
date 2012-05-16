@@ -8,7 +8,7 @@ namespace Simpler.Tests.Sql.Jobs
     public class Tests
     {
         [Test]
-        public void Simpler() { Test<Job>.InAssembly("Simpler"); }
+        public void Simpler() { Test.Assembly("Simpler"); }
 
         [Test]
         public void _Build() { Job.New<_Build<MockObject>>().Test(); }

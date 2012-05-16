@@ -63,7 +63,6 @@
     <Compile Include="Sql\Jobs\_BuildParametersTest.cs" />
     <Compile Include="Sql\Jobs\FetchListOfTest.cs" />
     <Compile Include="Sql\Jobs\FetchSingleOfTest.cs" />
-    <Compile Include="Sql\Jobs\FindParametersInCommandTextTest.cs" />
     <Compile Include="Sql\Jobs\Tests.cs" />
     <Compile Include="Injection\Jobs\DisposeSubTasksTest.cs" />
     <Compile Include="Injection\Jobs\InjectSubTasksTest.cs" />

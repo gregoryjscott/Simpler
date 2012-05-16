@@ -52,7 +52,7 @@ namespace Simpler.Sql.Jobs
 
         public override void Test()
         {
-            Test<_Build<MockObject>>.Should(
+            It<_Build<MockObject>>.Should(
                 "create an instance of given object type",
                 job =>
                 {
@@ -63,7 +63,7 @@ namespace Simpler.Sql.Jobs
                     Assert.That(newObject, Is.InstanceOf(typeof (MockObject)));
                 });
 
-            Test<_Build<MockObject>>.Should(
+            It<_Build<MockObject>>.Should(
                 "populate object using all columns in the data record",
                 job =>
                 {
@@ -82,7 +82,7 @@ namespace Simpler.Sql.Jobs
                     Assert.That(newObject.Age, Is.EqualTo(21));
                 });
 
-            Test<_Build<MockObject>>.Should(
+            It<_Build<MockObject>>.Should(
                 "throw exception if a data record column is not a property of the object class",
                 job =>
                 {
@@ -96,7 +96,7 @@ namespace Simpler.Sql.Jobs
                     Assert.Throws(typeof(NoPropertyForColumnException), job.Run);
                 });
 
-            Test<_Build<MockObject>>.Should(
+            It<_Build<MockObject>>.Should(
                 "allow object to have properties w/o matching columns in record",
                 job =>
                 {

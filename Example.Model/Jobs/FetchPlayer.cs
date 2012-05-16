@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Example.Model.Entities;
 using Simpler;
 using Simpler.Sql.Jobs;

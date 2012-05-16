@@ -29,5 +29,34 @@ namespace Example.Model.Jobs
             Update.In.Values = In.Player;
             Update.Run();
         }
+
+        public override void Test()
+        {
+            Config.SetDataDirectory();
+
+            It<UpdatePlayer>.Should(
+                "update player",
+                job =>
+                {
+                    var player =
+                        new Player
+                        {
+                            PlayerId = 1,
+                            FirstName = "Something",
+                            LastName = "Different",
+                            TeamId = 2
+                        };
+
+                    job.In.Player = player;
+                    job.Run();
+
+                    var fetch = New<FetchPlayer>();
+                    fetch.In.PlayerId = player.PlayerId.GetValueOrDefault();
+                    fetch.Run();
+                    var updatedPlayer = fetch.Out.Player;
+
+                    Check(updatedPlayer.LastName == "Different", "Expected LastName to be Different.");
+                });
+        }
     }
 }

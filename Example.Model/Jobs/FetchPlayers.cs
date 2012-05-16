@@ -37,5 +37,20 @@ namespace Example.Model.Jobs
 
             Out.Players = players;
         }
+
+        public override void Test()
+        {
+            Config.SetDataDirectory();
+
+            It<FetchPlayers>.Should(
+                "return all players",
+                job =>
+                {
+                    job.Run();
+                    var players = job.Out.Players;
+
+                    Check(players.Length > 0, "Expected more than zero players to be returned.");
+                });
+        }
     }
 }
