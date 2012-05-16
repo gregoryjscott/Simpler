@@ -28,13 +28,13 @@ namespace Simpler.Sql.Jobs
                 {
                     Fetch.SelectCommand = command;
                     Fetch.Run();
-                    _Out.Model = Fetch.ObjectsFetched.Single();
+                    Out.Model = Fetch.ObjectsFetched.Single();
                 };
 
-            RunAction._In.ConnectionName = _In.ConnectionName;
-            RunAction._In.Sql = _In.Sql;
-            RunAction._In.Values = _In.Values;
-            RunAction._In.Action = action;
+            RunAction.In.ConnectionName = In.ConnectionName;
+            RunAction.In.Sql = In.Sql;
+            RunAction.In.Values = In.Values;
+            RunAction.In.Action = action;
             RunAction.Run();
         }
     }

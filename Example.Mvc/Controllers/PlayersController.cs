@@ -11,7 +11,7 @@ namespace Example.Mvc.Controllers
         {
             var fetch = Job.New<FetchPlayers>();
             fetch.Run();
-            var model = fetch._Out;
+            var model = fetch.Out;
 
             return View(model);
         }
@@ -20,9 +20,9 @@ namespace Example.Mvc.Controllers
         public ActionResult Show(int id)
         {
             var fetch = Job.New<FetchPlayer>();
-            fetch._In.PlayerId = id;
+            fetch.In.PlayerId = id;
             fetch.Run();
-            var model = fetch._Out.Player;
+            var model = fetch.Out.Player;
 
             return View(model);
         }
@@ -31,9 +31,9 @@ namespace Example.Mvc.Controllers
         public ActionResult Edit(int id)
         {
             var fetch = Job.New<FetchPlayer>();
-            fetch._In.PlayerId = id;
+            fetch.In.PlayerId = id;
             fetch.Run();
-            var model = fetch._Out.Player;
+            var model = fetch.Out.Player;
 
             return View(model);
         }
@@ -44,15 +44,15 @@ namespace Example.Mvc.Controllers
             if (!ModelState.IsValid)
             {
                 var fetch = Job.New<FetchPlayer>();
-                fetch._In.PlayerId = model.Player.PlayerId.GetValueOrDefault();
+                fetch.In.PlayerId = model.Player.PlayerId.GetValueOrDefault();
                 fetch.Run();
-                var editModel = fetch._Out;
+                var editModel = fetch.Out;
 
                 return View("Edit", editModel);
             }
 
             var update = Job.New<UpdatePlayer>();
-            update._In.Player = model.Player;
+            update.In.Player = model.Player;
             update.Run();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });

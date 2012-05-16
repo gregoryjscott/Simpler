@@ -25,9 +25,9 @@ namespace Simpler.Sql.Jobs
             {
                 while (dataReader.Read())
                 {
-                    Build._In.DataRecord = dataReader;
+                    Build.In.DataRecord = dataReader;
                     Build.Run();
-                    var newObject = Build._Out.Object;
+                    var newObject = Build.Out.Object;
 
                     objectList.Add(newObject);
                 }

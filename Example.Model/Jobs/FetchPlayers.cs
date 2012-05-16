@@ -30,12 +30,12 @@ namespace Example.Model.Jobs
                         Player.TeamId = Team.TeamId
                 ";
 
-            Select._In.ConnectionName = Config.DatabaseName;
-            Select._In.Sql = sql;
+            Select.In.ConnectionName = Config.DatabaseName;
+            Select.In.Sql = sql;
             Select.Run();
-            var players = Select._Out.Models;
+            var players = Select.Out.Models;
 
-            _Out.Players = players;
+            Out.Players = players;
         }
     }
 }

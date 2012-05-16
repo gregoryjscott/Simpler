@@ -20,11 +20,11 @@ namespace Simpler.Sql.Jobs
 
         public override void Run()
         {
-            if (String.IsNullOrEmpty(_In.ConnectionName)) throw new ArgumentException("ConnectionName property must be set.");
-            if (String.IsNullOrEmpty(_In.Sql)) throw new ArgumentException("Sql property must be set.");
+            if (String.IsNullOrEmpty(In.ConnectionName)) throw new ArgumentException("ConnectionName property must be set.");
+            if (String.IsNullOrEmpty(In.Sql)) throw new ArgumentException("Sql property must be set.");
 
-            var connectionString = ConfigurationManager.ConnectionStrings[_In.ConnectionName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[_In.ConnectionName].ProviderName;
+            var connectionString = ConfigurationManager.ConnectionStrings[In.ConnectionName].ConnectionString;
+            var providerName = ConfigurationManager.ConnectionStrings[In.ConnectionName].ProviderName;
             var provider = DbProviderFactories.GetFactory(providerName);
 
             using (var connection = provider.CreateConnection())
@@ -37,16 +37,16 @@ namespace Simpler.Sql.Jobs
                 {
                     connection.Open();
                     command.Connection = connection;
-                    command.CommandText = _In.Sql;
+                    command.CommandText = In.Sql;
 
-                    if (_In.Values != null)
+                    if (In.Values != null)
                     {
                         BuildParameters.Command = command;
-                        BuildParameters.Values = _In.Values;
+                        BuildParameters.Values = In.Values;
                         BuildParameters.Run();                        
                     }
 
-                    _In.Action(command);
+                    In.Action(command);
                 }
             }
         }

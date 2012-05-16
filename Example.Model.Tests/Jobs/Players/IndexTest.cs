@@ -18,7 +18,7 @@ namespace Example.Model.Tests.Jobs.Players
         {
             Test<FetchPlayers>.New()
                 .Act()
-                .Assert(job => Assert.That(job._Out.Players.Length, Is.GreaterThan(0)));
+                .Assert(job => Assert.That(job.Out.Players.Length, Is.GreaterThan(0)));
         }
     }
 }

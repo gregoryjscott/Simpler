@@ -39,13 +39,13 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            Select._In.ConnectionName = Config.DatabaseName;
-            Select._In.Sql = sql;
-            Select._In.Values = _In;
+            Select.In.ConnectionName = Config.DatabaseName;
+            Select.In.Sql = sql;
+            Select.In.Values = In;
             Select.Run();
-            var player = Select._Out.Model;
+            var player = Select.Out.Model;
 
-            _Out.Player = player;
+            Out.Player = player;
         }
 
         public override void Test()
@@ -56,9 +56,9 @@ namespace Example.Model.Jobs
                 "return player identified by given id",
                 job =>
                 {
-                    job._In = new Input {PlayerId = 1};
+                    job.In = new Input { PlayerId = 1 };
                     job.Run();
-                    var player = job._Out.Player;
+                    var player = job.Out.Player;
 
                     Check(player.PlayerId == 1, String.Format("Expect {0} to be equal to 1.", player.PlayerId));
                 });

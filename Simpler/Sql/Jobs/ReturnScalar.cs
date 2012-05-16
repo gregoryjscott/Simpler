@@ -24,13 +24,13 @@ namespace Simpler.Sql.Jobs
             Action<IDbCommand> action =
                 command =>
                 {
-                    _Out.Object = command.ExecuteScalar();
+                    Out.Object = command.ExecuteScalar();
                 };
 
-            RunAction._In.ConnectionName = _In.ConnectionName;
-            RunAction._In.Sql = _In.Sql;
-            RunAction._In.Values = _In.Values;
-            RunAction._In.Action = action;
+            RunAction.In.ConnectionName = In.ConnectionName;
+            RunAction.In.Sql = In.Sql;
+            RunAction.In.Values = In.Values;
+            RunAction.In.Action = action;
             RunAction.Run();
         }
     }

@@ -24,9 +24,9 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            Update._In.ConnectionName = Config.DatabaseName;
-            Update._In.Sql = sql;
-            Update._In.Values = _In.Player;
+            Update.In.ConnectionName = Config.DatabaseName;
+            Update.In.Sql = sql;
+            Update.In.Values = In.Player;
             Update.Run();
         }
     }

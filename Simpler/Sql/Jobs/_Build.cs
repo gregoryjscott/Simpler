@@ -21,12 +21,12 @@ namespace Simpler.Sql.Jobs
 
         public override void Run()
         {
-            _Out.Object = (T) Activator.CreateInstance(typeof (T));
+            Out.Object = (T) Activator.CreateInstance(typeof (T));
             var objectType = typeof(T);
 
-            for (var i = 0; i < _In.DataRecord.FieldCount; i++)
+            for (var i = 0; i < In.DataRecord.FieldCount; i++)
             {
-                var columnName = _In.DataRecord.GetName(i);
+                var columnName = In.DataRecord.GetName(i);
                 var propertyInfo = objectType.GetProperty(columnName);
 
                 if (propertyInfo == null)
@@ -34,7 +34,7 @@ namespace Simpler.Sql.Jobs
                     throw new NoPropertyForColumnException(columnName, objectType.FullName);
                 }
 
-                var columnValue = _In.DataRecord[columnName];
+                var columnValue = In.DataRecord[columnName];
                 if (columnValue.GetType() != typeof(DBNull))
                 {
                     var propertyType = propertyInfo.PropertyType;
@@ -45,7 +45,7 @@ namespace Simpler.Sql.Jobs
                     }
 
                     columnValue = Convert.ChangeType(columnValue, propertyType);
-                    propertyInfo.SetValue(_Out.Object, columnValue, null);
+                    propertyInfo.SetValue(Out.Object, columnValue, null);
                 }
             }
         }
@@ -56,9 +56,9 @@ namespace Simpler.Sql.Jobs
                 "create an instance of given object type",
                 job =>
                 {
-                    job._In.DataRecord = new Mock<IDataRecord>().Object;
+                    job.In.DataRecord = new Mock<IDataRecord>().Object;
                     job.Run();
-                    var newObject = job._Out.Object;
+                    var newObject = job.Out.Object;
 
                     Assert.That(newObject, Is.InstanceOf(typeof (MockObject)));
                 });
@@ -74,9 +74,9 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(1)).Returns("Age");
                     mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
 
-                    job._In.DataRecord = mockDataRecord.Object;
+                    job.In.DataRecord = mockDataRecord.Object;
                     job.Run();
-                    var newObject = job._Out.Object;
+                    var newObject = job.Out.Object;
 
                     Assert.That(newObject.Name, Is.EqualTo("John Doe"));
                     Assert.That(newObject.Age, Is.EqualTo(21));
@@ -91,7 +91,7 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("SomeOtherColumn");
                     mockDataRecord.Setup(dataRecord => dataRecord["SomeOtherColumn"]).Returns("whatever");
 
-                    job._In.DataRecord = mockDataRecord.Object;
+                    job.In.DataRecord = mockDataRecord.Object;
 
                     Assert.Throws(typeof(NoPropertyForColumnException), job.Run);
                 });
@@ -105,9 +105,9 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
                     mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
 
-                    job._In.DataRecord = mockDataRecord.Object;
+                    job.In.DataRecord = mockDataRecord.Object;
                     job.Run();
-                    var newObject = job._Out.Object;
+                    var newObject = job.Out.Object;
 
                     Assert.That(newObject.Name, Is.EqualTo("John Doe"));
                     Assert.That(newObject.Age, Is.Null);

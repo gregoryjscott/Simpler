@@ -8,7 +8,7 @@ namespace Simpler
         where TIn : class
     {
         TIn _in;
-        public TIn _In
+        public TIn In
         {
             get { return _in ?? (_in = (TIn) Activator.CreateInstance(typeof (TIn))); }
             set { _in = value; }
