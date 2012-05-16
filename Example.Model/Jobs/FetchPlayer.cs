@@ -39,16 +39,13 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            Select._In = new ReturnOne<Player>.Input
-                             {
-                                 ConnectionName = Config.DatabaseName,
-                                 Sql = sql,
-                                 Values = _In
-                             };
+            Select._In.ConnectionName = Config.DatabaseName;
+            Select._In.Sql = sql;
+            Select._In.Values = _In;
             Select.Run();
             var player = Select._Out.Model;
 
-            _Out = new Output {Player = player};
+            _Out.Player = player;
         }
 
         public override void Test()

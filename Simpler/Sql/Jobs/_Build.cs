@@ -21,7 +21,7 @@ namespace Simpler.Sql.Jobs
 
         public override void Run()
         {
-            _Out = new Output {Object = (T) Activator.CreateInstance(typeof (T))};
+            _Out.Object = (T) Activator.CreateInstance(typeof (T));
             var objectType = typeof(T);
 
             for (var i = 0; i < _In.DataRecord.FieldCount; i++)
@@ -35,7 +35,7 @@ namespace Simpler.Sql.Jobs
                 }
 
                 var columnValue = _In.DataRecord[columnName];
-                if (columnValue.GetType() != typeof(System.DBNull))
+                if (columnValue.GetType() != typeof(DBNull))
                 {
                     var propertyType = propertyInfo.PropertyType;
 

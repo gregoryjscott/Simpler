@@ -24,16 +24,13 @@ namespace Simpler.Sql.Jobs
             Action<IDbCommand> action =
                 command =>
                 {
-                    _Out = new Output {RowsAffected = command.ExecuteNonQuery()};
+                    _Out.RowsAffected = command.ExecuteNonQuery();
                 };
 
-            RunAction._In = new _RunAction.Input
-                                {
-                                    ConnectionName = _In.ConnectionName,
-                                    Sql = _In.Sql,
-                                    Values = _In.Values,
-                                    Action = action
-                                };
+            RunAction._In.ConnectionName = _In.ConnectionName;
+            RunAction._In.Sql = _In.Sql;
+            RunAction._In.Values = _In.Values;
+            RunAction._In.Action = action;
             RunAction.Run();
         }
     }

@@ -30,15 +30,12 @@ namespace Example.Model.Jobs
                         Player.TeamId = Team.TeamId
                 ";
 
-            Select._In = new ReturnMany<Player>.Input
-                             {
-                                 ConnectionName = Config.DatabaseName,
-                                 Sql = sql
-                             };
+            Select._In.ConnectionName = Config.DatabaseName;
+            Select._In.Sql = sql;
             Select.Run();
             var players = Select._Out.Models;
 
-            _Out = new Output { Players = players };
+            _Out.Players = players;
         }
     }
 }
