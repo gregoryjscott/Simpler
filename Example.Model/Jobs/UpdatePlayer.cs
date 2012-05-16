@@ -4,9 +4,9 @@ using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs
 {
-    public class UpdatePlayer : InJob<UpdatePlayer.In>
+    public class UpdatePlayer : InJob<UpdatePlayer.Input>
     {
-        public class In
+        public class Input
         {
             public Player Player { get; set; }
         }
@@ -25,7 +25,7 @@ namespace Example.Model.Jobs
                 ";
 
             Update
-                .Set(new ReturnResult.In
+                .Set(new ReturnResult.Input
                          {
                              ConnectionName = Config.DatabaseName,
                              Sql = sql,

@@ -40,7 +40,7 @@ namespace Example.Nancy.Modules
             Put["/players/{PlayerId}"] =
                 parameters =>
                     {
-                        var input = this.Bind<UpdatePlayer.In>();
+                        var input = this.Bind<UpdatePlayer.Input>();
                         
                         Job.New<UpdatePlayer>().Set(input).Run();
 

@@ -3,16 +3,16 @@ using System.Data;
 
 namespace Simpler.Sql.Jobs
 {
-    public class ReturnResult : InOutJob<ReturnResult.In, ReturnResult.Out>
+    public class ReturnResult : InOutJob<ReturnResult.Input, ReturnResult.Output>
     {
-        public class In
+        public class Input
         {
             public string ConnectionName { get; set; }
             public string Sql { get; set; }
             public object Values { get; set; }
         }
 
-        public class Out
+        public class Output
         {
             public int RowsAffected { get; set; }
         }
@@ -24,11 +24,11 @@ namespace Simpler.Sql.Jobs
             Action<IDbCommand> action =
                 command =>
                 {
-                    _Out = new Out {RowsAffected = command.ExecuteNonQuery()};
+                    _Out = new Output {RowsAffected = command.ExecuteNonQuery()};
                 };
 
             RunAction
-                .Set(new _RunAction.In
+                .Set(new _RunAction.Input
                      {
                          ConnectionName = _In.ConnectionName,
                          Sql = _In.Sql,

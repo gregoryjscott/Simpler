@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Simpler.Sql.Jobs
 {
-    public class ReturnOne<TModel> : InOutJob<ReturnOne<TModel>.In, ReturnOne<TModel>.Out>
+    public class ReturnOne<TModel> : InOutJob<ReturnOne<TModel>.Input, ReturnOne<TModel>.Output>
     {
-        public class In
+        public class Input
         {
             public string ConnectionName { get; set; }
             public string Sql { get; set; }
             public object Values { get; set; }
         }
 
-        public class Out
+        public class Output
         {
             public TModel Model { get; set; }
         }
@@ -28,11 +28,11 @@ namespace Simpler.Sql.Jobs
                 {
                     Fetch.SelectCommand = command;
                     Fetch.Run();
-                    _Out = new Out {Model = Fetch.ObjectsFetched.Single()};
+                    _Out = new Output {Model = Fetch.ObjectsFetched.Single()};
                 };
 
             RunAction
-                .Set(new _RunAction.In
+                .Set(new _RunAction.Input
                      {
                          ConnectionName = _In.ConnectionName,
                          Sql = _In.Sql,

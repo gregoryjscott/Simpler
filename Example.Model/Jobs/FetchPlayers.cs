@@ -4,9 +4,9 @@ using Simpler.Sql.Jobs;
 
 namespace Example.Model.Jobs
 {
-    public class FetchPlayers : OutJob<FetchPlayers.Out>
+    public class FetchPlayers : OutJob<FetchPlayers.Output>
     {
-        public class Out
+        public class Output
         {
             public Player[] Players { get; set; }
         }
@@ -31,14 +31,14 @@ namespace Example.Model.Jobs
                 ";
 
             var players = Select
-                .Set(new ReturnMany<Player>.In
+                .Set(new ReturnMany<Player>.Input
                          {
                              ConnectionName = Config.DatabaseName,
                              Sql = sql
                          })
                 .Get().Models;
 
-            _Out = new Out { Players = players };
+            _Out = new Output { Players = players };
         }
     }
 }

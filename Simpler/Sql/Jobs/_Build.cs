@@ -7,21 +7,21 @@ using Simpler._Mocks;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _Build<T> : InOutJob<_Build<T>.In, _Build<T>.Out> 
+    public class _Build<T> : InOutJob<_Build<T>.Input, _Build<T>.Output> 
     {
-        public class In
+        public class Input
         {
             public virtual IDataRecord DataRecord { get; set; }
         }
 
-        public class Out
+        public class Output
         {
             public virtual T Object { get; set; }
         }
 
         public override void Run()
         {
-            _Out = new Out {Object = (T) Activator.CreateInstance(typeof (T))};
+            _Out = new Output {Object = (T) Activator.CreateInstance(typeof (T))};
             var objectType = typeof(T);
 
             for (var i = 0; i < _In.DataRecord.FieldCount; i++)
@@ -59,7 +59,7 @@ namespace Simpler.Sql.Jobs
                     var mockDataRecord = new Mock<IDataRecord>();
 
                     var newObject = job
-                        .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+                        .Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object })
                         .Get().Object;
 
                     Assert.That(newObject, Is.InstanceOf(typeof (MockObject)));
@@ -77,7 +77,7 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
 
                     var newObject = job
-                        .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+                        .Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object })
                         .Get().Object;
 
                     Assert.That(newObject.Name, Is.EqualTo("John Doe"));
@@ -93,7 +93,7 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("SomeOtherColumn");
                     mockDataRecord.Setup(dataRecord => dataRecord["SomeOtherColumn"]).Returns("whatever");
 
-                    job.Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object });
+                    job.Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object });
 
                     Assert.Throws(typeof(NoPropertyForColumnException), job.Run);
                 });
@@ -108,7 +108,7 @@ namespace Simpler.Sql.Jobs
                     mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
 
                     var newObject = job
-                        .Set(new _Build<MockObject>.In { DataRecord = mockDataRecord.Object })
+                        .Set(new _Build<MockObject>.Input { DataRecord = mockDataRecord.Object })
                         .Get().Object;
 
                     Assert.That(newObject.Name, Is.EqualTo("John Doe"));

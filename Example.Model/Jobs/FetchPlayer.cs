@@ -40,7 +40,7 @@ namespace Example.Model.Jobs
                 ";
 
             var player = Select
-                .Set(new ReturnMany<Player>.In
+                .Set(new ReturnMany<Player>.Input
                          {
                              ConnectionName = Config.DatabaseName,
                              Sql = sql,

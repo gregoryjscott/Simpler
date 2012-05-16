@@ -35,7 +35,7 @@ namespace Example.Mvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(UpdatePlayer.In model)
+        public ActionResult Update(UpdatePlayer.Input model)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace Example.Mvc.Controllers
             }
 
             Job.New<UpdatePlayer>()
-                .Set(new UpdatePlayer.In { Player = model.Player })
+                .Set(new UpdatePlayer.Input { Player = model.Player })
                 .Run();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });

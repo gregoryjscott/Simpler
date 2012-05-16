@@ -26,7 +26,7 @@ namespace Simpler.Sql.Jobs
                 while (dataReader.Read())
                 {
                     var newObject = Build
-                        .Set(new _Build<T>.In {DataRecord = dataReader})
+                        .Set(new _Build<T>.Input {DataRecord = dataReader})
                         .Get().Object;
 
                     objectList.Add(newObject);

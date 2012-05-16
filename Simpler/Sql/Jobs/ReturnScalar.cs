@@ -3,16 +3,16 @@ using System.Data;
 
 namespace Simpler.Sql.Jobs
 {
-    public class ReturnScalar : InOutJob<ReturnScalar.In, ReturnScalar.Out>
+    public class ReturnScalar : InOutJob<ReturnScalar.Input, ReturnScalar.Output>
     {
-        public class In
+        public class Input
         {
             public string ConnectionName { get; set; }
             public string Sql { get; set; }
             public object Values { get; set; }
         }
 
-        public class Out
+        public class Output
         {
             public object Object { get; set; }
         }
@@ -24,11 +24,11 @@ namespace Simpler.Sql.Jobs
             Action<IDbCommand> action =
                 command =>
                 {
-                    _Out = new Out {Object = command.ExecuteScalar()};
+                    _Out = new Output {Object = command.ExecuteScalar()};
                 };
 
             RunAction
-                .Set(new _RunAction.In
+                .Set(new _RunAction.Input
                      {
                          ConnectionName = _In.ConnectionName,
                          Sql = _In.Sql,

@@ -6,9 +6,9 @@ using Simpler.Sql.Exceptions;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _RunAction : InJob<_RunAction.In>
+    public class _RunAction : InJob<_RunAction.Input>
     {
-        public class In
+        public class Input
         {
             public string ConnectionName { get; set; }
             public string Sql { get; set; }

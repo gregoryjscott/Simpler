@@ -27,7 +27,7 @@ namespace Example.Model.Tests.Jobs.Players
                 };
 
             Test<UpdatePlayer>.New()
-                .Arrange(job => job.Set(new UpdatePlayer.In {Player = player}))
+                .Arrange(job => job.Set(new UpdatePlayer.Input {Player = player}))
                 .Act()
                 .Assert(
                     job =>
