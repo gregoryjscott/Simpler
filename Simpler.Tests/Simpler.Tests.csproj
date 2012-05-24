@@ -62,6 +62,7 @@
     <Compile Include="Data\Tasks\FindParametersInCommandTextTest.cs" />
     <Compile Include="Data\Tasks\PersistSingleOfTest.cs" />
     <Compile Include="Data\Tasks\UseDataRecordToBuildTest.cs" />
+    <Compile Include="Examples.cs" />
     <Compile Include="Injection\Tasks\DisposeSubTasksTest.cs" />
     <Compile Include="Injection\Tasks\InjectSubTasksTest.cs" />
     <Compile Include="Construction\Tasks\NotifySubscribersOfTaskExecutionTest.cs" />
