@@ -31,12 +31,11 @@ namespace Simpler
 
         public override void Execute()
         {
-            const string question = "Is this cool?";
+            // Notice that Ask was injected.
+            Ask.Question = "Is this cool?";
 
             for (int i = 0; i < 10; i++)
             {
-                // Notice that AnswerUsingStaticProperies was injected.
-                Ask.Question = question;
                 Ask.Execute();
             }
         }
@@ -51,7 +50,7 @@ namespace Simpler
         }
     }
 
-    class SomePoco 
+    class SomePoco
     {
         public bool AmIImportant { get; set; }
     }
@@ -65,7 +64,7 @@ namespace Simpler
         // Outputs
         public SomePoco[] SomePocos { get; set; }
 
-        // Sub-tasks (BuildParametersUsing<T> and FetchListOf<T> are built-in Simpler Tasks)
+        // Sub-tasks
         public BuildParametersUsing<FetchSomeStuff> BuildParameters { get; set; }
         public FetchListOf<SomePoco> FetchList { get; set; }
 
@@ -106,6 +105,7 @@ namespace Simpler
         {
             // Arrange
             var task = TaskFactory<FetchSomeStuff>.Create();
+            task.SomeCriteria = "whatever";
 
             // Act
             task.Execute();

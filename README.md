@@ -121,6 +121,7 @@ Simpler isn't a full-featured ORM, but it gets the job done.
         {
             // Arrange
             var task = TaskFactory<FetchSomeStuff>.Create();
+            task.SomeCriteria = "whatever";
 
             // Act
             task.Execute();
@@ -130,7 +131,7 @@ Simpler isn't a full-featured ORM, but it gets the job done.
         }
     }
 
-By design, all classes clearly define their inputs, outputs, and code to test, so tests are very straightforward.
+By design, all Tasks clearly define their inputs, outputs, and code to test, so tests are very straightforward.
 
 ###"I just need to get things done well, will Simpler help?"
 
