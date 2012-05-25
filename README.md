@@ -56,7 +56,7 @@ TaskFactory appears to just return an instance of the given Task type, but it ac
         }
     }
 
-Sub-task injection gives you just enough power to do testing by allowing for mocking sub-task behavior in tests.  No need for repository non-sense when it's only purpose is for testing.
+Sub-task injection gives you just enough power to do testing by allowing for mocking sub-task behavior in tests.  No need for repository nonsense when it's only purpose is for testing.
 
 ###"What about database interaction?"
 
@@ -139,7 +139,7 @@ Simpler is a tool for developing applications as sets of consistent, discrete, i
 Need to fetch a list of contacts?  Create classes called FetchContactsTest and FetchContact and get to work.  That's Simpler. 
 
 ###"How do I install it?"
-NuGet.
+Nuget.  For writing tests, you will also need a testing library like nUnit or xUnit.net, and adding mocking library such as Moq comes in handy.  All are available on Nuget.
 
 ###"Is Simpler is so simple it doesn't need documentation?"
 
@@ -147,7 +147,7 @@ That's what I'm thinking :).  I seriously hope to create some proper documentati
 
 ###Acknowledgments
 
-The following have contributed in some way, and most have built something awesome with Simpler.
+The following have contributed in some way, and have built something awesome with Simpler.
 
 - [bobnigh](https://github.com/bobnigh)
 - [Clancey](https://github.com/Clancey)
