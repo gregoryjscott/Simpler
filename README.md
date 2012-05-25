@@ -139,7 +139,7 @@ Simpler is a tool for developing applications as sets of consistent, discrete, i
 Need to fetch a list of contacts?  Create classes called FetchContactsTest and FetchContact and get to work.  That's Simpler. 
 
 ###"How do I install it?"
-Nuget.  For writing tests, you will also need a testing library like nUnit or xUnit.net, and adding mocking library such as Moq comes in handy.  All are available on Nuget.
+Nuget.  For writing tests, you will also need a testing library like nUnit or xUnit.net, and adding a mocking library such as Moq comes in handy.  All are available on Nuget.
 
 ###"Is Simpler is so simple it doesn't need documentation?"
 
