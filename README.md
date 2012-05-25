@@ -1,10 +1,10 @@
 #Simpler
 
-You probably won't like Simpler.  If you enjoy spending your time configuring ORMs, interfacing with DI/IOC frameworks, generating code, and building complex domain models, then you will probably hate Simpler.  Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible.  Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.
+You probably won't like Simpler. If you enjoy spending your time configuring ORMs, interfacing with DI/IOC frameworks, generating code, and building complex domain models, then you will probably hate Simpler. Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible. Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.
 
 ###"What is it?"
 
-For the most part, Simpler is just a philosophy on .NET class design.  All classes that contain functionality are defined as Tasks, named as verbs.  A Task has optional input and/or outputs (POCOs), along with a single Execute() method - and that's it.  Simpler comes with a Task base class, a static TaskFactory class for instantiating Tasks, along with various built-in Tasks that you can use as sub-tasks in your Tasks (see the second example).
+For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks, named as verbs.  A Task has optional input and/or outputs (POCOs), along with a single Execute() method - and that's it.
 
     class Ask : Task
     {
@@ -22,10 +22,12 @@ For the most part, Simpler is just a philosophy on .NET class design.  All class
                 : "Get a life.";
         }
     }
+    
+Simpler comes with a Task base class, a static TaskFactory class for instantiating Tasks, along with various built-in Tasks that you can use as sub-tasks (a sub-task is just a Task property of another Task - see next example).
 
 ###"What's the purpose of the TaskFactory?"
 
-TaskFactory appears to just return an instance of the given Task type, but it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls and performing actions before and/or after the Task execution. For example, the Simpler.Injection.InjectSubTasks attribute will automatically instantiate sub-task properties (only if null) before Task execution, and automatically dispose of them after execution.  Another common application is using custom attribute to integrate your favorite logging library.
+TaskFactory appears to just return an instance of the given Task type, but it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls and performing actions before and/or after the Task execution. For example, the Simpler.Injection.InjectSubTasks attribute will automatically instantiate sub-tasks (only if null) before Task execution, and automatically dispose of them after execution.  Another common application is using custom attribute to integrate your favorite logging library.
 
     [InjectSubTasks]
     class BeAnnoying : Task
@@ -35,10 +37,8 @@ TaskFactory appears to just return an instance of the given Task type, but it ac
 
         public override void Execute()
         {
-            const string question = "Is this cool?";
-
             // Notice that Ask was injected.
-            Ask.Question = question;
+            Ask.Question = "Is this cool?";
                 
             for (int i = 0; i < 10; i++)
             {
@@ -60,7 +60,7 @@ Sub-task injection gives you just enough power to do testing by allowing for moc
 
 ###"What about database interaction?"
 
-Simpler provides a small set of Tasks for interacting with System.Data.IDbCommand. Using SQL, Simpler makes it pretty easy to get data out of a database and into POCOs, or persist data from a POCO to a database.
+Simpler provides a small set of Simpler.Data.Tasks classes that simplify interacting with System.Data.IDbCommand. Using SQL, Simpler makes it pretty easy to get data out of a database and into POCOs, or persist data from a POCO to a database.
 
     class SomePoco 
     {
@@ -76,7 +76,7 @@ Simpler provides a small set of Tasks for interacting with System.Data.IDbComman
         // Outputs
         public SomePoco[] SomePocos { get; set; }
 
-        // Sub-tasks (BuildParametersUsing<T> and FetchListOf<T> are built-in Simpler Tasks)
+        // Sub-tasks
         public BuildParametersUsing<FetchSomeStuff> BuildParameters { get; set; }
         public FetchListOf<SomePoco> FetchList { get; set; }
 
@@ -111,7 +111,7 @@ Simpler provides a small set of Tasks for interacting with System.Data.IDbComman
 
 Simpler isn't a full-featured ORM, but it gets the job done.
 
-###"You do write tests, don't you?"
+###"Is it easy to test?"
 
     [TestFixture]
     public class FetchSomeStuffTest
@@ -130,11 +130,11 @@ Simpler isn't a full-featured ORM, but it gets the job done.
         }
     }
 
-By design, all classes clearly define their inputs, outputs, and code to test, so tests are real straightforward.
+By design, all classes clearly define their inputs, outputs, and code to test, so tests are very straightforward.
 
-###"You need software to do things, right?"
+###"I just need to get things done well, will Simpler help?"
 
-Simpler is a tool for developing applications as sets of consistent, discrete, interchangable classes that aren't THINGS, but rather DO THINGS. Simpler works great in team environments because we're all designing classes with the same termnilogy, and any class can easily integrate with another. 
+Simpler is a tool for developing applications as sets of consistent, discrete, interchangable classes that aren't THINGS, but rather DO THINGS. Simpler works great in team environments because everybody is designing classes with the same termnilogy, and any class can easily integrate with another. 
 
 Need to fetch a list of contacts?  Create classes called FetchContactsTest and FetchContact and get to work.  That's Simpler. 
 
@@ -149,8 +149,17 @@ That's what I'm thinking :).  I seriously hope to create some proper documentati
 
 The following have contributed in some way, and most have built something awesome with Simpler.
 
-[bobnigh](https://github.com/bobnigh)
+- [bobnigh](https://github.com/bobnigh)
+- [Clancey](https://github.com/Clancey)
+- [corys](https://github.com/corys)
+- [danvanorden](https://github.com/danvanorden)
+- [dchristine](https://github.com/dchristine)
+- [jkettell](https://github.com/jkettell)
+- [JOrley](https://github.com/JOrley)
+- [jshoemaker](https://github.com/jshoemaker)
+- [ralreegorganon](https://github.com/ralreegorganon)
+- [rodel-rdi](https://github.com/rodel-rdi)
+- [sonhuilamson](https://github.com/sonhuilamson)
 
-more to come
-
-**Simpler is licensed under the MIT License.  A copy of the MIT license can be found in the LICENSE file.**
+###License
+Simpler is licensed under the MIT License.  A copy of the MIT license can be found in the LICENSE file.
