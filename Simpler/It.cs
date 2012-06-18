@@ -11,18 +11,16 @@ namespace Simpler
             createJob.Run();
             var job = (TJob)createJob.JobInstance;
 
-            Console.WriteLine(job.Name);
             try
             {
                 action(job);
-                Console.WriteLine("  can " + expectation);
+                Console.WriteLine("    can " + expectation);
             }
             catch
             {
-                Console.WriteLine("  failed to " + expectation);
+                Console.WriteLine("    failed to " + expectation);
                 throw;
             }
-            Console.WriteLine("");
         }
 
         public static void ShouldThrow<TException>(string when, Action<TJob> action)
@@ -37,19 +35,19 @@ namespace Simpler
             {
                 action(job);
 
-                Console.WriteLine(String.Format("  did not throw {0} when {1}.", expectedExpection, when));
+                Console.WriteLine(String.Format("    failed to throw {0} when {1}.", expectedExpection, when));
                 throw new SimplerException(String.Format("Test expected {0} to be thrown when {1}.", expectedExpection, when));
             }
             catch (Exception exception)
             {
                 if (exception.GetType().FullName == expectedExpection)
                 {
-                    Console.WriteLine(String.Format("  did throw {0} as expected when {1}.", expectedExpection, when));                    
+                    Console.WriteLine(String.Format("    did throw {0} as expected when {1}.", expectedExpection, when));                    
                 }
                 else
                 {
                     Console.WriteLine(
-                        String.Format("  did not throw {0} as expected when {1}, but {2} was thrown instead.",
+                        String.Format("    failed to throw {0} as expected when {1}, but {2} was thrown instead.",
                                       expectedExpection,
                                       when,
                                       exception.GetType().FullName));

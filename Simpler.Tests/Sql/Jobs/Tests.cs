@@ -8,6 +8,9 @@ namespace Simpler.Tests.Sql.Jobs
     public class Tests
     {
         [Test]
+        public void Everything() { Test.Everything(); }
+
+        [Test]
         public void Simpler() { Test.Assembly("Simpler"); }
 
         [Test]
