@@ -2,8 +2,8 @@
 using System.Data;
 using Moq;
 using NUnit.Framework;
+using Simpler.Mocks;
 using Simpler.Sql.Exceptions;
-using Simpler._Mocks;
 
 namespace Simpler.Sql.Jobs
 {

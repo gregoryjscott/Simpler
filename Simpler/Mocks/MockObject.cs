@@ -1,4 +1,4 @@
-namespace Simpler._Mocks
+namespace Simpler.Mocks
 {
     public class MockObject
     {
