@@ -3,7 +3,7 @@ using Simpler.Proxy;
 
 namespace Simpler
 {
-    [_InjectJobs]
+    [InjectJobs]
     public abstract class InJob<TIn> : Job 
         where TIn : class
     {

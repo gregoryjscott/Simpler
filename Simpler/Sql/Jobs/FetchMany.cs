@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _Fetch<T> : Job
+    public class FetchMany<T> : Job
     {
         // Inputs
         public virtual IDbCommand SelectCommand { get; set; }
@@ -12,12 +12,12 @@ namespace Simpler.Sql.Jobs
         public virtual T[] ObjectsFetched { get; private set; }
 
         // Sub-jobs
-        public virtual _Build<T> Build { get; set; }
+        public virtual BuildObject<T> BuildObject { get; set; }
 
         public override void Run()
         {
             // Create the sub-jobs.
-            if (Build == null) Build = new _Build<T>();
+            if (BuildObject == null) BuildObject = new BuildObject<T>();
 
             var objectList = new List<T>();
 
@@ -25,9 +25,9 @@ namespace Simpler.Sql.Jobs
             {
                 while (dataReader.Read())
                 {
-                    Build.In.DataRecord = dataReader;
-                    Build.Run();
-                    var newObject = Build.Out.Object;
+                    BuildObject.In.DataRecord = dataReader;
+                    BuildObject.Run();
+                    var newObject = BuildObject.Out.Object;
 
                     objectList.Add(newObject);
                 }

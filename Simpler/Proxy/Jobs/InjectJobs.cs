@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Simpler.Proxy.Jobs
 {
-    public class _InjectJobs : Job
+    public class InjectJobs : Job
     {
         // Inputs
         public virtual Job JobContainingSubJobs { get; set; }
@@ -11,11 +11,11 @@ namespace Simpler.Proxy.Jobs
         public virtual string[] InjectedSubJobPropertyNames { get; private set; }
 
         // Sub-jobs
-        public _CreateJob CreateJob { get; set; }
+        public CreateJob CreateJob { get; set; }
 
         public override void Run()
         {
-            if (CreateJob == null) CreateJob = new _CreateJob();
+            if (CreateJob == null) CreateJob = new CreateJob();
 
             var listOfInjected = new List<string>();
 

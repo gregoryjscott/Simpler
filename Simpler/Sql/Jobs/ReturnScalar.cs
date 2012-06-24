@@ -17,7 +17,7 @@ namespace Simpler.Sql.Jobs
             public object Object { get; set; }
         }
 
-        public _RunAction RunAction { get; set; }
+        public RunAction RunAction { get; set; }
 
         public override void Run()
         {

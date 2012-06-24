@@ -35,7 +35,7 @@ namespace Simpler
                     typeToCreate = jobType.MakeGenericType(objectTypes);
                 }
 
-                var createJob = new _CreateJob { JobType = typeToCreate };
+                var createJob = new CreateJob { JobType = typeToCreate };
                 createJob.Run();
                 var job = (Job)createJob.JobInstance;
 

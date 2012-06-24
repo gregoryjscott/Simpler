@@ -3,7 +3,7 @@ using System;
 
 namespace Simpler.Proxy.Jobs
 {
-    public class _CreateJob : Job
+    public class CreateJob : Job
     {
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
@@ -15,7 +15,7 @@ namespace Simpler.Proxy.Jobs
 
         public override void Run()
         {
-            JobInstance = ProxyGenerator.CreateClassProxy(JobType, new _Interceptor());
+            JobInstance = ProxyGenerator.CreateClassProxy(JobType, new Interceptor());
         }
     }
 }

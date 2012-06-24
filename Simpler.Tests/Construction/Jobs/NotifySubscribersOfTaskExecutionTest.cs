@@ -65,7 +65,7 @@ namespace Simpler.Tests.Construction.Jobs
         public void should_send_notifications_before_and_after_the_job_is_executed()
         {
             // Arrange
-            var job = new _FireEvents();
+            var job = new FireEvents();
 
             var jobWithAttributes = new MockJobWithAttributes();
             job.Job = jobWithAttributes;
@@ -85,7 +85,7 @@ namespace Simpler.Tests.Construction.Jobs
         public void should_send_notifications_if_job_execution_throws_an_unhandled_exception()
         {
             // Arrange
-            var job = new _FireEvents();
+            var job = new FireEvents();
 
             var jobWithAttributesThatThrows = new MockJobWithAttributesThatThrows();
             job.Job = jobWithAttributesThatThrows;
@@ -105,7 +105,7 @@ namespace Simpler.Tests.Construction.Jobs
         public void should_send_notifications_after_the_job_is_executed_even_if_exception_occurs()
         {
             // Arrange
-            var job = new _FireEvents();
+            var job = new FireEvents();
 
             var jobWithAttributesThatThrows = new MockJobWithAttributesThatThrows();
             job.Job = jobWithAttributesThatThrows;
@@ -139,7 +139,7 @@ namespace Simpler.Tests.Construction.Jobs
         public void should_allow_the_job_execution_to_be_overriden()
         {
             // Arrange
-            var job = new _FireEvents();
+            var job = new FireEvents();
 
             var jobWithOverride = new MockJobWithOverrideAttribute();
             job.Job = jobWithOverride;

@@ -7,11 +7,11 @@ using Simpler._Mocks;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _Build<T> : InOutJob<_Build<T>.Input, _Build<T>.Output> 
+    public class BuildObject<T> : InOutJob<BuildObject<T>.Input, BuildObject<T>.Output> 
     {
         public override void Specs()
         {
-            It<_Build<MockObject>>.Should(
+            It<BuildObject<MockObject>>.Should(
                 "create an instance of given object type",
                 it =>
                 {
@@ -21,7 +21,7 @@ namespace Simpler.Sql.Jobs
                     Assert.That(it.Out.Object, Is.InstanceOf(typeof(MockObject)));
                 });
 
-            It<_Build<MockObject>>.Should(
+            It<BuildObject<MockObject>>.Should(
                 "populate object using all columns in the data record",
                 it =>
                 {
@@ -39,7 +39,7 @@ namespace Simpler.Sql.Jobs
                     Assert.That(it.Out.Object.Age, Is.EqualTo(21));
                 });
 
-            It<_Build<MockObject>>.Should(
+            It<BuildObject<MockObject>>.Should(
                 "throw exception if a data record column is not a property of the object class",
                 it =>
                 {
@@ -53,7 +53,7 @@ namespace Simpler.Sql.Jobs
                     Assert.Throws(typeof(NoPropertyForColumnException), it.Run);
                 });
 
-            It<_Build<MockObject>>.Should(
+            It<BuildObject<MockObject>>.Should(
                 "allow object to have properties w/o matching columns in record",
                 it =>
                 {

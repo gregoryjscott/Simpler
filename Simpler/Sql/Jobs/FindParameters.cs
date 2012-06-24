@@ -4,97 +4,97 @@ using System.Collections.Generic;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _FindParameters : Job
+    public class FindParameters : Job
     {
         public override void Specs()
         {
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters starting with @",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                             select whatever from table where something = @something and something_else is true
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@something",
+                    Check.That(it.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters starting with a :",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                             select whatever from table where something = :something and something_else is true
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == ":something",
+                    Check.That(it.ParameterNames[0] == ":something",
                                "Parameter name was not :something as expected.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "should find parameters that contain an _",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                               select whatever from table where something = @some_thing and something_else is true
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@some_thing",
+                    Check.That(it.ParameterNames[0] == "@some_thing",
                                "Parameter name was not @some_thing as expected.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters that contain a .",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                             select whatever from table where something = @complex.object and something_else is true
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@complex.object",
+                    Check.That(it.ParameterNames[0] == "@complex.object",
                                "Parameter name was not @complex.object as expected.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters that contain a number",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                             select whatever from table where something = @some1thing1 and something_else is true
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@some1thing1",
+                    Check.That(it.ParameterNames[0] == "@some1thing1",
                                "Parameter name was not @some1thing1 as expected.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters followed by a comma",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                             insert into table set something = @something, something_else = 'whatever'
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@something",
+                    Check.That(it.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters followed by a carriage return",
-                job =>
+                it =>
                 {
                     var sql =
                         @"select whatever from table where something = @something\n and something_else is true";
@@ -106,40 +106,40 @@ namespace Simpler.Sql.Jobs
                             hopefully that covers it
                             ";
 
-                    job.CommandText = sql;
-                    job.Run();
+                    it.CommandText = sql;
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@something",
-                        "First parameter should be @something.");
-                    Check.That(job.ParameterNames[1] == "@something_more",
-                        "Second paraemter should be @something_more.");
+                    Check.That(it.ParameterNames[0] == "@something",
+                               "First parameter should be @something.");
+                    Check.That(it.ParameterNames[1] == "@something_more",
+                               "Second paraemter should be @something_more.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "find parameters at the very end of the command text",
-                job =>
+                it =>
                 {
-                    job.CommandText = @"select whatever from table where something = @something";
-                    job.Run();
+                    it.CommandText = @"select whatever from table where something = @something";
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@something",
+                    Check.That(it.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
                 });
 
-            It<_FindParameters>.Should(
+            It<FindParameters>.Should(
                 "return one instance of a parameter even if the parameter exists multiple times",
-                job =>
+                it =>
                 {
-                    job.CommandText =
+                    it.CommandText =
                         @"
                             select whatever from table where something = @something and somethingelsealso = @something
                             ";
-                    job.Run();
+                    it.Run();
 
-                    Check.That(job.ParameterNames[0] == "@something",
-                        "Parameter name was not @something as expected.");
-                    Check.That(job.ParameterNames.Length == 1,
-                        "Only one parameter should be found.");
+                    Check.That(it.ParameterNames[0] == "@something",
+                               "Parameter name was not @something as expected.");
+                    Check.That(it.ParameterNames.Length == 1,
+                               "Only one parameter should be found.");
                 });
         }
 

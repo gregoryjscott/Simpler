@@ -17,7 +17,7 @@ namespace Simpler.Sql.Jobs
             public int RowsAffected { get; set; }
         }
 
-        public _RunAction RunAction { get; set; }
+        public RunAction RunAction { get; set; }
 
         public override void Run()
         {

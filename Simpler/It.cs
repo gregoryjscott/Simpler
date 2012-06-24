@@ -7,7 +7,7 @@ namespace Simpler
     {
         public static void Should(string expectation, Action<TJob> action)
         {
-            var createJob = new _CreateJob { JobType = typeof(TJob) };
+            var createJob = new CreateJob { JobType = typeof(TJob) };
             createJob.Run();
             var job = (TJob)createJob.JobInstance;
 
@@ -26,7 +26,7 @@ namespace Simpler
         // TODO - get rid of this
         public static void ShouldThrow<TException>(string when, Action<TJob> action)
         {
-            var createJob = new _CreateJob { JobType = typeof(TJob) };
+            var createJob = new CreateJob { JobType = typeof(TJob) };
             createJob.Run();
             var job = (TJob)createJob.JobInstance;
 

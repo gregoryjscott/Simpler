@@ -13,7 +13,7 @@ namespace Simpler.Tests.Construction.Jobs
         public void should_intercept_the_invocation_and_notify_subscribers_if_the_invocation_method_is_Execute()
         {
             // Arrange
-            var job = new _InterceptRun();
+            var job = new InterceptRun();
 
             var mockInvocation = new Mock<IInvocation>();
             var mockJob = new MockJob();
@@ -21,7 +21,7 @@ namespace Simpler.Tests.Construction.Jobs
             mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(mockJob);
             job.Invocation = mockInvocation.Object;
 
-            var mockNotifySubscribers = new Mock<_FireEvents>();
+            var mockNotifySubscribers = new Mock<FireEvents>();
             job.FireEvents = mockNotifySubscribers.Object;
 
             // Act
@@ -36,14 +36,14 @@ namespace Simpler.Tests.Construction.Jobs
         public void should_just_allow_invocation_to_proceed_if_the_invocation_method_is_not_Execute()
         {
             // Arrange
-            var job = new _InterceptRun();
+            var job = new InterceptRun();
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Method.Name).Returns("NotExecute");
             mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(new MockJob());
             job.Invocation = mockInvocation.Object;
 
-            var mockNotifySubscribers = new Mock<_FireEvents>();
+            var mockNotifySubscribers = new Mock<FireEvents>();
             job.FireEvents = mockNotifySubscribers.Object;
 
             // Act

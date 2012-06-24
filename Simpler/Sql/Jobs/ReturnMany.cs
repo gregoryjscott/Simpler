@@ -17,17 +17,17 @@ namespace Simpler.Sql.Jobs
             public TModel[] Models { get; set; }
         }
 
-        public _RunAction RunAction { get; set; }
-        public _Fetch<TModel> Fetch { get; set; }
+        public RunAction RunAction { get; set; }
+        public FetchMany<TModel> FetchMany { get; set; }
 
         public override void Run()
         {
             Action<IDbCommand> action =
                 command =>
                 {
-                    Fetch.SelectCommand = command;
-                    Fetch.Run();
-                    Out.Models = Fetch.ObjectsFetched;
+                    FetchMany.SelectCommand = command;
+                    FetchMany.Run();
+                    Out.Models = FetchMany.ObjectsFetched;
                 };
 
             RunAction.In.ConnectionName = In.ConnectionName;

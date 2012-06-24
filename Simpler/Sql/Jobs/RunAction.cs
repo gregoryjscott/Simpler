@@ -2,11 +2,10 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using Simpler.Sql.Exceptions;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _RunAction : InJob<_RunAction.Input>
+    public class RunAction : InJob<RunAction.Input>
     {
         public class Input
         {
@@ -16,7 +15,7 @@ namespace Simpler.Sql.Jobs
             public Action<IDbCommand> Action { get; set; }
         }
 
-        public _BuildParameters BuildParameters { get; set; }
+        public BuildParameters BuildParameters { get; set; }
 
         public override void Run()
         {

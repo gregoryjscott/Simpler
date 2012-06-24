@@ -4,19 +4,19 @@ using System.Reflection;
 
 namespace Simpler.Sql.Jobs
 {
-    public class _BuildParameters : Job
+    public class BuildParameters : Job
     {
         // Inputs
         public virtual IDbCommand Command { get; set; }
         public virtual object Values { get; set; }
 
         // Sub-jobs
-        public virtual _FindParameters FindParameters { get; set; }
+        public virtual FindParameters FindParameters { get; set; }
 
         public override void Run()
         {
             // Create the sub-jobs.
-            if (FindParameters == null) FindParameters = new _FindParameters();
+            if (FindParameters == null) FindParameters = new FindParameters();
 
             FindParameters.CommandText = Command.CommandText;
             FindParameters.Run();

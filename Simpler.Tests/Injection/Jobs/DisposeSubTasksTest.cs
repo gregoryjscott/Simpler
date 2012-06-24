@@ -15,7 +15,7 @@ namespace Simpler.Tests.Injection.Jobs
             // Arrange
             var mockSubJob = new MockSubJob<DateTime>();
             var mockParentJob = new MockParentJob { MockSubClass = mockSubJob };
-            var job = new _DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
+            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
 
             // Act
             job.Run();
@@ -30,7 +30,7 @@ namespace Simpler.Tests.Injection.Jobs
             // Arrange
             var mockSubJob = new MockSubJob<DateTime>();
             var mockParentJob = new MockParentJob { MockSubClass = mockSubJob };
-            var job = new _DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
+            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
 
             // Act
             job.Run();
@@ -44,7 +44,7 @@ namespace Simpler.Tests.Injection.Jobs
         {
             // Arrange
             var mockParentJob = new MockParentJob { MockSubClass = new MockSubJob<DateTime>() };
-            var job = new _DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
+            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
 
             // Act
             job.Run();
@@ -58,7 +58,7 @@ namespace Simpler.Tests.Injection.Jobs
         {
             // Arrange
             var mockParentJob = new MockParentJob { MockSubClass = new MockSubJob<DateTime>() };
-            var job = new _DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
+            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
 
             // Act
             job.Run();
