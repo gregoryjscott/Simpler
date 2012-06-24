@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
     public class FindParameters : Job
     {

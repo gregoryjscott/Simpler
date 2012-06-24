@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
     public class FetchMany<T> : Job
     {

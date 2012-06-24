@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simpler.Sql.Exceptions
+namespace Simpler.Data.Exceptions
 {
     /// <summary>
     /// Exception thrown when a mapping doesn't make sense.

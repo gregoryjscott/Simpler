@@ -1,7 +1,7 @@
 using System;
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Sql.Jobs;
+using Simpler.Data.Jobs;
 
 namespace Example.Model.Jobs
 {

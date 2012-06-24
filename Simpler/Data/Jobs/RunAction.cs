@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
     public class RunAction : InJob<RunAction.Input>
     {

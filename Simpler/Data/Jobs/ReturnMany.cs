@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
-    public class ReturnScalar : InOutJob<ReturnScalar.Input, ReturnScalar.Output>
+    public class ReturnMany<TModel> : InOutJob<ReturnMany<TModel>.Input, ReturnMany<TModel>.Output>
     {
         public class Input
         {
@@ -14,17 +14,20 @@ namespace Simpler.Sql.Jobs
 
         public class Output
         {
-            public object Object { get; set; }
+            public TModel[] Models { get; set; }
         }
 
         public RunAction RunAction { get; set; }
+        public FetchMany<TModel> FetchMany { get; set; }
 
         public override void Run()
         {
             Action<IDbCommand> action =
                 command =>
                 {
-                    Out.Object = command.ExecuteScalar();
+                    FetchMany.SelectCommand = command;
+                    FetchMany.Run();
+                    Out.Models = FetchMany.ObjectsFetched;
                 };
 
             RunAction.In.ConnectionName = In.ConnectionName;

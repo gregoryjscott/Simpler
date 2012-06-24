@@ -2,10 +2,10 @@
 using System.Data;
 using Moq;
 using NUnit.Framework;
+using Simpler.Data.Exceptions;
 using Simpler.Mocks;
-using Simpler.Sql.Exceptions;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
     public class BuildObject<T> : InOutJob<BuildObject<T>.Input, BuildObject<T>.Output> 
     {

@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Simpler.Sql.Jobs;
+using Simpler.Data.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Sql.Jobs
+namespace Simpler.Tests.Data.Jobs
 {
     [TestFixture]
     public class Tests

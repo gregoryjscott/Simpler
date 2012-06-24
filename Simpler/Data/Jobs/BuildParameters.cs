@@ -2,7 +2,7 @@
 using System.Data;
 using System.Reflection;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
     public class BuildParameters : Job
     {

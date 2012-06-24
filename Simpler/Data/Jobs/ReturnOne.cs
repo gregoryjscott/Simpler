@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 
-namespace Simpler.Sql.Jobs
+namespace Simpler.Data.Jobs
 {
-    public class ReturnResult : InOutJob<ReturnResult.Input, ReturnResult.Output>
+    public class ReturnOne<TModel> : InOutJob<ReturnOne<TModel>.Input, ReturnOne<TModel>.Output>
     {
         public class Input
         {
@@ -14,17 +15,20 @@ namespace Simpler.Sql.Jobs
 
         public class Output
         {
-            public int RowsAffected { get; set; }
+            public TModel Model { get; set; }
         }
 
         public RunAction RunAction { get; set; }
+        public FetchMany<TModel> FetchMany { get; set; }
 
         public override void Run()
         {
             Action<IDbCommand> action =
                 command =>
                 {
-                    Out.RowsAffected = command.ExecuteNonQuery();
+                    FetchMany.SelectCommand = command;
+                    FetchMany.Run();
+                    Out.Model = FetchMany.ObjectsFetched.Single();
                 };
 
             RunAction.In.ConnectionName = In.ConnectionName;
