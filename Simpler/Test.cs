@@ -42,9 +42,9 @@ namespace Simpler
                 Console.WriteLine("  " + job.Name);
                 try
                 {
-                    job.Test();
+                    job.Specs();
                 }
-                catch (NoTestsException)
+                catch (NoSpecsException)
                 {
                     Console.WriteLine("    CAN'T DO ANYTHING? (This job is missing specs.)");
                     noTests.Add(job.Name);

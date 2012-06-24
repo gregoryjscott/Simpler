@@ -18,11 +18,12 @@ namespace Simpler
             }
             catch
             {
-                Console.WriteLine("    failed to " + expectation);
+                Console.WriteLine("    FAILED to " + expectation);
                 throw;
             }
         }
 
+        // TODO - get rid of this
         public static void ShouldThrow<TException>(string when, Action<TJob> action)
         {
             var createJob = new _CreateJob { JobType = typeof(TJob) };
@@ -35,7 +36,7 @@ namespace Simpler
             {
                 action(job);
 
-                Console.WriteLine(String.Format("    failed to throw {0} when {1}.", expectedExpection, when));
+                Console.WriteLine(String.Format("    FAILED to throw {0} when {1}.", expectedExpection, when));
                 throw new SimplerException(String.Format("Test expected {0} to be thrown when {1}.", expectedExpection, when));
             }
             catch (Exception exception)
@@ -47,7 +48,7 @@ namespace Simpler
                 else
                 {
                     Console.WriteLine(
-                        String.Format("    failed to throw {0} as expected when {1}, but {2} was thrown instead.",
+                        String.Format("    FAILED to throw {0} as expected when {1}, but {2} was thrown instead.",
                                       expectedExpection,
                                       when,
                                       exception.GetType().FullName));

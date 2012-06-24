@@ -5,6 +5,8 @@ namespace Simpler
 {
     public abstract class Job
     {
+        public virtual void Specs() { throw new NoSpecsException(); }
+
         public static T New<T>()
         {
             var createJob = new _CreateJob { JobType = typeof(T) };
@@ -12,7 +14,7 @@ namespace Simpler
             return (T)createJob.JobInstance;
         }
 
-        public string Name
+        public virtual string Name
         {
             get
             {
@@ -24,17 +26,5 @@ namespace Simpler
         }
 
         public abstract void Run();
-        
-        public virtual void Test() { throw new NoTestsException(); }
-
-        public virtual void Check(bool condition)
-        {
-            if (!condition) throw new SimplerException(String.Format("A check failed in {0}.", Name));
-        }
-
-        public virtual void Check(bool condition, string errorMessage)
-        {
-            if (!condition) throw new SimplerException(errorMessage);
-        }
     }
 }

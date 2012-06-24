@@ -20,8 +20,8 @@ namespace Simpler.Sql.Jobs
 
         public override void Run()
         {
-            if (String.IsNullOrEmpty(In.ConnectionName)) throw new ArgumentException("ConnectionName property must be set.");
-            if (String.IsNullOrEmpty(In.Sql)) throw new ArgumentException("Sql property must be set.");
+            Check.That(!String.IsNullOrEmpty(In.ConnectionName), "ConnectionName property must be set.");
+            Check.That(!String.IsNullOrEmpty(In.Sql), "Sql property must be set.");
 
             var connectionString = ConfigurationManager.ConnectionStrings[In.ConnectionName].ConnectionString;
             var providerName = ConfigurationManager.ConnectionStrings[In.ConnectionName].ProviderName;
@@ -29,7 +29,7 @@ namespace Simpler.Sql.Jobs
 
             using (var connection = provider.CreateConnection())
             {
-                if (connection == null) throw new CreateConnectionException(connectionString, providerName);
+                Check.That(connection != null, String.Format("Error while trying to create a DbProviderFactory connection using a connectionString setting with a name of {0}, with a provider type of {1}.", In.ConnectionName, providerName));
 
                 connection.ConnectionString = connectionString;
 

@@ -14,6 +14,6 @@ namespace Simpler.Tests.Sql.Jobs
         public void Simpler() { Test.Assembly("Simpler"); }
 
         [Test]
-        public void _Build() { Job.New<_Build<MockObject>>().Test(); }
+        public void _Build() { Job.New<_Build<MockObject>>().Specs(); }
     }
 }
