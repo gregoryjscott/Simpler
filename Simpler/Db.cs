@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using Simpler.Data.Jobs;
 
 namespace Simpler
@@ -26,46 +27,84 @@ namespace Simpler
 
         public static T[] ReturnMany<T>(IDbConnection connection, string sql, object values = null)
         {
-            var returnMany = Job.New<ReturnMany<T>>();
-            returnMany.In.Sql = sql;
-            returnMany.In.Values = values;
-            returnMany.In.Connection = connection;
-            returnMany.Run();
+            var many = new T[] {};
+            Action<IDbCommand> action =
+                command =>
+                {
+                    var fetchMany = Job.New<FetchMany<T>>();
+                    fetchMany.SelectCommand = command;
+                    fetchMany.Run();
+                    many = fetchMany.ObjectsFetched;
+                };
 
-            return returnMany.Out.Models;
+            var execute = Job.New<ExecuteAction>();
+            execute.In.Connection = connection;
+            execute.In.Sql = sql;
+            execute.In.Values = values;
+            execute.In.Action = action;
+            execute.Run();
+
+            return many;
         }
 
         public static T ReturnOne<T>(IDbConnection connection, string sql, object values = null)
         {
-            var returnOne = Job.New<ReturnOne<T>>();
-            returnOne.In.Sql = sql;
-            returnOne.In.Values = values;
-            returnOne.In.Connection = connection;
-            returnOne.Run();
+            var one = default(T);
+            Action<IDbCommand> action =
+                command =>
+                    {
+                        var fetchMany = Job.New<FetchMany<T>>();
+                        fetchMany.SelectCommand = command;
+                        fetchMany.Run();
+                        one = fetchMany.ObjectsFetched.Single();
+                    };
 
-            return returnOne.Out.Model;
+            var execute = Job.New<ExecuteAction>();
+            execute.In.Connection = connection;
+            execute.In.Sql = sql;
+            execute.In.Values = values;
+            execute.In.Action = action;
+            execute.Run();
+
+            return one;
         }
 
         public static int ReturnResult(IDbConnection connection, string sql, object values = null)
         {
-            var returnResult = Job.New<ReturnResult>();
-            returnResult.In.Sql = sql;
-            returnResult.In.Values = values;
-            returnResult.In.Connection = connection;
-            returnResult.Run();
+            var result = default(int);
+            Action<IDbCommand> action =
+                command =>
+                    {
+                        result = command.ExecuteNonQuery();
+                    };
 
-            return returnResult.Out.RowsAffected;
+            var execute = Job.New<ExecuteAction>();
+            execute.In.Connection = connection;
+            execute.In.Sql = sql;
+            execute.In.Values = values;
+            execute.In.Action = action;
+            execute.Run();
+
+            return result;
         }
 
         public static object ReturnScalar(IDbConnection connection, string sql, object values = null)
         {
-            var returnScalar = Job.New<ReturnScalar>();
-            returnScalar.In.Sql = sql;
-            returnScalar.In.Values = values;
-            returnScalar.In.Connection = connection;
-            returnScalar.Run();
+            var scalar = default(object);
+            Action<IDbCommand> action =
+                command =>
+                {
+                    scalar = command.ExecuteScalar();
+                };
 
-            return returnScalar.Out.Object;
+            var runAction = Job.New<ExecuteAction>();
+            runAction.In.Connection = connection;
+            runAction.In.Sql = sql;
+            runAction.In.Values = values;
+            runAction.In.Action = action;
+            runAction.Run();
+
+            return scalar;
         }
     }
 }

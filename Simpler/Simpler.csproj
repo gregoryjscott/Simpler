@@ -66,16 +66,12 @@
     <Compile Include="Proxy\Jobs\InjectJobs.cs" />
     <Compile Include="Proxy\OverrideAttribute.cs" />
     <Compile Include="Proxy\EventsAttribute.cs" />
-    <Compile Include="Data\Jobs\ReturnScalar.cs" />
-    <Compile Include="Data\Jobs\ReturnOne.cs" />
     <Compile Include="Data\Jobs\BuildParameters.cs" />
-    <Compile Include="Data\Jobs\ReturnResult.cs" />
-    <Compile Include="Data\Jobs\ReturnMany.cs" />
     <Compile Include="Data\Exceptions\NoPropertyForColumnException.cs" />
     <Compile Include="Data\Exceptions\ObjectPersistanceException.cs" />
     <Compile Include="Data\Jobs\FetchMany.cs" />
     <Compile Include="Data\Jobs\FindParameters.cs" />
-    <Compile Include="Data\Jobs\RunAction.cs" />
+    <Compile Include="Data\Jobs\ExecuteAction.cs" />
     <Compile Include="Data\Jobs\BuildObject.cs" />
     <Compile Include="Proxy\Jobs\FireEvents.cs" />
     <Compile Include="Proxy\Jobs\InterceptRun.cs" />

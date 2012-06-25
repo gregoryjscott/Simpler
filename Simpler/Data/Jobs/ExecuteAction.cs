@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Data.Jobs
 {
-    public class RunAction : InJob<RunAction.Input>
+    public class ExecuteAction : InJob<ExecuteAction.Input>
     {
         public class Input
         {
