@@ -25,9 +25,10 @@ namespace Simpler
             return connection;
         }
 
-        public static T[] ReturnMany<T>(IDbConnection connection, string sql, object values = null)
+        public static T[] GetMany<T>(IDbConnection connection, string sql, object values = null)
         {
             var many = new T[] {};
+
             Action<IDbCommand> action =
                 command =>
                 {
@@ -47,9 +48,10 @@ namespace Simpler
             return many;
         }
 
-        public static T ReturnOne<T>(IDbConnection connection, string sql, object values = null)
+        public static T GetOne<T>(IDbConnection connection, string sql, object values = null)
         {
             var one = default(T);
+
             Action<IDbCommand> action =
                 command =>
                     {
@@ -69,9 +71,10 @@ namespace Simpler
             return one;
         }
 
-        public static int ReturnResult(IDbConnection connection, string sql, object values = null)
+        public static int GetResult(IDbConnection connection, string sql, object values = null)
         {
             var result = default(int);
+
             Action<IDbCommand> action =
                 command =>
                     {
@@ -88,9 +91,10 @@ namespace Simpler
             return result;
         }
 
-        public static object ReturnScalar(IDbConnection connection, string sql, object values = null)
+        public static object GetScalar(IDbConnection connection, string sql, object values = null)
         {
             var scalar = default(object);
+
             Action<IDbCommand> action =
                 command =>
                 {

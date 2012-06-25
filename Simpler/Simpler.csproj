@@ -82,7 +82,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Db.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="Describe.cs" />
     <Compile Include="Mocks\MockObject.cs" />
   </ItemGroup>
   <ItemGroup>

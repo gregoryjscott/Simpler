@@ -82,7 +82,7 @@ namespace Simpler.Data.Jobs
 
         public override void Run()
         {
-            Out.Object = (T) Activator.CreateInstance(typeof (T));
+            Out.Object = (T)Activator.CreateInstance(typeof(T));
             var objectType = typeof(T);
 
             for (var i = 0; i < In.DataRecord.FieldCount; i++)
@@ -100,7 +100,7 @@ namespace Simpler.Data.Jobs
                 {
                     var propertyType = propertyInfo.PropertyType;
 
-                    if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                    if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
                         propertyType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
                     }

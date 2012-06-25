@@ -21,7 +21,11 @@ namespace Simpler.Data.Jobs
 
             using (var command = In.Connection.CreateCommand())
             {
-                In.Connection.Open();
+                if (In.Connection.State != ConnectionState.Open)
+                {
+                    In.Connection.Open();
+                }
+
                 command.Connection = In.Connection;
                 command.CommandText = In.Sql;
 

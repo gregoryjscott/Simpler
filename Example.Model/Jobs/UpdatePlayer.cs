@@ -53,7 +53,7 @@ namespace Example.Model.Jobs
 
             using(var connection = Db.Connect(Config.DatabaseName))
             {
-                Db.ReturnResult(connection, sql, In.Player);
+                Db.GetResult(connection, sql, In.Player);
             }
         }
     }

@@ -44,7 +44,7 @@ namespace Example.Model.Jobs
 
             using(var connection = Db.Connect(Config.DatabaseName))
             {
-                Out.Players = Db.ReturnMany<Player>(connection, sql);
+                Out.Players = Db.GetMany<Player>(connection, sql);
             }
         }
     }
