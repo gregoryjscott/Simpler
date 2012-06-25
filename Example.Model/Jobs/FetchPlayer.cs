@@ -55,11 +55,12 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            Select.In.ConnectionName = Config.DatabaseName;
-            Select.In.Sql = sql;
-            Select.In.Values = In;
-            Select.Run();
-            var player = Select.Out.Model;
+            var player = Sql.ReturnOne<Player>(sql, In, Config.DatabaseName);
+            //Select.In.ConnectionName = Config.DatabaseName;
+            //Select.In.Sql = sql;
+            //Select.In.Values = In;
+            //Select.Run();
+            //var player = Select.Out.Model;
 
             Out.Player = player;
         }

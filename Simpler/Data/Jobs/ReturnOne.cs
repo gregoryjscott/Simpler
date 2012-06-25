@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Simpler.Data.Jobs
 {
-    public class ReturnOne<TModel> : InOutJob<ReturnOne<TModel>.Input, ReturnOne<TModel>.Output>
+    public class ReturnOne<T> : InOutJob<ReturnOne<T>.Input, ReturnOne<T>.Output>
     {
         public class Input
         {
@@ -15,11 +15,11 @@ namespace Simpler.Data.Jobs
 
         public class Output
         {
-            public TModel Model { get; set; }
+            public T Model { get; set; }
         }
 
         public RunAction RunAction { get; set; }
-        public FetchMany<TModel> FetchMany { get; set; }
+        public FetchMany<T> FetchMany { get; set; }
 
         public override void Run()
         {

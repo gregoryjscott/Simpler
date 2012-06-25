@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Data.Jobs
 {
-    public class ReturnMany<TModel> : InOutJob<ReturnMany<TModel>.Input, ReturnMany<TModel>.Output>
+    public class ReturnMany<T> : InOutJob<ReturnMany<T>.Input, ReturnMany<T>.Output>
     {
         public class Input
         {
@@ -14,11 +14,11 @@ namespace Simpler.Data.Jobs
 
         public class Output
         {
-            public TModel[] Models { get; set; }
+            public T[] Models { get; set; }
         }
 
         public RunAction RunAction { get; set; }
-        public FetchMany<TModel> FetchMany { get; set; }
+        public FetchMany<T> FetchMany { get; set; }
 
         public override void Run()
         {

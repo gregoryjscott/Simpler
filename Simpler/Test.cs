@@ -57,35 +57,12 @@ namespace Simpler
             }
         }
 
-        public static void Everything()
-        {
-            var noTests = new List<string>();
-            var failures = new List<string>();
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                TestAssembly(assembly, noTests, failures);
-            }
-
-            if (failures.Any())
-            {
-                NUnit.Framework.Assert.Fail(String.Format("{0} tests failed.", failures.Count()));
-            }
-
-            if (noTests.Any())
-            {
-                NUnit.Framework.Assert.Inconclusive(String.Format("{0} jobs are missing tests.", noTests.Count()));
-            }
-        }
-
         public static void Assembly(string assemblyName)
         {
             var noTests = new List<string>();
             var failures = new List<string>();
 
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var assembly = assemblies.Single(a => a.GetName().Name == assemblyName);
+            var assembly = AppDomain.CurrentDomain.Load(new AssemblyName(assemblyName));
 
             TestAssembly(assembly, noTests, failures);
 
@@ -98,6 +75,15 @@ namespace Simpler
             {
                 NUnit.Framework.Assert.Inconclusive(String.Format("{0} jobs are missing tests.", noTests.Count()));
             }
+        }
+
+        public static void Job<T>() where T : Job
+        {
+            var createJob = new CreateJob { JobType = typeof(T) };
+            createJob.Run();
+            var job = (T)createJob.JobInstance;
+
+            job.Specs();
         }
     }
 }
