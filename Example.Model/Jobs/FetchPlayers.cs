@@ -1,6 +1,5 @@
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Jobs;
 
 namespace Example.Model.Jobs
 {
@@ -12,10 +11,10 @@ namespace Example.Model.Jobs
 
             It<FetchPlayers>.Should(
                 "return all players",
-                job =>
+                it =>
                 {
-                    job.Run();
-                    var players = job.Out.Players;
+                    it.Run();
+                    var players = it.Out.Players;
 
                     Check.That(players.Length > 0, "Expected more than zero players to be returned.");
                 });
@@ -25,8 +24,6 @@ namespace Example.Model.Jobs
         {
             public Player[] Players { get; set; }
         }
-
-        public ReturnMany<Player> Select { get; set; }
 
         public override void Run()
         {
@@ -45,12 +42,10 @@ namespace Example.Model.Jobs
                         Player.TeamId = Team.TeamId
                 ";
 
-            Select.In.ConnectionName = Config.DatabaseName;
-            Select.In.Sql = sql;
-            Select.Run();
-            var players = Select.Out.Models;
-
-            Out.Players = players;
+            using(var connection = Db.Connect(Config.DatabaseName))
+            {
+                Out.Players = Db.ReturnMany<Player>(connection, sql);
+            }
         }
     }
 }

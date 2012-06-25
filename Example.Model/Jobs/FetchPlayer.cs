@@ -1,7 +1,6 @@
 using System;
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Jobs;
 
 namespace Example.Model.Jobs
 {
@@ -13,11 +12,11 @@ namespace Example.Model.Jobs
 
             It<FetchPlayer>.Should(
                 "return player identified by given id",
-                job =>
+                it =>
                 {
-                    job.In.PlayerId = 1;
-                    job.Run();
-                    var player = job.Out.Player;
+                    it.In.PlayerId = 1;
+                    it.Run();
+                    var player = it.Out.Player;
 
                     Check.That(player.PlayerId == 1,
                                String.Format("Expect {0} to be equal to 1.", player.PlayerId));
@@ -33,8 +32,6 @@ namespace Example.Model.Jobs
         {
             public Player Player { get; set; }
         }
-
-        public ReturnOne<Player> Select { get; set; }
 
         public override void Run()
         {
@@ -55,14 +52,10 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            var player = Sql.ReturnOne<Player>(sql, In, Config.DatabaseName);
-            //Select.In.ConnectionName = Config.DatabaseName;
-            //Select.In.Sql = sql;
-            //Select.In.Values = In;
-            //Select.Run();
-            //var player = Select.Out.Model;
-
-            Out.Player = player;
+            using(var connection = Db.Connect(Config.DatabaseName))
+            {
+                Out.Player = Db.ReturnOne<Player>(connection, sql, In);
+            }
         }
     }
 }

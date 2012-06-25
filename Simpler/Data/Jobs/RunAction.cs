@@ -1,7 +1,5 @@
 using System;
-using System.Configuration;
 using System.Data;
-using System.Data.Common;
 
 namespace Simpler.Data.Jobs
 {
@@ -9,7 +7,7 @@ namespace Simpler.Data.Jobs
     {
         public class Input
         {
-            public string ConnectionName { get; set; }
+            public IDbConnection Connection { get; set; }
             public string Sql { get; set; }
             public object Values { get; set; }
             public Action<IDbCommand> Action { get; set; }
@@ -21,37 +19,20 @@ namespace Simpler.Data.Jobs
         {
             Check.That(!String.IsNullOrEmpty(In.Sql), "Sql property must be set.");
 
-            var connectionString = In.ConnectionName != null
-                ? ConfigurationManager.ConnectionStrings[In.ConnectionName].ConnectionString
-                : ConfigurationManager.ConnectionStrings[0].ConnectionString;
-
-            var providerName = In.ConnectionName != null
-                ? ConfigurationManager.ConnectionStrings[In.ConnectionName].ProviderName
-                : ConfigurationManager.ConnectionStrings[0].ProviderName;
-
-            var provider = DbProviderFactories.GetFactory(providerName);
-
-            using (var connection = provider.CreateConnection())
+            using (var command = In.Connection.CreateCommand())
             {
-                Check.That(connection != null, String.Format("Error while trying to create a DbProviderFactory connection using a connectionString setting with a name of {0}, with a provider type of {1}.", In.ConnectionName, providerName));
+                In.Connection.Open();
+                command.Connection = In.Connection;
+                command.CommandText = In.Sql;
 
-                connection.ConnectionString = connectionString;
-
-                using (var command = connection.CreateCommand())
+                if (In.Values != null)
                 {
-                    connection.Open();
-                    command.Connection = connection;
-                    command.CommandText = In.Sql;
-
-                    if (In.Values != null)
-                    {
-                        BuildParameters.Command = command;
-                        BuildParameters.Values = In.Values;
-                        BuildParameters.Run();                        
-                    }
-
-                    In.Action(command);
+                    BuildParameters.Command = command;
+                    BuildParameters.Values = In.Values;
+                    BuildParameters.Run();
                 }
+
+                In.Action(command);
             }
         }
     }

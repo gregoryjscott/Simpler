@@ -1,6 +1,5 @@
 using Example.Model.Entities;
 using Simpler;
-using Simpler.Data.Jobs;
 
 namespace Example.Model.Jobs
 {
@@ -12,7 +11,7 @@ namespace Example.Model.Jobs
 
             It<UpdatePlayer>.Should(
                 "update player",
-                job =>
+                it =>
                 {
                     var player =
                         new Player
@@ -23,8 +22,8 @@ namespace Example.Model.Jobs
                             TeamId = 2
                         };
 
-                    job.In.Player = player;
-                    job.Run();
+                    it.In.Player = player;
+                    it.Run();
 
                     var fetch = New<FetchPlayer>();
                     fetch.In.PlayerId = player.PlayerId.GetValueOrDefault();
@@ -41,8 +40,6 @@ namespace Example.Model.Jobs
             public Player Player { get; set; }
         }
 
-        public ReturnResult Update { get; set; }
-
         public override void Run()
         {
             const string sql = @"
@@ -54,10 +51,10 @@ namespace Example.Model.Jobs
                     PlayerId = @PlayerId
                 ";
 
-            Update.In.ConnectionName = Config.DatabaseName;
-            Update.In.Sql = sql;
-            Update.In.Values = In.Player;
-            Update.Run();
+            using(var connection = Db.Connect(Config.DatabaseName))
+            {
+                Db.ReturnResult(connection, sql, In.Player);
+            }
         }
     }
 }

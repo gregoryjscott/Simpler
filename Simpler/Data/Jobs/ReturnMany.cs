@@ -7,7 +7,7 @@ namespace Simpler.Data.Jobs
     {
         public class Input
         {
-            public string ConnectionName { get; set; }
+            public IDbConnection Connection { get; set; }
             public string Sql { get; set; }
             public object Values { get; set; }
         }
@@ -30,7 +30,7 @@ namespace Simpler.Data.Jobs
                     Out.Models = FetchMany.ObjectsFetched;
                 };
 
-            RunAction.In.ConnectionName = In.ConnectionName;
+            RunAction.In.Connection = In.Connection;
             RunAction.In.Sql = In.Sql;
             RunAction.In.Values = In.Values;
             RunAction.In.Action = action;
