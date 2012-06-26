@@ -157,7 +157,7 @@ namespace Simpler.Data.Jobs
         {
             var regularExpression = new StringBuilder();
 
-            // Name the grouping "Parameter", make it start with ":" or "@", then a letter, and followed by up to 29 letters, numbers, or underscores.  Finally, look ahead
+            // Name the grouping "Parameter", make it start with ":" or "@", then a letter, and followed by up to 128 letters, numbers, or underscores.  Finally, look ahead
             // and make sure the next character is not a letter, number, or underscore.
             regularExpression.Append(@"(?<Parameter>[:@][a-zA-Z][a-zA-Z0-9_\.]{0,127})(?=[^a-zA-Z0-9_\.])");
 
