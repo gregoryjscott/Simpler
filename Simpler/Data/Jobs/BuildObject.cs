@@ -2,7 +2,6 @@
 using System.Data;
 using Moq;
 using NUnit.Framework;
-using Simpler.Data.Exceptions;
 using Simpler.Mocks;
 
 namespace Simpler.Data.Jobs
@@ -50,7 +49,7 @@ namespace Simpler.Data.Jobs
 
                     it.In.DataRecord = mockDataRecord.Object;
 
-                    Assert.Throws(typeof(NoPropertyForColumnException), it.Run);
+                    Assert.Throws(typeof(SimplerException), it.Run);
                 });
 
             It<BuildObject<MockObject>>.Should(
@@ -90,10 +89,8 @@ namespace Simpler.Data.Jobs
                 var columnName = In.DataRecord.GetName(i);
                 var propertyInfo = objectType.GetProperty(columnName);
 
-                if (propertyInfo == null)
-                {
-                    throw new NoPropertyForColumnException(columnName, objectType.FullName);
-                }
+                Check.That(propertyInfo != null, 
+                    String.Format("The DataRecord contains column '{0}' that is not a property of the '{1}' class.", columnName, objectType.FullName));
 
                 var columnValue = In.DataRecord[columnName];
                 if (columnValue.GetType() != typeof(DBNull))

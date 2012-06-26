@@ -67,8 +67,6 @@
     <Compile Include="Proxy\OverrideAttribute.cs" />
     <Compile Include="Proxy\EventsAttribute.cs" />
     <Compile Include="Data\Jobs\BuildParameters.cs" />
-    <Compile Include="Data\Exceptions\NoPropertyForColumnException.cs" />
-    <Compile Include="Data\Exceptions\ObjectPersistanceException.cs" />
     <Compile Include="Data\Jobs\FetchMany.cs" />
     <Compile Include="Data\Jobs\FindParameters.cs" />
     <Compile Include="Data\Jobs\ExecuteAction.cs" />
