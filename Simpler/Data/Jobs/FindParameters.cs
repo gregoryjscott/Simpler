@@ -14,8 +14,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                            select whatever from table where something = @something and something_else is true
-                            ";
+                        select whatever from table where something = @something and something_else is true
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
@@ -28,8 +28,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                            select whatever from table where something = :something and something_else is true
-                            ";
+                        select whatever from table where something = :something and something_else is true
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == ":something",
@@ -42,8 +42,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                              select whatever from table where something = @some_thing and something_else is true
-                            ";
+                        select whatever from table where something = @some_thing and something_else is true
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == "@some_thing",
@@ -56,8 +56,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                            select whatever from table where something = @complex.object and something_else is true
-                            ";
+                        select whatever from table where something = @complex.object and something_else is true
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == "@complex.object",
@@ -70,8 +70,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                            select whatever from table where something = @some1thing1 and something_else is true
-                            ";
+                        select whatever from table where something = @some1thing1 and something_else is true
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == "@some1thing1",
@@ -84,8 +84,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                            insert into table set something = @something, something_else = 'whatever'
-                            ";
+                        insert into table set something = @something, something_else = 'whatever'
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
@@ -101,10 +101,10 @@ namespace Simpler.Data.Jobs
 
                     sql +=
                         @" 
-                            and something_more = @something_more
-                            and
-                            hopefully that covers it
-                            ";
+                        and something_more = @something_more
+                        and
+                        hopefully that covers it
+                        ";
 
                     it.In.CommandText = sql;
                     it.Run();
@@ -132,8 +132,8 @@ namespace Simpler.Data.Jobs
                 {
                     it.In.CommandText =
                         @"
-                            select whatever from table where something = @something and somethingelsealso = @something
-                            ";
+                        select whatever from table where something = @something and somethingelsealso = @something
+                        ";
                     it.Run();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
@@ -172,6 +172,7 @@ namespace Simpler.Data.Jobs
             {
                 parameterNameSet.Add(matches[i].Groups["Parameter"].Value);
             }
+
             Out.ParameterNames = new string[parameterNameSet.Count];
             parameterNameSet.CopyTo(Out.ParameterNames);
         }
