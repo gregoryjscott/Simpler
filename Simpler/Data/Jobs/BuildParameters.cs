@@ -18,10 +18,10 @@ namespace Simpler.Data.Jobs
             // Create the sub-jobs.
             if (FindParameters == null) FindParameters = new FindParameters();
 
-            FindParameters.CommandText = Command.CommandText;
+            FindParameters.In.CommandText = Command.CommandText;
             FindParameters.Run();
 
-            foreach (var parameterNameX in FindParameters.ParameterNames)
+            foreach (var parameterNameX in FindParameters.Out.ParameterNames)
             {
                 var objectType = Values.GetType();
                 var objectContainingPropertyValue = Values;

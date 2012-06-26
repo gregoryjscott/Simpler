@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Simpler.Data.Jobs
 {
-    public class FindParameters : Job
+    public class FindParameters : InOutJob<FindParameters.Input, FindParameters.Output> 
     {
         public override void Specs()
         {
@@ -12,13 +12,13 @@ namespace Simpler.Data.Jobs
                 "find parameters starting with @",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                             select whatever from table where something = @something and something_else is true
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@something",
+                    Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
                 });
 
@@ -26,13 +26,13 @@ namespace Simpler.Data.Jobs
                 "find parameters starting with a :",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                             select whatever from table where something = :something and something_else is true
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == ":something",
+                    Check.That(it.Out.ParameterNames[0] == ":something",
                                "Parameter name was not :something as expected.");
                 });
 
@@ -40,13 +40,13 @@ namespace Simpler.Data.Jobs
                 "should find parameters that contain an _",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                               select whatever from table where something = @some_thing and something_else is true
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@some_thing",
+                    Check.That(it.Out.ParameterNames[0] == "@some_thing",
                                "Parameter name was not @some_thing as expected.");
                 });
 
@@ -54,13 +54,13 @@ namespace Simpler.Data.Jobs
                 "find parameters that contain a .",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                             select whatever from table where something = @complex.object and something_else is true
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@complex.object",
+                    Check.That(it.Out.ParameterNames[0] == "@complex.object",
                                "Parameter name was not @complex.object as expected.");
                 });
 
@@ -68,13 +68,13 @@ namespace Simpler.Data.Jobs
                 "find parameters that contain a number",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                             select whatever from table where something = @some1thing1 and something_else is true
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@some1thing1",
+                    Check.That(it.Out.ParameterNames[0] == "@some1thing1",
                                "Parameter name was not @some1thing1 as expected.");
                 });
 
@@ -82,13 +82,13 @@ namespace Simpler.Data.Jobs
                 "find parameters followed by a comma",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                             insert into table set something = @something, something_else = 'whatever'
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@something",
+                    Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected");
                 });
 
@@ -106,12 +106,12 @@ namespace Simpler.Data.Jobs
                             hopefully that covers it
                             ";
 
-                    it.CommandText = sql;
+                    it.In.CommandText = sql;
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@something",
+                    Check.That(it.Out.ParameterNames[0] == "@something",
                                "First parameter should be @something.");
-                    Check.That(it.ParameterNames[1] == "@something_more",
+                    Check.That(it.Out.ParameterNames[1] == "@something_more",
                                "Second paraemter should be @something_more.");
                 });
 
@@ -119,10 +119,10 @@ namespace Simpler.Data.Jobs
                 "find parameters at the very end of the command text",
                 it =>
                 {
-                    it.CommandText = @"select whatever from table where something = @something";
+                    it.In.CommandText = @"select whatever from table where something = @something";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@something",
+                    Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
                 });
 
@@ -130,24 +130,28 @@ namespace Simpler.Data.Jobs
                 "return one instance of a parameter even if the parameter exists multiple times",
                 it =>
                 {
-                    it.CommandText =
+                    it.In.CommandText =
                         @"
                             select whatever from table where something = @something and somethingelsealso = @something
                             ";
                     it.Run();
 
-                    Check.That(it.ParameterNames[0] == "@something",
+                    Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
-                    Check.That(it.ParameterNames.Length == 1,
+                    Check.That(it.Out.ParameterNames.Length == 1,
                                "Only one parameter should be found.");
                 });
         }
 
-        // Inputs
-        public virtual string CommandText { get; set; }
+        public class Input
+        {
+            public string CommandText { get; set; }
+        }
 
-        // Outputs
-        public virtual string[] ParameterNames { get; private set; }
+        public class Output
+        {
+            public string[] ParameterNames { get; set; }
+        }
 
         public override void Run()
         {
@@ -161,15 +165,15 @@ namespace Simpler.Data.Jobs
             regularExpression.Append(@"|(?<Parameter>[:@][a-zA-Z][a-zA-Z0-9_\.]{0,127})$");
 
             var regex = new Regex(regularExpression.ToString(), RegexOptions.Multiline);
-            var matches = regex.Matches(CommandText);
+            var matches = regex.Matches(In.CommandText);
 
             var parameterNameSet = new HashSet<string>();
             for (var i = 0; i < matches.Count; i++)
             {
                 parameterNameSet.Add(matches[i].Groups["Parameter"].Value);
             }
-            ParameterNames = new string[parameterNameSet.Count];
-            parameterNameSet.CopyTo(ParameterNames);
+            Out.ParameterNames = new string[parameterNameSet.Count];
+            parameterNameSet.CopyTo(Out.ParameterNames);
         }
     }
 }

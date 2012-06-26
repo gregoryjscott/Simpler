@@ -26,7 +26,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = mockObject;
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -53,7 +53,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = new { Name = "John Doe", Age = 21 };
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -81,7 +81,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = mockObject;
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Name" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -108,7 +108,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = new { Name = "John Doe", Age = 21 };
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Name" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Name" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -136,7 +136,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = mockObject;
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Whatever" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Whatever" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act & Assert
@@ -162,7 +162,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = mockObject;
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -189,7 +189,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = new { NotAge = "A" };
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@Age" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -217,7 +217,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = mockComplexObject;
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new string[] { "@MockObject.Age" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@MockObject.Age" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
@@ -245,7 +245,7 @@ namespace Simpler.Tests.Data.Jobs
             job.Values = new { MockObject = new { Name = "John Doe", Age = 21 } };
 
             var mockFindParameters = new Mock<FindParameters>();
-            mockFindParameters.Setup(findParams => findParams.ParameterNames).Returns(new[] { "@MockObject.Age" });
+            mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new[] { "@MockObject.Age" });
             job.FindParameters = mockFindParameters.Object;
 
             // Act
