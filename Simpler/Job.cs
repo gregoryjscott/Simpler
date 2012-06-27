@@ -1,5 +1,5 @@
 ﻿using System;
-using Simpler.Proxy.Jobs;
+using Simpler.Core.Jobs;
 
 namespace Simpler
 {

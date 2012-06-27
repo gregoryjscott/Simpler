@@ -57,33 +57,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Check.cs" />
+    <Compile Include="Core\Mocks\MockCommand.cs" />
+    <Compile Include="Core\Mocks\MockConnection.cs" />
+    <Compile Include="Core\Mocks\MockObject.cs" />
+    <Compile Include="Data\Db.cs" />
+    <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
-    <Compile Include="Mocks\MockCommand.cs" />
-    <Compile Include="Mocks\MockConnection.cs" />
     <Compile Include="NoSpecsException.cs" />
     <Compile Include="It.cs" />
-    <Compile Include="SimplerException.cs" />
-    <Compile Include="Proxy\InjectJobsAttribute.cs" />
-    <Compile Include="Proxy\RunInterceptor.cs" />
-    <Compile Include="Proxy\Jobs\DisposeJobs.cs" />
-    <Compile Include="Proxy\Jobs\InjectJobs.cs" />
-    <Compile Include="Proxy\OverrideAttribute.cs" />
-    <Compile Include="Proxy\EventsAttribute.cs" />
+    <Compile Include="CheckException.cs" />
+    <Compile Include="Core\InjectJobsAttribute.cs" />
+    <Compile Include="Core\RunInterceptor.cs" />
+    <Compile Include="Core\Jobs\DisposeJobs.cs" />
+    <Compile Include="Core\Jobs\InjectJobs.cs" />
     <Compile Include="Data\Jobs\BuildParameters.cs" />
     <Compile Include="Data\Jobs\FetchMany.cs" />
     <Compile Include="Data\Jobs\FindParameters.cs" />
     <Compile Include="Data\Jobs\ExecuteAction.cs" />
     <Compile Include="Data\Jobs\BuildObject.cs" />
-    <Compile Include="Proxy\Jobs\FireEvents.cs" />
-    <Compile Include="Proxy\Jobs\CreateJob.cs" />
+    <Compile Include="Core\Jobs\FireEvents.cs" />
+    <Compile Include="Core\Jobs\CreateJob.cs" />
     <Compile Include="InOutJob.cs" />
     <Compile Include="InJob.cs" />
     <Compile Include="OutJob.cs" />
     <Compile Include="Job.cs" />
+    <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Db.cs" />
     <Compile Include="Describe.cs" />
-    <Compile Include="Mocks\MockObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

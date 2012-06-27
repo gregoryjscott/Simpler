@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using System.Data;
 using Simpler.Data.Jobs;
-using Simpler.Tests.Mocks;
+using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests.Data.Jobs
 {

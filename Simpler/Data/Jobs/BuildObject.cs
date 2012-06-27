@@ -2,7 +2,7 @@
 using System.Data;
 using Moq;
 using NUnit.Framework;
-using Simpler.Mocks;
+using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Jobs
 {
@@ -49,7 +49,7 @@ namespace Simpler.Data.Jobs
 
                     it.In.DataRecord = mockDataRecord.Object;
 
-                    Assert.Throws(typeof(SimplerException), it.Run);
+                    Assert.Throws(typeof(CheckException), it.Run);
                 });
 
             It<BuildObject<MockObject>>.Should(

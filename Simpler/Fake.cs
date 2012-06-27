@@ -1,6 +1,6 @@
 using System;
-using Simpler.Proxy;
-using Simpler.Proxy.Jobs;
+using Simpler.Core;
+using Simpler.Core.Jobs;
 
 namespace Simpler
 {

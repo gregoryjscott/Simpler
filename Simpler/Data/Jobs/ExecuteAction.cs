@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-using Simpler.Mocks;
+using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Jobs
 {

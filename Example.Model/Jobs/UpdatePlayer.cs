@@ -1,5 +1,6 @@
 using Example.Model.Entities;
 using Simpler;
+using Simpler.Data;
 
 namespace Example.Model.Jobs
 {

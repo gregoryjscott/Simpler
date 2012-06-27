@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Simpler.Mocks;
+using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Jobs
 {

@@ -1,5 +1,5 @@
 using System;
-using Simpler.Proxy;
+using Simpler.Core;
 
 namespace Simpler
 {

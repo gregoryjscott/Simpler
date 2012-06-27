@@ -6,7 +6,7 @@ namespace Simpler
     {
         public static void That(bool condition, string errorMessage)
         {
-            if (!condition) throw new SimplerException(errorMessage);
+            if (!condition) throw new CheckException(errorMessage);
         }
 
         public static void Throws(Action action)
@@ -14,7 +14,7 @@ namespace Simpler
             try
             {
                 action();
-                throw new SimplerException("Expected exception to be thrown.");
+                throw new CheckException("Expected exception to be thrown.");
             }
             catch
             {
@@ -27,14 +27,14 @@ namespace Simpler
             try
             {
                 action();
-                throw new SimplerException(String.Format("Expected {0} to be thrown.", expectedExpection));
+                throw new CheckException(String.Format("Expected {0} to be thrown.", expectedExpection));
             }
             catch (Exception exception)
             {
                 var actualException = exception.GetType().FullName;
                 if (actualException != expectedExpection)
                 {
-                    throw new SimplerException(
+                    throw new CheckException(
                         String.Format("Expected {0} to be thrown, but {1} was thrown instead.",
                                       expectedExpection,
                                       actualException));
