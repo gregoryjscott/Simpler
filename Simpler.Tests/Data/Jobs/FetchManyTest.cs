@@ -9,7 +9,7 @@ using Simpler.Tests.Mocks;
 namespace Simpler.Tests.Data.Jobs
 {
     [TestFixture]
-    public class FetchListOfTest
+    public class FetchManyTest
     {
         [Test]
         public void should_return_an_object_for_each_record_returned_by_the_select_command()
@@ -25,15 +25,15 @@ namespace Simpler.Tests.Data.Jobs
 
             var mockSelectCommand = new Mock<IDbCommand>();
             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
-            job.SelectCommand = mockSelectCommand.Object;
+            job.In.SelectCommand = mockSelectCommand.Object;
 
             // Act
             job.Run();
 
             // Assert
-            Assert.That(job.ObjectsFetched.Count(), Is.EqualTo(2));
-            Assert.That(job.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
-            Assert.That(job.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
+            Assert.That(job.Out.ObjectsFetched.Count(), Is.EqualTo(2));
+            Assert.That(job.Out.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
+            Assert.That(job.Out.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
         }
     }
 }

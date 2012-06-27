@@ -5,6 +5,11 @@ namespace Simpler.Data.Jobs
 {
     public class ExecuteAction : InJob<ExecuteAction.Input>
     {
+        public override void Specs()
+        {
+            // todo
+        }
+
         public class Input
         {
             public IDbConnection Connection { get; set; }

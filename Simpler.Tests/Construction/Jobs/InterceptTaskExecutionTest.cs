@@ -32,25 +32,25 @@ namespace Simpler.Tests.Construction.Jobs
             mockNotifySubscribers.Verify(notifySubscribers => notifySubscribers.Run(), Times.Once());
         }
 
-        [Test]
-        public void should_just_allow_invocation_to_proceed_if_the_invocation_method_is_not_Execute()
-        {
-            // Arrange
-            var job = new InterceptRun();
+        //[Test]
+        //public void should_just_allow_invocation_to_proceed_if_the_invocation_method_is_not_Execute()
+        //{
+        //    // Arrange
+        //    var job = new InterceptRun();
 
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Method.Name).Returns("NotExecute");
-            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(new MockJob());
-            job.Invocation = mockInvocation.Object;
+        //    var mockInvocation = new Mock<IInvocation>();
+        //    mockInvocation.Setup(invocation => invocation.Method.Name).Returns("NotExecute");
+        //    mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(new MockJob());
+        //    job.Invocation = mockInvocation.Object;
 
-            var mockNotifySubscribers = new Mock<FireEvents>();
-            job.FireEvents = mockNotifySubscribers.Object;
+        //    var mockNotifySubscribers = new Mock<FireEvents>();
+        //    job.FireEvents = mockNotifySubscribers.Object;
 
-            // Act
-            job.Run();
+        //    // Act
+        //    job.Run();
 
-            // Assert
-            mockInvocation.Verify(invocation => invocation.Proceed(), Times.Once());
-        }
+        //    // Assert
+        //    mockInvocation.Verify(invocation => invocation.Proceed(), Times.Once());
+        //}
     }
 }

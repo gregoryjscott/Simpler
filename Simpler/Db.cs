@@ -33,9 +33,9 @@ namespace Simpler
                 command =>
                 {
                     var fetchMany = Job.New<FetchMany<T>>();
-                    fetchMany.SelectCommand = command;
+                    fetchMany.In.SelectCommand = command;
                     fetchMany.Run();
-                    many = fetchMany.ObjectsFetched;
+                    many = fetchMany.Out.ObjectsFetched;
                 };
 
             var execute = Job.New<ExecuteAction>();
@@ -56,9 +56,9 @@ namespace Simpler
                 command =>
                     {
                         var fetchMany = Job.New<FetchMany<T>>();
-                        fetchMany.SelectCommand = command;
+                        fetchMany.In.SelectCommand = command;
                         fetchMany.Run();
-                        one = fetchMany.ObjectsFetched.Single();
+                        one = fetchMany.Out.ObjectsFetched.Single();
                     };
 
             var execute = Job.New<ExecuteAction>();

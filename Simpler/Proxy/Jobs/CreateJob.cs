@@ -9,13 +9,27 @@ namespace Simpler.Proxy.Jobs
 
         // Inputs
         public virtual Type JobType { get; set; }
+        public RunInterceptor RunInterceptor { get; set; }
 
         // Outputs
         public virtual object JobInstance { get; private set; }
 
         public override void Run()
         {
-            JobInstance = ProxyGenerator.CreateClassProxy(JobType, new Interceptor());
+            if (RunInterceptor == null)
+            {
+                RunInterceptor = new RunInterceptor(
+                    invocation =>
+                        {
+                            var interceptRun = new InterceptRun
+                                                   {
+                                                       Invocation = invocation
+                                                   };
+                            interceptRun.Run();
+                        });
+            }
+
+            JobInstance = ProxyGenerator.CreateClassProxy(JobType, RunInterceptor);
         }
     }
 }

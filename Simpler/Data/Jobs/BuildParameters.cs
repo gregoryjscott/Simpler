@@ -6,6 +6,11 @@ namespace Simpler.Data.Jobs
 {
     public class BuildParameters : Job
     {
+        public override void Specs()
+        {
+            // todo
+        }
+
         // Inputs
         public virtual IDbCommand Command { get; set; }
         public virtual object Values { get; set; }
