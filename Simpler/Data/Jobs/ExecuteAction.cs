@@ -37,7 +37,7 @@ namespace Simpler.Data.Jobs
 
                     it.Run();
 
-                    Check.That(buildParametersCalled, "Expected parameters to built using given values.");
+                    Check.That(buildParametersCalled, "Expected parameters to be built using given values.");
                 });
         }
 

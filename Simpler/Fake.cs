@@ -14,6 +14,7 @@ namespace Simpler
 
             return (TJob)createJob.JobInstance;
         }
+
         public static TJob Job<TJob>(Action<TJob> run)
         {
             var interceptor = new RunInterceptor(invocation => run((TJob)invocation.InvocationTarget));
