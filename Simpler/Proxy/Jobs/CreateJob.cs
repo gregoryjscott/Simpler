@@ -14,6 +14,8 @@ namespace Simpler.Proxy.Jobs
         // Outputs
         public virtual object JobInstance { get; private set; }
 
+        public FireEvents FireEvents { get; set; }
+
         public override void Run()
         {
             if (RunInterceptor == null)
@@ -21,11 +23,10 @@ namespace Simpler.Proxy.Jobs
                 RunInterceptor = new RunInterceptor(
                     invocation =>
                         {
-                            var interceptRun = new InterceptRun
-                                                   {
-                                                       Invocation = invocation
-                                                   };
-                            interceptRun.Run();
+                            if (FireEvents == null) FireEvents = new FireEvents();
+                            FireEvents.Job = (Job)invocation.InvocationTarget;
+                            FireEvents.Invocation = invocation;
+                            FireEvents.Run();
                         });
             }
 

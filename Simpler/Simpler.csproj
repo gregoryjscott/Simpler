@@ -75,7 +75,6 @@
     <Compile Include="Data\Jobs\ExecuteAction.cs" />
     <Compile Include="Data\Jobs\BuildObject.cs" />
     <Compile Include="Proxy\Jobs\FireEvents.cs" />
-    <Compile Include="Proxy\Jobs\InterceptRun.cs" />
     <Compile Include="Proxy\Jobs\CreateJob.cs" />
     <Compile Include="InOutJob.cs" />
     <Compile Include="InJob.cs" />

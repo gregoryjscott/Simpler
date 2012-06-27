@@ -56,7 +56,6 @@
     <Compile Include="Proxy\Jobs\DisposeJobsTest.cs" />
     <Compile Include="Proxy\Jobs\InjectJobsTest.cs" />
     <Compile Include="Proxy\Jobs\FireEventsTest.cs" />
-    <Compile Include="Proxy\Jobs\InterceptRunTest.cs" />
     <Compile Include="Proxy\Jobs\CreateJobTest.cs" />
     <Compile Include="Mocks\FirstAttribute.cs" />
     <Compile Include="Mocks\MockObject.cs" />

@@ -35,7 +35,10 @@ namespace Simpler
         static void DescribeAssembly(Assembly assembly, List<string> noTests, List<string> failures)
         {
             var jobTypes = assembly.GetTypes()
-                .Where(type => type.IsSubclassOf(typeof (Job)) && type.IsPublic && !type.Name.Contains("Proxy"))
+                .Where(type => type.IsSubclassOf(typeof (Job))
+                    && type.IsPublic
+                    && !type.IsAbstract
+                    && !type.Name.Contains("Proxy"))
                 .OrderBy(type => type.FullName);
 
             var count = jobTypes.Count();
