@@ -1,10 +1,11 @@
 using System;
 using System.Threading;
 using Castle.DynamicProxy;
+using Simpler.Proxy;
 
 namespace Simpler.Tests.Mocks
 {
-    public class OverrideAttribute : Proxy.OverrideAttribute
+    public class MockOverrideAttribute : OverrideAttribute
     {
         public override void RunOverride(IInvocation run)
         {

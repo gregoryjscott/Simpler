@@ -4,10 +4,10 @@ using NUnit.Framework;
 using Simpler.Proxy.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Construction.Jobs
+namespace Simpler.Tests.Proxy.Jobs
 {
     [TestFixture]
-    public class InterceptJobExecutionTest
+    public class InterceptRunTest
     {
         [Test]
         public void should_intercept_the_invocation_and_notify_subscribers_if_the_invocation_method_is_Execute()

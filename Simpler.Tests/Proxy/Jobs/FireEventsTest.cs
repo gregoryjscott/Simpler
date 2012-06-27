@@ -1,14 +1,13 @@
-﻿using System;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using NUnit.Framework;
 using Moq;
 using Simpler.Proxy.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Construction.Jobs
+namespace Simpler.Tests.Proxy.Jobs
 {
     [TestFixture]
-    public class NotifySubscribersOfJobExecutionTest
+    public class FireEventsTest
     {
         static void VerifyFiveCallbacks(MockJobWithAttributes jobWithAttributes)
         {

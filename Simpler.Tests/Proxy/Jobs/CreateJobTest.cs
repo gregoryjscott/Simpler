@@ -2,7 +2,7 @@
 using Simpler.Proxy.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Construction.Jobs
+namespace Simpler.Tests.Proxy.Jobs
 {
     [TestFixture]
     public class CreateJobTest

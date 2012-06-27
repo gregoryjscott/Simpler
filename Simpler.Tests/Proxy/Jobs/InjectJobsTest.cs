@@ -4,10 +4,10 @@ using System;
 using Simpler.Proxy.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Injection.Jobs
+namespace Simpler.Tests.Proxy.Jobs
 {
     [TestFixture]
-    public class InjectSubJobsTest
+    public class InjectJobsTest
     {
         [Test]
         public void should_inject_sub_job_if_null()

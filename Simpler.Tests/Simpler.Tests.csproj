@@ -53,14 +53,11 @@
   <ItemGroup>
     <Compile Include="Mocks\MockInOutTask.cs" />
     <Compile Include="Data\Jobs\BuildParametersTest.cs" />
-    <Compile Include="Data\Jobs\FetchManyTest.cs" />
-    <Compile Include="Data\Jobs\FetchSingleOfTest.cs" />
-    <Compile Include="Data\Jobs\Tests.cs" />
-    <Compile Include="Injection\Jobs\DisposeSubTasksTest.cs" />
-    <Compile Include="Injection\Jobs\InjectSubTasksTest.cs" />
-    <Compile Include="Construction\Jobs\NotifySubscribersOfTaskExecutionTest.cs" />
-    <Compile Include="Construction\Jobs\InterceptTaskExecutionTest.cs" />
-    <Compile Include="Construction\Jobs\CreateTaskTest.cs" />
+    <Compile Include="Proxy\Jobs\DisposeJobsTest.cs" />
+    <Compile Include="Proxy\Jobs\InjectJobsTest.cs" />
+    <Compile Include="Proxy\Jobs\FireEventsTest.cs" />
+    <Compile Include="Proxy\Jobs\InterceptRunTest.cs" />
+    <Compile Include="Proxy\Jobs\CreateJobTest.cs" />
     <Compile Include="Mocks\FirstAttribute.cs" />
     <Compile Include="Mocks\MockObject.cs" />
     <Compile Include="Mocks\MockComplexObject.cs" />
@@ -70,7 +67,7 @@
     <Compile Include="Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Mocks\MockTaskWithAttributesThatThrows.cs" />
     <Compile Include="Mocks\MockTaskWithOverrideAttribute.cs" />
-    <Compile Include="Mocks\OverrideAttribute.cs" />
+    <Compile Include="Mocks\MockOverrideAttribute.cs" />
     <Compile Include="Mocks\SecondAttribute.cs" />
     <Compile Include="Mocks\TestException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

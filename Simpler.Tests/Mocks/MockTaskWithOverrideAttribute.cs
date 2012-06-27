@@ -2,7 +2,7 @@ using System;
 
 namespace Simpler.Tests.Mocks
 {
-    [Override]
+    [MockOverride]
     public class MockJobWithOverrideAttribute : Job
     {
         public DateTime OverrideWasCalledTime;

@@ -1,13 +1,12 @@
 ﻿using NUnit.Framework;
 using System;
-using Simpler.Proxy;
 using Simpler.Proxy.Jobs;
 using Simpler.Tests.Mocks;
 
-namespace Simpler.Tests.Injection.Jobs
+namespace Simpler.Tests.Proxy.Jobs
 {
     [TestFixture]
-    public class DisposeSubJobsTest
+    public class DisposeJobsTest
     {
         [Test]
         public void should_dispose_sub_job_property_that_is_included_in_list_of_injected_property_names()
