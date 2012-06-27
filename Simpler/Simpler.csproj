@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="Check.cs" />
     <Compile Include="Fake.cs" />
+    <Compile Include="Mocks\MockCommand.cs" />
+    <Compile Include="Mocks\MockConnection.cs" />
     <Compile Include="NoSpecsException.cs" />
     <Compile Include="It.cs" />
     <Compile Include="SimplerException.cs" />

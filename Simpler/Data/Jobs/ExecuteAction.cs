@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using Simpler.Mocks;
 
 namespace Simpler.Data.Jobs
 {
@@ -7,7 +8,37 @@ namespace Simpler.Data.Jobs
     {
         public override void Specs()
         {
-            // todo
+            It<ExecuteAction>.Should(
+                "create a command and pass it to the given action",
+                it =>
+                {
+                    var actionWasPassedACommand = false;
+                    it.In.Connection = new MockConnection();
+                    it.In.Sql = "select ...";
+                    it.In.Values = new { Something = "nothing" };
+                    it.In.Action = command => { if (command != null) actionWasPassedACommand = true; };
+                    it.BuildParameters = Fake.Job<BuildParameters>();
+
+                    it.Run();
+
+                    Check.That(actionWasPassedACommand, "The given action should have been passed a command object.");
+                });
+
+            It<ExecuteAction>.Should(
+                "build parameters using given values",
+                it =>
+                {
+                    var buildParametersCalled = false;
+                    it.In.Connection = new MockConnection();
+                    it.In.Sql = "select ...";
+                    it.In.Values = new { Something = "nothing" };
+                    it.In.Action = command => { };
+                    it.BuildParameters = Fake.Job<BuildParameters>(job => buildParametersCalled = true);
+
+                    it.Run();
+
+                    Check.That(buildParametersCalled, "Expected parameters to built using given values.");
+                });
         }
 
         public class Input
