@@ -3,21 +3,21 @@ using Simpler.Proxy;
 
 namespace Simpler.Tests.Mocks
 {
-    public class SecondAttribute : EventsAttribute
+    public class MockFirstAttribute : EventsAttribute
     {
         public override void BeforeRun(Job job)
         {
-            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("Second.Before");
+            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("First.Before");
         }
 
         public override void AfterRun(Job job)
         {
-            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("Second.After");
+            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("First.After");
         }
 
         public override void OnError(Job job, Exception exception)
         {
-            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("Second.OnError");
+            ((MockJobWithAttributes)job).CallbackQueue.Enqueue("First.OnError");
         }
     }
 }

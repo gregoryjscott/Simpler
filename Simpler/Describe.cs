@@ -23,7 +23,7 @@ namespace Simpler
 
             if (noTests.Any())
             {
-                NUnit.Framework.Assert.Inconclusive(String.Format("{0} jobs are missing tests.", noTests.Count()));
+                NUnit.Framework.Assert.Inconclusive(String.Format("{0} jobs are missing scecs.", noTests.Count()));
             }
         }
 

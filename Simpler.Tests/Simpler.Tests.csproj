@@ -51,24 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mocks\MockInOutTask.cs" />
+    <Compile Include="Mocks\MockInOutJob.cs" />
     <Compile Include="Data\Jobs\BuildParametersTest.cs" />
     <Compile Include="Proxy\Jobs\DisposeJobsTest.cs" />
     <Compile Include="Proxy\Jobs\InjectJobsTest.cs" />
     <Compile Include="Proxy\Jobs\FireEventsTest.cs" />
     <Compile Include="Proxy\Jobs\CreateJobTest.cs" />
-    <Compile Include="Mocks\FirstAttribute.cs" />
+    <Compile Include="Mocks\MockFirstAttribute.cs" />
     <Compile Include="Mocks\MockObject.cs" />
     <Compile Include="Mocks\MockComplexObject.cs" />
-    <Compile Include="Mocks\MockParentTask.cs" />
-    <Compile Include="Mocks\MockSubTask.cs" />
-    <Compile Include="Mocks\MockTask.cs" />
-    <Compile Include="Mocks\MockTaskWithAttributes.cs" />
-    <Compile Include="Mocks\MockTaskWithAttributesThatThrows.cs" />
-    <Compile Include="Mocks\MockTaskWithOverrideAttribute.cs" />
+    <Compile Include="Mocks\MockParentJob.cs" />
+    <Compile Include="Mocks\MockSubJob.cs" />
+    <Compile Include="Mocks\MockJob.cs" />
+    <Compile Include="Mocks\MockJobWithAttributes.cs" />
+    <Compile Include="Mocks\MockJobWithAttributesThatThrows.cs" />
+    <Compile Include="Mocks\MockJobWithOverrideAttribute.cs" />
     <Compile Include="Mocks\MockOverrideAttribute.cs" />
-    <Compile Include="Mocks\SecondAttribute.cs" />
-    <Compile Include="Mocks\TestException.cs" />
+    <Compile Include="Mocks\MockSecondAttribute.cs" />
+    <Compile Include="Mocks\MockException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JobTest.cs" />
     <Compile Include="Tests.cs" />

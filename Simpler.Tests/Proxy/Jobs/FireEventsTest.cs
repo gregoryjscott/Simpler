@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Moq;
 using Simpler.Proxy.Jobs;
 using Simpler.Tests.Mocks;
+using MockException = Simpler.Tests.Mocks.MockException;
 
 namespace Simpler.Tests.Proxy.Jobs
 {
@@ -94,7 +95,7 @@ namespace Simpler.Tests.Proxy.Jobs
             job.Invocation = mockInvocation.Object;
 
             // Act
-            Assert.Throws(typeof(TestException), job.Run);
+            Assert.Throws(typeof(MockException), job.Run);
 
             // Assert
             VerifySevenCallbacks(jobWithAttributesThatThrows);
@@ -127,7 +128,7 @@ namespace Simpler.Tests.Proxy.Jobs
                     VerifySevenCallbacks(jobWithAttributesThatThrows);
                 }
             }
-            catch (TestException)
+            catch (MockException)
             {
                 throwHappened = true;
             }

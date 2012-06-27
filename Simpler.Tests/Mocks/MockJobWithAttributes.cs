@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Simpler.Tests.Mocks
 {
-    [First, Second]
+    [MockFirst, MockSecond]
     public class MockJobWithAttributes : Job
     {
         public MockJobWithAttributes()

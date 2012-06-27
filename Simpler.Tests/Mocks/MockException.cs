@@ -2,5 +2,5 @@ using System;
 
 namespace Simpler.Tests.Mocks
 {
-    public class TestException : Exception { }
+    public class MockException : Exception { }
 }
