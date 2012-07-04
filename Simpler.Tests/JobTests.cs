@@ -3,7 +3,7 @@
 namespace Simpler
 {
     [TestFixture]
-    public class RunTests
+    public class AssmemblyTest
     {
         [Test]
         public void Assembly() { Describe.Assembly("Simpler"); }
@@ -13,7 +13,7 @@ namespace Simpler
 namespace Simpler.Data.Jobs
 {
     [TestFixture]
-    public class RunTests
+    public class JobTests
     {
         [Test]
         public void BuildObject() { Describe.Job<BuildObject<object>>(); }

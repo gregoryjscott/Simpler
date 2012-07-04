@@ -8,7 +8,7 @@ namespace Simpler.Tests.Core.Mocks
 
         public override void Run()
         {
-            throw new NotImplementedException();
+            Out.MockObject = In;
         }
     }
 }
