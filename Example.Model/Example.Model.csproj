@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Jobs\FetchPlayerCount.cs" />
     <Compile Include="Jobs\FetchPlayer.cs" />
     <Compile Include="Jobs\FetchPlayers.cs" />
     <Compile Include="Jobs\UpdatePlayer.cs" />
