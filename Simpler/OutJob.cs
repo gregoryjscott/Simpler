@@ -5,12 +5,19 @@ namespace Simpler
 {
     [InjectJobs]
     public abstract class OutJob<TOut> : Job
-        where TOut : class
     {
         TOut _out;
         public TOut Out
         {
-            get { return _out ?? (_out = (TOut)Activator.CreateInstance(typeof(TOut))); }
+            get
+            {
+                if ((!typeof(TOut).IsValueType) && (_out == null))
+                {
+                    _out = (TOut)Activator.CreateInstance(typeof(TOut));
+                }
+
+                return _out;
+            }
             set { _out = value; }
         }
     }

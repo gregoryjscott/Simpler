@@ -1,16 +1,28 @@
 ﻿using NUnit.Framework;
+using Simpler.Data.Jobs;
+using Simpler.Tests.Core.Mocks;
 
-namespace Simpler
+namespace Simpler.Tests
 {
     [TestFixture]
-    public class AssmemblyTest
+    public class Tests
     {
         [Test]
         public void Assembly() { Describe.Assembly("Simpler"); }
+
+        [Test]
+        public void RunClassTest()
+        {
+            var name = Run<MockInOutJob>
+                .Set(In => In.Name = "something")
+                .Get().MockObject.Name;
+
+            Check.That(name == "something", "Expected name to be 'something'.");
+        }
     }
 }
 
-namespace Simpler.Data.Jobs
+namespace Simpler.Tests.Data.Jobs
 {
     [TestFixture]
     public class JobTests
