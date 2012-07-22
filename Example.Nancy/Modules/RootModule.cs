@@ -6,7 +6,7 @@ namespace Example.Nancy.Modules
     {
         public RootModule()
         {
-            Get["/"] = parameters => View["Views/Home/Index.html"];
+            Get["/"] = _ => View["Views/Home/Index.html"];
         }
     }
 }

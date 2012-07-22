@@ -17,7 +17,7 @@ namespace Simpler.Data
             
             var connection = provider.CreateConnection();
             Check.That(connection != null, 
-                String.Format("Error while trying to create a DbProviderFactory connection using a connectionString setting with a name of {0}, with a provider type of {1}.", connectionName, providerName));
+                "Error while trying to create a DbProviderFactory connection using a connectionString setting with a name of {0}, with a provider type of {1}.", connectionName, providerName);
 
             connection.ConnectionString = connectionString;
             connection.Open();

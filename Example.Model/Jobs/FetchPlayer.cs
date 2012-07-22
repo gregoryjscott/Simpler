@@ -1,4 +1,3 @@
-using System;
 using Example.Model.Entities;
 using Simpler;
 using Simpler.Data;
@@ -19,8 +18,7 @@ namespace Example.Model.Jobs
                     it.Run();
                     var player = it.Out.Player;
 
-                    Check.That(player.PlayerId == 1,
-                               String.Format("Expect {0} to be equal to 1.", player.PlayerId));
+                    Check.That(player.PlayerId == 1, "Expect {0} to be equal to 1.", player.PlayerId);
                 });
         }
 

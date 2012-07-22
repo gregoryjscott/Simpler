@@ -89,8 +89,10 @@ namespace Simpler.Data.Jobs
                 var columnName = In.DataRecord.GetName(i);
                 var propertyInfo = objectType.GetProperty(columnName);
 
-                Check.That(propertyInfo != null, 
-                    String.Format("The DataRecord contains column '{0}' that is not a property of the '{1}' class.", columnName, objectType.FullName));
+                Check.That(propertyInfo != null,
+                           "The DataRecord contains column '{0}' that is not a property of the '{1}' class.", 
+                           columnName,
+                           objectType.FullName);
 
                 var columnValue = In.DataRecord[columnName];
                 if (columnValue.GetType() != typeof(DBNull))

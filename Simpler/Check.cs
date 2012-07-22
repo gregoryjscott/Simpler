@@ -4,8 +4,18 @@ namespace Simpler
 {
     public class Check
     {
-        public static void That(bool condition, string errorMessage)
+        public static void That(bool condition, string errorMessage, params object[] args)
         {
+
+            if (errorMessage == null)
+            {
+                errorMessage = string.Empty;
+            }
+            else if (args != null && args.Length > 0)
+            {
+                errorMessage = string.Format(errorMessage, args);
+            }
+
             if (!condition) throw new CheckException(errorMessage);
         }
 

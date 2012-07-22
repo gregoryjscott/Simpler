@@ -10,7 +10,7 @@ namespace Example.Nancy.Modules
         public PlayersModule()
         {
             Get["/players"] =
-                parameters =>
+                _ =>
                     {
                         var fetch = Job.New<FetchPlayers>();
                         fetch.Run();
@@ -20,7 +20,7 @@ namespace Example.Nancy.Modules
                     };
 
             Get["/players/{PlayerId}"] =
-                parameters =>
+                _ =>
                     {
                         var fetch = Job.New<FetchPlayer>();
                         fetch.In = this.Bind<FetchPlayer.Input>();
@@ -30,7 +30,7 @@ namespace Example.Nancy.Modules
                     };
 
             Get["/players/{PlayerId}/edit"] =
-                parameters =>
+                _ =>
                     {
                         var fetch = Job.New<FetchPlayer>();
                         fetch.In = this.Bind<FetchPlayer.Input>();
@@ -40,10 +40,10 @@ namespace Example.Nancy.Modules
                     };
 
             Put["/players/{PlayerId}"] =
-                parameters =>
+                _ =>
                     {
                         var input = this.Bind<UpdatePlayer.Input>();
-                        
+
                         var update = Job.New<UpdatePlayer>();
                         update.In = input;
                         update.Run();
