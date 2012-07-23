@@ -23,7 +23,7 @@ namespace Simpler
 
             if (noSpecs.Any())
             {
-                NUnit.Framework.Assert.Inconclusive(String.Format("{0} tasks are missing scecs.", noSpecs.Count()));
+                NUnit.Framework.Assert.Inconclusive(String.Format("{0} tasks are missing specs.", noSpecs.Count()));
             }
         }
 
