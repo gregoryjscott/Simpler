@@ -18,7 +18,7 @@ namespace Simpler.Tests.Core.Jobs
 
             // Assert
             Assert.That(job.JobInstance, Is.InstanceOf<MockTask>());
-            Assert.That(job.JobInstance.GetType().Name, Is.Not.EqualTo("MockJobWithOnExecuteAttributeProxy"));
+            Assert.That(job.JobInstance.GetType().Name, Is.Not.EqualTo("MockTaskWithAttributesProxy"));
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace Simpler.Tests.Core.Jobs
 
             // Assert
             Assert.That(job.JobInstance, Is.InstanceOf<MockTaskWithAttributes>());
-            Assert.That(job.JobInstance.GetType().Name, Is.EqualTo("MockJobWithAttributesProxy"));
+            Assert.That(job.JobInstance.GetType().Name, Is.EqualTo("MockTaskWithAttributesProxy"));
         }
     }
 }
