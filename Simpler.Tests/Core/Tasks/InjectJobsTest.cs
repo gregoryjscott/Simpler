@@ -12,8 +12,8 @@ namespace Simpler.Tests.Core.Jobs
         public void should_inject_sub_job_if_null()
         {
             // Arrange
-            var mockParentJob = new MockParentJob();
-            var job = new InjectJobs { JobContainingSubJobs = mockParentJob };
+            var mockParentJob = new MockParentTask();
+            var job = new InjectTasks { TaskContainingSubTasks = mockParentJob };
 
             // Act
             job.Run();
@@ -26,9 +26,9 @@ namespace Simpler.Tests.Core.Jobs
         public void should_not_inject_sub_job_if_not_null()
         {
             // Arrange
-            var mockDifferentSubJob = new MockSubJob<DateTime>();
-            var mockParentJob = new MockParentJob { MockSubClass = mockDifferentSubJob };
-            var job = new InjectJobs { JobContainingSubJobs = mockParentJob };
+            var mockDifferentSubJob = new MockSubTask<DateTime>();
+            var mockParentJob = new MockParentTask { MockSubClass = mockDifferentSubJob };
+            var job = new InjectTasks { TaskContainingSubTasks = mockParentJob };
 
             // Act
             job.Run();
@@ -41,14 +41,14 @@ namespace Simpler.Tests.Core.Jobs
         public void should_return_a_list_of_all_sub_jobs_that_were_injected()
         {
             // Arrange
-            var mockParentJob = new MockParentJob();
-            var job = new InjectJobs { JobContainingSubJobs = mockParentJob };
+            var mockParentJob = new MockParentTask();
+            var job = new InjectTasks { TaskContainingSubTasks = mockParentJob };
 
             // Act
             job.Run();
 
             // Assert
-            Assert.That(job.InjectedSubJobPropertyNames[0], Is.EqualTo(typeof(MockSubJob<DateTime>).FullName));
+            Assert.That(job.InjectedSubJobPropertyNames[0], Is.EqualTo(typeof(MockSubTask<DateTime>).FullName));
         }
     }
 }

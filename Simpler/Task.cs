@@ -3,13 +3,13 @@ using Simpler.Core.Jobs;
 
 namespace Simpler
 {
-    public abstract class Job
+    public abstract class Task
     {
         public virtual void Specs() { throw new NoSpecsException(); }
 
         public static T New<T>()
         {
-            var createJob = new CreateJob { JobType = typeof(T) };
+            var createJob = new CreateTask { JobType = typeof(T) };
             createJob.Run();
             return (T)createJob.JobInstance;
         }

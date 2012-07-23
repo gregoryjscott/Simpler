@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Simpler.Data.Jobs
 {
-    public class FindParameters : InOutJob<FindParameters.Input, FindParameters.Output> 
+    public class FindParameters : InOutTask<FindParameters.Input, FindParameters.Output> 
     {
         public override void Specs()
         {

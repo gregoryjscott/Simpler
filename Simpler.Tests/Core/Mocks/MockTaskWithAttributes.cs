@@ -3,9 +3,9 @@ using System.Collections.Generic;
 namespace Simpler.Tests.Core.Mocks
 {
     [MockFirst, MockSecond]
-    public class MockJobWithAttributes : Job
+    public class MockTaskWithAttributes : Task
     {
-        public MockJobWithAttributes()
+        public MockTaskWithAttributes()
         {
             CallbackQueue = new Queue<string>();
         }

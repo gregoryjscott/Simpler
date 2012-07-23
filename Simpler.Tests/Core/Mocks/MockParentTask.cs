@@ -4,10 +4,10 @@ using Simpler.Core;
 namespace Simpler.Tests.Core.Mocks
 {
     [InjectJobs]
-    public class MockParentJob : Job
+    public class MockParentTask : Task
     {
         // Sub-jobs
-        public MockSubJob<DateTime> MockSubClass { get; set; }
+        public MockSubTask<DateTime> MockSubClass { get; set; }
 
         // Outputs
         public bool SubJobWasInjected { get; private set; }

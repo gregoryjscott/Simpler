@@ -27,7 +27,7 @@ namespace Simpler
             }
         }
 
-        public static void Job<T>() where T : Job
+        public static void Job<T>() where T : Task
         {
             DescribeJob(typeof(T));
         }
@@ -35,7 +35,7 @@ namespace Simpler
         static void DescribeAssembly(Assembly assembly, List<string> noSpecs, List<string> failures)
         {
             var jobTypes = assembly.GetTypes()
-                .Where(type => type.IsSubclassOf(typeof (Job))
+                .Where(type => type.IsSubclassOf(typeof (Task))
                     && type.IsPublic
                     && !type.IsAbstract
                     && !type.Name.Contains("Proxy"))
@@ -80,9 +80,9 @@ namespace Simpler
 
         static void DescribeJob(Type jobType)
         {
-            var createJob = new CreateJob {JobType = jobType};
+            var createJob = new CreateTask {JobType = jobType};
             createJob.Run();
-            var job = (Job) createJob.JobInstance;
+            var job = (Task) createJob.JobInstance;
 
             Console.WriteLine("  " + job.Name);
             try

@@ -22,7 +22,7 @@ namespace Simpler
 
         public static Output Set(Action<dynamic> set)
         {
-            var createJob = new CreateJob {JobType = typeof (TJob)};
+            var createJob = new CreateTask {JobType = typeof (TJob)};
             createJob.Run();
             dynamic job = createJob.JobInstance;
 
@@ -33,7 +33,7 @@ namespace Simpler
 
         public static dynamic Get()
         {
-            var createJob = new CreateJob { JobType = typeof(TJob) };
+            var createJob = new CreateTask { JobType = typeof(TJob) };
             createJob.Run();
             dynamic job = createJob.JobInstance;
 

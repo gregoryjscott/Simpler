@@ -3,7 +3,7 @@ using System;
 
 namespace Simpler.Core.Jobs
 {
-    public class CreateJob : Job
+    public class CreateTask : Task
     {
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
@@ -24,7 +24,7 @@ namespace Simpler.Core.Jobs
                     invocation =>
                         {
                             if (FireEvents == null) FireEvents = new FireEvents();
-                            FireEvents.Job = (Job)invocation.InvocationTarget;
+                            FireEvents.Task = (Task)invocation.InvocationTarget;
                             FireEvents.Invocation = invocation;
                             FireEvents.Run();
                         });

@@ -4,7 +4,7 @@ using Simpler.Data;
 
 namespace Example.Model.Jobs
 {
-    public class UpdatePlayer : InJob<UpdatePlayer.Input>
+    public class UpdatePlayer : InTask<UpdatePlayer.Input>
     {
         public override void Specs()
         {

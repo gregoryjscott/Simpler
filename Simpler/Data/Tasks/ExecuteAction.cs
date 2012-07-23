@@ -4,7 +4,7 @@ using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Jobs
 {
-    public class ExecuteAction : InJob<ExecuteAction.Input>
+    public class ExecuteAction : InTask<ExecuteAction.Input>
     {
         public override void Specs()
         {

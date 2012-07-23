@@ -3,11 +3,11 @@ using Simpler.Core.Jobs;
 
 namespace Simpler
 {
-    public class It<TJob> where TJob : Job
+    public class It<TJob> where TJob : Task
     {
         public static void Should(string expectation, Action<TJob> action)
         {
-            var createJob = new CreateJob { JobType = typeof(TJob) };
+            var createJob = new CreateTask { JobType = typeof(TJob) };
             createJob.Run();
             var job = (TJob)createJob.JobInstance;
 

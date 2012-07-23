@@ -12,7 +12,7 @@ namespace Example.Nancy.Modules
             Get["/players"] =
                 _ =>
                     {
-                        var fetch = Job.New<FetchPlayers>();
+                        var fetch = Task.New<FetchPlayers>();
                         fetch.Run();
                         var model = fetch.Out;
 
@@ -22,7 +22,7 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}"] =
                 _ =>
                     {
-                        var fetch = Job.New<FetchPlayer>();
+                        var fetch = Task.New<FetchPlayer>();
                         fetch.In = this.Bind<FetchPlayer.Input>();
                         var model = fetch.Out;
 
@@ -32,7 +32,7 @@ namespace Example.Nancy.Modules
             Get["/players/{PlayerId}/edit"] =
                 _ =>
                     {
-                        var fetch = Job.New<FetchPlayer>();
+                        var fetch = Task.New<FetchPlayer>();
                         fetch.In = this.Bind<FetchPlayer.Input>();
                         var model = fetch.Out;
 
@@ -44,7 +44,7 @@ namespace Example.Nancy.Modules
                     {
                         var input = this.Bind<UpdatePlayer.Input>();
 
-                        var update = Job.New<UpdatePlayer>();
+                        var update = Task.New<UpdatePlayer>();
                         update.In = input;
                         update.Run();
 

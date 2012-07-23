@@ -12,9 +12,9 @@ namespace Simpler.Tests.Core.Jobs
         public void should_dispose_sub_job_property_that_is_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockSubJob = new MockSubJob<DateTime>();
-            var mockParentJob = new MockParentJob { MockSubClass = mockSubJob };
-            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
+            var mockSubJob = new MockSubTask<DateTime>();
+            var mockParentJob = new MockParentTask { MockSubClass = mockSubJob };
+            var job = new DisposeTasks { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
 
             // Act
             job.Run();
@@ -27,9 +27,9 @@ namespace Simpler.Tests.Core.Jobs
         public void should_not_dispose_sub_job_property_that_is_not_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockSubJob = new MockSubJob<DateTime>();
-            var mockParentJob = new MockParentJob { MockSubClass = mockSubJob };
-            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
+            var mockSubJob = new MockSubTask<DateTime>();
+            var mockParentJob = new MockParentTask { MockSubClass = mockSubJob };
+            var job = new DisposeTasks { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
 
             // Act
             job.Run();
@@ -42,8 +42,8 @@ namespace Simpler.Tests.Core.Jobs
         public void should_set_sub_job_property_to_null_that_is_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockParentJob = new MockParentJob { MockSubClass = new MockSubJob<DateTime>() };
-            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubJob<DateTime>).FullName } };
+            var mockParentJob = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
+            var job = new DisposeTasks { Owner = mockParentJob, InjectedJobNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
 
             // Act
             job.Run();
@@ -56,8 +56,8 @@ namespace Simpler.Tests.Core.Jobs
         public void should_not_set_sub_job_property_to_null_that_is_not_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockParentJob = new MockParentJob { MockSubClass = new MockSubJob<DateTime>() };
-            var job = new DisposeJobs { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
+            var mockParentJob = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
+            var job = new DisposeTasks { Owner = mockParentJob, InjectedJobNames = new string[] { "bogus" } };
 
             // Act
             job.Run();

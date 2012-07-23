@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Simpler.Core.Jobs
 {
-    public class DisposeJobs : Job
+    public class DisposeTasks : Task
     {
         // Inputs
-        public virtual Job Owner { get; set; }
+        public virtual Task Owner { get; set; }
         public virtual string[] InjectedJobNames { get; set; }
 
         public override void Run()
@@ -16,7 +16,7 @@ namespace Simpler.Core.Jobs
             var properties = Owner.GetType().GetProperties();
 
             foreach (var property in properties.Where(
-                property => property.PropertyType.IsSubclassOf(typeof(Job))
+                property => property.PropertyType.IsSubclassOf(typeof(Task))
                     &&
                     jobNames.Contains(property.PropertyType.FullName)
                     &&

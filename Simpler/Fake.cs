@@ -8,7 +8,7 @@ namespace Simpler
     {
         public static TJob Job<TJob>()
         {
-            var createJob = Simpler.Job.New<CreateJob>();
+            var createJob = Simpler.Task.New<CreateTask>();
             createJob.JobType = typeof(TJob);
             createJob.Run();
 
@@ -19,7 +19,7 @@ namespace Simpler
         {
             var interceptor = new RunInterceptor(invocation => run((TJob)invocation.InvocationTarget));
 
-            var createJob = Simpler.Job.New<CreateJob>();
+            var createJob = Simpler.Task.New<CreateTask>();
             createJob.JobType = typeof(TJob);
             createJob.RunInterceptor = interceptor;
             createJob.Run();

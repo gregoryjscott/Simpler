@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Simpler.Data.Jobs
 {
-    public class BuildParameters : Job
+    public class BuildParameters : Task
     {
         public override void Specs()
         {

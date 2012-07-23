@@ -8,7 +8,7 @@ using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Jobs
 {
-    public class FetchMany<T> : InOutJob<FetchMany<T>.Input, FetchMany<T>.Output>  
+    public class FetchMany<T> : InOutTask<FetchMany<T>.Input, FetchMany<T>.Output>  
     {
         public override void Specs()
         {

@@ -32,13 +32,13 @@ namespace Simpler.Data
             Action<IDbCommand> action =
                 command =>
                 {
-                    var fetchMany = Job.New<FetchMany<T>>();
+                    var fetchMany = Task.New<FetchMany<T>>();
                     fetchMany.In.SelectCommand = command;
                     fetchMany.Run();
                     many = fetchMany.Out.ObjectsFetched;
                 };
 
-            var execute = Job.New<ExecuteAction>();
+            var execute = Task.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
@@ -55,13 +55,13 @@ namespace Simpler.Data
             Action<IDbCommand> action =
                 command =>
                     {
-                        var fetchMany = Job.New<FetchMany<T>>();
+                        var fetchMany = Task.New<FetchMany<T>>();
                         fetchMany.In.SelectCommand = command;
                         fetchMany.Run();
                         one = fetchMany.Out.ObjectsFetched.Single();
                     };
 
-            var execute = Job.New<ExecuteAction>();
+            var execute = Task.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
@@ -81,7 +81,7 @@ namespace Simpler.Data
                         result = command.ExecuteNonQuery();
                     };
 
-            var execute = Job.New<ExecuteAction>();
+            var execute = Task.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
@@ -101,7 +101,7 @@ namespace Simpler.Data
                     scalar = command.ExecuteScalar();
                 };
 
-            var runAction = Job.New<ExecuteAction>();
+            var runAction = Task.New<ExecuteAction>();
             runAction.In.Connection = connection;
             runAction.In.Sql = sql;
             runAction.In.Values = values;

@@ -4,7 +4,7 @@ using Simpler.Data;
 
 namespace Example.Model.Jobs
 {
-    public class FetchPlayer : InOutJob<FetchPlayer.Input, FetchPlayer.Output>
+    public class FetchPlayer : InOutTask<FetchPlayer.Input, FetchPlayer.Output>
     {
         public override void Specs()
         {

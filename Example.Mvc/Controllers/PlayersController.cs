@@ -9,7 +9,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var fetch = Job.New<FetchPlayers>();
+            var fetch = Task.New<FetchPlayers>();
             fetch.Run();
             var model = fetch.Out;
 
@@ -19,7 +19,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Show(int id)
         {
-            var fetch = Job.New<FetchPlayer>();
+            var fetch = Task.New<FetchPlayer>();
             fetch.In.PlayerId = id;
             fetch.Run();
             var model = fetch.Out.Player;
@@ -30,7 +30,7 @@ namespace Example.Mvc.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var fetch = Job.New<FetchPlayer>();
+            var fetch = Task.New<FetchPlayer>();
             fetch.In.PlayerId = id;
             fetch.Run();
             var model = fetch.Out.Player;
@@ -43,7 +43,7 @@ namespace Example.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var fetch = Job.New<FetchPlayer>();
+                var fetch = Task.New<FetchPlayer>();
                 fetch.In.PlayerId = model.Player.PlayerId.GetValueOrDefault();
                 fetch.Run();
                 var editModel = fetch.Out;
@@ -51,7 +51,7 @@ namespace Example.Mvc.Controllers
                 return View("Edit", editModel);
             }
 
-            var update = Job.New<UpdatePlayer>();
+            var update = Task.New<UpdatePlayer>();
             update.In.Player = model.Player;
             update.Run();
 

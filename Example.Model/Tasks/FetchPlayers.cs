@@ -4,7 +4,7 @@ using Simpler.Data;
 
 namespace Example.Model.Jobs
 {
-    public class FetchPlayers : OutJob<FetchPlayers.Output>
+    public class FetchPlayers : OutTask<FetchPlayers.Output>
     {
         public override void Specs()
         {

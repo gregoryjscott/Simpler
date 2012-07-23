@@ -8,19 +8,19 @@ namespace Simpler.Core
     {
         readonly List<string> _injectedSubJobPropertyNames = new List<string>();
 
-        public override void BeforeRun(Job job)
+        public override void BeforeRun(Task task)
         {
-            var inject = new InjectJobs { JobContainingSubJobs = job };
+            var inject = new InjectTasks { TaskContainingSubTasks = task };
             inject.Run();
             _injectedSubJobPropertyNames.AddRange(inject.InjectedSubJobPropertyNames);
         }
 
-        public override void AfterRun(Job job)
+        public override void AfterRun(Task task)
         {
-            var dispose = new DisposeJobs { Owner = job, InjectedJobNames = _injectedSubJobPropertyNames.ToArray() };
+            var dispose = new DisposeTasks { Owner = task, InjectedJobNames = _injectedSubJobPropertyNames.ToArray() };
             dispose.Run();
         }
 
-        public override void OnError(Job job, Exception exception) { }
+        public override void OnError(Task task, Exception exception) { }
     }
 }

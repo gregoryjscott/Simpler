@@ -6,7 +6,7 @@ using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Jobs
 {
-    public class BuildObject<T> : InOutJob<BuildObject<T>.Input, BuildObject<T>.Output> 
+    public class BuildObject<T> : InOutTask<BuildObject<T>.Input, BuildObject<T>.Output> 
     {
         public override void Specs()
         {

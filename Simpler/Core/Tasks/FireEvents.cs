@@ -3,22 +3,22 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core.Jobs
 {
-    public class FireEvents : Job
+    public class FireEvents : Task
     {
         // Inputs
-        public virtual Job Job { get; set; }
+        public virtual Task Task { get; set; }
         public virtual IInvocation Invocation { get; set; }
 
         public override void Run()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(Job.GetType(), typeof (EventsAttribute));
-            var overrideAttribute = Attribute.GetCustomAttribute(Job.GetType(), typeof (OverrideAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(Task.GetType(), typeof (EventsAttribute));
+            var overrideAttribute = Attribute.GetCustomAttribute(Task.GetType(), typeof (OverrideAttribute));
 
             try
             {
                 foreach (var callbackAttribute in callbackAttributes)
                 {
-                    ((EventsAttribute)callbackAttribute).BeforeRun(Job);
+                    ((EventsAttribute)callbackAttribute).BeforeRun(Task);
                 }
 
                 if (overrideAttribute != null)
@@ -34,7 +34,7 @@ namespace Simpler.Core.Jobs
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).OnError(Job, exception);
+                    ((EventsAttribute) callbackAttributes[i]).OnError(Task, exception);
                 }
 
                 throw;
@@ -43,7 +43,7 @@ namespace Simpler.Core.Jobs
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).AfterRun(Job);
+                    ((EventsAttribute) callbackAttributes[i]).AfterRun(Task);
                 }
             }
         }

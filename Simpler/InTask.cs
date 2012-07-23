@@ -4,7 +4,7 @@ using Simpler.Core;
 namespace Simpler
 {
     [InjectJobs]
-    public abstract class InOutJob<TIn, TOut> : Job
+    public abstract class InTask<TIn> : Task 
     {
         TIn _in;
         public virtual TIn In
@@ -19,21 +19,6 @@ namespace Simpler
                 return _in;
             }
             set { _in = value; }
-        }
-
-        TOut _out;
-        public virtual TOut Out
-        {
-            get
-            {
-                if ((!typeof(TOut).IsValueType) && (_out == null))
-                {
-                    _out = (TOut)Activator.CreateInstance(typeof(TOut));
-                }
-
-                return _out;
-            }
-            set { _out = value; }
         }
     }
 }

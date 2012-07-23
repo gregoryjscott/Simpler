@@ -13,7 +13,7 @@ namespace Simpler.Tests
         [Test]
         public void RunClassTest()
         {
-            var name = Run<MockInOutJob>
+            var name = Run<MockInOutTask>
                 .Set(In => In.Name = "something")
                 .Get().MockObject.Name;
 
