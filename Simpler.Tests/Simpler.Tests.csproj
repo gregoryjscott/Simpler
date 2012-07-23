@@ -65,11 +65,11 @@
     <Compile Include="Core\Mocks\MockParentJob.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubJob.cs" />
-    <Compile Include="Data\Jobs\BuildParametersTest.cs" />
-    <Compile Include="Core\Jobs\DisposeJobsTest.cs" />
-    <Compile Include="Core\Jobs\InjectJobsTest.cs" />
-    <Compile Include="Core\Jobs\FireEventsTest.cs" />
-    <Compile Include="Core\Jobs\CreateJobTest.cs" />
+    <Compile Include="Data\Tasks\BuildParametersTest.cs" />
+    <Compile Include="Core\Tasks\DisposeJobsTest.cs" />
+    <Compile Include="Core\Tasks\InjectJobsTest.cs" />
+    <Compile Include="Core\Tasks\FireEventsTest.cs" />
+    <Compile Include="Core\Tasks\CreateJobTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
