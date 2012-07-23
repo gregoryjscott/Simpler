@@ -3,18 +3,18 @@ using Simpler.Core;
 
 namespace Simpler.Tests.Core.Mocks
 {
-    [InjectJobs]
+    [InjectTasks]
     public class MockParentTask : Task
     {
         // Sub-jobs
         public MockSubTask<DateTime> MockSubClass { get; set; }
 
         // Outputs
-        public bool SubJobWasInjected { get; private set; }
+        public bool SubTaskWasInjected { get; private set; }
 
         public override void Run()
         {
-            SubJobWasInjected = (MockSubClass != null);
+            SubTaskWasInjected = (MockSubClass != null);
         }
     }
 }

@@ -3,13 +3,13 @@ using Simpler.Core.Tasks;
 
 namespace Simpler
 {
-    public class It<TJob> where TJob : Task
+    public class It<TTask> where TTask : Task
     {
-        public static void Should(string expectation, Action<TJob> action)
+        public static void Should(string expectation, Action<TTask> action)
         {
-            var createJob = new CreateTask { JobType = typeof(TJob) };
-            createJob.Run();
-            var job = (TJob)createJob.JobInstance;
+            var createTask = new CreateTask { TaskType = typeof(TTask) };
+            createTask.Run();
+            var job = (TTask)createTask.TaskInstance;
 
             try
             {

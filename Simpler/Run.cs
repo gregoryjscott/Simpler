@@ -3,7 +3,7 @@ using Simpler.Core.Tasks;
 
 namespace Simpler
 {
-    public static class Run<TJob>
+    public static class Run<TTask>
     {
         public class Output
         {
@@ -22,9 +22,9 @@ namespace Simpler
 
         public static Output Set(Action<dynamic> set)
         {
-            var createJob = new CreateTask {JobType = typeof (TJob)};
-            createJob.Run();
-            dynamic job = createJob.JobInstance;
+            var createTask = new CreateTask {TaskType = typeof (TTask)};
+            createTask.Run();
+            dynamic job = createTask.TaskInstance;
 
             set(job.In);
 
@@ -33,9 +33,9 @@ namespace Simpler
 
         public static dynamic Get()
         {
-            var createJob = new CreateTask { JobType = typeof(TJob) };
-            createJob.Run();
-            dynamic job = createJob.JobInstance;
+            var createTask = new CreateTask { TaskType = typeof(TTask) };
+            createTask.Run();
+            dynamic job = createTask.TaskInstance;
 
             job.Run();
             return job.Out;

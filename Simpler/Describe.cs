@@ -27,9 +27,9 @@ namespace Simpler
             }
         }
 
-        public static void Job<T>() where T : Task
+        public static void Task<T>() where T : Task
         {
-            DescribeJob(typeof(T));
+            DescribeTask(typeof(T));
         }
 
         static void DescribeAssembly(Assembly assembly, List<string> noSpecs, List<string> failures)
@@ -65,7 +65,7 @@ namespace Simpler
                 try
                 {
                     Console.WriteLine("");
-                    DescribeJob(typeToCreate);
+                    DescribeTask(typeToCreate);
                 }
                 catch (NoSpecsException)
                 {
@@ -78,11 +78,11 @@ namespace Simpler
             }
         }
 
-        static void DescribeJob(Type jobType)
+        static void DescribeTask(Type jobType)
         {
-            var createJob = new CreateTask {JobType = jobType};
-            createJob.Run();
-            var job = (Task) createJob.JobInstance;
+            var createTask = new CreateTask {TaskType = jobType};
+            createTask.Run();
+            var job = (Task) createTask.TaskInstance;
 
             Console.WriteLine("  " + job.Name);
             try

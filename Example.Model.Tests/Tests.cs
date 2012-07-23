@@ -12,18 +12,18 @@ namespace Example.Model
     }
 }
 
-namespace Example.Model.Jobs
+namespace Example.Model.Tasks
 {
     [TestFixture]
     public class Tests
     {
         [Test]
-        public void FetchPlayer() { Describe.Job<FetchPlayer>(); }
+        public void FetchPlayer() { Describe.Task<FetchPlayer>(); }
 
         [Test]
-        public void FetchPlayers() { Describe.Job<FetchPlayers>(); }
+        public void FetchPlayers() { Describe.Task<FetchPlayers>(); }
 
         [Test]
-        public void UpdatePlayer() { Describe.Job<UpdatePlayer>(); }
+        public void UpdatePlayer() { Describe.Task<UpdatePlayer>(); }
     }
 }

@@ -6,25 +6,25 @@ namespace Simpler
 {
     public class Fake
     {
-        public static TJob Job<TJob>()
+        public static TTask Task<TTask>()
         {
-            var createJob = Simpler.Task.New<CreateTask>();
-            createJob.JobType = typeof(TJob);
-            createJob.Run();
+            var createTask = Simpler.Task.New<CreateTask>();
+            createTask.TaskType = typeof(TTask);
+            createTask.Run();
 
-            return (TJob)createJob.JobInstance;
+            return (TTask)createTask.TaskInstance;
         }
 
-        public static TJob Job<TJob>(Action<TJob> run)
+        public static TTask Task<TTask>(Action<TTask> run)
         {
-            var interceptor = new RunInterceptor(invocation => run((TJob)invocation.InvocationTarget));
+            var interceptor = new RunInterceptor(invocation => run((TTask)invocation.InvocationTarget));
 
-            var createJob = Simpler.Task.New<CreateTask>();
-            createJob.JobType = typeof(TJob);
-            createJob.RunInterceptor = interceptor;
-            createJob.Run();
+            var createTask = Simpler.Task.New<CreateTask>();
+            createTask.TaskType = typeof(TTask);
+            createTask.RunInterceptor = interceptor;
+            createTask.Run();
 
-            return (TJob)createJob.JobInstance;
+            return (TTask)createTask.TaskInstance;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Simpler.Tests.Core.Mocks
         public DateTime OverrideWasCalledTime;
         public DateTime WasExecutedTime;
 
-        public bool OverrideWasCalledBeforeTheJobWasExecuted { get { return OverrideWasCalledTime < WasExecutedTime; } }
+        public bool OverrideWasCalledBeforeTheTaskWasExecuted { get { return OverrideWasCalledTime < WasExecutedTime; } }
 
         public override void Run()
         {

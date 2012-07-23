@@ -9,9 +9,9 @@ namespace Simpler
 
         public static T New<T>()
         {
-            var createJob = new CreateTask { JobType = typeof(T) };
-            createJob.Run();
-            return (T)createJob.JobInstance;
+            var createTask = new CreateTask { TaskType = typeof(T) };
+            createTask.Run();
+            return (T)createTask.TaskInstance;
         }
 
         public virtual string Name

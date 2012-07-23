@@ -8,11 +8,11 @@ namespace Simpler.Core.Tasks
     {
         // Inputs
         public virtual Task Owner { get; set; }
-        public virtual string[] InjectedJobNames { get; set; }
+        public virtual string[] InjectedTaskNames { get; set; }
 
         public override void Run()
         {
-            var jobNames = new List<string>(InjectedJobNames);
+            var jobNames = new List<string>(InjectedTaskNames);
             var properties = Owner.GetType().GetProperties();
 
             foreach (var property in properties.Where(

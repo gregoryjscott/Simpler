@@ -17,7 +17,7 @@ namespace Simpler.Data.Tasks
                     it.In.Sql = "select ...";
                     it.In.Values = new { Something = "nothing" };
                     it.In.Action = command => { if (command != null) actionWasPassedACommand = true; };
-                    it.BuildParameters = Fake.Job<BuildParameters>();
+                    it.BuildParameters = Fake.Task<BuildParameters>();
 
                     it.Run();
 
@@ -33,7 +33,7 @@ namespace Simpler.Data.Tasks
                     it.In.Sql = "select ...";
                     it.In.Values = new { Something = "nothing" };
                     it.In.Action = command => { };
-                    it.BuildParameters = Fake.Job<BuildParameters>(job => buildParametersCalled = true);
+                    it.BuildParameters = Fake.Task<BuildParameters>(job => buildParametersCalled = true);
 
                     it.Run();
 

@@ -8,11 +8,11 @@ namespace Simpler.Core.Tasks
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
         // Inputs
-        public virtual Type JobType { get; set; }
+        public virtual Type TaskType { get; set; }
         public RunInterceptor RunInterceptor { get; set; }
 
         // Outputs
-        public virtual object JobInstance { get; private set; }
+        public virtual object TaskInstance { get; private set; }
 
         public FireEvents FireEvents { get; set; }
 
@@ -30,7 +30,7 @@ namespace Simpler.Core.Tasks
                         });
             }
 
-            JobInstance = ProxyGenerator.CreateClassProxy(JobType, RunInterceptor);
+            TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, RunInterceptor);
         }
     }
 }

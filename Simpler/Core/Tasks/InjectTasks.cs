@@ -8,7 +8,7 @@ namespace Simpler.Core.Tasks
         public virtual Task TaskContainingSubTasks { get; set; }
 
         // Outputs
-        public virtual string[] InjectedSubJobPropertyNames { get; private set; }
+        public virtual string[] InjectedSubTaskPropertyNames { get; private set; }
 
         // Sub-jobs
         public CreateTask CreateTask { get; set; }
@@ -26,16 +26,16 @@ namespace Simpler.Core.Tasks
                     && 
                     (propertyX.CanWrite && propertyX.GetValue(TaskContainingSubTasks, null) == null))
                 {
-                    CreateTask.JobType = propertyX.PropertyType;
+                    CreateTask.TaskType = propertyX.PropertyType;
                     CreateTask.Run();
 
-                    propertyX.SetValue(TaskContainingSubTasks, CreateTask.JobInstance, null);
+                    propertyX.SetValue(TaskContainingSubTasks, CreateTask.TaskInstance, null);
 
                     listOfInjected.Add(propertyX.PropertyType.FullName);
                 }
             }
 
-            InjectedSubJobPropertyNames = listOfInjected.ToArray();
+            InjectedSubTaskPropertyNames = listOfInjected.ToArray();
         }
     }
 }

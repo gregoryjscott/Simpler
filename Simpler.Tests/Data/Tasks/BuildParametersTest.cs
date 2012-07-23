@@ -28,7 +28,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
             // Act
             job.Run();
@@ -57,7 +57,7 @@ namespace Simpler.Tests.Data.Tasks
             //mockFindParameters.Setup(findParams => findParams.In).Returns(new FindParameters.Input());
             //mockFindParameters.Setup(findParams => findParams.Out).Returns(new FindParameters.Output { ParameterNames = new[] { "@Age" } });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] {"@Age"});
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] {"@Age"});
 
             // Act
             job.Run();
@@ -86,7 +86,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Name" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
 
             // Act
             job.Run();
@@ -114,7 +114,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Name" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
 
             // Act
             job.Run();
@@ -143,7 +143,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Whatever" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@Whatever" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Whatever" });
 
             // Act & Assert
             job.Run();
@@ -170,7 +170,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
             // Act
             job.Run();
@@ -198,7 +198,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@Age" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
             // Act
             job.Run();
@@ -227,7 +227,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new string[] { "@MockObject.Age" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
 
             // Act
             job.Run();
@@ -256,7 +256,7 @@ namespace Simpler.Tests.Data.Tasks
             //var mockFindParameters = new Mock<FindParameters>();
             //mockFindParameters.Setup(findParams => findParams.Out.ParameterNames).Returns(new[] { "@MockObject.Age" });
             //job.FindParameters = mockFindParameters.Object;
-            job.FindParameters = Fake.Job<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
+            job.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
 
             // Act
             job.Run();

@@ -22,21 +22,21 @@ namespace Simpler.Tests
     }
 
     [TestFixture]
-    public class JobTests
+    public class TaskTests
     {
         [Test]
-        public void BuildObject() { Describe.Job<BuildObject<object>>(); }
+        public void BuildObject() { Describe.Task<BuildObject<object>>(); }
 
         [Test]
-        public void BuildParameters() { Describe.Job<BuildParameters>(); }
+        public void BuildParameters() { Describe.Task<BuildParameters>(); }
 
         [Test]
-        public void ExecuteAction() { Describe.Job<ExecuteAction>(); }
+        public void ExecuteAction() { Describe.Task<ExecuteAction>(); }
 
         [Test]
-        public void FetchMany() { Describe.Job<FetchMany<object>>(); }
+        public void FetchMany() { Describe.Task<FetchMany<object>>(); }
 
         [Test]
-        public void FindParameters() { Describe.Job<FindParameters>(); }
+        public void FindParameters() { Describe.Task<FindParameters>(); }
     }
 }

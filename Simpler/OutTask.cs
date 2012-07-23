@@ -3,7 +3,7 @@ using Simpler.Core;
 
 namespace Simpler
 {
-    [InjectJobs]
+    [InjectTasks]
     public abstract class OutTask<TOut> : Task
     {
         TOut _out;

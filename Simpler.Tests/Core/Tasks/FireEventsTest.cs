@@ -153,7 +153,7 @@ namespace Simpler.Tests.Core.Tasks
             job.Run();
 
             // Assert
-            Assert.That(jobWithOverride.OverrideWasCalledBeforeTheJobWasExecuted);
+            Assert.That(jobWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
         }
     }
 }

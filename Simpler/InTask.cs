@@ -3,7 +3,7 @@ using Simpler.Core;
 
 namespace Simpler
 {
-    [InjectJobs]
+    [InjectTasks]
     public abstract class InTask<TIn> : Task 
     {
         TIn _in;
