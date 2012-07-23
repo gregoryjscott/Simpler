@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Example.Model.Jobs;
+using Example.Model.Tasks;
 using Simpler;
 
 namespace Example.Mvc.Controllers

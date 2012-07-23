@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Simpler.Data.Jobs;
+using Simpler.Data.Tasks;
 
 namespace Simpler.Data
 {

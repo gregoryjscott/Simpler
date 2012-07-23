@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Simpler.Data.Jobs;
+using Simpler.Data.Tasks;
 using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests
@@ -20,10 +20,7 @@ namespace Simpler.Tests
             Check.That(name == "something", "Expected name to be 'something'.");
         }
     }
-}
 
-namespace Simpler.Tests.Data.Jobs
-{
     [TestFixture]
     public class JobTests
     {

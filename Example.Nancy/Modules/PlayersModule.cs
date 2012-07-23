@@ -1,4 +1,4 @@
-using Example.Model.Jobs;
+using Example.Model.Tasks;
 using Nancy;
 using Simpler;
 using Nancy.ModelBinding;

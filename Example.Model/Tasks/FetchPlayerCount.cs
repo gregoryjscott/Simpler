@@ -1,7 +1,7 @@
 using Simpler;
 using Simpler.Data;
 
-namespace Example.Model.Jobs
+namespace Example.Model.Tasks
 {
     public class FetchPlayerCount : OutTask<int>
     {

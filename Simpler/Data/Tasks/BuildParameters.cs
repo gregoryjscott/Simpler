@@ -2,7 +2,7 @@
 using System.Data;
 using System.Reflection;
 
-namespace Simpler.Data.Jobs
+namespace Simpler.Data.Tasks
 {
     public class BuildParameters : Task
     {

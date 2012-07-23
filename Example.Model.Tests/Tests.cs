@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Example.Model.Tasks;
+using NUnit.Framework;
 using Simpler;
 
 namespace Example.Model

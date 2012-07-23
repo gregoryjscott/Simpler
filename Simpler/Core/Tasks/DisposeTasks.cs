@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Simpler.Core.Jobs
+namespace Simpler.Core.Tasks
 {
     public class DisposeTasks : Task
     {

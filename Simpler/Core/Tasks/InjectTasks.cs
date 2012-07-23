@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Simpler.Core.Jobs
+namespace Simpler.Core.Tasks
 {
     public class InjectTasks : Task
     {

@@ -1,11 +1,11 @@
 ﻿using Castle.DynamicProxy;
 using NUnit.Framework;
 using Moq;
-using Simpler.Core.Jobs;
+using Simpler.Core.Tasks;
 using Simpler.Tests.Core.Mocks;
 using MockException = Simpler.Tests.Core.Mocks.MockException;
 
-namespace Simpler.Tests.Core.Jobs
+namespace Simpler.Tests.Core.Tasks
 {
     [TestFixture]
     public class FireEventsTest

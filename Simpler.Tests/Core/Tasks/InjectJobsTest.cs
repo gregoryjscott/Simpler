@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using System;
-using Simpler.Core.Jobs;
+using Simpler.Core.Tasks;
 using Simpler.Tests.Core.Mocks;
 
-namespace Simpler.Tests.Core.Jobs
+namespace Simpler.Tests.Core.Tasks
 {
     [TestFixture]
     public class InjectJobsTest

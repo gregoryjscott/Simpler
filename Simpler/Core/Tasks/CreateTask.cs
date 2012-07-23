@@ -1,7 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using System;
 
-namespace Simpler.Core.Jobs
+namespace Simpler.Core.Tasks
 {
     public class CreateTask : Task
     {

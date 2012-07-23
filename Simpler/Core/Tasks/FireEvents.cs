@@ -1,7 +1,7 @@
 ﻿using System;
 using Castle.DynamicProxy;
 
-namespace Simpler.Core.Jobs
+namespace Simpler.Core.Tasks
 {
     public class FireEvents : Task
     {

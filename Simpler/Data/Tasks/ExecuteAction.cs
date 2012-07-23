@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using Simpler.Core.Mocks;
 
-namespace Simpler.Data.Jobs
+namespace Simpler.Data.Tasks
 {
     public class ExecuteAction : InTask<ExecuteAction.Input>
     {

@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace Simpler.Data.Jobs
+namespace Simpler.Data.Tasks
 {
     public class FindParameters : InOutTask<FindParameters.Input, FindParameters.Output> 
     {

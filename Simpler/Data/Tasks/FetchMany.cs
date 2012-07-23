@@ -6,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Simpler.Core.Mocks;
 
-namespace Simpler.Data.Jobs
+namespace Simpler.Data.Tasks
 {
     public class FetchMany<T> : InOutTask<FetchMany<T>.Input, FetchMany<T>.Output>  
     {

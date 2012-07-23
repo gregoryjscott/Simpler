@@ -1,5 +1,5 @@
 ﻿using System;
-using Simpler.Core.Jobs;
+using Simpler.Core.Tasks;
 
 namespace Simpler
 {

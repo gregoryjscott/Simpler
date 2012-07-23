@@ -2,7 +2,7 @@ using Example.Model.Entities;
 using Simpler;
 using Simpler.Data;
 
-namespace Example.Model.Jobs
+namespace Example.Model.Tasks
 {
     public class FetchPlayer : InOutTask<FetchPlayer.Input, FetchPlayer.Output>
     {

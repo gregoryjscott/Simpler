@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Simpler.Core.Jobs;
+using Simpler.Core.Tasks;
 
 namespace Simpler.Core
 {
