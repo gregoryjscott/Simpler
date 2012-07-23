@@ -7,16 +7,16 @@ namespace Simpler
     {
         public class Output
         {
-            public Output(dynamic job)
+            public Output(dynamic task)
             {
-                _job = job;
+                _task = task;
             }
 
-            dynamic _job;
+            dynamic _task;
             public dynamic Get()
             {
-                _job.Run();
-                return _job.Out;
+                _task.Run();
+                return _task.Out;
             }
         }
 
@@ -24,21 +24,21 @@ namespace Simpler
         {
             var createTask = new CreateTask {TaskType = typeof (TTask)};
             createTask.Run();
-            dynamic job = createTask.TaskInstance;
+            dynamic task = createTask.TaskInstance;
 
-            set(job.In);
+            set(task.In);
 
-            return new Output(job);
+            return new Output(task);
         }
 
         public static dynamic Get()
         {
             var createTask = new CreateTask { TaskType = typeof(TTask) };
             createTask.Run();
-            dynamic job = createTask.TaskInstance;
+            dynamic task = createTask.TaskInstance;
 
-            job.Run();
-            return job.Out;
+            task.Run();
+            return task.Out;
         }
     }
 }

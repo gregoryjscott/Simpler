@@ -18,12 +18,12 @@ namespace Simpler
 
             if (failures.Any())
             {
-                NUnit.Framework.Assert.Fail(String.Format("{0} jobs failed.", failures.Count()));
+                NUnit.Framework.Assert.Fail(String.Format("{0} tasks failed.", failures.Count()));
             }
 
             if (noSpecs.Any())
             {
-                NUnit.Framework.Assert.Inconclusive(String.Format("{0} jobs are missing scecs.", noSpecs.Count()));
+                NUnit.Framework.Assert.Inconclusive(String.Format("{0} tasks are missing scecs.", noSpecs.Count()));
             }
         }
 
@@ -34,32 +34,32 @@ namespace Simpler
 
         static void DescribeAssembly(Assembly assembly, List<string> noSpecs, List<string> failures)
         {
-            var jobTypes = assembly.GetTypes()
+            var taskTypes = assembly.GetTypes()
                 .Where(type => type.IsSubclassOf(typeof (Task))
                     && type.IsPublic
                     && !type.IsAbstract
                     && !type.Name.Contains("Proxy"))
                 .OrderBy(type => type.FullName);
 
-            var count = jobTypes.Count();
+            var count = taskTypes.Count();
             if (count > 0)
             {
-                const string message = "{0} contains {1} jobs:";
+                const string message = "{0} contains {1} tasks:";
                 Console.WriteLine(String.Format(message, assembly.GetName().Name, count));
             }
 
-            foreach (var jobType in jobTypes)
+            foreach (var taskType in taskTypes)
             {
-                var typeToCreate = jobType;
+                var typeToCreate = taskType;
 
-                var genericArguments = jobType.GetGenericArguments();
+                var genericArguments = taskType.GetGenericArguments();
                 if (genericArguments.Length > 0)
                 {
-                    // We only need to call the job's Test() method, so it doesn't matter
+                    // We only need to call the task's Test() method, so it doesn't matter
                     // what type of generic arguments are passed.
                     var objectTypes = genericArguments
                         .Select(genericArgument => typeof (object)).ToArray();
-                    typeToCreate = jobType.MakeGenericType(objectTypes);
+                    typeToCreate = taskType.MakeGenericType(objectTypes);
                 }
 
                 try
@@ -78,20 +78,20 @@ namespace Simpler
             }
         }
 
-        static void DescribeTask(Type jobType)
+        static void DescribeTask(Type taskType)
         {
-            var createTask = new CreateTask {TaskType = jobType};
+            var createTask = new CreateTask {TaskType = taskType};
             createTask.Run();
-            var job = (Task) createTask.TaskInstance;
+            var task = (Task) createTask.TaskInstance;
 
-            Console.WriteLine("  " + job.Name);
+            Console.WriteLine("  " + task.Name);
             try
             {
-                job.Specs();
+                task.Specs();
             }
             catch (NoSpecsException)
             {
-                Console.WriteLine("    CAN'T DO ANYTHING? (This job is missing specs.)");
+                Console.WriteLine("    CAN'T DO ANYTHING? (This task is missing specs.)");
                 throw;
             }
         }

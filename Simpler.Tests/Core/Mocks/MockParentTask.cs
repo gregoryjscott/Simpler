@@ -6,7 +6,7 @@ namespace Simpler.Tests.Core.Mocks
     [InjectTasks]
     public class MockParentTask : Task
     {
-        // Sub-jobs
+        // Sub-tasks
         public MockSubTask<DateTime> MockSubClass { get; set; }
 
         // Outputs

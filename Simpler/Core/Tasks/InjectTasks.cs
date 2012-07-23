@@ -10,7 +10,7 @@ namespace Simpler.Core.Tasks
         // Outputs
         public virtual string[] InjectedSubTaskPropertyNames { get; private set; }
 
-        // Sub-jobs
+        // Sub-tasks
         public CreateTask CreateTask { get; set; }
 
         public override void Run()

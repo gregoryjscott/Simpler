@@ -9,11 +9,11 @@ namespace Simpler
         {
             var createTask = new CreateTask { TaskType = typeof(TTask) };
             createTask.Run();
-            var job = (TTask)createTask.TaskInstance;
+            var task = (TTask)createTask.TaskInstance;
 
             try
             {
-                action(job);
+                action(task);
                 Console.WriteLine("    can " + expectation);
             }
             catch

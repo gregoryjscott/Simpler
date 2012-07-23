@@ -15,12 +15,12 @@ namespace Simpler.Data.Tasks
         public virtual IDbCommand Command { get; set; }
         public virtual object Values { get; set; }
 
-        // Sub-jobs
+        // Sub-tasks
         public virtual FindParameters FindParameters { get; set; }
 
         public override void Run()
         {
-            // Create the sub-jobs.
+            // Create the sub-tasks.
             if (FindParameters == null) FindParameters = new FindParameters();
 
             FindParameters.In.CommandText = Command.CommandText;

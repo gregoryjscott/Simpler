@@ -12,13 +12,13 @@ namespace Simpler.Core.Tasks
 
         public override void Run()
         {
-            var jobNames = new List<string>(InjectedTaskNames);
+            var taskNames = new List<string>(InjectedTaskNames);
             var properties = Owner.GetType().GetProperties();
 
             foreach (var property in properties.Where(
                 property => property.PropertyType.IsSubclassOf(typeof(Task))
                     &&
-                    jobNames.Contains(property.PropertyType.FullName)
+                    taskNames.Contains(property.PropertyType.FullName)
                     &&
                     (property.GetValue(Owner, null) != null)
                     &&

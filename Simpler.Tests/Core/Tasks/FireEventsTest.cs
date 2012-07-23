@@ -62,57 +62,57 @@ namespace Simpler.Tests.Core.Tasks
         }
 
         [Test]
-        public void should_send_notifications_before_and_after_the_job_is_executed()
+        public void should_send_notifications_before_and_after_the_task_is_executed()
         {
             // Arrange
-            var job = new FireEvents();
+            var task = new FireEvents();
 
-            var jobWithAttributes = new MockTaskWithAttributes();
-            job.Task = jobWithAttributes;
+            var taskWithAttributes = new MockTaskWithAttributes();
+            task.Task = taskWithAttributes;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithAttributes.Run);
-            job.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Run);
+            task.Invocation = mockInvocation.Object;
 
             // Act
-            job.Run();
+            task.Run();
 
             // Assert
-            VerifyFiveCallbacks(jobWithAttributes);
+            VerifyFiveCallbacks(taskWithAttributes);
         }
 
         [Test]
-        public void should_send_notifications_if_job_execution_throws_an_unhandled_exception()
+        public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
         {
             // Arrange
-            var job = new FireEvents();
+            var task = new FireEvents();
 
-            var jobWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
-            job.Task = jobWithAttributesThatThrows;
+            var taskWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
+            task.Task = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithAttributesThatThrows.Run);
-            job.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Run);
+            task.Invocation = mockInvocation.Object;
 
             // Act
-            Assert.Throws(typeof(MockException), job.Run);
+            Assert.Throws(typeof(MockException), task.Run);
 
             // Assert
-            VerifySevenCallbacks(jobWithAttributesThatThrows);
+            VerifySevenCallbacks(taskWithAttributesThatThrows);
         }
 
         [Test]
-        public void should_send_notifications_after_the_job_is_executed_even_if_exception_occurs()
+        public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
         {
             // Arrange
-            var job = new FireEvents();
+            var task = new FireEvents();
 
-            var jobWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
-            job.Task = jobWithAttributesThatThrows;
+            var taskWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
+            task.Task = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithAttributesThatThrows.Run);
-            job.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Run);
+            task.Invocation = mockInvocation.Object;
 
             var throwHappened = false;
             try
@@ -120,12 +120,12 @@ namespace Simpler.Tests.Core.Tasks
                 try
                 {
                     // Act (this will throw an exception)
-                    job.Run();
+                    task.Run();
                 }
                 finally
                 {
                     // Assert
-                    VerifySevenCallbacks(jobWithAttributesThatThrows);
+                    VerifySevenCallbacks(taskWithAttributesThatThrows);
                 }
             }
             catch (MockException)
@@ -136,24 +136,24 @@ namespace Simpler.Tests.Core.Tasks
         }
 
         [Test]
-        public void should_allow_the_job_execution_to_be_overriden()
+        public void should_allow_the_task_execution_to_be_overriden()
         {
             // Arrange
-            var job = new FireEvents();
+            var task = new FireEvents();
 
-            var jobWithOverride = new MockTaskWithOverrideAttribute();
-            job.Task = jobWithOverride;
+            var taskWithOverride = new MockTaskWithOverrideAttribute();
+            task.Task = taskWithOverride;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(jobWithOverride.Run);
-            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(jobWithOverride);
-            job.Invocation = mockInvocation.Object;
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Run);
+            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
+            task.Invocation = mockInvocation.Object;
 
             // Act
-            job.Run();
+            task.Run();
 
             // Assert
-            Assert.That(jobWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
+            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
         }
     }
 }
