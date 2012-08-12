@@ -15,7 +15,7 @@ namespace Example.Model.Tasks
                 it =>
                 {
                     it.In.PlayerId = 1;
-                    it.Run();
+                    it.Execute();
                     var player = it.Out.Player;
 
                     Check.That(player.PlayerId == 1, "Expect {0} to be equal to 1.", player.PlayerId);
@@ -32,7 +32,7 @@ namespace Example.Model.Tasks
             public Player Player { get; set; }
         }
 
-        public override void Run()
+        public override void Execute()
         {
             const string sql = @"
                 select

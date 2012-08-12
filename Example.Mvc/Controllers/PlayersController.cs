@@ -10,7 +10,7 @@ namespace Example.Mvc.Controllers
         public ActionResult Index()
         {
             var fetch = Task.New<FetchPlayers>();
-            fetch.Run();
+            fetch.Execute();
             var model = fetch.Out;
 
             return View(model);
@@ -21,7 +21,7 @@ namespace Example.Mvc.Controllers
         {
             var fetch = Task.New<FetchPlayer>();
             fetch.In.PlayerId = id;
-            fetch.Run();
+            fetch.Execute();
             var model = fetch.Out.Player;
 
             return View(model);
@@ -32,7 +32,7 @@ namespace Example.Mvc.Controllers
         {
             var fetch = Task.New<FetchPlayer>();
             fetch.In.PlayerId = id;
-            fetch.Run();
+            fetch.Execute();
             var model = fetch.Out.Player;
 
             return View(model);
@@ -45,7 +45,7 @@ namespace Example.Mvc.Controllers
             {
                 var fetch = Task.New<FetchPlayer>();
                 fetch.In.PlayerId = model.Player.PlayerId.GetValueOrDefault();
-                fetch.Run();
+                fetch.Execute();
                 var editModel = fetch.Out;
 
                 return View("Edit", editModel);
@@ -53,7 +53,7 @@ namespace Example.Mvc.Controllers
 
             var update = Task.New<UpdatePlayer>();
             update.In.Player = model.Player;
-            update.Run();
+            update.Execute();
 
             return RedirectToAction("Show", new { id = model.Player.PlayerId });
         }

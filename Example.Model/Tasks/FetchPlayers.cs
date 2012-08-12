@@ -14,7 +14,7 @@ namespace Example.Model.Tasks
                 "return all players",
                 it =>
                 {
-                    it.Run();
+                    it.Execute();
                     var players = it.Out.Players;
 
                     Check.That(players.Length > 0, "Expected more than zero players to be returned.");
@@ -26,7 +26,7 @@ namespace Example.Model.Tasks
             public Player[] Players { get; set; }
         }
 
-        public override void Run()
+        public override void Execute()
         {
             const string sql = @"
                 select 

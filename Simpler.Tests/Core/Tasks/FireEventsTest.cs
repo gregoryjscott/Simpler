@@ -71,11 +71,11 @@ namespace Simpler.Tests.Core.Tasks
             task.Task = taskWithAttributes;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Run);
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
             task.Invocation = mockInvocation.Object;
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             VerifyFiveCallbacks(taskWithAttributes);
@@ -91,11 +91,11 @@ namespace Simpler.Tests.Core.Tasks
             task.Task = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Run);
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
             task.Invocation = mockInvocation.Object;
 
             // Act
-            Assert.Throws(typeof(MockException), task.Run);
+            Assert.Throws(typeof(MockException), task.Execute);
 
             // Assert
             VerifySevenCallbacks(taskWithAttributesThatThrows);
@@ -111,7 +111,7 @@ namespace Simpler.Tests.Core.Tasks
             task.Task = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Run);
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
             task.Invocation = mockInvocation.Object;
 
             var throwHappened = false;
@@ -120,7 +120,7 @@ namespace Simpler.Tests.Core.Tasks
                 try
                 {
                     // Act (this will throw an exception)
-                    task.Run();
+                    task.Execute();
                 }
                 finally
                 {
@@ -145,12 +145,12 @@ namespace Simpler.Tests.Core.Tasks
             task.Task = taskWithOverride;
 
             var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Run);
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
             mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
             task.Invocation = mockInvocation.Object;
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);

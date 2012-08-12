@@ -31,7 +31,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(param => param.ParameterName = "@Age");
@@ -60,7 +60,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] {"@Age"});
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(param => param.ParameterName = "@Age");
@@ -89,7 +89,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Name");
@@ -117,7 +117,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Name");
@@ -146,7 +146,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Whatever" });
 
             // Act & Assert
-            task.Run();
+            task.Execute();
 
             mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Never());
 
@@ -173,7 +173,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Age");
@@ -201,7 +201,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(parameter => parameter.ParameterName = "@Age");
@@ -230,7 +230,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(param => param.ParameterName = "@MockObject_Age");
@@ -259,7 +259,7 @@ namespace Simpler.Tests.Data.Tasks
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             mockDbDataParameter.VerifySet(param => param.ParameterName = "@MockObject_Age");

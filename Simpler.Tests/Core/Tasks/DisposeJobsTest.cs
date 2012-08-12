@@ -17,7 +17,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(mockSubTask.DisposeWasCalled, Is.True);
@@ -32,7 +32,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { "bogus" } };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(mockSubTask.DisposeWasCalled, Is.False);
@@ -46,7 +46,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(mockParentTask.MockSubClass, Is.Null);
@@ -60,7 +60,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { "bogus" } };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(mockParentTask.MockSubClass, Is.Not.Null);

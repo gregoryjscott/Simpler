@@ -12,7 +12,7 @@ namespace Simpler.Tests.Core.Mocks
         // Outputs
         public bool SubTaskWasInjected { get; private set; }
 
-        public override void Run()
+        public override void Execute()
         {
             SubTaskWasInjected = (MockSubClass != null);
         }

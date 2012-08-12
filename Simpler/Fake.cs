@@ -10,19 +10,19 @@ namespace Simpler
         {
             var createTask = Simpler.Task.New<CreateTask>();
             createTask.TaskType = typeof(TTask);
-            createTask.Run();
+            createTask.Execute();
 
             return (TTask)createTask.TaskInstance;
         }
 
-        public static TTask Task<TTask>(Action<TTask> run)
+        public static TTask Task<TTask>(Action<TTask> execute)
         {
-            var interceptor = new RunInterceptor(invocation => run((TTask)invocation.InvocationTarget));
+            var interceptor = new ExecuteInterceptor(invocation => execute((TTask)invocation.InvocationTarget));
 
             var createTask = Simpler.Task.New<CreateTask>();
             createTask.TaskType = typeof(TTask);
-            createTask.RunInterceptor = interceptor;
-            createTask.Run();
+            createTask.ExecuteInterceptor = interceptor;
+            createTask.Execute();
 
             return (TTask)createTask.TaskInstance;
         }

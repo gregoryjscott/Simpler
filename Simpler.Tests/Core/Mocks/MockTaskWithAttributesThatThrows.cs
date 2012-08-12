@@ -3,9 +3,9 @@ namespace Simpler.Tests.Core.Mocks
     [MockFirst, MockSecond]
     public class MockTaskWithAttributesThatThrows : MockTaskWithAttributes
     {
-        public override void Run()
+        public override void Execute()
         {
-            base.Run();
+            base.Execute();
             throw new MockException();
         }
     }

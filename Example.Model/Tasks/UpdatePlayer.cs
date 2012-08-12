@@ -24,11 +24,11 @@ namespace Example.Model.Tasks
                         };
 
                     it.In.Player = player;
-                    it.Run();
+                    it.Execute();
 
                     var fetch = New<FetchPlayer>();
                     fetch.In.PlayerId = player.PlayerId.GetValueOrDefault();
-                    fetch.Run();
+                    fetch.Execute();
                     var updatedPlayer = fetch.Out.Player;
 
                     Check.That(updatedPlayer.LastName == "Different",
@@ -41,7 +41,7 @@ namespace Example.Model.Tasks
             public Player Player { get; set; }
         }
 
-        public override void Run()
+        public override void Execute()
         {
             const string sql = @"
                 update Player

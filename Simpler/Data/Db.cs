@@ -34,7 +34,7 @@ namespace Simpler.Data
                 {
                     var fetchMany = Task.New<FetchMany<T>>();
                     fetchMany.In.SelectCommand = command;
-                    fetchMany.Run();
+                    fetchMany.Execute();
                     many = fetchMany.Out.ObjectsFetched;
                 };
 
@@ -43,7 +43,7 @@ namespace Simpler.Data
             execute.In.Sql = sql;
             execute.In.Values = values;
             execute.In.Action = action;
-            execute.Run();
+            execute.Execute();
 
             return many;
         }
@@ -57,7 +57,7 @@ namespace Simpler.Data
                     {
                         var fetchMany = Task.New<FetchMany<T>>();
                         fetchMany.In.SelectCommand = command;
-                        fetchMany.Run();
+                        fetchMany.Execute();
                         one = fetchMany.Out.ObjectsFetched.Single();
                     };
 
@@ -66,7 +66,7 @@ namespace Simpler.Data
             execute.In.Sql = sql;
             execute.In.Values = values;
             execute.In.Action = action;
-            execute.Run();
+            execute.Execute();
 
             return one;
         }
@@ -86,7 +86,7 @@ namespace Simpler.Data
             execute.In.Sql = sql;
             execute.In.Values = values;
             execute.In.Action = action;
-            execute.Run();
+            execute.Execute();
 
             return result;
         }
@@ -101,12 +101,12 @@ namespace Simpler.Data
                     scalar = command.ExecuteScalar();
                 };
 
-            var runAction = Task.New<ExecuteAction>();
-            runAction.In.Connection = connection;
-            runAction.In.Sql = sql;
-            runAction.In.Values = values;
-            runAction.In.Action = action;
-            runAction.Run();
+            var executeAction = Task.New<ExecuteAction>();
+            executeAction.In.Connection = connection;
+            executeAction.In.Sql = sql;
+            executeAction.In.Values = values;
+            executeAction.In.Action = action;
+            executeAction.Execute();
 
             return scalar;
         }

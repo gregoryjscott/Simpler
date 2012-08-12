@@ -10,7 +10,7 @@ namespace Simpler
         public static T New<T>()
         {
             var createTask = new CreateTask { TaskType = typeof(T) };
-            createTask.Run();
+            createTask.Execute();
             return (T)createTask.TaskInstance;
         }
 
@@ -25,6 +25,6 @@ namespace Simpler
             }
         }
 
-        public abstract void Run();
+        public abstract void Execute();
     }
 }

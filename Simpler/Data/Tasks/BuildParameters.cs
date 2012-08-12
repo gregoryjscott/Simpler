@@ -18,13 +18,13 @@ namespace Simpler.Data.Tasks
         // Sub-tasks
         public virtual FindParameters FindParameters { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
             // Create the sub-tasks.
             if (FindParameters == null) FindParameters = new FindParameters();
 
             FindParameters.In.CommandText = Command.CommandText;
-            FindParameters.Run();
+            FindParameters.Execute();
 
             foreach (var parameterNameX in FindParameters.Out.ParameterNames)
             {

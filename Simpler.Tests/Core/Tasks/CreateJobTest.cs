@@ -14,7 +14,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new CreateTask { TaskType = typeof(MockTask) };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(task.TaskInstance, Is.InstanceOf<MockTask>());
@@ -28,7 +28,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new CreateTask { TaskType = typeof(MockTaskWithAttributes) };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(task.TaskInstance, Is.InstanceOf<MockTaskWithAttributes>());

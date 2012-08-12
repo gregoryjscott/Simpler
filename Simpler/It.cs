@@ -8,7 +8,7 @@ namespace Simpler
         public static void Should(string expectation, Action<TTask> action)
         {
             var createTask = new CreateTask { TaskType = typeof(TTask) };
-            createTask.Run();
+            createTask.Execute();
             var task = (TTask)createTask.TaskInstance;
 
             try

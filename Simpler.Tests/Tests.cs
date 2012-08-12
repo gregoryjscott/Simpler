@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Simpler.Data.Tasks;
-using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests
 {
@@ -9,16 +8,6 @@ namespace Simpler.Tests
     {
         [Test]
         public void Assembly() { Describe.Assembly("Simpler"); }
-
-        [Test]
-        public void RunClassTest()
-        {
-            var name = Run<MockInOutTask>
-                .Set(In => In.Name = "something")
-                .Get().MockObject.Name;
-
-            Check.That(name == "something", "Expected name to be 'something'.");
-        }
     }
 
     [TestFixture]

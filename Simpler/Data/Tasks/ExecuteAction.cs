@@ -19,7 +19,7 @@ namespace Simpler.Data.Tasks
                     it.In.Action = command => { if (command != null) actionWasPassedACommand = true; };
                     it.BuildParameters = Fake.Task<BuildParameters>();
 
-                    it.Run();
+                    it.Execute();
 
                     Check.That(actionWasPassedACommand, "The given action should have been passed a command object.");
                 });
@@ -35,7 +35,7 @@ namespace Simpler.Data.Tasks
                     it.In.Action = command => { };
                     it.BuildParameters = Fake.Task<BuildParameters>(task => buildParametersCalled = true);
 
-                    it.Run();
+                    it.Execute();
 
                     Check.That(buildParametersCalled, "Expected parameters to be built using given values.");
                 });
@@ -51,7 +51,7 @@ namespace Simpler.Data.Tasks
 
         public BuildParameters BuildParameters { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
             Check.That(!String.IsNullOrEmpty(In.Sql), "Sql property must be set.");
 
@@ -69,7 +69,7 @@ namespace Simpler.Data.Tasks
                 {
                     BuildParameters.Command = command;
                     BuildParameters.Values = In.Values;
-                    BuildParameters.Run();
+                    BuildParameters.Execute();
                 }
 
                 In.Action(command);

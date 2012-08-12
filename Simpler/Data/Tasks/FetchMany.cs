@@ -27,7 +27,7 @@ namespace Simpler.Data.Tasks
                         it.In.SelectCommand = mockSelectCommand.Object;
 
                         // Act
-                        it.Run();
+                        it.Execute();
 
                         // Assert
                         Assert.That(it.Out.ObjectsFetched.Count(), Is.EqualTo(2));
@@ -48,7 +48,7 @@ namespace Simpler.Data.Tasks
 
         public virtual BuildObject<T> BuildObject { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
             var objectList = new List<T>();
 
@@ -57,7 +57,7 @@ namespace Simpler.Data.Tasks
                 while (dataReader.Read())
                 {
                     BuildObject.In.DataRecord = dataReader;
-                    BuildObject.Run();
+                    BuildObject.Execute();
                     var newObject = BuildObject.Out.Object;
 
                     objectList.Add(newObject);

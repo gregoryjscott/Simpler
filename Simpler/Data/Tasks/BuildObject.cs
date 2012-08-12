@@ -15,7 +15,7 @@ namespace Simpler.Data.Tasks
                 it =>
                 {
                     it.In.DataRecord = new Mock<IDataRecord>().Object;
-                    it.Run();
+                    it.Execute();
 
                     Assert.That(it.Out.Object, Is.InstanceOf(typeof(MockObject)));
                 });
@@ -32,7 +32,7 @@ namespace Simpler.Data.Tasks
                     mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
 
                     it.In.DataRecord = mockDataRecord.Object;
-                    it.Run();
+                    it.Execute();
 
                     Assert.That(it.Out.Object.Name, Is.EqualTo("John Doe"));
                     Assert.That(it.Out.Object.Age, Is.EqualTo(21));
@@ -49,7 +49,7 @@ namespace Simpler.Data.Tasks
 
                     it.In.DataRecord = mockDataRecord.Object;
 
-                    Assert.Throws(typeof(CheckException), it.Run);
+                    Assert.Throws(typeof(CheckException), it.Execute);
                 });
 
             It<BuildObject<MockObject>>.Should(
@@ -62,7 +62,7 @@ namespace Simpler.Data.Tasks
                     mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
 
                     it.In.DataRecord = mockDataRecord.Object;
-                    it.Run();
+                    it.Execute();
 
                     Assert.That(it.Out.Object.Name, Is.EqualTo("John Doe"));
                     Assert.That(it.Out.Object.Age, Is.Null);
@@ -79,7 +79,7 @@ namespace Simpler.Data.Tasks
             public virtual T Object { get; set; }
         }
 
-        public override void Run()
+        public override void Execute()
         {
             Out.Object = (T)Activator.CreateInstance(typeof(T));
             var objectType = typeof(T);

@@ -10,7 +10,7 @@ namespace Simpler.Core.Tasks
         public virtual Task Owner { get; set; }
         public virtual string[] InjectedTaskNames { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
             var taskNames = new List<string>(InjectedTaskNames);
             var properties = Owner.GetType().GetProperties();

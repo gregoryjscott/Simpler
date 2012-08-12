@@ -67,7 +67,7 @@
     <Compile Include="It.cs" />
     <Compile Include="CheckException.cs" />
     <Compile Include="Core\InjectJobsAttribute.cs" />
-    <Compile Include="Core\RunInterceptor.cs" />
+    <Compile Include="Core\ExecuteInterceptor.cs" />
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
     <Compile Include="Core\Tasks\InjectTasks.cs" />
     <Compile Include="Data\Tasks\BuildParameters.cs" />
@@ -84,7 +84,6 @@
     <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Describe.cs" />
-    <Compile Include="Run.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

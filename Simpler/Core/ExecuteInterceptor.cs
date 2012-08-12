@@ -3,9 +3,9 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core
 {
-    public class RunInterceptor : IInterceptor
+    public class ExecuteInterceptor : IInterceptor
     {
-        public RunInterceptor(Action<IInvocation> action)
+        public ExecuteInterceptor(Action<IInvocation> action)
         {
             _action = action;
         }
@@ -14,7 +14,7 @@ namespace Simpler.Core
 
         public void Intercept(IInvocation invocation)
         {
-            if (invocation.Method.Name.Equals("Run"))
+            if (invocation.Method.Name.Equals("Execute"))
             {
                 _action(invocation);
             }

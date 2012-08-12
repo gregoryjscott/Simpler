@@ -6,11 +6,11 @@ namespace Simpler.Tests.Core.Mocks
 {
     public class MockOverrideAttribute : OverrideAttribute
     {
-        public override void RunOverride(IInvocation run)
+        public override void ExecuteOverride(IInvocation execute)
         {
-            ((MockTaskWithOverrideAttribute)run.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
+            ((MockTaskWithOverrideAttribute)execute.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
             Thread.Sleep(100);
-            run.Proceed();
+            execute.Proceed();
         }
     }
 }

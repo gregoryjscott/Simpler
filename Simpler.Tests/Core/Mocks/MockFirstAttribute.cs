@@ -4,12 +4,12 @@ namespace Simpler.Tests.Core.Mocks
 {
     public class MockFirstAttribute : EventsAttribute
     {
-        public override void BeforeRun(Task task)
+        public override void BeforeExecute(Task task)
         {
             ((MockTaskWithAttributes)task).CallbackQueue.Enqueue("First.Before");
         }
 
-        public override void AfterRun(Task task)
+        public override void AfterExecute(Task task)
         {
             ((MockTaskWithAttributes)task).CallbackQueue.Enqueue("First.After");
         }

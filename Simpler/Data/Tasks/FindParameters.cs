@@ -16,7 +16,7 @@ namespace Simpler.Data.Tasks
                         @"
                         select whatever from table where something = @something and something_else is true
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
@@ -30,7 +30,7 @@ namespace Simpler.Data.Tasks
                         @"
                         select whatever from table where something = :something and something_else is true
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == ":something",
                                "Parameter name was not :something as expected.");
@@ -44,7 +44,7 @@ namespace Simpler.Data.Tasks
                         @"
                         select whatever from table where something = @some_thing and something_else is true
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@some_thing",
                                "Parameter name was not @some_thing as expected.");
@@ -58,7 +58,7 @@ namespace Simpler.Data.Tasks
                         @"
                         select whatever from table where something = @complex.object and something_else is true
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@complex.object",
                                "Parameter name was not @complex.object as expected.");
@@ -72,7 +72,7 @@ namespace Simpler.Data.Tasks
                         @"
                         select whatever from table where something = @some1thing1 and something_else is true
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@some1thing1",
                                "Parameter name was not @some1thing1 as expected.");
@@ -86,7 +86,7 @@ namespace Simpler.Data.Tasks
                         @"
                         insert into table set something = @something, something_else = 'whatever'
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected");
@@ -107,7 +107,7 @@ namespace Simpler.Data.Tasks
                         ";
 
                     it.In.CommandText = sql;
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
                                "First parameter should be @something.");
@@ -120,7 +120,7 @@ namespace Simpler.Data.Tasks
                 it =>
                 {
                     it.In.CommandText = @"select whatever from table where something = @something";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
@@ -134,7 +134,7 @@ namespace Simpler.Data.Tasks
                         @"
                         select whatever from table where something = @something and somethingelsealso = @something
                         ";
-                    it.Run();
+                    it.Execute();
 
                     Check.That(it.Out.ParameterNames[0] == "@something",
                                "Parameter name was not @something as expected.");
@@ -153,7 +153,7 @@ namespace Simpler.Data.Tasks
             public string[] ParameterNames { get; set; }
         }
 
-        public override void Run()
+        public override void Execute()
         {
             var regularExpression = new StringBuilder();
 

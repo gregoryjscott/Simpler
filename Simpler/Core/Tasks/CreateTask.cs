@@ -9,28 +9,28 @@ namespace Simpler.Core.Tasks
 
         // Inputs
         public virtual Type TaskType { get; set; }
-        public RunInterceptor RunInterceptor { get; set; }
+        public ExecuteInterceptor ExecuteInterceptor { get; set; }
 
         // Outputs
         public virtual object TaskInstance { get; private set; }
 
         public FireEvents FireEvents { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
-            if (RunInterceptor == null)
+            if (ExecuteInterceptor == null)
             {
-                RunInterceptor = new RunInterceptor(
+                ExecuteInterceptor = new ExecuteInterceptor(
                     invocation =>
                         {
                             if (FireEvents == null) FireEvents = new FireEvents();
                             FireEvents.Task = (Task)invocation.InvocationTarget;
                             FireEvents.Invocation = invocation;
-                            FireEvents.Run();
+                            FireEvents.Execute();
                         });
             }
 
-            TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, RunInterceptor);
+            TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, ExecuteInterceptor);
         }
     }
 }

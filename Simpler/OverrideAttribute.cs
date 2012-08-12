@@ -6,6 +6,6 @@ namespace Simpler
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public abstract class OverrideAttribute : Attribute
     {
-        public abstract void RunOverride(IInvocation run);
+        public abstract void ExecuteOverride(IInvocation execute);
     }
 }

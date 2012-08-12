@@ -81,7 +81,7 @@ namespace Simpler
         static void DescribeTask(Type taskType)
         {
             var createTask = new CreateTask {TaskType = taskType};
-            createTask.Run();
+            createTask.Execute();
             var task = (Task) createTask.TaskInstance;
 
             Console.WriteLine("  " + task.Name);

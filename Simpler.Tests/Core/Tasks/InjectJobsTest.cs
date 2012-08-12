@@ -16,7 +16,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new InjectTasks { TaskContainingSubTasks = mockParentTask };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(mockParentTask.MockSubClass, Is.Not.Null);
@@ -31,7 +31,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new InjectTasks { TaskContainingSubTasks = mockParentTask };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(task.InjectedSubTaskPropertyNames.Length, Is.EqualTo(0));
@@ -45,7 +45,7 @@ namespace Simpler.Tests.Core.Tasks
             var task = new InjectTasks { TaskContainingSubTasks = mockParentTask };
 
             // Act
-            task.Run();
+            task.Execute();
 
             // Assert
             Assert.That(task.InjectedSubTaskPropertyNames[0], Is.EqualTo(typeof(MockSubTask<DateTime>).FullName));

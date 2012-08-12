@@ -13,7 +13,7 @@ namespace Simpler.Core.Tasks
         // Sub-tasks
         public CreateTask CreateTask { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
             if (CreateTask == null) CreateTask = new CreateTask();
 
@@ -27,7 +27,7 @@ namespace Simpler.Core.Tasks
                     (propertyX.CanWrite && propertyX.GetValue(TaskContainingSubTasks, null) == null))
                 {
                     CreateTask.TaskType = propertyX.PropertyType;
-                    CreateTask.Run();
+                    CreateTask.Execute();
 
                     propertyX.SetValue(TaskContainingSubTasks, CreateTask.TaskInstance, null);
 

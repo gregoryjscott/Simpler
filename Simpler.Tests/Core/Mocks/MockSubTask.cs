@@ -4,7 +4,7 @@ namespace Simpler.Tests.Core.Mocks
 {
 	public class MockSubTask<T> : Task, IDisposable
 	{
-        public override void Run()
+        public override void Execute()
         {
             throw new System.NotImplementedException();
         }

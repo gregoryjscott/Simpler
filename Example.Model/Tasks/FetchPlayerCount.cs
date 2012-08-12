@@ -13,7 +13,7 @@ namespace Example.Model.Tasks
                 "return player count",
                 it =>
                 {
-                    it.Run();
+                    it.Execute();
                     var count = it.Out;
 
                     Check.That(count > 0,
@@ -26,7 +26,7 @@ namespace Example.Model.Tasks
             public int Count { get; set; }
         }
 
-        public override void Run()
+        public override void Execute()
         {
             const string sql = @"
                 select

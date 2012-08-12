@@ -13,7 +13,7 @@ namespace Example.Nancy.Modules
                 _ =>
                     {
                         var fetch = Task.New<FetchPlayers>();
-                        fetch.Run();
+                        fetch.Execute();
                         var model = fetch.Out;
 
                         return View["Views/Players/Index.html", model];
@@ -46,7 +46,7 @@ namespace Example.Nancy.Modules
 
                         var update = Task.New<UpdatePlayer>();
                         update.In = input;
-                        update.Run();
+                        update.Execute();
 
                         return Response.AsRedirect(string.Format("/players/{0}", input.Player.PlayerId));
                     };

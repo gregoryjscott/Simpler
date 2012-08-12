@@ -6,7 +6,7 @@ namespace Simpler.Tests.Core.Mocks
     {
         public new MockObject In { get { return base.In; } set { base.In = value; } }
 
-        public override void Run()
+        public override void Execute()
         {
             Out.MockObject = In;
         }

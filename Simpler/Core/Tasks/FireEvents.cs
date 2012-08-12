@@ -9,7 +9,7 @@ namespace Simpler.Core.Tasks
         public virtual Task Task { get; set; }
         public virtual IInvocation Invocation { get; set; }
 
-        public override void Run()
+        public override void Execute()
         {
             var callbackAttributes = Attribute.GetCustomAttributes(Task.GetType(), typeof (EventsAttribute));
             var overrideAttribute = Attribute.GetCustomAttribute(Task.GetType(), typeof (OverrideAttribute));
@@ -18,12 +18,12 @@ namespace Simpler.Core.Tasks
             {
                 foreach (var callbackAttribute in callbackAttributes)
                 {
-                    ((EventsAttribute)callbackAttribute).BeforeRun(Task);
+                    ((EventsAttribute)callbackAttribute).BeforeExecute(Task);
                 }
 
                 if (overrideAttribute != null)
                 {
-                    ((OverrideAttribute)overrideAttribute).RunOverride(Invocation);
+                    ((OverrideAttribute)overrideAttribute).ExecuteOverride(Invocation);
                 }
                 else
                 {
@@ -43,7 +43,7 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).AfterRun(Task);
+                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(Task);
                 }
             }
         }
