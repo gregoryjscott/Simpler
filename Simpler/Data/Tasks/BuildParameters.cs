@@ -8,11 +8,11 @@ namespace Simpler.Data.Tasks
     {
         public class Input
         {
-            public virtual IDbCommand Command { get; set; }
-            public virtual object Values { get; set; }
+            public IDbCommand Command { get; set; }
+            public object Values { get; set; }
         }
 
-        public virtual FindParameters FindParameters { get; set; }
+        public FindParameters FindParameters { get; set; }
 
         public override void Execute()
         {

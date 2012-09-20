@@ -7,15 +7,15 @@ namespace Simpler.Data.Tasks
     {
         public class Input
         {
-            public virtual IDbCommand SelectCommand { get; set; }
+            public IDbCommand SelectCommand { get; set; }
         }
 
         public class Output
         {
-            public virtual T[] ObjectsFetched { get; set; }
+            public T[] ObjectsFetched { get; set; }
         }
 
-        public virtual BuildObject<T> BuildObject { get; set; }
+        public BuildObject<T> BuildObject { get; set; }
 
         public override void Execute()
         {

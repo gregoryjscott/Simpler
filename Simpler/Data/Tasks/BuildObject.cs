@@ -7,12 +7,12 @@ namespace Simpler.Data.Tasks
     {
         public class Input
         {
-            public virtual IDataRecord DataRecord { get; set; }
+            public IDataRecord DataRecord { get; set; }
         }
 
         public class Output
         {
-            public virtual T Object { get; set; }
+            public T Object { get; set; }
         }
 
         public override void Execute()
