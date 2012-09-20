@@ -137,6 +137,30 @@ namespace Simpler.Tests.Data.Tasks
         }
 
         [Test]
+        public void should_ignore_parameters_found_in_the_command_text_without_matching_properties_in_the_anonymous_object()
+        {
+            // Arrange
+            var task = Task.New<BuildParameters>();
+
+            var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
+            var mockDbDataParameter = new Mock<IDbDataParameter>();
+            mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
+            task.In.Command = mockDbCommand.Object;
+
+            var mockObject = new { Name = "John Doe", Age = 21 };
+            task.In.Values = mockObject;
+
+            task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Whatever" });
+
+            // Act & Assert
+            task.Execute();
+
+            mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Never());
+
+        }
+
+        [Test]
         public void should_set_parameter_to_dbnull_if_value_found_in_the_matching_property_of_the_static_object_is_null()
         {
             // Arrange
@@ -163,7 +187,7 @@ namespace Simpler.Tests.Data.Tasks
         }
 
         [Test]
-        public void should_set_parameter_to_dbnull_if_a_matching_property_is_not_found_in_the_anonymous_object()
+        public void should_set_parameter_to_dbnull_if_value_found_in_the_matching_property_of_the_anonymous_object_is_dbnull()
         {
             // Arrange
             var task = Task.New<BuildParameters>();
@@ -174,7 +198,7 @@ namespace Simpler.Tests.Data.Tasks
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
             task.In.Command = mockDbCommand.Object;
 
-            task.In.Values = new { NotAge = "A" };
+            task.In.Values = new { Age = DBNull.Value };
 
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
 
