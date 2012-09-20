@@ -64,11 +64,14 @@
     <Compile Include="Core\Mocks\MockParentTask.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubTask.cs" />
+    <Compile Include="Data\Tasks\BuildObjectTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeJobsTest.cs" />
     <Compile Include="Core\Tasks\InjectJobsTest.cs" />
     <Compile Include="Core\Tasks\FireEventsTest.cs" />
     <Compile Include="Core\Tasks\CreateJobTest.cs" />
+    <Compile Include="Data\Tasks\FetchManyTest.cs" />
+    <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
