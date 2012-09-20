@@ -6,36 +6,6 @@ namespace Example.Model.Tasks
 {
     public class UpdatePlayer : InTask<UpdatePlayer.Input>
     {
-        public override void Specs()
-        {
-            Config.SetDataDirectory();
-
-            It<UpdatePlayer>.Should(
-                "update player",
-                it =>
-                {
-                    var player =
-                        new Player
-                        {
-                            PlayerId = 1,
-                            FirstName = "Something",
-                            LastName = "Different",
-                            TeamId = 2
-                        };
-
-                    it.In.Player = player;
-                    it.Execute();
-
-                    var fetch = New<FetchPlayer>();
-                    fetch.In.PlayerId = player.PlayerId.GetValueOrDefault();
-                    fetch.Execute();
-                    var updatedPlayer = fetch.Out.Player;
-
-                    Check.That(updatedPlayer.LastName == "Different",
-                        "Expected LastName to be Different.");
-                });
-        }
-
         public class Input
         {
             public Player Player { get; set; }

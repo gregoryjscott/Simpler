@@ -5,8 +5,6 @@ namespace Simpler
 {
     public abstract class Task
     {
-        public virtual void Specs() { throw new NoSpecsException(); }
-
         public static T New<T>()
         {
             var createTask = new CreateTask { TaskType = typeof(T) };

@@ -6,22 +6,6 @@ namespace Example.Model.Tasks
 {
     public class FetchPlayer : InOutTask<FetchPlayer.Input, FetchPlayer.Output>
     {
-        public override void Specs()
-        {
-            Config.SetDataDirectory();
-
-            It<FetchPlayer>.Should(
-                "return player identified by given id",
-                it =>
-                {
-                    it.In.PlayerId = 1;
-                    it.Execute();
-                    var player = it.Out.Player;
-
-                    Check.That(player.PlayerId == 1, "Expect {0} to be equal to 1.", player.PlayerId);
-                });
-        }
-
         public class Input
         {
             public int PlayerId { get; set; }

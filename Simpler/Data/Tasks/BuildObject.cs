@@ -1,74 +1,10 @@
 ﻿using System;
 using System.Data;
-using Moq;
-using NUnit.Framework;
-using Simpler.Core.Mocks;
 
 namespace Simpler.Data.Tasks
 {
     public class BuildObject<T> : InOutTask<BuildObject<T>.Input, BuildObject<T>.Output> 
     {
-        public override void Specs()
-        {
-            It<BuildObject<MockObject>>.Should(
-                "create an instance of given object type",
-                it =>
-                {
-                    it.In.DataRecord = new Mock<IDataRecord>().Object;
-                    it.Execute();
-
-                    Assert.That(it.Out.Object, Is.InstanceOf(typeof(MockObject)));
-                });
-
-            It<BuildObject<MockObject>>.Should(
-                "populate object using all columns in the data record",
-                it =>
-                {
-                    var mockDataRecord = new Mock<IDataRecord>();
-                    mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(2);
-                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
-                    mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
-                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(1)).Returns("Age");
-                    mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
-
-                    it.In.DataRecord = mockDataRecord.Object;
-                    it.Execute();
-
-                    Assert.That(it.Out.Object.Name, Is.EqualTo("John Doe"));
-                    Assert.That(it.Out.Object.Age, Is.EqualTo(21));
-                });
-
-            It<BuildObject<MockObject>>.Should(
-                "throw exception if a data record column is not a property of the object class",
-                it =>
-                {
-                    var mockDataRecord = new Mock<IDataRecord>();
-                    mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
-                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("SomeOtherColumn");
-                    mockDataRecord.Setup(dataRecord => dataRecord["SomeOtherColumn"]).Returns("whatever");
-
-                    it.In.DataRecord = mockDataRecord.Object;
-
-                    Assert.Throws(typeof(CheckException), it.Execute);
-                });
-
-            It<BuildObject<MockObject>>.Should(
-                "allow object to have properties w/o matching columns in record",
-                it =>
-                {
-                    var mockDataRecord = new Mock<IDataRecord>();
-                    mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
-                    mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
-                    mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
-
-                    it.In.DataRecord = mockDataRecord.Object;
-                    it.Execute();
-
-                    Assert.That(it.Out.Object.Name, Is.EqualTo("John Doe"));
-                    Assert.That(it.Out.Object.Age, Is.Null);
-                });
-        }
-
         public class Input
         {
             public virtual IDataRecord DataRecord { get; set; }

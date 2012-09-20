@@ -6,11 +6,6 @@ namespace Simpler.Data.Tasks
 {
     public class BuildParameters : Task
     {
-        public override void Specs()
-        {
-            // todo
-        }
-
         // Inputs
         public virtual IDbCommand Command { get; set; }
         public virtual object Values { get; set; }

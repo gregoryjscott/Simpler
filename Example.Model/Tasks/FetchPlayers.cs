@@ -6,21 +6,6 @@ namespace Example.Model.Tasks
 {
     public class FetchPlayers : OutTask<FetchPlayers.Output>
     {
-        public override void Specs()
-        {
-            Config.SetDataDirectory();
-
-            It<FetchPlayers>.Should(
-                "return all players",
-                it =>
-                {
-                    it.Execute();
-                    var players = it.Out.Players;
-
-                    Check.That(players.Length > 0, "Expected more than zero players to be returned.");
-                });
-        }
-
         public class Output
         {
             public Player[] Players { get; set; }
