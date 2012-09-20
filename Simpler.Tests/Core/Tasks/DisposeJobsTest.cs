@@ -14,7 +14,7 @@ namespace Simpler.Tests.Core.Tasks
             // Arrange
             var mockSubTask = new MockSubTask<DateTime>();
             var mockParentTask = new MockParentTask { MockSubClass = mockSubTask };
-            var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
+            var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { typeof(MockSubTask<DateTime>).FullName } } };
 
             // Act
             task.Execute();
@@ -29,7 +29,7 @@ namespace Simpler.Tests.Core.Tasks
             // Arrange
             var mockSubTask = new MockSubTask<DateTime>();
             var mockParentTask = new MockParentTask { MockSubClass = mockSubTask };
-            var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { "bogus" } };
+            var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { "bogus" } } };
 
             // Act
             task.Execute();
@@ -43,7 +43,7 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockParentTask = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
-            var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { typeof(MockSubTask<DateTime>).FullName } };
+            var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { typeof(MockSubTask<DateTime>).FullName } } };
 
             // Act
             task.Execute();
@@ -57,7 +57,7 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockParentTask = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
-            var task = new DisposeTasks { Owner = mockParentTask, InjectedTaskNames = new string[] { "bogus" } };
+            var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { "bogus" } } };
 
             // Act
             task.Execute();

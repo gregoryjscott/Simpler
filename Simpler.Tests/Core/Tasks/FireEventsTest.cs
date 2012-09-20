@@ -68,11 +68,11 @@ namespace Simpler.Tests.Core.Tasks
             var task = new FireEvents();
 
             var taskWithAttributes = new MockTaskWithAttributes();
-            task.Task = taskWithAttributes;
+            task.In.Task = taskWithAttributes;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
-            task.Invocation = mockInvocation.Object;
+            task.In.Invocation = mockInvocation.Object;
 
             // Act
             task.Execute();
@@ -88,11 +88,11 @@ namespace Simpler.Tests.Core.Tasks
             var task = new FireEvents();
 
             var taskWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
-            task.Task = taskWithAttributesThatThrows;
+            task.In.Task = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.Invocation = mockInvocation.Object;
+            task.In.Invocation = mockInvocation.Object;
 
             // Act
             Assert.Throws(typeof(MockException), task.Execute);
@@ -108,11 +108,11 @@ namespace Simpler.Tests.Core.Tasks
             var task = new FireEvents();
 
             var taskWithAttributesThatThrows = new MockTaskWithAttributesThatThrows();
-            task.Task = taskWithAttributesThatThrows;
+            task.In.Task = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.Invocation = mockInvocation.Object;
+            task.In.Invocation = mockInvocation.Object;
 
             var throwHappened = false;
             try
@@ -142,12 +142,12 @@ namespace Simpler.Tests.Core.Tasks
             var task = new FireEvents();
 
             var taskWithOverride = new MockTaskWithOverrideAttribute();
-            task.Task = taskWithOverride;
+            task.In.Task = taskWithOverride;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
             mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
-            task.Invocation = mockInvocation.Object;
+            task.In.Invocation = mockInvocation.Object;
 
             // Act
             task.Execute();

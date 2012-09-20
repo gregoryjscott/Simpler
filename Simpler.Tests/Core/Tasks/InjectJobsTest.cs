@@ -13,7 +13,7 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockParentTask = new MockParentTask();
-            var task = new InjectTasks { TaskContainingSubTasks = mockParentTask };
+            var task = new InjectTasks { In = { TaskContainingSubTasks = mockParentTask } };
 
             // Act
             task.Execute();
@@ -28,13 +28,13 @@ namespace Simpler.Tests.Core.Tasks
             // Arrange
             var mockDifferentSubTask = new MockSubTask<DateTime>();
             var mockParentTask = new MockParentTask { MockSubClass = mockDifferentSubTask };
-            var task = new InjectTasks { TaskContainingSubTasks = mockParentTask };
+            var task = new InjectTasks { In = { TaskContainingSubTasks = mockParentTask } };
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(task.InjectedSubTaskPropertyNames.Length, Is.EqualTo(0));
+            Assert.That(task.Out.InjectedSubTaskPropertyNames.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -42,13 +42,13 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockParentTask = new MockParentTask();
-            var task = new InjectTasks { TaskContainingSubTasks = mockParentTask };
+            var task = new InjectTasks { In = { TaskContainingSubTasks = mockParentTask } };
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(task.InjectedSubTaskPropertyNames[0], Is.EqualTo(typeof(MockSubTask<DateTime>).FullName));
+            Assert.That(task.Out.InjectedSubTaskPropertyNames[0], Is.EqualTo(typeof(MockSubTask<DateTime>).FullName));
         }
     }
 }

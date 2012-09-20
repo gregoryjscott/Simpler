@@ -3,34 +3,38 @@ using System;
 
 namespace Simpler.Core.Tasks
 {
-    public class CreateTask : Task
+    public class CreateTask : InOutTask<CreateTask.Input, CreateTask.Output>
     {
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
-        // Inputs
-        public virtual Type TaskType { get; set; }
-        public ExecuteInterceptor ExecuteInterceptor { get; set; }
+        public class Input
+        {
+            public Type TaskType { get; set; }
+            public ExecuteInterceptor ExecuteInterceptor { get; set; }
+        }
 
-        // Outputs
-        public virtual object TaskInstance { get; private set; }
+        public class Output
+        {
+            public object TaskInstance { get; set; }
+        }
 
         public FireEvents FireEvents { get; set; }
 
         public override void Execute()
         {
-            if (ExecuteInterceptor == null)
+            if (In.ExecuteInterceptor == null)
             {
-                ExecuteInterceptor = new ExecuteInterceptor(
+                In.ExecuteInterceptor = new ExecuteInterceptor(
                     invocation =>
                         {
                             if (FireEvents == null) FireEvents = new FireEvents();
-                            FireEvents.Task = (Task)invocation.InvocationTarget;
-                            FireEvents.Invocation = invocation;
+                            FireEvents.In.Task = (Task)invocation.InvocationTarget;
+                            FireEvents.In.Invocation = invocation;
                             FireEvents.Execute();
                         });
             }
 
-            TaskInstance = ProxyGenerator.CreateClassProxy(TaskType, ExecuteInterceptor);
+            Out.TaskInstance = ProxyGenerator.CreateClassProxy(In.TaskType, In.ExecuteInterceptor);
         }
     }
 }

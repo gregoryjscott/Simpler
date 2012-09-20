@@ -2,13 +2,17 @@ using System.Collections.Generic;
 
 namespace Simpler.Core.Tasks
 {
-    public class InjectTasks : Task
+    public class InjectTasks : InOutTask<InjectTasks.Input, InjectTasks.Output>
     {
-        // Inputs
-        public virtual Task TaskContainingSubTasks { get; set; }
+        public class Input
+        {
+            public Task TaskContainingSubTasks { get; set; }
+        }
 
-        // Outputs
-        public virtual string[] InjectedSubTaskPropertyNames { get; private set; }
+        public class Output
+        {
+            public string[] InjectedSubTaskPropertyNames { get; set; }
+        }
 
         // Sub-tasks
         public CreateTask CreateTask { get; set; }
@@ -19,23 +23,23 @@ namespace Simpler.Core.Tasks
 
             var listOfInjected = new List<string>();
 
-            var properties = TaskContainingSubTasks.GetType().GetProperties();
+            var properties = In.TaskContainingSubTasks.GetType().GetProperties();
             foreach (var propertyX in properties)
             {
                 if (propertyX.PropertyType.IsSubclassOf(typeof(Task))
                     && 
-                    (propertyX.CanWrite && propertyX.GetValue(TaskContainingSubTasks, null) == null))
+                    (propertyX.CanWrite && propertyX.GetValue(In.TaskContainingSubTasks, null) == null))
                 {
-                    CreateTask.TaskType = propertyX.PropertyType;
+                    CreateTask.In.TaskType = propertyX.PropertyType;
                     CreateTask.Execute();
 
-                    propertyX.SetValue(TaskContainingSubTasks, CreateTask.TaskInstance, null);
+                    propertyX.SetValue(In.TaskContainingSubTasks, CreateTask.Out.TaskInstance, null);
 
                     listOfInjected.Add(propertyX.PropertyType.FullName);
                 }
             }
 
-            InjectedSubTaskPropertyNames = listOfInjected.ToArray();
+            Out.InjectedSubTaskPropertyNames = listOfInjected.ToArray();
         }
     }
 }

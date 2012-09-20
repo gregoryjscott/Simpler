@@ -7,9 +7,9 @@ namespace Simpler
     {
         public static T New<T>()
         {
-            var createTask = new CreateTask { TaskType = typeof(T) };
+            var createTask = new CreateTask {In = {TaskType = typeof (T)}};
             createTask.Execute();
-            return (T)createTask.TaskInstance;
+            return (T)createTask.Out.TaskInstance;
         }
 
         public virtual string Name

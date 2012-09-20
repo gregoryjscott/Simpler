@@ -10,14 +10,14 @@ namespace Simpler.Core
 
         public override void BeforeExecute(Task task)
         {
-            var inject = new InjectTasks { TaskContainingSubTasks = task };
+            var inject = new InjectTasks { In = { TaskContainingSubTasks = task } };
             inject.Execute();
-            _injectedSubTaskPropertyNames.AddRange(inject.InjectedSubTaskPropertyNames);
+            _injectedSubTaskPropertyNames.AddRange(inject.Out.InjectedSubTaskPropertyNames);
         }
 
         public override void AfterExecute(Task task)
         {
-            var dispose = new DisposeTasks { Owner = task, InjectedTaskNames = _injectedSubTaskPropertyNames.ToArray() };
+            var dispose = new DisposeTasks { In = { Owner = task, InjectedTaskNames = _injectedSubTaskPropertyNames.ToArray() } };
             dispose.Execute();
         }
 

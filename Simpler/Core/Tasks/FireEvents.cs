@@ -3,38 +3,40 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core.Tasks
 {
-    public class FireEvents : Task
+    public class FireEvents : InTask<FireEvents.Input>
     {
-        // Inputs
-        public virtual Task Task { get; set; }
-        public virtual IInvocation Invocation { get; set; }
+        public class Input
+        {
+            public Task Task { get; set; }
+            public IInvocation Invocation { get; set; }
+        }
 
         public override void Execute()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(Task.GetType(), typeof (EventsAttribute));
-            var overrideAttribute = Attribute.GetCustomAttribute(Task.GetType(), typeof (OverrideAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(In.Task.GetType(), typeof (EventsAttribute));
+            var overrideAttribute = Attribute.GetCustomAttribute(In.Task.GetType(), typeof (OverrideAttribute));
 
             try
             {
                 foreach (var callbackAttribute in callbackAttributes)
                 {
-                    ((EventsAttribute)callbackAttribute).BeforeExecute(Task);
+                    ((EventsAttribute)callbackAttribute).BeforeExecute(In.Task);
                 }
 
                 if (overrideAttribute != null)
                 {
-                    ((OverrideAttribute)overrideAttribute).ExecuteOverride(Invocation);
+                    ((OverrideAttribute)overrideAttribute).ExecuteOverride(In.Invocation);
                 }
                 else
                 {
-                    Invocation.Proceed();
+                    In.Invocation.Proceed();
                 }
             }
             catch (Exception exception)
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).OnError(Task, exception);
+                    ((EventsAttribute) callbackAttributes[i]).OnError(In.Task, exception);
                 }
 
                 throw;
@@ -43,7 +45,7 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(Task);
+                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(In.Task);
                 }
             }
         }
