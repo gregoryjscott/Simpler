@@ -31,8 +31,8 @@ namespace Simpler.Data.Tasks
 
                 if (In.Values != null)
                 {
-                    BuildParameters.Command = command;
-                    BuildParameters.Values = In.Values;
+                    BuildParameters.In.Command = command;
+                    BuildParameters.In.Values = In.Values;
                     BuildParameters.Execute();
                 }
 

@@ -4,13 +4,14 @@ using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildParameters : Task
+    public class BuildParameters : InTask<BuildParameters.Input>
     {
-        // Inputs
-        public virtual IDbCommand Command { get; set; }
-        public virtual object Values { get; set; }
+        public class Input
+        {
+            public virtual IDbCommand Command { get; set; }
+            public virtual object Values { get; set; }
+        }
 
-        // Sub-tasks
         public virtual FindParameters FindParameters { get; set; }
 
         public override void Execute()
@@ -18,13 +19,13 @@ namespace Simpler.Data.Tasks
             // Create the sub-tasks.
             if (FindParameters == null) FindParameters = new FindParameters();
 
-            FindParameters.In.CommandText = Command.CommandText;
+            FindParameters.In.CommandText = In.Command.CommandText;
             FindParameters.Execute();
 
             foreach (var parameterNameX in FindParameters.Out.ParameterNames)
             {
-                var objectType = Values.GetType();
-                var objectContainingPropertyValue = Values;
+                var objectType = In.Values.GetType();
+                var objectContainingPropertyValue = In.Values;
 
                 // Strip off the first character of the parameter name to find a matching property (e.g. make @Name => Name).
                 var nameOfPropertyContainingValue = parameterNameX.Substring(1);
@@ -55,18 +56,18 @@ namespace Simpler.Data.Tasks
                     ||
                     (property != null))
                 {
-                    var dbDataParameter = Command.CreateParameter();
+                    var dbDataParameter = In.Command.CreateParameter();
 
                     // If the property came from a complex object then it contains a dot, and dots aren't allowed in parameter names.
                     dbDataParameter.ParameterName = parameterNameX.Replace(".", "_");
-                    Command.CommandText = Command.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
+                    In.Command.CommandText = In.Command.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
 
                     dbDataParameter.Value =
                         property != null
                         ? property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value
                         : DBNull.Value;
 
-                    Command.Parameters.Add(dbDataParameter);
+                    In.Command.Parameters.Add(dbDataParameter);
                 }
             }
         }
