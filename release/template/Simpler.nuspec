@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Simpler</id>
+    <version>2.0.0</version>
+    <title>Simpler</title>
+    <authors>Greg Scott</authors>
+    <owners>Greg Scott</owners>
+    <licenseUrl>https://github.com/gregoryjscott/Simpler/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/gregoryjscott/Simpler</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>You probably won't like Simpler. If you enjoy spending your time configuring ORMs, interfacing with DI/IOC frameworks, generating code, and building complex domain models, then you will probably hate Simpler. Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible. Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.</description>
+    <summary>Simpler makes developing quality .NET code simpler.</summary>
+    <releaseNotes>See the README for an overview of functionality.</releaseNotes>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Castle.Core" version="2.5.2" />
+    </dependencies>
+  </metadata>
+</package>

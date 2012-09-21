@@ -24,7 +24,6 @@ Thumbs.db
 *.lib
 *.sbr
 obj/
-[Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
 Examples*/
@@ -32,3 +31,4 @@ SerializerTest*/
 *.csproj.user
 *.resharper*
 deploy/*
+*.nupkg
