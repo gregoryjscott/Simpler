@@ -54,7 +54,7 @@ Input is available to the Execute method by way of the In property, and output i
 
 ###"How do I use it?"
 
-You create Tasks using the Task.New<T>() method, which appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls and performing actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
+You create Tasks using the Task.New<T>() method, which appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls to perform actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
 
 ```c#
 public class LogAttribute : EventsAttribute
@@ -109,7 +109,7 @@ public class Program
 }
 ```
 
-A Task's dependencies are it's inputs, outputs, and sub-tasks. The sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
+A Task's dependencies are its inputs, outputs, and sub-tasks. The sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
 
 ###"What about database interaction?"
 
@@ -134,7 +134,7 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
     }
 
     public BuildParameters BuildParameters { get; set; }
-    public FetchMany<SomePoco> FetchList { get; set; }
+    public FetchMany<SomePoco> FetchPocos { get; set; }
 
     public override void Execute()
     {
@@ -158,15 +158,15 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
             BuildParameters.In.Values = In;
             BuildParameters.Execute();
 
-            FetchList.In.SelectCommand = command;
-            FetchList.Execute();
-            Out.SomePocos = FetchList.Out.ObjectsFetched;
+            FetchPocos.In.SelectCommand = command;
+            FetchPocos.Execute();
+            Out.SomePocos = FetchPocos.Out.ObjectsFetched;
         }
     }
 }
 ```
 
-Simpler 2 adds a new Db static class that eliminates most of the boiler plate code.
+Simpler 2 adds a new Simpler.Data.Db static class that eliminates most of the boilerplate code.
 
 ```c#
 public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
@@ -201,7 +201,7 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
 }
 ```
 
-Simpler isn't a full-featured ORM, but for most scenarios it gets the job done.
+The Db class also offers GetOne<>, GetResult and GetScalar methods. Simpler isn't a full-featured ORM, but for most scenarios it gets the job done.
 
 ###"Is it easy to test?"
 

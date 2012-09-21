@@ -113,7 +113,7 @@ namespace Simpler
         }
 
         public BuildParameters BuildParameters { get; set; }
-        public FetchMany<SomePoco> FetchList { get; set; }
+        public FetchMany<SomePoco> FetchPocos { get; set; }
 
         public override void Execute()
         {
@@ -137,9 +137,9 @@ namespace Simpler
                 BuildParameters.In.Values = In;
                 BuildParameters.Execute();
 
-                FetchList.In.SelectCommand = command;
-                FetchList.Execute();
-                Out.SomePocos = FetchList.Out.ObjectsFetched;
+                FetchPocos.In.SelectCommand = command;
+                FetchPocos.Execute();
+                Out.SomePocos = FetchPocos.Out.ObjectsFetched;
             }
         }
     }
