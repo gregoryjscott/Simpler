@@ -1,44 +1,36 @@
-﻿namespace Simpler
+﻿using System;
+using Simpler.Core;
+using Simpler.Core.Tasks;
+using System.Linq;
+
+namespace Simpler
 {
-    /// <summary>
-    /// The foundation of Simpler.
-   /// </summary>
+    [InjectTasks]
     public abstract class Task
     {
-        /// <summary>
-        /// Container for the data the task needs to execute.
-        /// </summary>
-        /// <example>
-        /// task.Inputs.Question = "Is this cool?";
-        /// </example>
-        public virtual dynamic Inputs { get; set; }
-
-        /// <summary>
-        /// Container for the data the task produces.
-        /// </summary>
-        /// <example>
-        /// var answer = task.Outputs.Answer;
-        /// </example>
-        public virtual dynamic Outputs { get; set; }
-
-        /// <summary>
-        /// Code that uses the Inputs to produce the Outputs.
-        /// </summary>
-        public abstract void Execute();
-
-        /// <summary>
-        /// Shorthand method for setting the inputs, executing, and receiving the outputs in one line of code.
-        /// </summary>
-        /// <example>
-        /// var answer = task.Execute(new { Question = "Is this cool?" }).Outputs.Answer;
-        /// </example>
-        /// <param name="inputs">Used to set Inputs prior to execution.</param>
-        /// <returns>The Outputs</returns>
-        public Task Execute(dynamic inputs)
+        public static T New<T>()
         {
-            Inputs = inputs;
-            Execute();
-            return this;
+            var invalidTasks = new[] {"InjectTasks", "DisposeTasks"};
+            var taskType = typeof (T);
+            Check.That(!invalidTasks.Contains(taskType.Name), 
+                "This task type can't be passed to Task.New because its a Core task used by Task.New.");
+
+            var createTask = new CreateTask {In = {TaskType = taskType}};
+            createTask.Execute();
+            return (T)createTask.Out.TaskInstance;
         }
+
+        public virtual string Name
+        {
+            get
+            {
+                var baseType = GetType().BaseType;
+                return baseType == null
+                           ? "Unknown"
+                           : String.Format("{0}.{1}", baseType.Namespace, baseType.Name);
+            }
+        }
+
+        public abstract void Execute();
     }
 }

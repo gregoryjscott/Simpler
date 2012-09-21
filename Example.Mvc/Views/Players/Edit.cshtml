@@ -1,0 +1,42 @@
+﻿@using Example.Model.Tasks
+@model FetchPlayer.Output
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit</title>
+</head>
+<body>
+    @using (Html.BeginForm("Update", "Players")) {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>PlayerEdit</legend>
+    
+            @Html.HiddenFor(model => model.Player.PlayerId)
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Player.FirstName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Player.FirstName)
+                @Html.ValidationMessageFor(model => model.Player.FirstName)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Player.LastName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Player.LastName)
+                @Html.ValidationMessageFor(model => model.Player.LastName)
+            </div>
+    
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

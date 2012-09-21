@@ -1,0 +1,27 @@
+﻿@using Example.Model.Tasks
+@model FetchPlayers.Output
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Players</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>Team Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model.Players)
+            {
+                <tr>
+                    <td><a href="/Players/Show/@player.PlayerId">@player.FullName</a></td>
+                    <td>@player.Team</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

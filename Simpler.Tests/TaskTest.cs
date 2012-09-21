@@ -1,6 +1,6 @@
-﻿using Moq;
-using NUnit.Framework;
-using Simpler.Tests.Mocks;
+﻿using NUnit.Framework;
+using Simpler.Core.Tasks;
+using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests
 {
@@ -8,45 +8,32 @@ namespace Simpler.Tests
     public class TaskTest
     {
         [Test]
-        public void should_be_able_to_test_dynamic_Inputs_and_Outputs_properties()
+        public void should_create_new_task()
         {
-            // Arrange
-            var task = TaskFactory<MockSubTaskUsingDynamicProperties>.Create();
+            var mockTask = Task.New<MockTask>();
 
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.Outputs.SomeOutput, Is.EqualTo(9));
+            Check.That(mockTask != null, "MockTask was not created.");
         }
 
         [Test]
-        public void should_be_able_to_mock_dynamic_Inputs_and_Outputs_properties_on_subtasks()
+        public void should_provide_underlying_task_name()
         {
-            // Arrange
-            var task = TaskFactory<MockTaskUsingDynamicProperties>.Create();
-            var mockSubTask = new Mock<MockSubTaskUsingDynamicProperties>();
-            mockSubTask.Setup(st => st.Outputs).Returns(new { SomeOutput = 7 });
-            task.MockSubTaskUsingDynamicProperties = mockSubTask.Object;
+            var mockTask = Task.New<MockTask>();
+            const string expectedName = "Simpler.Tests.Core.Mocks.MockTask";
 
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.Outputs.SubTaskOutputs.SomeOutput, Is.EqualTo(7));
+            Check.That(mockTask.Name == expectedName, "Expected name to be {0}.", expectedName);
         }
 
         [Test]
-        public void should_be_execute_using_shorthand_syntax()
+        public void should_throw_if_attempt_new_InjectTasks()
         {
-            // Arrange
-            var task = TaskFactory<MockTaskUsingDynamicProperties>.Create();
-            
-            // Act
-            var something = task.Execute(new {SendSomething = "something"}).Outputs.InputsReceived.SendSomething;
+            Check.Throws(() => Task.New<InjectTasks>());
+        }
 
-            // Assert
-            Assert.That(something, Is.EqualTo("something"));
+        [Test]
+        public void should_throw_if_attempt_new_DisposeTasks()
+        {
+            Check.Throws<CheckException>(() => Task.New<DisposeTasks>());
         }
     }
 }

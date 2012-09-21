@@ -109,7 +109,7 @@ Simpler provides a small set of Simpler.Data.Tasks classes that simplify interac
         }
     }
 
-Simpler isn't a full-featured ORM, but it gets the job done.
+Simpler isn't a full-featured ORM, but it gets the task done.
 
 ###"Is it easy to test?"
 
