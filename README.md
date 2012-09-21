@@ -6,25 +6,28 @@ You probably won't like Simpler. If you enjoy spending your time configuring ORM
 
 For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks, named as verbs. A Task has optional input and/or output, a single Execute() method, and possibly some sub-taskss - that's it.
 
-    class Ask : Task
+```c#
+class Ask : Task
+{
+    // Inputs
+    public string Question { get; set; }
+
+    // Outputs
+    public string Answer { get; private set; }
+
+    public override void Execute()
     {
-        // Inputs
-        public string Question { get; set; }
-
-        // Outputs
-        public string Answer { get; private set; }
-
-        public override void Execute()
-        {
-            Answer =
-                Question == "Is this cool?"
-                ? "Definitely."
-                : "Get a life.";
-        }
+        Answer =
+            Question == "Is this cool?"
+            ? "Definitely."
+            : "Get a life.";
     }
+}
+```
     
 Simpler 2 adds some additional base classes, InTask, OutTask, and InOutTask, that allow for explicity defining the input and/or output of the Task.
 
+	'''c#
     public class Ask : InOutTask<Ask.Input, Ask.Output>
     {
         public class Input
@@ -45,6 +48,7 @@ Simpler 2 adds some additional base classes, InTask, OutTask, and InOutTask, tha
                 : "Get a life.";
         }
     }
+	'''
 
 Input is available to the Execute method by way of the In property, and output is set using the Out property. This eliminates the need to comment your input/output properties, and makes it easy to identify the input/output within the Execute method since all input is wrapped by In, and all output is set on Out.
 
@@ -111,54 +115,56 @@ A Task's dependencies are it's inputs, outputs, and sub-tasks. The sub-task inje
 
 Simpler provides a small set of Simpler.Data.Tasks classes that simplify interacting with System.Data.IDbCommand. Using SQL, Simpler makes it pretty easy to get data out of a database and into POCOs, or persist data from a POCO to a database.
 
-    class SomePoco 
+'''c#
+class SomePoco 
+{
+    public bool AmIImportant { get; set; }
+}
+
+public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
+{
+    public class Input
     {
-        public bool AmIImportant { get; set; }
+        public string SomeCriteria { get; set; }
     }
 
-    public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
+    public class Output
     {
-        public class Input
+        public SomePoco[] SomePocos { get; set; }
+    }
+
+    public BuildParameters BuildParameters { get; set; }
+    public FetchMany<SomePoco> FetchList { get; set; }
+
+    public override void Execute()
+    {
+        using (var connection = new SqlConnection("MyConnectionString"))
+        using (var command = connection.CreateCommand())
         {
-            public string SomeCriteria { get; set; }
-        }
+            connection.Open();
+            command.Connection = connection;
+            command.CommandText =
+                @"
+                select 
+                    SomeStoredBit as AmIImportant
+                from 
+                    ABunchOfJoinedTables
+                where 
+                    SomeColumn = @SomeCriteria 
+                ";
 
-        public class Output
-        {
-            public SomePoco[] SomePocos { get; set; }
-        }
+            // Use the In.SomeCriteria property value on this Task to build the @SomeCriteria parameter.
+            BuildParameters.In.Command = command;
+            BuildParameters.In.Values = In;
+            BuildParameters.Execute();
 
-        public BuildParameters BuildParameters { get; set; }
-        public FetchMany<SomePoco> FetchList { get; set; }
-
-        public override void Execute()
-        {
-            using (var connection = new SqlConnection("MyConnectionString"))
-            using (var command = connection.CreateCommand())
-            {
-                connection.Open();
-                command.Connection = connection;
-                command.CommandText =
-                    @"
-                    select 
-                        SomeStoredBit as AmIImportant
-                    from 
-                        ABunchOfJoinedTables
-                    where 
-                        SomeColumn = @SomeCriteria 
-                    ";
-
-                // Use the In.SomeCriteria property value on this Task to build the @SomeCriteria parameter.
-                BuildParameters.In.Command = command;
-                BuildParameters.In.Values = In;
-                BuildParameters.Execute();
-
-                FetchList.In.SelectCommand = command;
-                FetchList.Execute();
-                Out.SomePocos = FetchList.Out.ObjectsFetched;
-            }
+            FetchList.In.SelectCommand = command;
+            FetchList.Execute();
+            Out.SomePocos = FetchList.Out.ObjectsFetched;
         }
     }
+}
+'''
 
 Simpler 2 adds a new Db static class that eliminates most of the boiler plate code.
 
