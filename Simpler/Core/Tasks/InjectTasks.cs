@@ -14,7 +14,6 @@ namespace Simpler.Core.Tasks
             public string[] InjectedSubTaskPropertyNames { get; set; }
         }
 
-        // Sub-tasks
         public CreateTask CreateTask { get; set; }
 
         public override void Execute()

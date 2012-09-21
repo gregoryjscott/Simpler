@@ -1,4 +1,3 @@
-using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
@@ -29,20 +28,18 @@ namespace Simpler.Data
         {
             var many = new T[] {};
 
-            Action<IDbCommand> action =
-                command =>
-                {
-                    var fetchMany = Task.New<FetchMany<T>>();
-                    fetchMany.In.SelectCommand = command;
-                    fetchMany.Execute();
-                    many = fetchMany.Out.ObjectsFetched;
-                };
-
             var execute = Task.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
-            execute.In.Action = action;
+            execute.In.Action =
+                command =>
+                    {
+                        var fetchMany = Task.New<FetchMany<T>>();
+                        fetchMany.In.SelectCommand = command;
+                        fetchMany.Execute();
+                        many = fetchMany.Out.ObjectsFetched;
+                    };
             execute.Execute();
 
             return many;
@@ -52,7 +49,11 @@ namespace Simpler.Data
         {
             var one = default(T);
 
-            Action<IDbCommand> action =
+            var execute = Task.New<ExecuteAction>();
+            execute.In.Connection = connection;
+            execute.In.Sql = sql;
+            execute.In.Values = values;
+            execute.In.Action =
                 command =>
                     {
                         var fetchMany = Task.New<FetchMany<T>>();
@@ -60,12 +61,6 @@ namespace Simpler.Data
                         fetchMany.Execute();
                         one = fetchMany.Out.ObjectsFetched.Single();
                     };
-
-            var execute = Task.New<ExecuteAction>();
-            execute.In.Connection = connection;
-            execute.In.Sql = sql;
-            execute.In.Values = values;
-            execute.In.Action = action;
             execute.Execute();
 
             return one;
@@ -75,17 +70,15 @@ namespace Simpler.Data
         {
             var result = default(int);
 
-            Action<IDbCommand> action =
-                command =>
-                    {
-                        result = command.ExecuteNonQuery();
-                    };
-
             var execute = Task.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
-            execute.In.Action = action;
+            execute.In.Action =
+                command =>
+                    {
+                        result = command.ExecuteNonQuery();
+                    };
             execute.Execute();
 
             return result;
@@ -95,18 +88,16 @@ namespace Simpler.Data
         {
             var scalar = default(object);
 
-            Action<IDbCommand> action =
+            var execute = Task.New<ExecuteAction>();
+            execute.In.Connection = connection;
+            execute.In.Sql = sql;
+            execute.In.Values = values;
+            execute.In.Action =
                 command =>
-                {
-                    scalar = command.ExecuteScalar();
-                };
-
-            var executeAction = Task.New<ExecuteAction>();
-            executeAction.In.Connection = connection;
-            executeAction.In.Sql = sql;
-            executeAction.In.Values = values;
-            executeAction.In.Action = action;
-            executeAction.Execute();
+                    {
+                        scalar = command.ExecuteScalar();
+                    };
+            execute.Execute();
 
             return scalar;
         }

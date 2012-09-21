@@ -6,7 +6,7 @@ namespace Simpler.Tests.Core.Mocks
 	{
         public override void Execute()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool DisposeWasCalled { get; set; }

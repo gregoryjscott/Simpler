@@ -10,7 +10,7 @@ namespace Simpler.Core
             _action = action;
         }
 
-        Action<IInvocation> _action;
+        readonly Action<IInvocation> _action;
 
         public void Intercept(IInvocation invocation)
         {

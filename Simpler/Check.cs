@@ -6,7 +6,6 @@ namespace Simpler
     {
         public static void That(bool condition, string errorMessage, params object[] args)
         {
-
             if (errorMessage == null)
             {
                 errorMessage = string.Empty;
