@@ -175,10 +175,10 @@ namespace Simpler
         }
     }
 
-    [TestFixture]
+    //[TestFixture]
     public class FetchSomeStuffTest
     {
-        [Test]
+        //[Test]
         public void should_return_9_pocos()
         {
             // Arrange
