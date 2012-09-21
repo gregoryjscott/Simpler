@@ -52,6 +52,7 @@ Input is available to the Execute method by way of the In property, and output i
 
 You create Tasks using the Task.New<T>() method, which appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls and performing actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
 
+	```c#
     public class LogAttribute : EventsAttribute
     {
         public override void BeforeExecute(Task task)
@@ -102,6 +103,7 @@ You create Tasks using the Task.New<T>() method, which appears to just return an
             beAnnoying.Execute();
         }
     }
+	```
 
 A Task's dependencies are it's inputs, outputs, and sub-tasks. The sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
 
