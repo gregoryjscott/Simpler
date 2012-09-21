@@ -4,7 +4,7 @@ You probably won't like Simpler. If you enjoy spending your time configuring ORM
 
 ###"What is it?"
 
-For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks, named as verbs.  A Task has optional input and/or outputs (POCOs), along with a single Execute() method - and that's it.
+For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks, named as verbs. A Task has optional input and/or output, a single Execute() method, and possibly some sub-taskss - that's it.
 
     class Ask : Task
     {
@@ -23,40 +23,87 @@ For the most part, Simpler is just a philosophy on .NET class design. All classe
         }
     }
     
-Simpler comes with a Task base class, a static TaskFactory class for instantiating Tasks, along with various built-in Tasks that you can use as sub-tasks (a sub-task is just a Task property of another Task - see next example).
+Simpler 2 adds some additional base classes, InTask, OutTask, and InOutTask, that allow for explicity defining the input and/or output of the Task.
 
-###"What's the purpose of the TaskFactory?"
-
-TaskFactory appears to just return an instance of the given Task type, but it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls and performing actions before and/or after the Task execution. For example, the Simpler.Injection.InjectSubTasks attribute will automatically instantiate sub-tasks (only if null) before Task execution, and automatically dispose of them after execution.  Another common application is using custom attribute to integrate your favorite logging library.
-
-    [InjectSubTasks]
-    class BeAnnoying : Task
+    public class Ask : InOutTask<Ask.Input, Ask.Output>
     {
-        // Sub-tasks
+        public class Input
+        {
+            public string Question { get; set; }
+        }
+
+        public class Output
+        {
+            public string Answer { get; set; }
+        }
+
+        public override void Execute()
+        {
+            Out.Answer =
+                In.Question == "Is this cool?"
+                ? "Definitely."
+                : "Get a life.";
+        }
+    }
+
+Input is available to the Execute method by way of the In property, and output is set using the Out property. This eliminates the need to comment your input/output properties, and makes it easy to identify the input/output within the Execute method since all input is wrapped by In, and all output is set on Out.
+
+###"How do I use it?"
+
+You create Tasks using the Task.New<T>() method, which appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls and performing actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
+
+    public class LogAttribute : EventsAttribute
+    {
+        public override void BeforeExecute(Task task)
+        {
+            Console.WriteLine(String.Format("{0} started.", task.Name));
+        }
+
+        public override void AfterExecute(Task task)
+        {
+            Console.WriteLine(String.Format("{0} finished.", task.Name));
+        }
+
+        public override void OnError(Task task, Exception exception)
+        {
+            Console.WriteLine(String.Format("{0} bombed; error message: {1}.", task.Name, exception.Message));
+        }
+    }
+
+    [Log]
+    public class BeAnnoying : InTask<BeAnnoying.Input>
+    {
+        public class Input
+        {
+            public int AnnoyanceLevel { get; set; }
+        }
+		
+		// sub-task
         public Ask Ask { get; set; }
 
         public override void Execute()
         {
-            // Notice that Ask was injected.
-            Ask.Question = "Is this cool?";
-                
-            for (int i = 0; i < 10; i++)
+            // Notice that Ask was automatically instantiated.
+            Ask.In.Question = "Is this cool?";
+
+            for (var i = 0; i < In.AnnoyanceLevel; i++)
             {
                 Ask.Execute();
             }
         }
     }
 
-    class Program
+    public class Program
     {
         Program()
         {
-            var beAnnonying = TaskFactory<BeAnnoying>.Create();
-            beAnnonying.Execute();
+            var beAnnoying = Task.New<BeAnnoying>();
+            beAnnoying.In.AnnoyanceLevel = 10;
+            beAnnoying.Execute();
         }
     }
 
-Sub-task injection gives you just enough power to do testing by allowing for mocking sub-task behavior in tests.  No need for repository nonsense when it's only purpose is for testing.
+A Task's dependencies are it's inputs, outputs, and sub-tasks. The sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
 
 ###"What about database interaction?"
 
@@ -67,18 +114,20 @@ Simpler provides a small set of Simpler.Data.Tasks classes that simplify interac
         public bool AmIImportant { get; set; }
     }
 
-    [InjectSubTasks]
-    class FetchSomeStuff : Task
+    public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
     {
-        // Inputs
-        public string SomeCriteria { get; set; }
+        public class Input
+        {
+            public string SomeCriteria { get; set; }
+        }
 
-        // Outputs
-        public SomePoco[] SomePocos { get; set; }
+        public class Output
+        {
+            public SomePoco[] SomePocos { get; set; }
+        }
 
-        // Sub-tasks
-        public BuildParametersUsing<FetchSomeStuff> BuildParameters { get; set; }
-        public FetchListOf<SomePoco> FetchList { get; set; }
+        public BuildParameters BuildParameters { get; set; }
+        public FetchMany<SomePoco> FetchList { get; set; }
 
         public override void Execute()
         {
@@ -97,19 +146,52 @@ Simpler provides a small set of Simpler.Data.Tasks classes that simplify interac
                         SomeColumn = @SomeCriteria 
                     ";
 
-                // Use the SomeCriteria property value on this Task to build the @SomeCriteria parameter.
-                BuildParameters.CommandWithParameters = command;
-                BuildParameters.ObjectWithValues = this;
+                // Use the In.SomeCriteria property value on this Task to build the @SomeCriteria parameter.
+                BuildParameters.In.Command = command;
+                BuildParameters.In.Values = In;
                 BuildParameters.Execute();
 
-                FetchList.SelectCommand = command;
+                FetchList.In.SelectCommand = command;
                 FetchList.Execute();
-                SomePocos = FetchList.ObjectsFetched;
+                Out.SomePocos = FetchList.Out.ObjectsFetched;
             }
         }
     }
 
-Simpler isn't a full-featured ORM, but it gets the task done.
+Simpler 2 adds a new Db static class that eliminates most of the boiler plate code.
+
+    public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
+    {
+        public class Input
+        {
+            public string SomeCriteria { get; set; }
+        }
+
+        public class Output
+        {
+            public SomePoco[] SomePocos { get; set; }
+        }
+
+        public override void Execute()
+        {
+            using(var connection = Db.Connect("MyConnectionString"))
+            {
+                const string sql = 
+                    @"
+                    select 
+                        SomeStoredBit as AmIImportant
+                    from 
+                        ABunchOfJoinedTables
+                    where 
+                        SomeColumn = @SomeCriteria 
+                    ";
+
+                Out.SomePocos = Db.GetMany<SomePoco>(connection, sql, In);
+            }
+        }
+    }
+
+Simpler isn't a full-featured ORM, but for most scenarios it gets the job done.
 
 ###"Is it easy to test?"
 
@@ -137,14 +219,15 @@ By design, all Tasks clearly define their inputs, outputs, and code to test, so 
 
 Simpler is a tool for developing applications as sets of consistent, discrete, interchangable classes that aren't THINGS, but rather DO THINGS. Simpler works great in team environments because everybody is designing classes with the same termnilogy, and any class can easily integrate with another. 
 
-Need to fetch a list of contacts?  Create classes called FetchContactsTest and FetchContact and get to work.  That's Simpler. 
+Develpers don't waste time making decisions about class design. Need to fetch a list of contacts? Create classes called FetchContactsTest and FetchContact and get to work. That's Simpler. 
 
 ###"How do I install it?"
-Nuget.  For writing tests, you will also need a testing library like nUnit or xUnit.net, and adding a mocking library such as Moq comes in handy.  All are available on Nuget.
 
-###"Is Simpler is so simple it doesn't need documentation?"
+Use Nuget. Simpler works with .NET 3.5 and above.
 
-That's what I'm thinking :).  I seriously hope to create some proper documentation at some point, but the coding is so much more fun.
+###"Is Simpler so simple it doesn't need documentation?"
+
+Exactly. I seriously hope to create some proper documentation at some point, but the coding is so much more fun.
 
 ###Acknowledgments
 
@@ -161,6 +244,7 @@ The following have contributed in some way, and have built something awesome wit
 - [ralreegorganon](https://github.com/ralreegorganon)
 - [rodel-rdi](https://github.com/rodel-rdi)
 - [sonhuilamson](https://github.com/sonhuilamson)
+- [timrisi](https://github.com/timrisi)
 
 ###License
-Simpler is licensed under the MIT License.  A copy of the MIT license can be found in the LICENSE file.
+Simpler is licensed under the MIT License. A copy of the MIT license can be found in the LICENSE file.
