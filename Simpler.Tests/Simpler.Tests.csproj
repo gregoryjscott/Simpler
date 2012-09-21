@@ -56,7 +56,7 @@
     <Compile Include="Core\Mocks\MockFirstAttribute.cs" />
     <Compile Include="Core\Mocks\MockTask.cs" />
     <Compile Include="Core\Mocks\MockTaskWithAttributes.cs" />
-    <Compile Include="Core\Mocks\MockTaskWithAttributesThatThrows.cs" />
+    <Compile Include="Core\Mocks\MockTaskThatThrowsWithAttributes.cs" />
     <Compile Include="Core\Mocks\MockTaskWithOverrideAttribute.cs" />
     <Compile Include="Core\Mocks\MockObject.cs" />
     <Compile Include="Core\Mocks\MockOverrideAttribute.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Data\Tasks\FetchManyTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simpler\Simpler.csproj">

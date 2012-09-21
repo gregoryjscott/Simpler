@@ -1,9 +1,7 @@
 using System;
-using Simpler.Core;
 
 namespace Simpler
 {
-    [InjectTasks]
     public abstract class InOutTask<TIn, TOut> : Task
     {
         TIn _in;

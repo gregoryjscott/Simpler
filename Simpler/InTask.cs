@@ -1,9 +1,7 @@
 using System;
-using Simpler.Core;
 
 namespace Simpler
 {
-    [InjectTasks]
     public abstract class InTask<TIn> : Task 
     {
         TIn _in;

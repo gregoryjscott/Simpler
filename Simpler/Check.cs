@@ -20,18 +20,25 @@ namespace Simpler
 
         public static void Throws(Action action)
         {
+            var exceptionWasThrown = false;
             try
             {
                 action();
-                throw new CheckException("Expected exception to be thrown.");
             }
             catch
             {
+                exceptionWasThrown = true;
+            }
+
+            if (!exceptionWasThrown)
+            {
+                throw new CheckException("Expected exception to be thrown.");
             }
         }
 
         public static void Throws<TException>(Action action)
         {
+            var expectedExceptionWasThrown = false;
             var expectedExpection = typeof(TException).FullName;
             try
             {
@@ -41,13 +48,24 @@ namespace Simpler
             catch (Exception exception)
             {
                 var actualException = exception.GetType().FullName;
-                if (actualException != expectedExpection)
+                if (actualException == expectedExpection)
+                {
+                    expectedExceptionWasThrown = true;
+                }
+                else
                 {
                     throw new CheckException(
                         String.Format("Expected {0} to be thrown, but {1} was thrown instead.",
                                       expectedExpection,
                                       actualException));
                 }
+            }
+
+            if (!expectedExceptionWasThrown)
+            {
+                throw new CheckException(
+                    String.Format("Expected {0} to be thrown.",
+                                  expectedExpection));
             }
         }
     }

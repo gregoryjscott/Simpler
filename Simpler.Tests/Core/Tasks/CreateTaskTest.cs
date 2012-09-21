@@ -11,7 +11,8 @@ namespace Simpler.Tests.Core.Tasks
         public void should_just_provide_instance_if_given_type_is_not_decorated_with_execution_callbacks_attribute()
         {
             // Arrange
-            var task = new CreateTask { In = { TaskType = typeof(MockTask) } };
+            var task = Task.New<CreateTask>();
+            task.In.TaskType = typeof (MockTask);
 
             // Act
             task.Execute();
@@ -25,7 +26,8 @@ namespace Simpler.Tests.Core.Tasks
         public void should_provide_proxy_instance_if_given_type_is_decorated_with_execution_callbacks_attribute()
         {
             // Arrange
-            var task = new CreateTask { In = { TaskType = typeof(MockTaskWithAttributes) } };
+            var task = Task.New<CreateTask>();
+            task.In.TaskType = typeof (MockTaskWithAttributes);
 
             // Act
             task.Execute();

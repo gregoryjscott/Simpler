@@ -1,16 +1,12 @@
 using System;
-using Simpler.Core;
 
 namespace Simpler.Tests.Core.Mocks
 {
-    [InjectTasks]
     public class MockParentTask : Task
     {
-        // Sub-tasks
-        public MockSubTask<DateTime> MockSubClass { get; set; }
-
-        // Outputs
         public bool SubTaskWasInjected { get; private set; }
+
+        public MockSubTask<DateTime> MockSubClass { get; set; }
 
         public override void Execute()
         {
