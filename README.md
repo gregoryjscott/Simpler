@@ -4,10 +4,10 @@ You probably won't like Simpler. If you enjoy spending your time configuring ORM
 
 ###"What is it?"
 
-For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks, named as verbs. A Task has optional input and/or output, a single Execute() method, and possibly some sub-taskss - that's it.
+For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks named as verbs. A Task has optional input and/or output, a single Execute() method, and possibly some sub-tasks - that's it.
 
 ```c#
-class Ask : Task
+public class Ask : Task
 {
     // Inputs
     public string Question { get; set; }
@@ -50,11 +50,13 @@ public class Ask : InOutTask<Ask.Input, Ask.Output>
 }
 ```
 
-Input is available to the Execute method by way of the In property, and output is set using the Out property. This eliminates the need to comment your input/output properties, and makes it easy to identify the input/output within the Execute method since all input is wrapped by In, and all output is set on Out.
+Input is available to the Execute() method by way of the In property, and output is set using the Out property. This eliminates the need to comment your input and output properties, and makes it easy to identify the input and output within the Execute() method since all input is wrapped by In, and all output is set on Out.
 
 ###"How do I use it?"
 
-You create Tasks using the Task.New<T>() method, which appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls to perform actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
+First, you build a Task class. You then instantiate Tasks using the Task.New<T>() method.
+
+Task.New<T>() appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls to perform actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
 
 ```c#
 public class LogAttribute : EventsAttribute
@@ -109,14 +111,14 @@ public class Program
 }
 ```
 
-A Task's dependencies are its inputs, outputs, and sub-tasks. The sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
+That pretty much sums it up. You build task classes, you use Task.New<T> to create them, and you can use the power of the proxy to address cross cutting concerns like logging.
 
 ###"What about database interaction?"
 
 Simpler provides a small set of Simpler.Data.Tasks classes that simplify interacting with System.Data.IDbCommand. Using SQL, Simpler makes it pretty easy to get data out of a database and into POCOs, or persist data from a POCO to a database.
 
 ```c#
-class SomePoco 
+public class SomePoco 
 {
     public bool AmIImportant { get; set; }
 }
@@ -201,7 +203,7 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
 }
 ```
 
-The Db class also offers GetOne<>, GetResult and GetScalar methods. Simpler isn't a full-featured ORM, but for most scenarios it gets the job done.
+The Db class also offers GetOne<T>(), GetResult() and GetScalar() methods. Simpler isn't a full-featured ORM, but for most scenarios it gets the job done.
 
 ###"Is it easy to test?"
 
@@ -226,6 +228,8 @@ public class FetchSomeStuffTest
 ```
 
 By design, all Tasks clearly define their inputs, outputs, and code to test, so tests are very straightforward.
+
+A Task's dependencies are its inputs, outputs, and sub-tasks. The automatic sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
 
 ###"I just need to get things done well, will Simpler help?"
 
