@@ -49,11 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Check.cs" />
+    <Compile Include="Core\KeepStatsAttribute.cs" />
     <Compile Include="Data\Db.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
     <Compile Include="CheckException.cs" />
-    <Compile Include="Core\InjectJobsAttribute.cs" />
+    <Compile Include="Core\InjectTasksAttribute.cs" />
     <Compile Include="Core\ExecuteInterceptor.cs" />
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
     <Compile Include="Core\Tasks\InjectTasks.cs" />

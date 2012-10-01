@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Simpler.Core;
 using Simpler.Core.Tasks;
 using System.Linq;
@@ -31,6 +32,19 @@ namespace Simpler
             }
         }
 
+        Stats _stats;
+        public Stats Stats
+        {
+            get { return _stats ?? (_stats = new Stats()); }
+            set { _stats = value; }
+        }
+
         public abstract void Execute();
+    }
+
+    public class Stats
+    {
+        public int ExecuteCount { get; set; }
+        public List<TimeSpan> ExecuteDurations { get; set; }
     }
 }
