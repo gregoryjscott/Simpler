@@ -10,8 +10,11 @@ namespace Simpler.Data
     {
         public static IDbConnection Connect(string connectionName)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionName].ConnectionString;
-            var providerName = ConfigurationManager.ConnectionStrings[connectionName].ProviderName;
+            var connectionStringConfig = ConfigurationManager.ConnectionStrings[connectionName];
+            Check.That(connectionStringConfig != null, "A connectionString with name {0} was not found in the configuration file.", connectionName);
+
+            var connectionString = connectionStringConfig.ConnectionString;
+            var providerName = connectionStringConfig.ProviderName;
             var provider = DbProviderFactories.GetFactory(providerName);
             
             var connection = provider.CreateConnection();
