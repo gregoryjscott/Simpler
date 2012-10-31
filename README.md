@@ -1,6 +1,6 @@
 #Simpler
 
-You probably won't like Simpler. If you enjoy spending your time configuring ORMs, interfacing with DI/IOC frameworks, generating code, and building complex domain models, then you will probably hate Simpler. Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible. Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.
+You probably won't like Simpler. If you enjoy spending your time maintaining complex domain models, configuring ORMs, interfacing with DI/IOC frameworks, and regenerating code, then you will probably hate Simpler. Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible. Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.
 
 ###"What is it?"
 
@@ -19,8 +19,8 @@ public class Ask : Task
     {
         Answer =
             Question == "Is this cool?"
-            ? "Definitely."
-            : "Get a life.";
+                ? "Definitely."
+                : "Get a life.";
     }
 }
 ```
@@ -44,8 +44,8 @@ public class Ask : InOutTask<Ask.Input, Ask.Output>
     {
         Out.Answer =
             In.Question == "Is this cool?"
-            ? "Definitely."
-            : "Get a life.";
+                ? "Definitely."
+                : "Get a life.";
     }
 }
 ```
@@ -84,12 +84,13 @@ public class BeAnnoying : InTask<BeAnnoying.Input>
     {
         public int AnnoyanceLevel { get; set; }
     }
-		
-	// sub-task
+
     public Ask Ask { get; set; }
 
     public override void Execute()
     {
+        // "BeAnnoying started." was logged to the console before Execute() began.
+
         // Notice that Ask was automatically instantiated.
         Ask.In.Question = "Is this cool?";
 
@@ -97,6 +98,8 @@ public class BeAnnoying : InTask<BeAnnoying.Input>
         {
             Ask.Execute();
         }
+
+        // "BeAnnoying finished." will be logged to the console after Execute() finishes.
     }
 }
 
@@ -118,12 +121,12 @@ That pretty much sums it up. You build task classes, you use Task.New<T> to crea
 Simpler provides a small set of Simpler.Data.Tasks classes that simplify interacting with System.Data.IDbCommand. Using SQL, Simpler makes it pretty easy to get data out of a database and into POCOs, or persist data from a POCO to a database.
 
 ```c#
-public class SomePoco 
+public class Stuff
 {
-    public bool AmIImportant { get; set; }
+    public string Name { get; set; }
 }
 
-public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
+public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
 {
     public class Input
     {
@@ -132,11 +135,11 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
 
     public class Output
     {
-        public SomePoco[] SomePocos { get; set; }
+        public Stuff[] Stuff { get; set; }
     }
 
     public BuildParameters BuildParameters { get; set; }
-    public FetchMany<SomePoco> FetchPocos { get; set; }
+    public FetchMany<Stuff> FetchStuff { get; set; }
 
     public override void Execute()
     {
@@ -148,21 +151,22 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
             command.CommandText =
                 @"
                 select 
-                    SomeStoredBit as AmIImportant
+                    AColumn as Name
                 from 
                     ABunchOfJoinedTables
                 where 
-                    SomeColumn = @SomeCriteria 
+                    SomeColumn = @SomeCriteria
+                    and
+                    AnotherColumn = @SomeOtherCriteria
                 ";
 
-            // Use the In.SomeCriteria property value on this Task to build the @SomeCriteria parameter.
             BuildParameters.In.Command = command;
-            BuildParameters.In.Values = In;
+            BuildParameters.In.Values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
             BuildParameters.Execute();
 
-            FetchPocos.In.SelectCommand = command;
-            FetchPocos.Execute();
-            Out.SomePocos = FetchPocos.Out.ObjectsFetched;
+            FetchStuff.In.SelectCommand = command;
+            FetchStuff.Execute();
+            Out.Stuff = FetchStuff.Out.ObjectsFetched;
         }
     }
 }
@@ -171,7 +175,7 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
 Simpler 2 adds a new Simpler.Data.Db static class that eliminates most of the boilerplate code.
 
 ```c#
-public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
+public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
 {
     public class Input
     {
@@ -180,24 +184,28 @@ public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Out
 
     public class Output
     {
-        public SomePoco[] SomePocos { get; set; }
+        public Stuff[] Stuff { get; set; }
     }
 
     public override void Execute()
     {
         using(var connection = Db.Connect("MyConnectionString"))
         {
-            const string sql = 
+            const string sql =
                 @"
                 select 
-                    SomeStoredBit as AmIImportant
+                    AColumn as Name
                 from 
                     ABunchOfJoinedTables
                 where 
-                    SomeColumn = @SomeCriteria 
+                    SomeColumn = @SomeCriteria
+                    and
+                    AnotherColumn = @SomeOtherCriteria
                 ";
 
-            Out.SomePocos = Db.GetMany<SomePoco>(connection, sql, In);
+            var values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
+
+            Out.Stuff = Db.GetMany<Stuff>(connection, sql, values);
         }
     }
 }
@@ -209,20 +217,20 @@ The Db class also offers GetOne<T>(), GetResult() and GetScalar() methods. Simpl
 
 ```c#
 [TestFixture]
-public class FetchSomeStuffTest
+public class FetchCertainStuffTest
 {
     [Test]
     public void should_return_9_pocos()
     {
         // Arrange
-        var task = TaskFactory<FetchSomeStuff>.Create();
-        task.SomeCriteria = "whatever";
+        var task = TaskFactory<FetchCertainStuff>.Create();
+        task.In.SomeCriteria = "whatever";
 
         // Act
         task.Execute();
 
         // Assert
-        Assert.That(task.SomePocos.Length, Is.EqualTo(9));
+        Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
     }
 }
 ```
@@ -247,11 +255,12 @@ Exactly. I seriously hope to create some proper documentation at some point, but
 
 ###Acknowledgments
 
-The following have contributed in some way, and have built something awesome with Simpler.
+The following have contributed in some way and/or have built something awesome with Simpler.
 
 - [bobnigh](https://github.com/bobnigh)
 - [Clancey](https://github.com/Clancey)
 - [corys](https://github.com/corys)
+- [Crosis](https://github.com/Crosis)
 - [danvanorden](https://github.com/danvanorden)
 - [dchristine](https://github.com/dchristine)
 - [jkettell](https://github.com/jkettell)
