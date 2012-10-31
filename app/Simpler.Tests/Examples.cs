@@ -18,8 +18,8 @@ namespace Simpler
         {
             Answer =
                 Question == "Is this cool?"
-                ? "Definitely."
-                : "Get a life.";
+                    ? "Definitely."
+                    : "Get a life.";
         }
     }
 
@@ -39,8 +39,8 @@ namespace Simpler
         {
             Out.Answer =
                 In.Question == "Is this cool?"
-                ? "Definitely."
-                : "Get a life.";
+                    ? "Definitely."
+                    : "Get a life.";
         }
     }
 
@@ -95,12 +95,12 @@ namespace Simpler
         }
     }
 
-    public class SomePoco
+    public class Stuff
     {
-        public bool AmIImportant { get; set; }
+        public string Name { get; set; }
     }
 
-    public class FetchSomeStuffTheLongWay : InOutTask<FetchSomeStuffTheLongWay.Input, FetchSomeStuffTheLongWay.Output>
+    public class OldFetchCertainStuff : InOutTask<OldFetchCertainStuff.Input, OldFetchCertainStuff.Output>
     {
         public class Input
         {
@@ -109,11 +109,11 @@ namespace Simpler
 
         public class Output
         {
-            public SomePoco[] SomePocos { get; set; }
+            public Stuff[] Stuff { get; set; }
         }
 
         public BuildParameters BuildParameters { get; set; }
-        public FetchMany<SomePoco> FetchPocos { get; set; }
+        public FetchMany<Stuff> FetchStuff { get; set; }
 
         public override void Execute()
         {
@@ -125,26 +125,27 @@ namespace Simpler
                 command.CommandText =
                     @"
                     select 
-                        SomeStoredBit as AmIImportant
+                        AColumn as Name
                     from 
                         ABunchOfJoinedTables
                     where 
-                        SomeColumn = @SomeCriteria 
+                        SomeColumn = @SomeCriteria
+                        and
+                        AnotherColumn = @SomeOtherCriteria
                     ";
 
-                // Use the In.SomeCriteria property value on this Task to build the @SomeCriteria parameter.
                 BuildParameters.In.Command = command;
-                BuildParameters.In.Values = In;
+                BuildParameters.In.Values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
                 BuildParameters.Execute();
 
-                FetchPocos.In.SelectCommand = command;
-                FetchPocos.Execute();
-                Out.SomePocos = FetchPocos.Out.ObjectsFetched;
+                FetchStuff.In.SelectCommand = command;
+                FetchStuff.Execute();
+                Out.Stuff = FetchStuff.Out.ObjectsFetched;
             }
         }
     }
 
-    public class FetchSomeStuff : InOutTask<FetchSomeStuff.Input, FetchSomeStuff.Output>
+    public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
     {
         public class Input
         {
@@ -153,24 +154,28 @@ namespace Simpler
 
         public class Output
         {
-            public SomePoco[] SomePocos { get; set; }
+            public Stuff[] Stuff { get; set; }
         }
 
         public override void Execute()
         {
             using(var connection = Db.Connect("MyConnectionString"))
             {
-                const string sql = 
+                const string sql =
                     @"
                     select 
-                        SomeStoredBit as AmIImportant
+                        AColumn as Name
                     from 
                         ABunchOfJoinedTables
                     where 
-                        SomeColumn = @SomeCriteria 
+                        SomeColumn = @SomeCriteria
+                        and
+                        AnotherColumn = @SomeOtherCriteria
                     ";
 
-                Out.SomePocos = Db.GetMany<SomePoco>(connection, sql, In);
+                var values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
+
+                Out.Stuff = Db.GetMany<Stuff>(connection, sql, values);
             }
         }
     }
@@ -182,14 +187,14 @@ namespace Simpler
         public void should_return_9_pocos()
         {
             // Arrange
-            var task = Task.New<FetchSomeStuff>();
-            task.In.SomeCriteria = "whatever";
+            var task = Task.New<FetchCertainStuff>();
+            task.In.SomeCriteria = "criteria";
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(task.Out.SomePocos.Length, Is.EqualTo(9));
+            Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
         }
     }
 }
