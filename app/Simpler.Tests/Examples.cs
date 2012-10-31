@@ -181,7 +181,7 @@ namespace Simpler
     }
 
     //[TestFixture]
-    public class FetchSomeStuffTest
+    public class FetchCertainStuffTest
     {
         //[Test]
         public void should_return_9_pocos()

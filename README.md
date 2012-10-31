@@ -217,20 +217,20 @@ The Db class also offers GetOne<T>(), GetResult() and GetScalar() methods. Simpl
 
 ```c#
 [TestFixture]
-public class FetchSomeStuffTest
+public class FetchCertainStuffTest
 {
     [Test]
     public void should_return_9_pocos()
     {
         // Arrange
-        var task = TaskFactory<FetchSomeStuff>.Create();
-        task.SomeCriteria = "whatever";
+        var task = TaskFactory<FetchCertainStuff>.Create();
+        task.In.SomeCriteria = "whatever";
 
         // Act
         task.Execute();
 
         // Assert
-        Assert.That(task.SomePocos.Length, Is.EqualTo(9));
+        Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
     }
 }
 ```
