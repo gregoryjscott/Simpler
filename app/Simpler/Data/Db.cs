@@ -24,7 +24,7 @@ namespace Simpler.Data
             return connection;
         }
 
-        public static T[] GetMany<T>(IDbConnection connection, string sql, object values = null)
+        public static T[] GetMany<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var many = new T[] {};
 
@@ -35,6 +35,8 @@ namespace Simpler.Data
             execute.In.Action =
                 command =>
                     {
+                        command.CommandTimeout = timeout;
+
                         var fetchMany = Task.New<FetchMany<T>>();
                         fetchMany.In.SelectCommand = command;
                         fetchMany.Execute();
@@ -45,7 +47,7 @@ namespace Simpler.Data
             return many;
         }
 
-        public static T GetOne<T>(IDbConnection connection, string sql, object values = null)
+        public static T GetOne<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var one = default(T);
 
@@ -56,6 +58,8 @@ namespace Simpler.Data
             execute.In.Action =
                 command =>
                     {
+                        command.CommandTimeout = timeout;
+
                         var fetchMany = Task.New<FetchMany<T>>();
                         fetchMany.In.SelectCommand = command;
                         fetchMany.Execute();
@@ -66,7 +70,7 @@ namespace Simpler.Data
             return one;
         }
 
-        public static int GetResult(IDbConnection connection, string sql, object values = null)
+        public static int GetResult(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var result = default(int);
 
@@ -77,6 +81,8 @@ namespace Simpler.Data
             execute.In.Action =
                 command =>
                     {
+                        command.CommandTimeout = timeout;
+
                         result = command.ExecuteNonQuery();
                     };
             execute.Execute();
@@ -84,7 +90,7 @@ namespace Simpler.Data
             return result;
         }
 
-        public static object GetScalar(IDbConnection connection, string sql, object values = null)
+        public static object GetScalar(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var scalar = default(object);
 
@@ -95,6 +101,8 @@ namespace Simpler.Data
             execute.In.Action =
                 command =>
                     {
+                        command.CommandTimeout = timeout;
+
                         scalar = command.ExecuteScalar();
                     };
             execute.Execute();
