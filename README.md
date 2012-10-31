@@ -255,11 +255,12 @@ Exactly. I seriously hope to create some proper documentation at some point, but
 
 ###Acknowledgments
 
-The following have contributed in some way, and have built something awesome with Simpler.
+The following have contributed in some way and/or have built something awesome with Simpler.
 
 - [bobnigh](https://github.com/bobnigh)
 - [Clancey](https://github.com/Clancey)
 - [corys](https://github.com/corys)
+- [Crosis](https://github.com/Crosis)
 - [danvanorden](https://github.com/danvanorden)
 - [dchristine](https://github.com/dchristine)
 - [jkettell](https://github.com/jkettell)
