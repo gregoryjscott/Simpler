@@ -35,7 +35,7 @@ namespace Simpler
         Stats _stats;
         public Stats Stats
         {
-            get { return _stats ?? (_stats = new Stats()); }
+            get { return _stats ?? (_stats = new Stats {ExecuteDurations = new List<TimeSpan>()}); }
             set { _stats = value; }
         }
 

@@ -16,6 +16,7 @@ namespace Simpler.Core.Tasks
             var callbackAttributes = Attribute.GetCustomAttributes(In.Task.GetType(), typeof (EventsAttribute));
             var overrideAttribute = Attribute.GetCustomAttribute(In.Task.GetType(), typeof (OverrideAttribute));
 
+            var beforeTime = DateTime.Now;
             try
             {
                 foreach (var callbackAttribute in callbackAttributes)
@@ -47,6 +48,10 @@ namespace Simpler.Core.Tasks
                 {
                     ((EventsAttribute) callbackAttributes[i]).AfterExecute(In.Task);
                 }
+
+                var afterTime = DateTime.Now;
+                var duration = afterTime - beforeTime;
+                In.Task.Stats.ExecuteDurations.Add(duration);
             }
         }
     }
