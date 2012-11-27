@@ -18,7 +18,7 @@ namespace Simpler.Core.Tasks
             public object TaskInstance { get; set; }
         }
 
-        public FireEvents FireEvents { get; set; }
+        public ExecuteTask ExecuteTask { get; set; }
 
         public override void Execute()
         {
@@ -27,10 +27,10 @@ namespace Simpler.Core.Tasks
                 In.ExecuteInterceptor = new ExecuteInterceptor(
                     invocation =>
                         {
-                            if (FireEvents == null) FireEvents = new FireEvents();
-                            FireEvents.In.Task = (Task)invocation.InvocationTarget;
-                            FireEvents.In.Invocation = invocation;
-                            FireEvents.Execute();
+                            if (ExecuteTask == null) ExecuteTask = new ExecuteTask();
+                            ExecuteTask.In.Task = (Task)invocation.InvocationTarget;
+                            ExecuteTask.In.Invocation = invocation;
+                            ExecuteTask.Execute();
                         });
             }
 

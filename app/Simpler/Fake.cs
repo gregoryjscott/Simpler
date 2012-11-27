@@ -16,10 +16,10 @@ namespace Simpler
             var interceptor = new ExecuteInterceptor(
                 invocation =>
                     {
-                        var fireEvents = Simpler.Task.New<FireEvents>();
-                        fireEvents.In.Task = (Task)invocation.InvocationTarget;
-                        fireEvents.In.Invocation = new FakeInvocation<TTask>((Task)invocation.InvocationTarget, execute);
-                        fireEvents.Execute();
+                        var executeTask = Simpler.Task.New<ExecuteTask>();
+                        executeTask.In.Task = (Task)invocation.InvocationTarget;
+                        executeTask.In.Invocation = new FakeInvocation<TTask>((Task)invocation.InvocationTarget, execute);
+                        executeTask.Execute();
                     });
 
             var createTask = Simpler.Task.New<CreateTask>();

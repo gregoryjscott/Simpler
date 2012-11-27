@@ -63,7 +63,7 @@
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Data\Tasks\ExecuteAction.cs" />
     <Compile Include="Data\Tasks\BuildObject.cs" />
-    <Compile Include="Core\Tasks\FireEvents.cs" />
+    <Compile Include="Core\Tasks\ExecuteTask.cs" />
     <Compile Include="Core\Tasks\CreateTask.cs" />
     <Compile Include="InOutTask.cs" />
     <Compile Include="InTask.cs" />

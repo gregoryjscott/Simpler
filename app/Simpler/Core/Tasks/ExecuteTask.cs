@@ -3,7 +3,7 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core.Tasks
 {
-    public class FireEvents : InTask<FireEvents.Input>
+    public class ExecuteTask : InTask<ExecuteTask.Input>
     {
         public class Input
         {

@@ -8,7 +8,7 @@ using MockException = Simpler.Tests.Core.Mocks.MockException;
 namespace Simpler.Tests.Core.Tasks
 {
     [TestFixture]
-    public class FireEventsTest
+    public class ExecuteTaskTest
     {
         static void VerifyFiveCallbacks(MockTaskWithAttributes taskWithAttributes)
         {
@@ -65,7 +65,7 @@ namespace Simpler.Tests.Core.Tasks
         public void should_send_notifications_before_and_after_the_task_is_executed()
         {
             // Arrange
-            var task = Task.New<FireEvents>();
+            var task = Task.New<ExecuteTask>();
 
             var taskWithAttributes = new MockTaskWithAttributes();
             task.In.Task = taskWithAttributes;
@@ -85,7 +85,7 @@ namespace Simpler.Tests.Core.Tasks
         public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
         {
             // Arrange
-            var task = Task.New<FireEvents>();
+            var task = Task.New<ExecuteTask>();
 
             var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
             task.In.Task = taskWithAttributesThatThrows;
@@ -105,7 +105,7 @@ namespace Simpler.Tests.Core.Tasks
         public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
         {
             // Arrange
-            var task = Task.New<FireEvents>();
+            var task = Task.New<ExecuteTask>();
 
             var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
             task.In.Task = taskWithAttributesThatThrows;
@@ -139,7 +139,7 @@ namespace Simpler.Tests.Core.Tasks
         public void should_allow_the_task_execution_to_be_overriden()
         {
             // Arrange
-            var task = Task.New<FireEvents>();
+            var task = Task.New<ExecuteTask>();
 
             var taskWithOverride = new MockTaskWithOverrideAttribute();
             task.In.Task = taskWithOverride;
