@@ -6,6 +6,7 @@ call build\release
 if %ERRORLEVEL% GTR 0 exit /B %ERRORLEVEL%
 
 echo copy files to release
+mkdir release\template\lib
 xcopy app\Simpler\bin\Release\Simpler.dll release\template\lib /y /i
 xcopy app\Simpler\bin\Release\Simpler.xml release\template\lib /y /i
 
