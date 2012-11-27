@@ -67,7 +67,7 @@
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
     <Compile Include="Core\Tasks\InjectTasksTest.cs" />
-    <Compile Include="Core\Tasks\FireEventsTest.cs" />
+    <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
     <Compile Include="Data\Tasks\FetchManyTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />

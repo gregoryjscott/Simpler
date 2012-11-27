@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Simpler.Core;
 using Simpler.Core.Tasks;
 using System.Linq;
@@ -29,6 +30,13 @@ namespace Simpler
                            ? "Unknown"
                            : String.Format("{0}.{1}", baseType.Namespace, baseType.Name);
             }
+        }
+
+        Stats _stats;
+        public Stats Stats
+        {
+            get { return _stats ?? (_stats = new Stats {ExecuteDurations = new List<TimeSpan>()}); }
+            set { _stats = value; }
         }
 
         public abstract void Execute();
