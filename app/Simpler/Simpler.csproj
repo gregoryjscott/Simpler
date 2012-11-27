@@ -68,6 +68,7 @@
     <Compile Include="InOutTask.cs" />
     <Compile Include="InTask.cs" />
     <Compile Include="OutTask.cs" />
+    <Compile Include="Stats.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -41,10 +41,4 @@ namespace Simpler
 
         public abstract void Execute();
     }
-
-    public class Stats
-    {
-        public int ExecuteCount { get { return ExecuteDurations.Count; } }
-        public List<TimeSpan> ExecuteDurations { get; set; }
-    }
 }
