@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Check.cs" />
+    <Compile Include="Core\FakeInvocation.cs" />
     <Compile Include="Data\Db.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />

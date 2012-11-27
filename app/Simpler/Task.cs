@@ -44,7 +44,7 @@ namespace Simpler
 
     public class Stats
     {
-        public int ExecuteCount { get; set; }
+        public int ExecuteCount { get { return ExecuteDurations.Count; } }
         public List<TimeSpan> ExecuteDurations { get; set; }
     }
 }
