@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Mocks\MockPlace.cs" />
+    <Compile Include="FakeTest.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
     <Compile Include="Core\Mocks\MockEnum.cs" />
     <Compile Include="Core\Mocks\MockException.cs" />

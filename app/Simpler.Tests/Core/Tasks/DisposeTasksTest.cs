@@ -13,7 +13,7 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockSubTask = new MockSubTask<DateTime>();
-            var mockParentTask = new MockParentTask { MockSubClass = mockSubTask };
+            var mockParentTask = new MockParentTask { MockSubTask = mockSubTask };
             var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { typeof(MockSubTask<DateTime>).FullName } } };
 
             // Act
@@ -28,7 +28,7 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockSubTask = new MockSubTask<DateTime>();
-            var mockParentTask = new MockParentTask { MockSubClass = mockSubTask };
+            var mockParentTask = new MockParentTask { MockSubTask = mockSubTask };
             var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { "bogus" } } };
 
             // Act
@@ -42,28 +42,28 @@ namespace Simpler.Tests.Core.Tasks
         public void should_set_sub_task_property_to_null_that_is_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockParentTask = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
+            var mockParentTask = new MockParentTask { MockSubTask = new MockSubTask<DateTime>() };
             var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { typeof(MockSubTask<DateTime>).FullName } } };
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(mockParentTask.MockSubClass, Is.Null);
+            Assert.That(mockParentTask.MockSubTask, Is.Null);
         }
 
         [Test]
         public void should_not_set_sub_task_property_to_null_that_is_not_included_in_list_of_injected_property_names()
         {
             // Arrange
-            var mockParentTask = new MockParentTask { MockSubClass = new MockSubTask<DateTime>() };
+            var mockParentTask = new MockParentTask { MockSubTask = new MockSubTask<DateTime>() };
             var task = new DisposeTasks { In = { Owner = mockParentTask, InjectedTaskNames = new[] { "bogus" } } };
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(mockParentTask.MockSubClass, Is.Not.Null);
+            Assert.That(mockParentTask.MockSubTask, Is.Not.Null);
         }
     }
 }

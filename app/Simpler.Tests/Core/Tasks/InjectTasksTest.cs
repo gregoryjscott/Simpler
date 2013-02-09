@@ -19,7 +19,7 @@ namespace Simpler.Tests.Core.Tasks
             task.Execute();
 
             // Assert
-            Assert.That(mockParentTask.MockSubClass, Is.Not.Null);
+            Assert.That(mockParentTask.MockSubTask, Is.Not.Null);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Simpler.Tests.Core.Tasks
         {
             // Arrange
             var mockDifferentSubTask = new MockSubTask<DateTime>();
-            var mockParentTask = new MockParentTask { MockSubClass = mockDifferentSubTask };
+            var mockParentTask = new MockParentTask { MockSubTask = mockDifferentSubTask };
             var task = new InjectTasks { In = { TaskContainingSubTasks = mockParentTask } };
 
             // Act
