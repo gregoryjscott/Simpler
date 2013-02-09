@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FakeTest.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
     <Compile Include="Core\Mocks\MockException.cs" />
     <Compile Include="Core\Mocks\MockFirstAttribute.cs" />
