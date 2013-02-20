@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Mocks\MockSlowTask.cs" />
     <Compile Include="FakeTest.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
     <Compile Include="Core\Mocks\MockException.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Data\Tasks\FetchManyTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Examples.cs" />
+    <Compile Include="ParallelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskTest.cs" />
   </ItemGroup>
