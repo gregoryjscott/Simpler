@@ -15,9 +15,22 @@ Tasks are classes that store business logic. Tasks are named as verbs instead of
 The `Task` class is the base class for all task classes. It contains an abstract `Execute()` method, `Name` property, `Stats` property, and a static `Task.New<TTask>()` method that serves as a factory method for instantiating tasks.
 
 ```c#
-public class Example
+public class WriteName : Task
 {
-    // example of Name, Stats, Execute, and New
+    public override void Execute()
+    {
+        Console.WriteLine("{0} here.", Name);
+    }
+}
+
+public class WriteNameProgram
+{
+    WriteNameProgram()
+    {
+        var writeName = Task.New<WriteName>();
+        writeName.Execute(); // outputs "WriteName here."
+        Console.WriteLine(writeName.Stats.ExecuteCount); // outputs "1"
+    }
 }
 ```
 
@@ -34,15 +47,16 @@ The `InTask` is a task that will apply business logic to its given input but wil
 A common convention is to define an `Input` class inside the `InTask` that contains the input as properties and pass the Input class as the generic parameter type to the `InTask`. This effectively makes the `In` property a container for all the necessary input to the task.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class TellSecret : InTask<TellSecret.Input>
 {
     public class Input
     {
-        public string Question { get; set; }
+        public string Secret { get; set; }
     }
 
     public override void Execute()
     {
+        // Do something with secret.
     }
 }
 ```
@@ -54,15 +68,16 @@ The `OutTask` is a task that will produce output using business logic but will n
 A common convention is to define an `Output` class inside the `OutTask` that contains the output as properties and pass the `Output` class as the generic parameter type to the `OutTask`. This effectively makes the `Out` property a container for all the output of the task.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class ReceiveAdvice : OutTask<ReceiveAdvice.Output>
 {
-    public class Input
+    public class Output
     {
-        public string Question { get; set; }
+        public string Secret { get; set; }
     }
 
     public override void Execute()
     {
+        // Find some good advice somewhere.
     }
 }
 ```
@@ -72,15 +87,24 @@ public class Ask : InTask<Ask.Input>
 The `InOutTask` task combines `InTask` with `OutTask`. It requires two generic parameter types, the first defining the type of input and the second defining the type of output.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class AskDumbQuestion : InOutTask<AskDumbQuestion.Input, AskDumbQuestion.Output>
 {
     public class Input
     {
         public string Question { get; set; }
     }
 
+    public class Output
+    {
+        public string Answer { get; set; }
+    }
+
     public override void Execute()
     {
+        Out.Answer =
+            In.Question == "Is this cool?"
+                ? "Definitely."
+                : "Get a life.";
     }
 }
 ```
@@ -92,15 +116,25 @@ Typically business logic will need to be broken up into multiple task classes, a
 Tasks define their task dependencies as properties and these are referred to as sub-tasks. A sub-task is no different from a normal task; it is only called a sub-task when it is defined as a property on another task. Before a task is executed, Simpler checks to see if the task has any sub-tasks. If sub-tasks are found to be null, Simpler will automatically create the subtasks and inject them into the task properties.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class BeAnnoying : InTask<BeAnnoying.Input>
 {
     public class Input
     {
-        public string Question { get; set; }
+        public int AnnoyanceLevel { get; set; }
     }
+
+    // Sub-task
+    public AskDumbQuestion AskDumbQuestion { get; set; }
 
     public override void Execute()
     {
+        // Notice that AskDumbQuestion was automatically instantiated.
+        AskDumbQuestion.In.Question = "Is this cool?";
+
+        for (var i = 0; i < In.AnnoyanceLevel; i++)
+        {
+            AskDumbQuestion.Execute();
+        }
     }
 }
 ```
@@ -112,15 +146,21 @@ Sub-task injection keeps tasks loosely coupled and provides for advanced scenari
 By design, all tasks clearly define their inputs, outputs, and code to test, therefore writing tests for most tasks is pretty straightforward.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+[TestFixture]
+public class CheckSnowReportTest
 {
-    public class Input
+    [Test]
+    public void should_find_during_Xmas_of_1982()
     {
-        public string Question { get; set; }
-    }
+        // Arrange
+        var checkSnowReport = Task.New<CheckSnowReport>();
+        checkSnowReport.In.DateTime = new DateTime(1982, 12, 25);
 
-    public override void Execute()
-    {
+        // Act
+        checkSnowReport.Execute();
+
+        // Assert
+        Assert.That(checkSnowReport.Out.InchesOfSnow, Is.GreaterThan(0));
     }
 }
 ```
@@ -130,34 +170,26 @@ public class Ask : InTask<Ask.Input>
 In some cases it is necessary to control the behavior of a tasks's sub-tasks (often referred to as mocking) in order to properly isolate and test a particular piece of logic. `Fake.Task<TTask>()` allows for overriding a task's `Execute()` logic  and can be used to change the behavior of a sub-task.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+[TestFixture]
+public class GoSkiingTest
 {
-    public class Input
+    [Test]
+    public void should_go_skiing_on_powder_days()
     {
-        public string Question { get; set; }
-    }
+        // Arrange
+        var goSkiing = Task.New<GoSkiing>();
+        goSkiing.CheckSnowReport = Fake.Task<CheckSnowReport>(csr => csr.Out.InchesOfSnow = 6);
 
-    public override void Execute()
-    {
+        // Act
+        goSkiing.Execute();
+
+        // Assert
+        Assert.That(goSkiing.Out.Yes, Is.True);
     }
 }
 ```
 
 `Fake.SubTasks()` will override the behavior of all sub-tasks with an `Execute()` that does nothing. For tasks with many sub-tasks, it's easier to start with a call to `Fake.SubTasks()` and then fake the individual tasks that are necessary for the particular test scenario.
-
-```c#
-public class Ask : InTask<Ask.Input>
-{
-    public class Input
-    {
-        public string Question { get; set; }
-    }
-
-    public override void Execute()
-    {
-    }
-}
-```
 
 ##Data
 
@@ -172,82 +204,78 @@ Simpler comes with a set of tasks that could be considered a micro-ORM. The task
 `Db.GetMany<T>()` returns an array of `T` instances by using the given connection and SQL to query the database for rows of data. If values object is provided, it will search the SQL for parameters and use the properties on the values object to create and set the parameter values.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
 {
     public class Input
     {
-        public string Question { get; set; }
+        public string SomeCriteria { get; set; }
+    }
+
+    public class Output
+    {
+        public Stuff[] Stuff { get; set; }
     }
 
     public override void Execute()
     {
+        using(var connection = Db.Connect("MyConnectionString"))
+        {
+            const string sql =
+                @"
+                select 
+                    AColumn as Name
+                from 
+                    ABunchOfJoinedTables
+                where 
+                    SomeColumn = @SomeCriteria
+                    and
+                    AnotherColumn = @SomeOtherCriteria
+                ";
+
+            var values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
+
+            Out.Stuff = Db.GetMany<Stuff>(connection, sql, values);
+        }
     }
 }
 ```
 
 `Db.GetOne<T>()` returns one instance of `T` by using the given connection and SQL to query the database for a row of data. If values object is provided, it will search the SQL for parameters and use the properties on the values object to create and set the parameter values.
 
-```c#
-public class Ask : InTask<Ask.Input>
-{
-    public class Input
-    {
-        public string Question { get; set; }
-    }
-
-    public override void Execute()
-    {
-    }
-}
-```
-
 `Db.GetResult()` uses the given connection to execute the given SQL on the database and returns an integer result (usually the number of rows affected). If values object is provided, it will search the SQL for parameters and use the properties on the values object to create and set the parameter values.
 
-```c#
-public class Ask : InTask<Ask.Input>
-{
-    public class Input
-    {
-        public string Question { get; set; }
-    }
-
-    public override void Execute()
-    {
-    }
-}
-```
-
 `Db.GetScalar()` uses the given connection to execute the given SQL on the database and returns an object result. If values object is provided, it will search the SQL for parameters and use the properties on the values object to create and set the parameter values.
-
-```c#
-public class Ask : InTask<Ask.Input>
-{
-    public class Input
-    {
-        public string Question { get; set; }
-    }
-
-    public override void Execute()
-    {
-    }
-}
-```
-
 
 ##Parallel
 
 `Parallel` provide syntactic sugar on top of the `System.Threading.Parallel` for executing tasks in parallel. `Parallel.Execute()` will execute a variable number of tasks in parallel and return after all tasks have been executed.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class FindFlight : InOutTask<FindFlight.Input, FindFlight.Output>
 {
     public class Input
     {
-        public string Question { get; set; }
+        public FlightInfo FlightInfo { get; set; }
     }
+
+    public class Output
+    {
+        public string Url { get; set; }
+    }
+
+    public CheckUnited CheckUnited { get; set; }
+    public CheckDelta CheckDelta { get; set; }
 
     public override void Execute()
     {
+        CheckUnited.In.FlightInfo = In.FlightInfo;
+        CheckDelta.In.FlightInfo = In.FlightInfo;
+
+        Parallel.Execute(CheckUnited, CheckDelta);
+
+        Out.Url = CheckUnited.Out.Price < CheckDelta.Out.Price 
+            ? CheckUnited.Out.Url 
+            : CheckDelta.Out.Url;
     }
 }
 ```
@@ -257,16 +285,33 @@ public class Ask : InTask<Ask.Input>
 `Task.New<TTask>()` appears to just return an instance of the given `TTask`, however, it actually returns a proxy to the task. The proxy allows for intercepting `Execute()` calls to perform actions before and/or after the task executes. The `EventAttribute` can be sub-classed and applied to tasks to address cross-cutting concerns like logging.
 
 ```c#
-public class Ask : InTask<Ask.Input>
+public class LogAttribute : EventsAttribute
 {
-    public class Input
+    public override void BeforeExecute(Task task)
     {
-        public string Question { get; set; }
+        Console.WriteLine("{0} started.", task.Name);
     }
 
+    public override void AfterExecute(Task task)
+    {
+        Console.WriteLine("{0} finished.", task.Name);
+    }
+
+    public override void OnError(Task task, Exception exception)
+    {
+        Console.WriteLine("{0} bombed.", task.Name);
+    }
+}
+
+[Log]
+public class LogThings : Task
+{
+    // outputs "LogThings started." before Execute starts
     public override void Execute()
     {
+        Console.WriteLine("{0} executing.", Name); // outputs "LogThings executing."
     }
+    // outputs "LogThings finished." after Execute finishes
 }
 ```
 
