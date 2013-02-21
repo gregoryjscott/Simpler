@@ -1,7 +1,9 @@
 #Simpler
 
 Simpler’s goal is to help teams of developers deliver complete complex projects with consistent and readable code.
+
 For the most part, Simpler is just a philosophy on class design. In the traditional Object-oriented programming (OOP) approach, classes define objects that have data and methods with business logic. OOP classes are named as nouns that have verb methods that contain the business logic. The problem with this approach is that application operations typically need to interact with several classes, and it isn’t always immediately clear where functionality that affects more than one object should reside. This often leads to “manager” classes or “service” classes that become bloated with logic that can’t be assigned to one particular object class. Developers are constantly faced with decisions about where new logic should be placed, and conversely, it isn’t obvious where to look for logic that needs to be changed.
+
 The Simpler philosophy is to separate the data from the business logic. Data is defined in model classes that only contain properties. Models are typically just plain old CLR objects (POCOs), and therefore Simpler doesn’t provide any functionality pertaining to models. Simpler is concerned with the business logic.
 
 ##Tasks
@@ -20,12 +22,15 @@ public class Example
 ```
 
 The Name property provides a read-only name based on the name of the task class itself. The Name is often useful for logging task information. 
+
 The Stats property keeps track of how many times the task is executed along with the execute durations. Obviously stats are useful for profiling, and they are also handy for testing scenarios when you need to assert that a given task or sub-task has been executed as expected.
+
 Input and/or output data can be passed in and out of Task classes using properties. However, the InTask, OutTask, and InOutTask bases classes are better fit for this purpose.
 
 ###InTask
 
 The InTask is a task that will apply business logic to its given input but will not produce any output. It requires a generic parameter type that defines the type of input to the task. The input is exposed to the Execute() method through the In property. All references to inputs within the Execute() method are prefixed with “In.” therefore enhancing the readability of the business logic code.
+
 A common convention is to define an Input class inside the InTask that contains the input as properties and pass the Input class as the generic parameter type to the InTask. This effectively makes the In property a container for all the necessary input to the task.
 
 ```c#
@@ -45,6 +50,7 @@ public class Ask : InTask<Ask.Input>
 ###OutTask
 
 The OutTask is a task that will produce output using business logic but will not accept any input. It requires a generic parameter type that defines the type of output of the task. The output is set in the Execute() method using the Out propertyAll references to the outputs within the Execute() method are prefixed with “Out.” therefore enhancing the readability of the business logic code.
+
 A common convention is to define an Output class inside the OutTask that contains the output as properties and pass the Output class as the generic parameter type to the OutTask. This effectively makes the Out property a container for all the output of the task.
 
 ```c#
@@ -82,7 +88,9 @@ public class Ask : InTask<Ask.Input>
 ###Sub-task Injection
 
 Typically business logic will need to be broken up into multiple task classes, and often it often makes sense for a task to execute other tasks. The situation where one task relies on the instance of another task creates a dependency. To prevent tight coupling between the tasks in this situation, Simpler provides automatic sub-task injection.
+
 Tasks define their task dependencies as properties and these are referred to as sub-tasks. A sub-task is no different from a normal task; it is only called a sub-task when it is defined as a property on another task. Before a task is executed, Simpler checks to see if the task has any sub-tasks. If sub-tasks are found to be null, Simpler will automatically create the subtasks and inject them into the task properties.
+
 Sub-task injection keeps tasks loosely coupled and provides for advanced scenarios where dependencies need to be injected at runtime. More commonly, dependency injection is used to testing purposes.
 
 ```c#
@@ -154,11 +162,13 @@ public class Ask : InTask<Ask.Input>
 ##Data
 
 Simpler isn’t a full-featured object relational mapping (ORM) tool. ORMs work great in many scenarios, and Simpler.Data tasks can certainly execute ORM commands. However, some projects require communicating with databases with crazy relational data and custom SQL becomes the most optimal way of interaction. Simpler.Data provides functionality for interacting with relational databases using raw SQL.
+
 Simpler comes with a set of tasks that could be considered a micro-ORM. The tasks in the Simpler.Data namespace can be used to get data out of a database and into POCOs, or persist data from POCOs to a database using parameterized SQL. For convenience, Simpler provides a static Db class that wraps the Simpler.Data tasks.
 
 ###Db
 
 Db.Connect() will create and return an open instance of IDbConnection using the given connection name. Simpler will search the configuration file for a connectionString entry that matches the given connection name, and use it along with the .NET DbProviderFactories to create and open the connection.
+
 GetMany<T>() returns an array of T instances by using the given connection and SQL to query the database for rows of data. If values object is provided, it will search the SQL for parameters and use the properties on the values object to create and set the parameter values.
 
 ```c#
