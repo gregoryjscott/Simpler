@@ -1,6 +1,6 @@
 #Simpler
 
-Simpler's goal is to help teams of developers deliver complete complex projects with consistent and readable code.
+Simpler's goal is to help teams of developers complete complex projects with consistent and readable code.
 
 For the most part, Simpler is just a philosophy on class design. In the traditional Object-oriented programming (OOP) approach, classes define objects that have data and methods with business logic. OOP classes are named as nouns that have verb methods that contain the business logic. The problem with this approach is that application operations typically need to interact with several classes, and it isn't always immediately clear where functionality that affects more than one object should reside. This often leads to "manager" classes or "service" classes that become bloated with logic that can't be assigned to one particular object class. Developers are constantly faced with decisions about where new logic should be placed, and conversely, it isn't obvious where to look for logic during maintenance.
 
@@ -72,12 +72,12 @@ public class ReceiveAdvice : OutTask<ReceiveAdvice.Output>
 {
     public class Output
     {
-        public string Secret { get; set; }
+        public string Advice { get; set; }
     }
 
     public override void Execute()
     {
-        // Find some good advice somewhere.
+        // Find some good advice.
     }
 }
 ```
@@ -150,7 +150,7 @@ By design, all tasks clearly define their inputs, outputs, and code to test, the
 public class CheckSnowReportTest
 {
     [Test]
-    public void should_find_during_Xmas_of_1982()
+    public void should_find_snow_Xmas_1982()
     {
         // Arrange
         var checkSnowReport = Task.New<CheckSnowReport>();
@@ -170,6 +170,22 @@ public class CheckSnowReportTest
 In some cases it is necessary to control the behavior of a tasks's sub-tasks (often referred to as mocking) in order to properly isolate and test a particular piece of logic. `Fake.Task<TTask>()` allows for overriding a task's `Execute()` logic  and can be used to change the behavior of a sub-task.
 
 ```c#
+public class GoSkiing : OutTask<GoSkiing.Output>
+{
+    public class Output
+    {
+        public bool Yes { get; set; }
+    }
+
+    public CheckSnowReport CheckSnowReport { get; set; }
+
+    public override void Execute()
+    {
+        CheckSnowReport.Execute();
+        Out.Yes = CheckSnowReport.Out.InchesOfSnow >= 6;
+    }
+}
+
 [TestFixture]
 public class GoSkiingTest
 {

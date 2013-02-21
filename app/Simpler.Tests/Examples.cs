@@ -40,12 +40,12 @@ public class ReceiveAdvice : OutTask<ReceiveAdvice.Output>
 {
     public class Output
     {
-        public string Secret { get; set; }
+        public string Advice { get; set; }
     }
 
     public override void Execute()
     {
-        // Find some good advice somewhere.
+        // Find some good advice.
     }
 }
 
@@ -114,7 +114,7 @@ public class CheckSnowReport : InOutTask<CheckSnowReport.Input, CheckSnowReport.
 public class CheckSnowReportTest
 {
     [Test]
-    public void should_find_during_Xmas_of_1982()
+    public void should_find_snow_Xmas_1982()
     {
         // Arrange
         var checkSnowReport = Task.New<CheckSnowReport>();
