@@ -7,7 +7,7 @@ using System.Linq;
 namespace Simpler
 {
     [InjectTasks]
-    public abstract class Task
+    public abstract class Task : MarshalByRefObject
     {
         public static T New<T>()
         {
@@ -25,10 +25,11 @@ namespace Simpler
         {
             get
             {
-                var baseType = GetType().BaseType;
-                return baseType == null
-                           ? "Unknown"
-                           : String.Format("{0}.{1}", baseType.Namespace, baseType.Name);
+                return GetType().FullName;
+                //var baseType = GetType().BaseType;
+                //return baseType == null
+                //           ? "Unknown"
+                //           : String.Format("{0}.{1}", baseType.Namespace, baseType.Name);
             }
         }
 
