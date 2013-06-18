@@ -1,8 +1,10 @@
 using System;
+using Newtonsoft.Json;
+using Simpler.Core.Interfaces;
 
 namespace Simpler
 {
-    public abstract class InOutTask<TIn, TOut> : Task
+    public abstract class InOutTask<TIn, TOut> : Task, IInTask<TIn>, IOutTask<TOut>
     {
         TIn _in;
         public virtual TIn In
@@ -32,6 +34,21 @@ namespace Simpler
                 return _out;
             }
             set { _out = value; }
+        }
+
+        public virtual string InJson()
+        {
+            return JsonConvert.SerializeObject(In);
+        }
+
+        public virtual string OutJson()
+        {
+            return JsonConvert.SerializeObject(Out);
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(new { Name, In});
         }
     }
 }

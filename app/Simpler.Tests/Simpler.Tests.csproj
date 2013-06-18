@@ -60,9 +60,7 @@
     <Compile Include="Core\Mocks\MockTask.cs" />
     <Compile Include="Core\Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Core\Mocks\MockTaskThatThrowsWithAttributes.cs" />
-    <Compile Include="Core\Mocks\MockTaskWithOverrideAttribute.cs" />
     <Compile Include="Core\Mocks\MockPerson.cs" />
-    <Compile Include="Core\Mocks\MockOverrideAttribute.cs" />
     <Compile Include="Core\Mocks\MockParentTask.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubTask.cs" />
@@ -70,7 +68,6 @@
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
     <Compile Include="Core\Tasks\InjectTasksTest.cs" />
-    <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
     <Compile Include="Data\Tasks\BuildDynamicTest.cs" />
     <Compile Include="Data\ResultsTest.cs" />
