@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Simpler.Core;
 using Simpler.Core.Tasks;
 using System.Linq;
@@ -26,10 +28,6 @@ namespace Simpler
             get
             {
                 return GetType().FullName;
-                //var baseType = GetType().BaseType;
-                //return baseType == null
-                //           ? "Unknown"
-                //           : String.Format("{0}.{1}", baseType.Namespace, baseType.Name);
             }
         }
 
