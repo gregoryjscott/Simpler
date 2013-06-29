@@ -10,54 +10,54 @@ namespace Simpler.Tests.Core.Tasks
     [TestFixture]
     public class ExecuteTaskTest
     {
-        static void VerifyFiveCallbacks(MockTaskWithAttributes taskWithAttributes)
+        static void VerifyFiveCallbacks(MockSimpleTaskWithAttributes simpleTaskWithAttributes)
         {
-            Assert.That(taskWithAttributes.CallbackQueue.Count, Is.EqualTo(5));
+            Assert.That(simpleTaskWithAttributes.CallbackQueue.Count, Is.EqualTo(5));
 
             // Note: Attributes on a class are not returned in any order and therefore the it can not be assumed that the
             // first attribute will receive the first callback.
-            if (taskWithAttributes.CallbackQueue.Peek().Contains("First"))
+            if (simpleTaskWithAttributes.CallbackQueue.Peek().Contains("First"))
             {
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
             }
             else
             {
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
-                Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(simpleTaskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
             }
         }
-        static void VerifySevenCallbacks(MockTaskThatThrowsWithAttributes taskThatThrowsWithAttributes)
+        static void VerifySevenCallbacks(MockSimpleTaskThatThrowsWithAttributes simpleTaskThatThrowsWithAttributes)
         {
-            Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Count, Is.EqualTo(7));
+            Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Count, Is.EqualTo(7));
 
             // Note: Attributes on a class are not returned in any order and therefore the it can not be assumed that the
             // first attribute will receive the first callback.
-            if (taskThatThrowsWithAttributes.CallbackQueue.Peek().Contains("First"))
+            if (simpleTaskThatThrowsWithAttributes.CallbackQueue.Peek().Contains("First"))
             {
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
             }
             else
             {
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
-                Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.Before"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.Before"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Execute"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.OnError"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.OnError"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("First.After"));
+                Assert.That(simpleTaskThatThrowsWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
             }
         }
 
@@ -65,10 +65,10 @@ namespace Simpler.Tests.Core.Tasks
         public void should_send_notifications_before_and_after_the_task_is_executed()
         {
             // Arrange
-            var task = Task.New<ExecuteTask>();
+            var task = SimpleTask.New<ExecuteSimpleTask>();
 
-            var taskWithAttributes = new MockTaskWithAttributes();
-            task.In.Task = taskWithAttributes;
+            var taskWithAttributes = new MockSimpleTaskWithAttributes();
+            task.In.SimpleTask = taskWithAttributes;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
@@ -85,10 +85,10 @@ namespace Simpler.Tests.Core.Tasks
         public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
         {
             // Arrange
-            var task = Task.New<ExecuteTask>();
+            var task = SimpleTask.New<ExecuteSimpleTask>();
 
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
+            var taskWithAttributesThatThrows = new MockSimpleTaskThatThrowsWithAttributes();
+            task.In.SimpleTask = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
@@ -105,10 +105,10 @@ namespace Simpler.Tests.Core.Tasks
         public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
         {
             // Arrange
-            var task = Task.New<ExecuteTask>();
+            var task = SimpleTask.New<ExecuteSimpleTask>();
 
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
+            var taskWithAttributesThatThrows = new MockSimpleTaskThatThrowsWithAttributes();
+            task.In.SimpleTask = taskWithAttributesThatThrows;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
@@ -139,10 +139,10 @@ namespace Simpler.Tests.Core.Tasks
         public void should_allow_the_task_execution_to_be_overriden()
         {
             // Arrange
-            var task = Task.New<ExecuteTask>();
+            var task = SimpleTask.New<ExecuteSimpleTask>();
 
-            var taskWithOverride = new MockTaskWithOverrideAttribute();
-            task.In.Task = taskWithOverride;
+            var taskWithOverride = new MockSimpleTaskWithOverrideAttribute();
+            task.In.SimpleTask = taskWithOverride;
 
             var mockInvocation = new Mock<IInvocation>();
             mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);

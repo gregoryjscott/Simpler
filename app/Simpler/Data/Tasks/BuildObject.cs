@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildObject<T> : InOutTask<BuildObject<T>.Input, BuildObject<T>.Output> 
+    public class BuildObject<T> : InOutSimpleTask<BuildObject<T>.Input, BuildObject<T>.Output> 
     {
         public class Input
         {

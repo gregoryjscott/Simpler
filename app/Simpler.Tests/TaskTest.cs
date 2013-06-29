@@ -10,16 +10,16 @@ namespace Simpler.Tests
         [Test]
         public void should_create_new_task()
         {
-            var mockTask = Task.New<MockTask>();
+            var mockTask = SimpleTask.New<MockSimpleTask>();
 
-            Check.That(mockTask != null, "MockTask was not created.");
+            Check.That(mockTask != null, "MockSimpleTask was not created.");
         }
 
         [Test]
         public void should_provide_underlying_task_name()
         {
-            var mockTask = Task.New<MockTask>();
-            const string expectedName = "Simpler.Tests.Core.Mocks.MockTask";
+            var mockTask = SimpleTask.New<MockSimpleTask>();
+            const string expectedName = "Simpler.Tests.Core.Mocks.MockSimpleTask";
 
             Check.That(mockTask.Name == expectedName, "Expected name to be {0}.", expectedName);
         }
@@ -27,13 +27,13 @@ namespace Simpler.Tests
         [Test]
         public void should_throw_if_attempt_new_InjectTasks()
         {
-            Check.Throws(() => Task.New<InjectTasks>());
+            Check.Throws(() => SimpleTask.New<InjectSimpleTasks>());
         }
 
         [Test]
         public void should_throw_if_attempt_new_DisposeTasks()
         {
-            Check.Throws<CheckException>(() => Task.New<DisposeTasks>());
+            Check.Throws<CheckException>(() => SimpleTask.New<DisposeSimpleTasks>());
         }
     }
 }

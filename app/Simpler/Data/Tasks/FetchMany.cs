@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class FetchMany<T> : InOutTask<FetchMany<T>.Input, FetchMany<T>.Output>  
+    public class FetchMany<T> : InOutSimpleTask<FetchMany<T>.Input, FetchMany<T>.Output>  
     {
         public class Input
         {

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildParameters : InTask<BuildParameters.Input>
+    public class BuildParameters : InSimpleTask<BuildParameters.Input>
     {
         public class Input
         {

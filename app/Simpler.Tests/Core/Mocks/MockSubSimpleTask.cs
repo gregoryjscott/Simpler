@@ -2,7 +2,7 @@ using System;
 
 namespace Simpler.Tests.Core.Mocks
 {
-	public class MockSubTask<T> : Task, IDisposable
+	public class MockSubSimpleTask<T> : SimpleTask, IDisposable
 	{
         public override void Execute()
         {

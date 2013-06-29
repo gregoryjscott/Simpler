@@ -6,7 +6,7 @@ using Simpler.Data.Tasks;
 
 namespace Simpler
 {
-    public class OldAsk : Task
+    public class OldAsk : SimpleTask
     {
         // Inputs
         public string Question { get; set; }
@@ -23,7 +23,7 @@ namespace Simpler
         }
     }
 
-    public class Ask : InOutTask<Ask.Input, Ask.Output>
+    public class Ask : InOutSimpleTask<Ask.Input, Ask.Output>
     {
         public class Input
         {
@@ -46,31 +46,31 @@ namespace Simpler
 
     public class LogAttribute : EventsAttribute
     {
-        public override void BeforeExecute(Task task)
+        public override void BeforeExecute(SimpleTask simpleTask)
         {
-            Console.WriteLine(String.Format("{0} started.", task.Name));
+            Console.WriteLine(String.Format("{0} started.", simpleTask.Name));
         }
 
-        public override void AfterExecute(Task task)
+        public override void AfterExecute(SimpleTask simpleTask)
         {
-            Console.WriteLine(String.Format("{0} finished.", task.Name));
+            Console.WriteLine(String.Format("{0} finished.", simpleTask.Name));
         }
 
-        public override void OnError(Task task, Exception exception)
+        public override void OnError(SimpleTask simpleTask, Exception exception)
         {
-            Console.WriteLine(String.Format("{0} bombed; error message: {1}.", task.Name, exception.Message));
+            Console.WriteLine(String.Format("{0} bombed; error message: {1}.", simpleTask.Name, exception.Message));
         }
     }
 
     [Log]
-    public class BeAnnoying : InTask<BeAnnoying.Input>
+    public class BeAnnoying : InSimpleTask<BeAnnoying.Input>
     {
         public class Input
         {
             public int AnnoyanceLevel { get; set; }
         }
 
-        // sub-task
+        // sub-SimpleTask
         public Ask Ask { get; set; }
 
         public override void Execute()
@@ -89,7 +89,7 @@ namespace Simpler
     {
         Program()
         {
-            var beAnnoying = Task.New<BeAnnoying>();
+            var beAnnoying = SimpleTask.New<BeAnnoying>();
             beAnnoying.In.AnnoyanceLevel = 10;
             beAnnoying.Execute();
         }
@@ -100,7 +100,7 @@ namespace Simpler
         public string Name { get; set; }
     }
 
-    public class OldFetchCertainStuff : InOutTask<OldFetchCertainStuff.Input, OldFetchCertainStuff.Output>
+    public class OldFetchCertainStuff : InOutSimpleTask<OldFetchCertainStuff.Input, OldFetchCertainStuff.Output>
     {
         public class Input
         {
@@ -145,7 +145,7 @@ namespace Simpler
         }
     }
 
-    public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
+    public class FetchCertainStuff : InOutSimpleTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
     {
         public class Input
         {
@@ -187,7 +187,7 @@ namespace Simpler
         public void should_return_9_pocos()
         {
             // Arrange
-            var task = Task.New<FetchCertainStuff>();
+            var task = SimpleTask.New<FetchCertainStuff>();
             task.In.SomeCriteria = "criteria";
 
             // Act

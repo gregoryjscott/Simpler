@@ -7,20 +7,20 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core
 {
-    public class FakeInvocation<TTask> : IInvocation where TTask : Task
+    public class FakeInvocation<TTask> : IInvocation where TTask : SimpleTask
     {
-        public FakeInvocation(Task task, Action<TTask> execute)
+        public FakeInvocation(SimpleTask simpleTask, Action<TTask> execute)
         {
-            _task = task;
+            _simpleTask = simpleTask;
             _execute = execute;
         }
 
-        readonly Task _task;
+        readonly SimpleTask _simpleTask;
         readonly Action<TTask> _execute;
 
         public void Proceed()
         {
-            _execute((TTask)_task);
+            _execute((TTask)_simpleTask);
         }
 
         #region Not Implemented
