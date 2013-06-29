@@ -7,16 +7,16 @@ using System.Linq;
 namespace Simpler
 {
     [InjectTasks]
-    public abstract class Task
+    public abstract class SimpleTask
     {
         public static T New<T>()
         {
-            var invalidTasks = new[] {"InjectTasks", "DisposeTasks"};
+            var invalidTasks = new[] {"InjectSimpleTasks", "DisposeSimpleTasks"};
             var taskType = typeof (T);
             Check.That(!invalidTasks.Contains(taskType.Name), 
-                "This task type can't be passed to Task.New because its a Core task used by Task.New.");
+                "This SimpleTask type can't be passed to SimpleTask.New because its a Core SimpleTask used by SimpleTask.New.");
 
-            var createTask = new CreateTask {In = {TaskType = taskType}};
+            var createTask = new CreateSimpleTask {In = {TaskType = taskType}};
             createTask.Execute();
             return (T)createTask.Out.TaskInstance;
         }

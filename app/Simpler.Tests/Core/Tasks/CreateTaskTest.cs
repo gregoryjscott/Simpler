@@ -19,7 +19,7 @@ namespace Simpler.Tests.Core.Tasks
 
             // Assert
             Assert.That(task.Out.TaskInstance, Is.InstanceOf<MockSimpleTask>());
-            Assert.That(task.Out.TaskInstance.GetType().Name, Is.Not.EqualTo("MockTaskWithAttributesProxy"));
+            Assert.That(task.Out.TaskInstance.GetType().Name, Is.Not.EqualTo("MockSimpleTaskWithAttributesProxy"));
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Simpler.Tests.Core.Tasks
 
             // Assert
             Assert.That(task.Out.TaskInstance, Is.InstanceOf<MockSimpleTaskWithAttributes>());
-            Assert.That(task.Out.TaskInstance.GetType().Name, Is.EqualTo("MockTaskWithAttributesProxy"));
+            Assert.That(task.Out.TaskInstance.GetType().Name, Is.EqualTo("MockSimpleTaskWithAttributesProxy"));
         }
     }
 }
