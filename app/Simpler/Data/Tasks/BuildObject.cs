@@ -35,11 +35,16 @@ namespace Simpler.Data.Tasks
                 {
                     var propertyType = propertyInfo.PropertyType;
 
+                    if (propertyType.IsEnum)
+                    {
+                        propertyInfo.SetValue(Out.Object,Enum.Parse(propertyType,columnValue.ToString()),null);
+                        continue;
+                    }
+
                     if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
                         propertyType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
                     }
-
                     columnValue = Convert.ChangeType(columnValue, propertyType);
                     propertyInfo.SetValue(Out.Object, columnValue, null);
                 }
