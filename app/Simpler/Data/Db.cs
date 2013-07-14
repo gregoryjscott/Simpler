@@ -31,7 +31,7 @@ namespace Simpler.Data
         {
             var many = new T[] {};
 
-            var execute = Task.New<ExecuteAction>();
+            var execute = SimpleTask.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
@@ -40,7 +40,7 @@ namespace Simpler.Data
                     {
                         command.CommandTimeout = timeout;
 
-                        var fetchMany = Task.New<FetchMany<T>>();
+                        var fetchMany = SimpleTask.New<FetchMany<T>>();
                         fetchMany.In.SelectCommand = command;
                         fetchMany.Execute();
                         many = fetchMany.Out.ObjectsFetched;
@@ -54,7 +54,7 @@ namespace Simpler.Data
         {
             var one = default(T);
 
-            var execute = Task.New<ExecuteAction>();
+            var execute = SimpleTask.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
@@ -63,7 +63,7 @@ namespace Simpler.Data
                     {
                         command.CommandTimeout = timeout;
 
-                        var fetchMany = Task.New<FetchMany<T>>();
+                        var fetchMany = SimpleTask.New<FetchMany<T>>();
                         fetchMany.In.SelectCommand = command;
                         fetchMany.Execute();
                         one = fetchMany.Out.ObjectsFetched.Single();
@@ -77,7 +77,7 @@ namespace Simpler.Data
         {
             var result = default(int);
 
-            var execute = Task.New<ExecuteAction>();
+            var execute = SimpleTask.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;
@@ -97,7 +97,7 @@ namespace Simpler.Data
         {
             var scalar = default(object);
 
-            var execute = Task.New<ExecuteAction>();
+            var execute = SimpleTask.New<ExecuteAction>();
             execute.In.Connection = connection;
             execute.In.Sql = sql;
             execute.In.Values = values;

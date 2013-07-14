@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Simpler.Core.Tasks
 {
-    public class DisposeTasks : InTask<DisposeTasks.Input>
+    public class DisposeSimpleTasks : InSimpleTask<DisposeSimpleTasks.Input>
     {
         public class Input
         {
-            public Task Owner { get; set; }
+            public SimpleTask Owner { get; set; }
             public string[] InjectedTaskNames { get; set; }
         }
 
@@ -18,7 +18,7 @@ namespace Simpler.Core.Tasks
             var properties = In.Owner.GetType().GetProperties();
 
             foreach (var property in properties.Where(
-                property => property.PropertyType.IsSubclassOf(typeof(Task))
+                property => property.PropertyType.IsSubclassOf(typeof(SimpleTask))
                     &&
                     taskNames.Contains(property.PropertyType.FullName)
                     &&

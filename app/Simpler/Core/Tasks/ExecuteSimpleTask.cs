@@ -3,25 +3,25 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core.Tasks
 {
-    public class ExecuteTask : InTask<ExecuteTask.Input>
+    public class ExecuteSimpleTask : InSimpleTask<ExecuteSimpleTask.Input>
     {
         public class Input
         {
-            public Task Task { get; set; }
+            public SimpleTask SimpleTask { get; set; }
             public IInvocation Invocation { get; set; }
         }
 
         public override void Execute()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(In.Task.GetType(), typeof (EventsAttribute));
-            var overrideAttribute = Attribute.GetCustomAttribute(In.Task.GetType(), typeof (OverrideAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(In.SimpleTask.GetType(), typeof (EventsAttribute));
+            var overrideAttribute = Attribute.GetCustomAttribute(In.SimpleTask.GetType(), typeof (OverrideAttribute));
 
             var beforeTime = DateTime.Now;
             try
             {
                 foreach (var callbackAttribute in callbackAttributes)
                 {
-                    ((EventsAttribute)callbackAttribute).BeforeExecute(In.Task);
+                    ((EventsAttribute)callbackAttribute).BeforeExecute(In.SimpleTask);
                 }
 
                 if (overrideAttribute != null)
@@ -37,7 +37,7 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).OnError(In.Task, exception);
+                    ((EventsAttribute) callbackAttributes[i]).OnError(In.SimpleTask, exception);
                 }
 
                 throw;
@@ -46,12 +46,12 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(In.Task);
+                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(In.SimpleTask);
                 }
 
                 var afterTime = DateTime.Now;
                 var duration = afterTime - beforeTime;
-                In.Task.Stats.ExecuteDurations.Add(duration);
+                In.SimpleTask.Stats.ExecuteDurations.Add(duration);
             }
         }
     }

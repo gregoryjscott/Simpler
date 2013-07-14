@@ -15,7 +15,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_return_an_object_for_each_record_returned_by_the_select_command()
         {
             // Arrange
-            var task = Task.New<FetchMany<MockObject>>();
+            var task = SimpleTask.New<FetchMany<MockObject>>();
 
             var table = new DataTable();
             table.Columns.Add("Name", Type.GetType("System.String"));

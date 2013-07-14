@@ -8,7 +8,7 @@ namespace Simpler.Tests.Core.Mocks
     {
         public override void ExecuteOverride(IInvocation execute)
         {
-            ((MockTaskWithOverrideAttribute)execute.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
+            ((MockSimpleTaskWithOverrideAttribute)execute.InvocationTarget).OverrideWasCalledTime = DateTime.Now;
             Thread.Sleep(100);
             execute.Proceed();
         }

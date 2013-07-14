@@ -8,19 +8,19 @@ namespace Simpler.Core
     {
         readonly List<string> _injectedSubTaskPropertyNames = new List<string>();
 
-        public override void BeforeExecute(Task task)
+        public override void BeforeExecute(SimpleTask simpleTask)
         {
-            var inject = new InjectTasks { In = { TaskContainingSubTasks = task } };
+            var inject = new InjectSimpleTasks { In = { SimpleTaskContainingSubSimpleTasks = simpleTask } };
             inject.Execute();
             _injectedSubTaskPropertyNames.AddRange(inject.Out.InjectedSubTaskPropertyNames);
         }
 
-        public override void AfterExecute(Task task)
+        public override void AfterExecute(SimpleTask simpleTask)
         {
-            var dispose = new DisposeTasks { In = { Owner = task, InjectedTaskNames = _injectedSubTaskPropertyNames.ToArray() } };
+            var dispose = new DisposeSimpleTasks { In = { Owner = simpleTask, InjectedTaskNames = _injectedSubTaskPropertyNames.ToArray() } };
             dispose.Execute();
         }
 
-        public override void OnError(Task task, Exception exception) { }
+        public override void OnError(SimpleTask simpleTask, Exception exception) { }
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Simpler.Core.Tasks
 {
-    public class CreateTask : InOutTask<CreateTask.Input, CreateTask.Output>
+    public class CreateSimpleTask : InOutSimpleTask<CreateSimpleTask.Input, CreateSimpleTask.Output>
     {
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
@@ -18,7 +18,7 @@ namespace Simpler.Core.Tasks
             public object TaskInstance { get; set; }
         }
 
-        public ExecuteTask ExecuteTask { get; set; }
+        public ExecuteSimpleTask ExecuteSimpleTask { get; set; }
 
         public override void Execute()
         {
@@ -27,10 +27,10 @@ namespace Simpler.Core.Tasks
                 In.ExecuteInterceptor = new ExecuteInterceptor(
                     invocation =>
                         {
-                            if (ExecuteTask == null) ExecuteTask = new ExecuteTask();
-                            ExecuteTask.In.Task = (Task)invocation.InvocationTarget;
-                            ExecuteTask.In.Invocation = invocation;
-                            ExecuteTask.Execute();
+                            if (ExecuteSimpleTask == null) ExecuteSimpleTask = new ExecuteSimpleTask();
+                            ExecuteSimpleTask.In.SimpleTask = (SimpleTask)invocation.InvocationTarget;
+                            ExecuteSimpleTask.In.Invocation = invocation;
+                            ExecuteSimpleTask.Execute();
                         });
             }
 
