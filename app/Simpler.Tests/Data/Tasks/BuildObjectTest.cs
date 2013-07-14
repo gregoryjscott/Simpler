@@ -83,5 +83,24 @@ namespace Simpler.Tests.Data.Tasks
             Assert.That(task.Out.Object.Name, Is.EqualTo("John Doe"));
             Assert.That(task.Out.Object.Age, Is.Null);
         }
+
+        [Test]
+        public void should_build_enum_properties()
+        {
+            // Arrange
+            var task = Task.New<BuildObject<MockObject>>();
+
+            var mockDataRecord = new Mock<IDataRecord>();
+            mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
+            mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("MockEnum");
+            mockDataRecord.Setup(dataRecord => dataRecord["MockEnum"]).Returns("One");
+            task.In.DataRecord = mockDataRecord.Object;
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(task.Out.Object.MockEnum, Is.EqualTo(MockEnum.One));
+        }
     }
 }
