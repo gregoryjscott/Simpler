@@ -11,12 +11,8 @@ namespace Simpler.Tests.Data.Tasks
     [TestFixture]
     public class FetchManyTest
     {
-        [Test]
-        public void should_return_an_object_for_each_record_returned_by_the_select_command()
+        static IDbCommand SetupSelectCommand()
         {
-            // Arrange
-            var task = Task.New<FetchMany<MockObject>>();
-
             var table = new DataTable();
             table.Columns.Add("Name", Type.GetType("System.String"));
             table.Columns.Add("Age", Type.GetType("System.Int32"));
@@ -25,7 +21,15 @@ namespace Simpler.Tests.Data.Tasks
 
             var mockSelectCommand = new Mock<IDbCommand>();
             mockSelectCommand.Setup(command => command.ExecuteReader()).Returns(table.CreateDataReader());
-            task.In.SelectCommand = mockSelectCommand.Object;
+            return mockSelectCommand.Object;
+        }
+
+        [Test]
+        public void should_return_an_object_for_each_record_returned_by_the_select_command()
+        {
+            // Arrange
+            var task = Task.New<FetchMany<MockObject>>();
+            task.In.SelectCommand = SetupSelectCommand();
 
             // Act
             task.Execute();
@@ -34,6 +38,42 @@ namespace Simpler.Tests.Data.Tasks
             Assert.That(task.Out.ObjectsFetched.Count(), Is.EqualTo(2));
             Assert.That(task.Out.ObjectsFetched[0].Name, Is.EqualTo("John Doe"));
             Assert.That(task.Out.ObjectsFetched[1].Name, Is.EqualTo("Jane Doe"));
+        }
+
+        [Test]
+        public void should_build_typed_objects_if_given_strong_type()
+        {
+            // Arrange
+            var task = Task.New<FetchMany<MockObject>>();
+            task.In.SelectCommand = SetupSelectCommand();
+
+            task.BuildTyped = Fake.Task<BuildTyped<MockObject>>(bt => bt.Out.Object = new MockObject());
+            task.BuildDynamic = Fake.Task<BuildDynamic>();
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(task.BuildTyped.Stats.ExecuteCount, Is.GreaterThan(0));
+            Assert.That(task.BuildDynamic.Stats.ExecuteCount, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void should_build_dynamic_objects_if_given_dynamic_type()
+        {
+            // Arrange
+            var task = Task.New<FetchMany<dynamic>>();
+            task.In.SelectCommand = SetupSelectCommand();
+
+            task.BuildTyped = Fake.Task<BuildTyped<dynamic>>();
+            task.BuildDynamic = Fake.Task<BuildDynamic>(bd => bd.Out.Object = new MockObject());
+
+            // Act
+            task.Execute();
+
+            // Assert
+            Assert.That(task.BuildTyped.Stats.ExecuteCount, Is.EqualTo(0));
+            Assert.That(task.BuildDynamic.Stats.ExecuteCount, Is.GreaterThan(0));
         }
     }
 }

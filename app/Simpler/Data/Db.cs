@@ -29,7 +29,7 @@ namespace Simpler.Data
 
         public static T[] GetMany<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
-            var many = new T[] {};
+            var many = new T[] { };
 
             var execute = Task.New<ExecuteAction>();
             execute.In.Connection = connection;
@@ -37,40 +37,32 @@ namespace Simpler.Data
             execute.In.Values = values;
             execute.In.Action =
                 command =>
-                    {
-                        command.CommandTimeout = timeout;
+                {
+                    command.CommandTimeout = timeout;
 
-                        var fetchMany = Task.New<FetchMany<T>>();
-                        fetchMany.In.SelectCommand = command;
-                        fetchMany.Execute();
-                        many = fetchMany.Out.ObjectsFetched;
-                    };
+                    var fetchMany = Task.New<FetchMany<T>>();
+                    fetchMany.In.SelectCommand = command;
+                    fetchMany.Execute();
+                    many = fetchMany.Out.ObjectsFetched;
+                };
             execute.Execute();
 
             return many;
         }
 
+        public static dynamic[] GetMany(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        {
+            return GetMany<dynamic>(connection, sql, values, timeout);
+        }
+
         public static T GetOne<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
-            var one = default(T);
+            return GetMany<T>(connection, sql, values, timeout).Single();
+        }
 
-            var execute = Task.New<ExecuteAction>();
-            execute.In.Connection = connection;
-            execute.In.Sql = sql;
-            execute.In.Values = values;
-            execute.In.Action =
-                command =>
-                    {
-                        command.CommandTimeout = timeout;
-
-                        var fetchMany = Task.New<FetchMany<T>>();
-                        fetchMany.In.SelectCommand = command;
-                        fetchMany.Execute();
-                        one = fetchMany.Out.ObjectsFetched.Single();
-                    };
-            execute.Execute();
-
-            return one;
+        public static dynamic GetOne(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        {
+            return GetMany(connection, sql, values, timeout).Single();
         }
 
         public static int GetResult(IDbConnection connection, string sql, object values = null, int timeout = 30)

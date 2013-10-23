@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Simpler.Data.Tasks
@@ -15,24 +16,39 @@ namespace Simpler.Data.Tasks
             public T[] ObjectsFetched { get; set; }
         }
 
-        public BuildObject<T> BuildObject { get; set; }
+        public BuildTyped<T> BuildTyped { get; set; }
+        public BuildDynamic BuildDynamic { get; set; }
 
         public override void Execute()
         {
-            var objectList = new List<T>();
+            Func<IDataReader, T> buildObject;
+            if (typeof(T).FullName == "System.Object")
+            {
+                buildObject = reader =>
+                                  {
+                                      BuildDynamic.In.DataRecord = reader;
+                                      BuildDynamic.Execute();
+                                      return BuildDynamic.Out.Object;
+                                  };
+            }
+            else
+            {
+                buildObject = reader =>
+                                  {
+                                      BuildTyped.In.DataRecord = reader;
+                                      BuildTyped.Execute();
+                                      return BuildTyped.Out.Object;
+                                  };
+            }
 
+            var objectList = new List<T>();
             using (var dataReader = In.SelectCommand.ExecuteReader())
             {
                 while (dataReader.Read())
                 {
-                    BuildObject.In.DataRecord = dataReader;
-                    BuildObject.Execute();
-                    var newObject = BuildObject.Out.Object;
-
-                    objectList.Add(newObject);
+                    objectList.Add(buildObject(dataReader));
                 }
             }
-
             Out.ObjectsFetched = objectList.ToArray();
         }
     }
