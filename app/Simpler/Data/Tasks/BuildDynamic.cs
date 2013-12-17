@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 
@@ -39,15 +40,15 @@ namespace Simpler.Data.Tasks
 
         public override void Execute()
         {
-            Out.Object = new Dynamic();
-
+            Out.Object = new ExpandoObject();
+            var OutObject = Out.Object as IDictionary<string, Object>;
             for (var i = 0; i < In.DataRecord.FieldCount; i++)
             {
                 var columnName = In.DataRecord.GetName(i);
                 var columnValue = In.DataRecord[columnName];
                 if (columnValue.GetType() != typeof(System.DBNull))
                 {
-                    Out.Object.AddMember(columnName, columnValue);
+                    OutObject.Add(columnName, columnValue);
                 }
             }
         }
