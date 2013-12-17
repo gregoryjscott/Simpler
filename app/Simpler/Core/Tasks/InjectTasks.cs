@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Simpler.Core.Tasks
 {
-    public class InjectTasks : InOutTask<InjectTasks.Input, InjectTasks.Output>
+    public class InjectTasks : IO<InjectTasks.Input, InjectTasks.Output>
     {
         public class Input
         {
-            public Task TaskContainingSubTasks { get; set; }
+            public T TaskContainingSubTasks { get; set; }
         }
 
         public class Output
@@ -26,7 +26,7 @@ namespace Simpler.Core.Tasks
             var properties = In.TaskContainingSubTasks.GetType().GetProperties();
             foreach (var propertyX in properties)
             {
-                if (propertyX.PropertyType.IsSubclassOf(typeof(Task))
+                if (propertyX.PropertyType.IsSubclassOf(typeof(T))
                     && 
                     (propertyX.CanWrite && propertyX.GetValue(In.TaskContainingSubTasks, null) == null))
                 {

@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class ExecuteAction : InTask<ExecuteAction.Input>
+    public class ExecuteAction : I<ExecuteAction.Input>
     {
         public class Input
         {

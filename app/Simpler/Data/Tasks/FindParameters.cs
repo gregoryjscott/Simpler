@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Simpler.Data.Tasks
 {
-    public class FindParameters : InOutTask<FindParameters.Input, FindParameters.Output> 
+    public class FindParameters : IO<FindParameters.Input, FindParameters.Output> 
     {
         public class Input
         {

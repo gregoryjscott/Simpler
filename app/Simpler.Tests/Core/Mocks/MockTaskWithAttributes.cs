@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Simpler.Tests.Core.Mocks
 {
     [MockFirst, MockSecond]
-    public class MockTaskWithAttributes : Task
+    public class MockTaskWithAttributes : T
     {
         public MockTaskWithAttributes()
         {

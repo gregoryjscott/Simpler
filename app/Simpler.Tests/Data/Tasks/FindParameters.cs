@@ -10,7 +10,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_starting_with_an_at_symbol()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 select whatever from table where something = @something and something_else is true
@@ -27,7 +27,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_starting_with_a_colon()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 select whatever from table where something = :something and something_else is true
@@ -44,7 +44,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_that_contain_an_underscore()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 select whatever from table where something = @some_thing and something_else is true
@@ -61,7 +61,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_that_contain_a_dot()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 select whatever from table where something = @complex.object and something_else is true
@@ -78,7 +78,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_that_contain_a_number()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 select whatever from table where something = @some1thing1 and something_else is true
@@ -95,7 +95,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_followed_by_a_comma()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 insert into table set something = @something, something_else = 'whatever'
@@ -112,7 +112,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameters_followed_by_a_carriage_return()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 "select whatever from table where something = @something\n and something_else is true";
 
@@ -135,7 +135,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_find_parameter_at_the_very_end_of_the_command_text()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 "select whatever from table where something = @something";
 
@@ -150,7 +150,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_only_return_one_instance_of_parameter_name_even_if_parameter_exists_in_command_text_more_than_once()
         {
             // Arrange
-            var task = Task.New<FindParameters>();
+            var task = T.New<FindParameters>();
             task.In.CommandText =
                 @"
                 select whatever from table where something = @something and somethingelsealso = @something

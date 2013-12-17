@@ -6,23 +6,23 @@ namespace Simpler
 {
     public class Fake
     {
-        public static TTask Task<TTask>() where TTask : Task
+        public static TTask Task<TTask>() where TTask : T
         {
             return Task<TTask>(execute => {});
         }
 
-        public static TTask Task<TTask>(Action<TTask> execute) where TTask : Task
+        public static TTask Task<TTask>(Action<TTask> execute) where TTask : T
         {
             var interceptor = new ExecuteInterceptor(
                 invocation =>
                     {
-                        var executeTask = Simpler.Task.New<ExecuteTask>();
-                        executeTask.In.Task = (Task)invocation.InvocationTarget;
-                        executeTask.In.Invocation = new FakeInvocation<TTask>((Task)invocation.InvocationTarget, execute);
+                        var executeTask = Simpler.T.New<ExecuteTask>();
+                        executeTask.In.Task = (T)invocation.InvocationTarget;
+                        executeTask.In.Invocation = new FakeInvocation<TTask>((T)invocation.InvocationTarget, execute);
                         executeTask.Execute();
                     });
 
-            var createTask = Simpler.Task.New<CreateTask>();
+            var createTask = Simpler.T.New<CreateTask>();
             createTask.In.TaskType = typeof(TTask);
             createTask.In.ExecuteInterceptor = interceptor;
             createTask.Execute();

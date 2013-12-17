@@ -14,7 +14,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_static_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -40,7 +40,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_create_parameters_for_any_parameters_found_in_the_command_text_with_matching_properties_in_the_anonymous_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -65,7 +65,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_static_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -91,7 +91,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_set_parameter_to_the_value_found_in_the_matching_property_of_the_anonymous_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -116,7 +116,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_ignore_parameters_found_in_the_command_text_without_matching_properties_in_the_static_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -140,7 +140,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_ignore_parameters_found_in_the_command_text_without_matching_properties_in_the_anonymous_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -164,7 +164,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_set_parameter_to_dbnull_if_value_found_in_the_matching_property_of_the_static_object_is_null()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -190,7 +190,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_set_parameter_to_dbnull_if_value_found_in_the_matching_property_of_the_anonymous_object_is_dbnull()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -215,7 +215,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_support_setting_parameter_using_a_complex_static_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
@@ -242,7 +242,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_support_setting_parameter_using_a_complex_anonymous_object()
         {
             // Arrange
-            var task = Task.New<BuildParameters>();
+            var task = T.New<BuildParameters>();
 
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();

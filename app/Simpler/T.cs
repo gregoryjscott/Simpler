@@ -7,7 +7,7 @@ using System.Linq;
 namespace Simpler
 {
     [InjectTasks]
-    public abstract class Task
+    public abstract class T
     {
         public static T New<T>()
         {
