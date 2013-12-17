@@ -3,9 +3,9 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class ExecuteAction : I<ExecuteAction.Input>
+    public class ExecuteAction : I<ExecuteAction.Ins>
     {
-        public class Input
+        public class Ins
         {
             public IDbConnection Connection { get; set; }
             public string Sql { get; set; }

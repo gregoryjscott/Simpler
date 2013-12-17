@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Simpler.Core.Tasks
 {
-    public class DisposeTasks : I<DisposeTasks.Input>
+    public class DisposeTasks : I<DisposeTasks.Ins>
     {
-        public class Input
+        public class Ins
         {
             public T Owner { get; set; }
             public string[] InjectedTaskNames { get; set; }

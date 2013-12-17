@@ -23,14 +23,14 @@ namespace Simpler
         }
     }
 
-    public class Ask : IO<Ask.Input, Ask.Output>
+    public class Ask : IO<Ask.Ins, Ask.Outs>
     {
-        public class Input
+        public class Ins
         {
             public string Question { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public string Answer { get; set; }
         }
@@ -63,9 +63,9 @@ namespace Simpler
     }
 
     [Log]
-    public class BeAnnoying : I<BeAnnoying.Input>
+    public class BeAnnoying : I<BeAnnoying.Ins>
     {
-        public class Input
+        public class Ins
         {
             public int AnnoyanceLevel { get; set; }
         }
@@ -100,14 +100,14 @@ namespace Simpler
         public string Name { get; set; }
     }
 
-    public class OldFetchCertainStuff : IO<OldFetchCertainStuff.Input, OldFetchCertainStuff.Output>
+    public class OldFetchCertainStuff : IO<OldFetchCertainStuff.Ins, OldFetchCertainStuff.Outs>
     {
-        public class Input
+        public class Ins
         {
             public string SomeCriteria { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public Stuff[] Stuff { get; set; }
         }
@@ -145,14 +145,14 @@ namespace Simpler
         }
     }
 
-    public class FetchCertainStuff : IO<FetchCertainStuff.Input, FetchCertainStuff.Output>
+    public class FetchCertainStuff : IO<FetchCertainStuff.Ins, FetchCertainStuff.Outs>
     {
-        public class Input
+        public class Ins
         {
             public string SomeCriteria { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public Stuff[] Stuff { get; set; }
         }

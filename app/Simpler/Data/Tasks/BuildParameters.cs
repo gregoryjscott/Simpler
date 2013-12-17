@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildParameters : I<BuildParameters.Input>
+    public class BuildParameters : I<BuildParameters.Ins>
     {
-        public class Input
+        public class Ins
         {
             public IDbCommand Command { get; set; }
             public object Values { get; set; }

@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 namespace Simpler.Core.Tasks
 {
-    public class InjectTasks : IO<InjectTasks.Input, InjectTasks.Output>
+    public class InjectTasks : IO<InjectTasks.Ins, InjectTasks.Outs>
     {
-        public class Input
+        public class Ins
         {
             public T TaskContainingSubTasks { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public string[] InjectedSubTaskPropertyNames { get; set; }
         }

@@ -3,17 +3,17 @@ using System;
 
 namespace Simpler.Core.Tasks
 {
-    public class CreateTask : IO<CreateTask.Input, CreateTask.Output>
+    public class CreateTask : IO<CreateTask.Ins, CreateTask.Outs>
     {
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
-        public class Input
+        public class Ins
         {
             public Type TaskType { get; set; }
             public ExecuteInterceptor ExecuteInterceptor { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public object TaskInstance { get; set; }
         }

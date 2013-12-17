@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace Simpler.Data.Tasks
 {
-    public class FindParameters : IO<FindParameters.Input, FindParameters.Output> 
+    public class FindParameters : IO<FindParameters.Ins, FindParameters.Outs> 
     {
-        public class Input
+        public class Ins
         {
             public string CommandText { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public string[] ParameterNames { get; set; }
         }
