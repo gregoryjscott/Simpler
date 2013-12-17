@@ -3,14 +3,14 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildObject<T> : InOutTask<BuildObject<T>.Input, BuildObject<T>.Output> 
+    public class BuildObject<T> : IO<BuildObject<T>.Ins, BuildObject<T>.Outs> 
     {
-        public class Input
+        public class Ins
         {
             public IDataRecord DataRecord { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public T Object { get; set; }
         }

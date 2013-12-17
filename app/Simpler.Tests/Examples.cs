@@ -6,7 +6,7 @@ using Simpler.Data.Tasks;
 
 namespace Simpler
 {
-    public class OldAsk : Task
+    public class OldAsk : T
     {
         // Inputs
         public string Question { get; set; }
@@ -23,14 +23,14 @@ namespace Simpler
         }
     }
 
-    public class Ask : InOutTask<Ask.Input, Ask.Output>
+    public class Ask : IO<Ask.Ins, Ask.Outs>
     {
-        public class Input
+        public class Ins
         {
             public string Question { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public string Answer { get; set; }
         }
@@ -46,26 +46,26 @@ namespace Simpler
 
     public class LogAttribute : EventsAttribute
     {
-        public override void BeforeExecute(Task task)
+        public override void BeforeExecute(T task)
         {
             Console.WriteLine(String.Format("{0} started.", task.Name));
         }
 
-        public override void AfterExecute(Task task)
+        public override void AfterExecute(T task)
         {
             Console.WriteLine(String.Format("{0} finished.", task.Name));
         }
 
-        public override void OnError(Task task, Exception exception)
+        public override void OnError(T task, Exception exception)
         {
             Console.WriteLine(String.Format("{0} bombed; error message: {1}.", task.Name, exception.Message));
         }
     }
 
     [Log]
-    public class BeAnnoying : InTask<BeAnnoying.Input>
+    public class BeAnnoying : I<BeAnnoying.Ins>
     {
-        public class Input
+        public class Ins
         {
             public int AnnoyanceLevel { get; set; }
         }
@@ -89,7 +89,7 @@ namespace Simpler
     {
         Program()
         {
-            var beAnnoying = Task.New<BeAnnoying>();
+            var beAnnoying = T.New<BeAnnoying>();
             beAnnoying.In.AnnoyanceLevel = 10;
             beAnnoying.Execute();
         }
@@ -100,14 +100,14 @@ namespace Simpler
         public string Name { get; set; }
     }
 
-    public class OldFetchCertainStuff : InOutTask<OldFetchCertainStuff.Input, OldFetchCertainStuff.Output>
+    public class OldFetchCertainStuff : IO<OldFetchCertainStuff.Ins, OldFetchCertainStuff.Outs>
     {
-        public class Input
+        public class Ins
         {
             public string SomeCriteria { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public Stuff[] Stuff { get; set; }
         }
@@ -145,14 +145,14 @@ namespace Simpler
         }
     }
 
-    public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
+    public class FetchCertainStuff : IO<FetchCertainStuff.Ins, FetchCertainStuff.Outs>
     {
-        public class Input
+        public class Ins
         {
             public string SomeCriteria { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public Stuff[] Stuff { get; set; }
         }
@@ -187,7 +187,7 @@ namespace Simpler
         public void should_return_9_pocos()
         {
             // Arrange
-            var task = Task.New<FetchCertainStuff>();
+            var task = T.New<FetchCertainStuff>();
             task.In.SomeCriteria = "criteria";
 
             // Act

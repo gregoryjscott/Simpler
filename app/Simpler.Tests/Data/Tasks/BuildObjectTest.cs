@@ -13,7 +13,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_create_an_instance_of_given_object_type()
         {
             // Arrange
-            var task = Task.New<BuildObject<MockObject>>();
+            var task = T.New<BuildObject<MockObject>>();
 
             var mockDataRecord = new Mock<IDataRecord>();
             task.In.DataRecord = mockDataRecord.Object;
@@ -29,7 +29,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_populate_object_using_all_columns_in_the_data_record()
         {
             // Arrange
-            var task = Task.New<BuildObject<MockObject>>();
+            var task = T.New<BuildObject<MockObject>>();
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(2);
@@ -51,7 +51,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_a_data_record_column_is_not_a_property_of_the_object_class()
         {
             // Arrange
-            var task = Task.New<BuildObject<MockObject>>();
+            var task = T.New<BuildObject<MockObject>>();
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
@@ -67,7 +67,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_allow_object_to_have_properties_that_dont_have_matching_columns_in_the_data_record()
         {
             // Arrange
-            var task = Task.New<BuildObject<MockObject>>();
+            var task = T.New<BuildObject<MockObject>>();
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
@@ -88,7 +88,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_build_enum_properties()
         {
             // Arrange
-            var task = Task.New<BuildObject<MockObject>>();
+            var task = T.New<BuildObject<MockObject>>();
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);

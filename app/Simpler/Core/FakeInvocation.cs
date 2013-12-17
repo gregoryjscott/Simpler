@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Castle.DynamicProxy;
 
 namespace Simpler.Core
 {
-    public class FakeInvocation<TTask> : IInvocation where TTask : Task
+    public class FakeInvocation<TTask> : IInvocation where TTask : T
     {
-        public FakeInvocation(Task task, Action<TTask> execute)
+        public FakeInvocation(T task, Action<TTask> execute)
         {
             _task = task;
             _execute = execute;
         }
 
-        readonly Task _task;
+        readonly T _task;
         readonly Action<TTask> _execute;
 
         public void Proceed()

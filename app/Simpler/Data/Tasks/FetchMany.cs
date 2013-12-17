@@ -3,14 +3,14 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class FetchMany<T> : InOutTask<FetchMany<T>.Input, FetchMany<T>.Output>  
+    public class FetchMany<T> : IO<FetchMany<T>.Ins, FetchMany<T>.Outs>  
     {
-        public class Input
+        public class Ins
         {
             public IDbCommand SelectCommand { get; set; }
         }
 
-        public class Output
+        public class Outs
         {
             public T[] ObjectsFetched { get; set; }
         }

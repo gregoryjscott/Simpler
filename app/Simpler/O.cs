@@ -2,7 +2,7 @@ using System;
 
 namespace Simpler
 {
-    public abstract class OutTask<TOut> : Task
+    public abstract class O<TOut> : T
     {
         TOut _out;
         public TOut Out

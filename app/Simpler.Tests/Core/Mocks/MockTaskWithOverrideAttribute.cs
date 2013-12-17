@@ -3,7 +3,7 @@ using System;
 namespace Simpler.Tests.Core.Mocks
 {
     [MockOverride]
-    public class MockTaskWithOverrideAttribute : Task
+    public class MockTaskWithOverrideAttribute : T
     {
         public DateTime OverrideWasCalledTime;
         public DateTime WasExecutedTime;

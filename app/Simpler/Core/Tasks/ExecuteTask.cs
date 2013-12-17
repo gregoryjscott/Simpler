@@ -3,11 +3,11 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core.Tasks
 {
-    public class ExecuteTask : InTask<ExecuteTask.Input>
+    public class ExecuteTask : I<ExecuteTask.Ins>
     {
-        public class Input
+        public class Ins
         {
-            public Task Task { get; set; }
+            public T Task { get; set; }
             public IInvocation Invocation { get; set; }
         }
 

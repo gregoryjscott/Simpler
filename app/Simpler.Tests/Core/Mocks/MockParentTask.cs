@@ -2,7 +2,7 @@ using System;
 
 namespace Simpler.Tests.Core.Mocks
 {
-    public class MockParentTask : Task
+    public class MockParentTask : T
     {
         public bool SubTaskWasInjected { get; private set; }
 

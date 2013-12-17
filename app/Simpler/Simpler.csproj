@@ -65,13 +65,14 @@
     <Compile Include="Data\Tasks\BuildObject.cs" />
     <Compile Include="Core\Tasks\ExecuteTask.cs" />
     <Compile Include="Core\Tasks\CreateTask.cs" />
-    <Compile Include="InOutTask.cs" />
-    <Compile Include="InTask.cs" />
-    <Compile Include="OutTask.cs" />
+    <Compile Include="IO.cs" />
+    <Compile Include="I.cs" />
+    <Compile Include="O.cs" />
     <Compile Include="Stats.cs" />
-    <Compile Include="Task.cs" />
+    <Compile Include="T.cs" />
     <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wordy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

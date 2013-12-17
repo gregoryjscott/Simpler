@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildParameters : InTask<BuildParameters.Input>
+    public class BuildParameters : I<BuildParameters.Ins>
     {
-        public class Input
+        public class Ins
         {
             public IDbCommand Command { get; set; }
             public object Values { get; set; }
@@ -22,29 +22,29 @@ namespace Simpler.Data.Tasks
             foreach (var parameterNameX in FindParameters.Out.ParameterNames)
             {
                 var objectType = In.Values.GetType();
-                var objectContainingPropertyValue = In.Values;
+                var values = In.Values;
 
                 // Strip off the first character of the parameter name to find a matching property (e.g. make @Name => Name).
-                var nameOfPropertyContainingValue = parameterNameX.Substring(1);
+                var propertyName = parameterNameX.Substring(1);
 
                 // If the parameter contains a dot then the property must be a complex object, and therefore we must look inside the object to find the value.
                 PropertyInfo property;
-                while(nameOfPropertyContainingValue.Contains("."))
+                while(propertyName.Contains("."))
                 {
                     // Look for a property using the string that comes before the dot.
-                    var indexOfDot = nameOfPropertyContainingValue.IndexOf(".");
-                    property = objectType.GetProperty(nameOfPropertyContainingValue.Substring(0, indexOfDot));
+                    var indexOfDot = propertyName.IndexOf(".");
+                    property = objectType.GetProperty(propertyName.Substring(0, indexOfDot));
 
                     // Apparently there isn't a property that is a complex object that matches the parameter name.
                     if (property == null) break;
 
                     // Reset variables using the property that was found that matched the string that came before the dot. 
                     objectType = property.PropertyType;
-                    objectContainingPropertyValue = property.GetValue(objectContainingPropertyValue, null);
-                    nameOfPropertyContainingValue = nameOfPropertyContainingValue.Substring(indexOfDot + 1);
+                    values = property.GetValue(values, null);
+                    propertyName = propertyName.Substring(indexOfDot + 1);
                 }
 
-                property = objectType.GetProperty(nameOfPropertyContainingValue);
+                property = objectType.GetProperty(propertyName);
 
                 if (property != null)
                 {
@@ -54,7 +54,7 @@ namespace Simpler.Data.Tasks
                     dbDataParameter.ParameterName = parameterNameX.Replace(".", "_");
                     In.Command.CommandText = In.Command.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
 
-                    dbDataParameter.Value = property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value;
+                    dbDataParameter.Value = property.GetValue(values, null) ?? DBNull.Value;
                     In.Command.Parameters.Add(dbDataParameter);
                 }
             }

@@ -2,7 +2,7 @@ using System;
 
 namespace Simpler
 {
-    public abstract class InTask<TIn> : Task 
+    public abstract class I<TIn> : T 
     {
         TIn _in;
         public virtual TIn In
