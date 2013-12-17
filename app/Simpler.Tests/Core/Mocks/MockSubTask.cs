@@ -2,14 +2,15 @@ using System;
 
 namespace Simpler.Tests.Core.Mocks
 {
-	public class MockSubTask<T> : Task, IDisposable
-	{
+    public class MockSubTask<T> : Task, IDisposable
+    {
+        public bool DisposeWasCalled { get; set; }
+        public bool WasExecuted { get; set; }
+
         public override void Execute()
         {
-            throw new NotImplementedException();
+            WasExecuted = true;
         }
-
-        public bool DisposeWasCalled { get; set; }
 
         public void Dispose()
         {

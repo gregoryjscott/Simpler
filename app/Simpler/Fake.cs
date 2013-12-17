@@ -29,5 +29,23 @@ namespace Simpler
 
             return (TTask)createTask.Out.TaskInstance;
         }
+
+        public static void Subtasks(Task task)
+        {
+            var properties = task.GetType().GetProperties();
+            foreach (var propertyX in properties)
+            {
+                if (propertyX.PropertyType.IsSubclassOf(typeof(Task)) && (propertyX.CanWrite))
+                {
+                    var interceptor = new ExecuteInterceptor(invocation => { });
+
+                    var createTask = Simpler.Task.New<CreateTask>();
+                    createTask.In.TaskType = propertyX.PropertyType;
+                    createTask.In.ExecuteInterceptor = interceptor;
+                    createTask.Execute();
+                    propertyX.SetValue(task, createTask.Out.TaskInstance, null);
+                }
+            }
+        }
     }
 }
