@@ -175,7 +175,7 @@ namespace Simpler
 
                 var values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
 
-                Out.Stuff = Db.GetMany<Stuff>(connection, sql, values);
+                Out.Stuff = Db.Get<Stuff>(connection, sql, values);
             }
         }
     }

@@ -1,11 +1,18 @@
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
 using Simpler.Data.Tasks;
 
 namespace Simpler.Data
 {
+    public static class TaskExtensions
+    {
+        public static string Sql(this Task task)
+        {
+            return "";
+        }
+    }
+
     public static class Db
     {
         public static IDbConnection Connect(string connectionName)
@@ -27,7 +34,7 @@ namespace Simpler.Data
             return connection;
         }
 
-        public static T[] GetMany<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        public static T[] Get<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var many = new T[] { };
 
@@ -50,19 +57,9 @@ namespace Simpler.Data
             return many;
         }
 
-        public static dynamic[] GetMany(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        public static dynamic[] Get(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
-            return GetMany<dynamic>(connection, sql, values, timeout);
-        }
-
-        public static T GetOne<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
-        {
-            return GetMany<T>(connection, sql, values, timeout).Single();
-        }
-
-        public static dynamic GetOne(IDbConnection connection, string sql, object values = null, int timeout = 30)
-        {
-            return GetMany(connection, sql, values, timeout).Single();
+            return Get<dynamic>(connection, sql, values, timeout);
         }
 
         public static int GetResult(IDbConnection connection, string sql, object values = null, int timeout = 30)
