@@ -74,6 +74,7 @@
     <Compile Include="Data\ResultsTest.cs" />
     <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
+    <Compile Include="Data\TaskExtensionsTest.cs" />
     <Compile Include="Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskTest.cs" />
@@ -88,6 +89,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Sql\SelectEverything.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
