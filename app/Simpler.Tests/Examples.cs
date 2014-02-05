@@ -100,51 +100,6 @@ namespace Simpler
         public string Name { get; set; }
     }
 
-    public class OldFetchCertainStuff : InOutTask<OldFetchCertainStuff.Input, OldFetchCertainStuff.Output>
-    {
-        public class Input
-        {
-            public string SomeCriteria { get; set; }
-        }
-
-        public class Output
-        {
-            public Stuff[] Stuff { get; set; }
-        }
-
-        public BuildParameters BuildParameters { get; set; }
-        public FetchMany<Stuff> FetchStuff { get; set; }
-
-        public override void Execute()
-        {
-            using (var connection = new SqlConnection("MyConnectionString"))
-            using (var command = connection.CreateCommand())
-            {
-                connection.Open();
-                command.Connection = connection;
-                command.CommandText =
-                    @"
-                    select 
-                        AColumn as Name
-                    from 
-                        ABunchOfJoinedTables
-                    where 
-                        SomeColumn = @SomeCriteria
-                        and
-                        AnotherColumn = @SomeOtherCriteria
-                    ";
-
-                BuildParameters.In.Command = command;
-                BuildParameters.In.Values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
-                BuildParameters.Execute();
-
-                FetchStuff.In.SelectCommand = command;
-                FetchStuff.Execute();
-                Out.Stuff = FetchStuff.Out.ObjectsFetched;
-            }
-        }
-    }
-
     public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
     {
         public class Input

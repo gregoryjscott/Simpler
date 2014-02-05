@@ -52,6 +52,7 @@
     <Compile Include="Check.cs" />
     <Compile Include="Core\FakeInvocation.cs" />
     <Compile Include="Data\Db.cs" />
+    <Compile Include="Data\Results.cs" />
     <Compile Include="Data\Tasks\BuildDynamic.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
@@ -61,9 +62,8 @@
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
     <Compile Include="Core\Tasks\InjectTasks.cs" />
     <Compile Include="Data\Tasks\BuildParameters.cs" />
-    <Compile Include="Data\Tasks\FetchMany.cs" />
+    <Compile Include="Data\Tasks\BuildObjects.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
-    <Compile Include="Data\Tasks\ExecuteAction.cs" />
     <Compile Include="Data\Tasks\BuildTyped.cs" />
     <Compile Include="Core\Tasks\ExecuteTask.cs" />
     <Compile Include="Core\Tasks\CreateTask.cs" />

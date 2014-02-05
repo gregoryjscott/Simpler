@@ -1,3 +1,4 @@
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
@@ -5,23 +6,15 @@ using Simpler.Data.Tasks;
 
 namespace Simpler.Data
 {
-    public static class TaskExtensions
-    {
-        public static string Sql(this Task task)
-        {
-            return "";
-        }
-    }
-
     public static class Db
     {
         public static IDbConnection Connect(string connectionName)
         {
-            var connectionStringConfig = ConfigurationManager.ConnectionStrings[connectionName];
-            Check.That(connectionStringConfig != null, "A connectionString with name {0} was not found in the configuration file.", connectionName);
+            var connectionConfig = ConfigurationManager.ConnectionStrings[connectionName];
+            Check.That(connectionConfig != null, "A connectionString with name {0} was not found in the configuration file.", connectionName);
 
-            var connectionString = connectionStringConfig.ConnectionString;
-            var providerName = connectionStringConfig.ProviderName;
+            var connectionString = connectionConfig.ConnectionString;
+            var providerName = connectionConfig.ProviderName;
             var provider = DbProviderFactories.GetFactory(providerName);
             
             var connection = provider.CreateConnection();
@@ -36,70 +29,72 @@ namespace Simpler.Data
 
         public static T[] Get<T>(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
-            var many = new T[] { };
-
-            var execute = Task.New<ExecuteAction>();
-            execute.In.Connection = connection;
-            execute.In.Sql = sql;
-            execute.In.Values = values;
-            execute.In.Action =
-                command =>
-                {
-                    command.CommandTimeout = timeout;
-
-                    var fetchMany = Task.New<FetchMany<T>>();
-                    fetchMany.In.SelectCommand = command;
-                    fetchMany.Execute();
-                    many = fetchMany.Out.ObjectsFetched;
-                };
-            execute.Execute();
-
-            return many;
+            var results = Get(connection, sql, values, timeout);
+            return results.Read<T>();
         }
 
-        public static dynamic[] Get(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        public static Results Get(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
-            return Get<dynamic>(connection, sql, values, timeout);
+            Results results = null;
+
+            ExecuteCommand(connection, sql, values, command => 
+            {
+                command.CommandTimeout = timeout;
+                var reader = command.ExecuteReader();
+                results = new Results(reader);
+            });
+
+            return results;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
         }
 
-        public static int GetResult(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        public static int NonQuery(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var result = default(int);
 
-            var execute = Task.New<ExecuteAction>();
-            execute.In.Connection = connection;
-            execute.In.Sql = sql;
-            execute.In.Values = values;
-            execute.In.Action =
-                command =>
-                    {
-                        command.CommandTimeout = timeout;
-
-                        result = command.ExecuteNonQuery();
-                    };
-            execute.Execute();
+            ExecuteCommand(connection, sql, values, command =>
+            {
+                command.CommandTimeout = timeout;
+                result = command.ExecuteNonQuery();
+            });
 
             return result;
         }
 
-        public static object GetScalar(IDbConnection connection, string sql, object values = null, int timeout = 30)
+        public static object Scalar(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var scalar = default(object);
 
-            var execute = Task.New<ExecuteAction>();
-            execute.In.Connection = connection;
-            execute.In.Sql = sql;
-            execute.In.Values = values;
-            execute.In.Action =
-                command =>
-                    {
-                        command.CommandTimeout = timeout;
-
-                        scalar = command.ExecuteScalar();
-                    };
-            execute.Execute();
+            ExecuteCommand(connection, sql, values, command =>
+            {
+                command.CommandTimeout = timeout;
+                scalar = command.ExecuteScalar();
+            });
 
             return scalar;
+        }
+
+        static void ExecuteCommand(IDbConnection connection, string sql, object values, Action<IDbCommand> action)
+        {
+            using (var command = connection.CreateCommand())
+            {
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                command.Connection = connection;
+                command.CommandText = sql;
+
+                if (values != null)
+                {
+                    var buildParameters = Task.New<BuildParameters>();
+                    buildParameters.In.Command = command;
+                    buildParameters.In.Values = values;
+                    buildParameters.Execute();
+                }
+
+                action(command);
+            }
         }
     }
 }
