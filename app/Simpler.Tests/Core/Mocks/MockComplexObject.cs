@@ -2,6 +2,6 @@ namespace Simpler.Tests.Core.Mocks
 {
     public class MockComplexObject
     {
-        public MockObject MockObject { get; set; }
+        public MockPerson MockPerson { get; set; }
     }
 }

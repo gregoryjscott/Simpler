@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Mocks\MockPlace.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
     <Compile Include="Core\Mocks\MockEnum.cs" />
     <Compile Include="Core\Mocks\MockException.cs" />
@@ -59,19 +60,22 @@
     <Compile Include="Core\Mocks\MockTaskWithAttributes.cs" />
     <Compile Include="Core\Mocks\MockTaskThatThrowsWithAttributes.cs" />
     <Compile Include="Core\Mocks\MockTaskWithOverrideAttribute.cs" />
-    <Compile Include="Core\Mocks\MockObject.cs" />
+    <Compile Include="Core\Mocks\MockPerson.cs" />
     <Compile Include="Core\Mocks\MockOverrideAttribute.cs" />
     <Compile Include="Core\Mocks\MockParentTask.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubTask.cs" />
-    <Compile Include="Data\Tasks\BuildObjectTest.cs" />
+    <Compile Include="Data\Tasks\BuildTypedTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
     <Compile Include="Core\Tasks\InjectTasksTest.cs" />
     <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
-    <Compile Include="Data\Tasks\FetchManyTest.cs" />
+    <Compile Include="Data\Tasks\BuildDynamicTest.cs" />
+    <Compile Include="Data\ResultsTest.cs" />
+    <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
+    <Compile Include="Data\TaskExtensionsTest.cs" />
     <Compile Include="Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskTest.cs" />
@@ -86,6 +90,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Sql\SelectEverything.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

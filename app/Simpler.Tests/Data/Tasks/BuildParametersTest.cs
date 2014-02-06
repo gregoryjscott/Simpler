@@ -22,7 +22,7 @@ namespace Simpler.Tests.Data.Tasks
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
             task.In.Command = mockDbCommand.Object;
 
-            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            var mockObject = new MockPerson { Name = "John Doe", Age = 21 };
             task.In.Values = mockObject;
 
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
@@ -73,7 +73,7 @@ namespace Simpler.Tests.Data.Tasks
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
             task.In.Command = mockDbCommand.Object;
 
-            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            var mockObject = new MockPerson { Name = "John Doe", Age = 21 };
             task.In.Values = mockObject;
 
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Name" });
@@ -124,7 +124,7 @@ namespace Simpler.Tests.Data.Tasks
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
             task.In.Command = mockDbCommand.Object;
 
-            var mockObject = new MockObject { Name = "John Doe", Age = 21 };
+            var mockObject = new MockPerson { Name = "John Doe", Age = 21 };
             task.In.Values = mockObject;
 
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Whatever" });
@@ -172,7 +172,7 @@ namespace Simpler.Tests.Data.Tasks
             mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("doesnt matter");
             task.In.Command = mockDbCommand.Object;
 
-            var mockObject = new MockObject {Age = null};
+            var mockObject = new MockPerson {Age = null};
             task.In.Values = mockObject;
 
             task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@Age" });
@@ -220,22 +220,22 @@ namespace Simpler.Tests.Data.Tasks
             var mockDbCommand = new Mock<IDbCommand> { DefaultValue = DefaultValue.Mock };
             var mockDbDataParameter = new Mock<IDbDataParameter>();
             mockDbCommand.Setup(dbCommand => dbCommand.CreateParameter()).Returns(mockDbDataParameter.Object);
-            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("select something from table where @MockObject.Age = 21");
+            mockDbCommand.Setup(dbCommand => dbCommand.CommandText).Returns("select something from table where @MockPerson.Age = 21");
             task.In.Command = mockDbCommand.Object;
 
-            var mockComplexObject = new MockComplexObject { MockObject = new MockObject { Name = "John Doe", Age = 21 } };
+            var mockComplexObject = new MockComplexObject { MockPerson = new MockPerson { Name = "John Doe", Age = 21 } };
             task.In.Values = mockComplexObject;
 
-            task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockObject.Age" });
+            task.FindParameters = Fake.Task<FindParameters>(j => j.Out.ParameterNames = new[] { "@MockPerson.Age" });
 
             // Act
             task.Execute();
 
             // Assert
-            mockDbDataParameter.VerifySet(param => param.ParameterName = "@MockObject_Age");
+            mockDbDataParameter.VerifySet(param => param.ParameterName = "@MockPerson_Age");
             mockDbDataParameter.VerifySet(param => param.Value = 21);
             mockDbCommand.Verify(dbCommand => dbCommand.Parameters.Add(mockDbDataParameter.Object), Times.Once());
-            mockDbCommand.VerifySet(dbCommand => dbCommand.CommandText = "select something from table where @MockObject_Age = 21");
+            mockDbCommand.VerifySet(dbCommand => dbCommand.CommandText = "select something from table where @MockPerson_Age = 21");
         }
 
         [Test]

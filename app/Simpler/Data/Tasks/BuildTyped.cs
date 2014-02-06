@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildObject<T> : InOutTask<BuildObject<T>.Input, BuildObject<T>.Output> 
+    public class BuildTyped<T> : InOutTask<BuildTyped<T>.Input, BuildTyped<T>.Output> 
     {
         public class Input
         {
@@ -45,6 +45,7 @@ namespace Simpler.Data.Tasks
                     {
                         propertyType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
                     }
+
                     columnValue = Convert.ChangeType(columnValue, propertyType);
                     propertyInfo.SetValue(Out.Object, columnValue, null);
                 }
