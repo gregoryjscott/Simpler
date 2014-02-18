@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Data.SqlClient;
 using NUnit.Framework;
 using Simpler.Data;
-using Simpler.Data.Tasks;
 
 namespace Simpler
 {
-    public class OldAsk : Task
+    public class OldAsk: Task
     {
         // Inputs
         public string Question { get; set; }
@@ -23,7 +21,7 @@ namespace Simpler
         }
     }
 
-    public class Ask : InOutTask<Ask.Input, Ask.Output>
+    public class Ask: InOutTask<Ask.Input, Ask.Output>
     {
         public class Input
         {
@@ -44,7 +42,7 @@ namespace Simpler
         }
     }
 
-    public class LogAttribute : EventsAttribute
+    public class LogAttribute: EventsAttribute
     {
         public override void BeforeExecute(Task task)
         {
@@ -63,7 +61,7 @@ namespace Simpler
     }
 
     [Log]
-    public class BeAnnoying : InTask<BeAnnoying.Input>
+    public class BeAnnoying: InTask<BeAnnoying.Input>
     {
         public class Input
         {
@@ -89,9 +87,9 @@ namespace Simpler
     {
         Program()
         {
-            var beAnnoying = Task.New<BeAnnoying>();
-            beAnnoying.In.AnnoyanceLevel = 10;
-            beAnnoying.Execute();
+            Execute.Now<BeAnnoying>(ba => {
+                ba.In.AnnoyanceLevel = 10;
+            });
         }
     }
 
@@ -100,7 +98,7 @@ namespace Simpler
         public string Name { get; set; }
     }
 
-    public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
+    public class FetchCertainStuff: InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
     {
         public class Input
         {
@@ -114,7 +112,7 @@ namespace Simpler
 
         public override void Execute()
         {
-            using(var connection = Db.Connect("MyConnectionString"))
+            using (var connection = Db.Connect("MyConnectionString"))
             {
                 const string sql =
                     @"
@@ -141,14 +139,10 @@ namespace Simpler
         //[Test]
         public void should_return_9_pocos()
         {
-            // Arrange
-            var task = Task.New<FetchCertainStuff>();
-            task.In.SomeCriteria = "criteria";
+            var task = Execute.Now<FetchCertainStuff>(fcs => {
+                fcs.In.SomeCriteria = "criteria";
+            });
 
-            // Act
-            task.Execute();
-
-            // Assert
             Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
         }
     }

@@ -3,12 +3,9 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core
 {
-    public class ExecuteInterceptor : IInterceptor
+    public class ExecuteInterceptor: IInterceptor
     {
-        public ExecuteInterceptor(Action<IInvocation> action)
-        {
-            _action = action;
-        }
+        public ExecuteInterceptor(Action<IInvocation> action) { _action = action; }
 
         readonly Action<IInvocation> _action;
 

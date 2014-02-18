@@ -57,6 +57,7 @@
     <Compile Include="Data\Tasks\BuildDynamic.cs" />
     <Compile Include="Data\Tasks\BuildObjects.cs" />
     <Compile Include="EventsAttribute.cs" />
+    <Compile Include="Execute.cs" />
     <Compile Include="Fake.cs" />
     <Compile Include="CheckException.cs" />
     <Compile Include="Core\InjectTasksAttribute.cs" />

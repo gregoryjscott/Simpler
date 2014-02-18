@@ -16,9 +16,9 @@ namespace Simpler.Data
             var connectionString = connectionConfig.ConnectionString;
             var providerName = connectionConfig.ProviderName;
             var provider = DbProviderFactories.GetFactory(providerName);
-            
+
             var connection = provider.CreateConnection();
-            Check.That(connection != null, 
+            Check.That(connection != null,
                 "Error while trying to create a DbProviderFactory connection using a connectionString setting with a name of {0}, with a provider type of {1}.", connectionName, providerName);
 
             connection.ConnectionString = connectionString;
@@ -37,22 +37,20 @@ namespace Simpler.Data
         {
             Results results = null;
 
-            ExecuteCommand(connection, sql, values, command => 
-            {
+            Core.ExecuteCommand(connection, sql, values, command => {
                 command.CommandTimeout = timeout;
                 var reader = command.ExecuteReader();
                 results = new Results(reader);
             });
 
-            return results;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+            return results;
         }
 
         public static int NonQuery(IDbConnection connection, string sql, object values = null, int timeout = 30)
         {
             var result = default(int);
 
-            ExecuteCommand(connection, sql, values, command =>
-            {
+            Core.ExecuteCommand(connection, sql, values, command => {
                 command.CommandTimeout = timeout;
                 result = command.ExecuteNonQuery();
             });
@@ -64,8 +62,7 @@ namespace Simpler.Data
         {
             var scalar = default(object);
 
-            ExecuteCommand(connection, sql, values, command =>
-            {
+            Core.ExecuteCommand(connection, sql, values, command => {
                 command.CommandTimeout = timeout;
                 scalar = command.ExecuteScalar();
             });
@@ -73,27 +70,37 @@ namespace Simpler.Data
             return scalar;
         }
 
-        static void ExecuteCommand(IDbConnection connection, string sql, object values, Action<IDbCommand> action)
+        public class Core
         {
-            using (var command = connection.CreateCommand())
+            public static string[] FindParameters(string sql)
             {
-                if (connection.State != ConnectionState.Open)
+                var findParameters = Execute.Now<FindParameters>((fp => { fp.In.CommandText = sql; }));
+                findParameters.Execute();
+                return findParameters.Out.ParameterNames;
+            }
+
+            public static void ExecuteCommand(IDbConnection connection, string sql, object values, Action<IDbCommand> action)
+            {
+                using (var command = connection.CreateCommand())
                 {
-                    connection.Open();
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+
+                    command.Connection = connection;
+                    command.CommandText = sql;
+
+                    if (values != null)
+                    {
+                        var buildParameters = Task.New<BuildParameters>();
+                        buildParameters.In.Command = command;
+                        buildParameters.In.Values = values;
+                        buildParameters.Execute();
+                    }
+
+                    action(command);
                 }
-
-                command.Connection = connection;
-                command.CommandText = sql;
-
-                if (values != null)
-                {
-                    var buildParameters = Task.New<BuildParameters>();
-                    buildParameters.In.Command = command;
-                    buildParameters.In.Values = values;
-                    buildParameters.Execute();
-                }
-
-                action(command);
             }
         }
     }

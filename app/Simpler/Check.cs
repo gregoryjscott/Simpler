@@ -39,7 +39,7 @@ namespace Simpler
         public static void Throws<TException>(Action action)
         {
             var expectedExceptionWasThrown = false;
-            var expectedExpection = typeof(TException).FullName;
+            var expectedExpection = typeof (TException).FullName;
             try
             {
                 action();
@@ -56,8 +56,8 @@ namespace Simpler
                 {
                     throw new CheckException(
                         String.Format("Expected {0} to be thrown, but {1} was thrown instead.",
-                                      expectedExpection,
-                                      actualException));
+                            expectedExpection,
+                            actualException));
                 }
             }
 
@@ -65,7 +65,7 @@ namespace Simpler
             {
                 throw new CheckException(
                     String.Format("Expected {0} to be thrown.",
-                                  expectedExpection));
+                        expectedExpection));
             }
         }
     }

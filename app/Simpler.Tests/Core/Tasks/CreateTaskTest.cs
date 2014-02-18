@@ -10,31 +10,23 @@ namespace Simpler.Tests.Core.Tasks
         [Test]
         public void should_just_provide_instance_if_given_type_is_not_decorated_with_execution_callbacks_attribute()
         {
-            // Arrange
-            var task = Task.New<CreateTask>();
-            task.In.TaskType = typeof (MockTask);
+            var createTask = Execute.Now<CreateTask>(ct => {
+                ct.In.TaskType = typeof (MockTask);
+            });
 
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.Out.TaskInstance, Is.InstanceOf<MockTask>());
-            Assert.That(task.Out.TaskInstance.GetType().Name, Is.Not.EqualTo("MockTaskWithAttributesProxy"));
+            Assert.That(createTask.Out.TaskInstance, Is.InstanceOf<MockTask>());
+            Assert.That(createTask.Out.TaskInstance.GetType().Name, Is.Not.EqualTo("MockTaskWithAttributesProxy"));
         }
 
         [Test]
         public void should_provide_proxy_instance_if_given_type_is_decorated_with_execution_callbacks_attribute()
         {
-            // Arrange
-            var task = Task.New<CreateTask>();
-            task.In.TaskType = typeof (MockTaskWithAttributes);
+            var createTask = Execute.Now<CreateTask>(ct => {
+                ct.In.TaskType = typeof (MockTaskWithAttributes);
+            });
 
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.Out.TaskInstance, Is.InstanceOf<MockTaskWithAttributes>());
-            Assert.That(task.Out.TaskInstance.GetType().Name, Is.EqualTo("MockTaskWithAttributesProxy"));
+            Assert.That(createTask.Out.TaskInstance, Is.InstanceOf<MockTaskWithAttributes>());
+            Assert.That(createTask.Out.TaskInstance.GetType().Name, Is.EqualTo("MockTaskWithAttributesProxy"));
         }
     }
 }

@@ -3,7 +3,7 @@ using Castle.DynamicProxy;
 
 namespace Simpler.Core.Tasks
 {
-    public class ExecuteTask : InTask<ExecuteTask.Input>
+    public class ExecuteTask: InTask<ExecuteTask.Input>
     {
         public class Input
         {
@@ -37,7 +37,7 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).OnError(In.Task, exception);
+                    ((EventsAttribute)callbackAttributes[i]).OnError(In.Task, exception);
                 }
 
                 throw;
@@ -46,7 +46,7 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(In.Task);
+                    ((EventsAttribute)callbackAttributes[i]).AfterExecute(In.Task);
                 }
 
                 var afterTime = DateTime.Now;

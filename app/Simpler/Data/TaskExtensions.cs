@@ -6,7 +6,7 @@ namespace Simpler.Data
     {
         public static string Sql(this Task task)
         {
-            var assembly = task.GetType().BaseType.Assembly;
+            var assembly = task.Assembly;
             var resourceName = task.Name.Replace(".Tasks.", ".Sql.") + ".sql";
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))

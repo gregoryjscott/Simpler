@@ -1,16 +1,92 @@
 ﻿using Castle.DynamicProxy;
-using NUnit.Framework;
 using Moq;
+using NUnit.Framework;
 using Simpler.Core.Tasks;
 using Simpler.Tests.Core.Mocks;
-using MockException = Simpler.Tests.Core.Mocks.MockException;
 
 namespace Simpler.Tests.Core.Tasks
 {
     [TestFixture]
     public class ExecuteTaskTest
     {
-        static void VerifyFiveCallbacks(MockTaskWithAttributes taskWithAttributes)
+        [Test]
+        public void should_send_notifications_before_and_after_the_task_is_executed()
+        {
+            var taskWithAttributes = new MockTaskWithAttributes();
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
+
+            Execute.Now<ExecuteTask>(et => {
+                et.In.Task = taskWithAttributes;
+                et.In.Invocation = mockInvocation.Object;
+            });
+
+            VerifyEvents(taskWithAttributes);
+        }
+
+        [Test]
+        public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
+        {
+            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
+
+            Assert.Throws<Mocks.MockException>(() => Execute.Now<ExecuteTask>(et => {
+                et.In.Task = taskWithAttributesThatThrows;
+                et.In.Invocation = mockInvocation.Object;
+            }));
+
+            VerifyEventsAndErrors(taskWithAttributesThatThrows);
+        }
+
+        [Test]
+        public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
+        {
+            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
+
+            var throwHappened = false;
+            try
+            {
+                try
+                {
+                    Execute.Now<ExecuteTask>(et => {
+                        et.In.Task = taskWithAttributesThatThrows;
+                        et.In.Invocation = mockInvocation.Object;
+                    });
+                }
+                finally
+                {
+                    VerifyEventsAndErrors(taskWithAttributesThatThrows);
+                }
+            }
+            catch (Mocks.MockException)
+            {
+                throwHappened = true;
+            }
+            Assert.That(throwHappened, "The exception should still happen.");
+        }
+
+        [Test]
+        public void should_allow_the_task_execution_to_be_overriden()
+        {
+            var taskWithOverride = new MockTaskWithOverrideAttribute();
+            var mockInvocation = new Mock<IInvocation>();
+            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
+            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
+
+            Execute.Now<ExecuteTask>(et => {
+                et.In.Task = taskWithOverride;
+                et.In.Invocation = mockInvocation.Object;
+            });
+
+            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
+        }
+
+        #region Helpers
+
+        static void VerifyEvents(MockTaskWithAttributes taskWithAttributes)
         {
             Assert.That(taskWithAttributes.CallbackQueue.Count, Is.EqualTo(5));
 
@@ -33,7 +109,8 @@ namespace Simpler.Tests.Core.Tasks
                 Assert.That(taskWithAttributes.CallbackQueue.Dequeue(), Is.EqualTo("Second.After"));
             }
         }
-        static void VerifySevenCallbacks(MockTaskThatThrowsWithAttributes taskThatThrowsWithAttributes)
+
+        static void VerifyEventsAndErrors(MockTaskThatThrowsWithAttributes taskThatThrowsWithAttributes)
         {
             Assert.That(taskThatThrowsWithAttributes.CallbackQueue.Count, Is.EqualTo(7));
 
@@ -61,99 +138,6 @@ namespace Simpler.Tests.Core.Tasks
             }
         }
 
-        [Test]
-        public void should_send_notifications_before_and_after_the_task_is_executed()
-        {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithAttributes = new MockTaskWithAttributes();
-            task.In.Task = taskWithAttributes;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            // Act
-            task.Execute();
-
-            // Assert
-            VerifyFiveCallbacks(taskWithAttributes);
-        }
-
-        [Test]
-        public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
-        {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            // Act
-            Assert.Throws(typeof(MockException), task.Execute);
-
-            // Assert
-            VerifySevenCallbacks(taskWithAttributesThatThrows);
-        }
-
-        [Test]
-        public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
-        {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            var throwHappened = false;
-            try
-            {
-                try
-                {
-                    // Act (this will throw an exception)
-                    task.Execute();
-                }
-                finally
-                {
-                    // Assert
-                    VerifySevenCallbacks(taskWithAttributesThatThrows);
-                }
-            }
-            catch (MockException)
-            {
-                throwHappened = true;
-            }
-            Assert.That(throwHappened, "The exception should still happen.");
-        }
-
-        [Test]
-        public void should_allow_the_task_execution_to_be_overriden()
-        {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithOverride = new MockTaskWithOverrideAttribute();
-            task.In.Task = taskWithOverride;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
-            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
-            task.In.Invocation = mockInvocation.Object;
-
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
-        }
+        #endregion
     }
 }
