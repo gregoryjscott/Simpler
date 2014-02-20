@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildTyped<T> : InOutTask<BuildTyped<T>.Input, BuildTyped<T>.Output> 
+    public class BuildTyped<T> : InOutTask<BuildTyped<T>.Input, BuildTyped<T>.Output>
     {
         public class Input
         {
             public IDataRecord DataRecord { get; set; }
+            public Dictionary<string, BuildMappings.ObjectMapping> Map { get; set; }
         }
 
         public class Output
@@ -15,41 +21,78 @@ namespace Simpler.Data.Tasks
             public T Object { get; set; }
         }
 
+        public void Parse(Dictionary<string, BuildMappings.ObjectMapping> objectMappings, object instance)
+        {
+            var instanceType = instance.GetType();
+            foreach (var objectMapping in objectMappings)
+            {
+                var propertyInfo = instanceType.GetProperty(objectMapping.Key);
+                object propertyInstance;
+                Type propertyType;
+                if (propertyInfo != null)
+                {
+                    propertyInstance = propertyInfo.GetValue(instance, null);
+                    propertyType = propertyInfo.PropertyType;
+                }
+                else if (instanceType.IsArray)
+                {
+                    var array = (Array)instance;
+                    var index = int.Parse(objectMapping.Key);
+                    propertyInstance = array.GetValue(index);
+                    propertyType = instanceType.GetElementType();
+                }
+                else
+                {
+                    continue;
+                }
+                
+                if (propertyInstance == null)
+                {
+                    if (propertyType.IsArray)
+                    {
+                        propertyInstance = Activator.CreateInstance(propertyType, new object[] { objectMapping.Value.Children.Count });
+                    }
+                    else if (objectMapping.Value.Column == null)
+                    {
+                        propertyInstance = Activator.CreateInstance(propertyType, null);
+                    }
+                    else
+                    {
+                        var value = In.DataRecord.GetValue((int) objectMapping.Value.Column);
+
+                        if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof (Nullable<>))
+                        {
+                            propertyType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
+                        }
+
+                        if (propertyType.IsEnum)
+                        {
+                            value = Enum.Parse(propertyType, value.ToString());
+                        }
+
+                        propertyInstance = Convert.ChangeType(value, propertyType);
+                    }
+
+                    if (instanceType.IsArray)
+                    {
+                        ((Array) instance).SetValue(propertyInstance, int.Parse(objectMapping.Key));
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(instance, propertyInstance, null);
+                    }
+
+                   
+                }
+                Parse(objectMapping.Value.Children, propertyInstance);
+            }
+        }
+
         public override void Execute()
         {
-            Out.Object = (T)Activator.CreateInstance(typeof(T));
-            var objectType = typeof(T);
-
-            for (var i = 0; i < In.DataRecord.FieldCount; i++)
-            {
-                var columnName = In.DataRecord.GetName(i);
-                var propertyInfo = objectType.GetProperty(columnName);
-
-                Check.That(propertyInfo != null,
-                           "The DataRecord contains column '{0}' that is not a property of the '{1}' class.", 
-                           columnName,
-                           objectType.FullName);
-
-                var columnValue = In.DataRecord[columnName];
-                if (columnValue.GetType() != typeof(DBNull))
-                {
-                    var propertyType = propertyInfo.PropertyType;
-
-                    if (propertyType.IsEnum)
-                    {
-                        propertyInfo.SetValue(Out.Object,Enum.Parse(propertyType,columnValue.ToString()),null);
-                        continue;
-                    }
-
-                    if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                    {
-                        propertyType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
-                    }
-
-                    columnValue = Convert.ChangeType(columnValue, propertyType);
-                    propertyInfo.SetValue(Out.Object, columnValue, null);
-                }
-            }
+            var instance = (T) Activator.CreateInstance(typeof (T));
+            Parse(In.Map, instance);
+            Out.Object = instance;
         }
     }
 }

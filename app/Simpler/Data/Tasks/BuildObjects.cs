@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace Simpler.Data.Tasks
 {
@@ -16,15 +17,16 @@ namespace Simpler.Data.Tasks
             public T[] Objects { get; set; }
         }
 
+        public BuildMappings BuildMappings { get; set; }
         public BuildTyped<T> BuildTyped { get; set; }
         public BuildDynamic BuildDynamic { get; set; }
 
         public override void Execute()
         {
-            Func<IDataReader, T> buildObject;
+            Func<IDataReader, Dictionary<string, BuildMappings.ObjectMapping>, T> buildObject;
             if (typeof (T).FullName == "System.Object")
             {
-                buildObject = reader =>
+                buildObject = (reader, map) =>
                               {
                                   BuildDynamic.In.DataRecord = reader;
                                   BuildDynamic.Execute();
@@ -33,8 +35,9 @@ namespace Simpler.Data.Tasks
             }
             else
             {
-                buildObject = reader =>
+                buildObject = (reader, map) =>
                               {
+                                  BuildTyped.In.Map = map;
                                   BuildTyped.In.DataRecord = reader;
                                   BuildTyped.Execute();
                                   return BuildTyped.Out.Object;
@@ -42,10 +45,22 @@ namespace Simpler.Data.Tasks
             }
 
             var objectList = new List<T>();
-            while (In.Reader.Read())
+            In.Reader.Read();
+
+            var columns = new Dictionary<string, int>();
+            for (var i = 0; i < In.Reader.FieldCount; i++)
             {
-                objectList.Add(buildObject(In.Reader));
+                columns.Add(In.Reader.GetName(i), i);
             }
+            BuildMappings.In.ColumnNames = columns;
+            BuildMappings.In.RootType = typeof (T);
+            BuildMappings.Execute();
+            
+            do
+            {
+                objectList.Add(buildObject(In.Reader, BuildMappings.Out.ObjectMapping));
+            } while (In.Reader.Read());
+
             Out.Objects = objectList.ToArray();
         }
     }

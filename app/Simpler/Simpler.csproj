@@ -56,6 +56,8 @@
     <Compile Include="Data\TaskExtensions.cs" />
     <Compile Include="Data\Tasks\BuildDynamic.cs" />
     <Compile Include="Data\Tasks\BuildObjects.cs" />
+    <Compile Include="Data\Tasks\BuildTyped.cs" />
+    <Compile Include="Data\Tasks\BuildMappings.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
     <Compile Include="CheckException.cs" />
@@ -65,7 +67,6 @@
     <Compile Include="Core\Tasks\InjectTasks.cs" />
     <Compile Include="Data\Tasks\BuildParameters.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
-    <Compile Include="Data\Tasks\BuildTyped.cs" />
     <Compile Include="Core\Tasks\ExecuteTask.cs" />
     <Compile Include="Core\Tasks\CreateTask.cs" />
     <Compile Include="InOutTask.cs" />
