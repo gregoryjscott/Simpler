@@ -24,27 +24,5 @@ namespace Simpler.Tests
         {
             Assert.Throws<MockException>(() => Execute.Now<MockTaskThatThrowsWithAttributes>());
         }
-
-        [Test]
-        public void should_not_block_when_executed_async()
-        {
-            Assert.DoesNotThrow(() => Execute.Async<MockTaskThatThrowsWithAttributes>());
-        }
-
-        [Test]
-        public void should_capture_original_exception_when_executed_async()
-        {
-            Assert.Throws<MockException>(() => {
-                var task = Execute.Async<MockTaskThatThrowsWithAttributes>();
-                try
-                {
-                    task.Wait();
-                }
-                catch (AggregateException ae)
-                {
-                    throw ae.InnerException;
-                }
-            });
-        }
     }
 }

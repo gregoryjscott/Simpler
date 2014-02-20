@@ -12,10 +12,5 @@ namespace Simpler
             task.Execute();
             return task;
         }
-
-        public static Task<TTask> Async<TTask>(Action<TTask> setup = null) where TTask : Task
-        {
-            return System.Threading.Tasks.Task.Factory.StartNew(() => Now(setup));
-        }
     }
 }
