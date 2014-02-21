@@ -45,6 +45,13 @@ namespace Simpler.Core
         static IMessage InvokeExecute(MethodInfo methodInfo, IMethodCallMessage methodCallMessage, Task task, Action<Task> methodOverride = null)
         {
             var startTime = DateTime.Now;
+
+            var overrideAttribute = Attribute.GetCustomAttribute(task.GetType(), typeof(OverrideAttribute));
+            if (overrideAttribute != null && methodOverride == null)
+            {
+                methodOverride = t => ((OverrideAttribute)overrideAttribute).ExecuteOverride(t);
+            }
+
             var eventAttributes = Attribute.GetCustomAttributes(task.GetType(), typeof(EventsAttribute));
             try
             {

@@ -1,11 +1,8 @@
-﻿using Castle.DynamicProxy;
-using NUnit.Framework;
-using Moq;
-using Simpler.Core.Tasks;
+﻿using NUnit.Framework;
 using Simpler.Tests.Core.Mocks;
 using MockException = Simpler.Tests.Core.Mocks.MockException;
 
-namespace Simpler.Tests.Core.Tasks
+namespace Simpler.Tests.Core
 {
     [TestFixture]
     public class TaskProxyTest
@@ -105,25 +102,23 @@ namespace Simpler.Tests.Core.Tasks
             Assert.That(throwHappened, "The exception should still happen.");
         }
 
-        //[Test]
-        //public void should_allow_the_task_execution_to_be_overriden()
-        //{
-        //    // Arrange
-        //    var task = Task.New<ExecuteTask>();
+        [Test]
+        public void should_allow_override_attribute_to_skip_normal_execute()
+        {
+            var taskWithOverride = Task.New<MockTaskWithOverrideAttribute>();
+            taskWithOverride.Execute();
 
-        //    var taskWithOverride = new MockTaskWithOverrideAttribute();
-        //    task.In.Task = taskWithOverride;
+            Assert.That(taskWithOverride.WasExecuted, Is.False);
+        }
 
-        //    var mockInvocation = new Mock<IInvocation>();
-        //    mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
-        //    mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
-        //    task.In.Invocation = mockInvocation.Object;
+        [Test]
+        public void should_allow_override_attribute_to_proceed_with_normal_execute()
+        {
+            var taskWithOverride = Task.New<MockTaskWithOverrideAttribute>();
+            taskWithOverride.OverrideShouldProceed = true;
+            taskWithOverride.Execute();
 
-        //    // Act
-        //    task.Execute();
-
-        //    // Assert
-        //    Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
-        //}
+            Assert.That(taskWithOverride.WasExecuted, Is.True);
+        }
     }
 }
