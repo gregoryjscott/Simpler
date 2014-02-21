@@ -4,7 +4,8 @@ namespace Simpler
 {
     public abstract class InOutTask<TIn, TOut> : Task
     {
-        TIn _in;        public virtual TIn In
+        TIn _in;        
+        public virtual TIn In
         {
             get
             {
