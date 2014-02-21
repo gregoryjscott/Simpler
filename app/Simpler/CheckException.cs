@@ -2,8 +2,8 @@
 
 namespace Simpler
 {
-    public class CheckException : Exception
+    public class CheckException: Exception
     {
-        public CheckException(string message) : base(message) {}
+        public CheckException(string message): base(message) { }
     }
 }

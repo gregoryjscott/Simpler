@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data;
-using System.Reflection;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildParameters : InTask<BuildParameters.Input>
+    public class BuildParameters: InTask<BuildParameters.Input>
     {
         public class Input
         {
@@ -18,46 +17,50 @@ namespace Simpler.Data.Tasks
         {
             FindParameters.In.CommandText = In.Command.CommandText;
             FindParameters.Execute();
+            var parameterNames = FindParameters.Out.ParameterNames;
 
-            foreach (var parameterNameX in FindParameters.Out.ParameterNames)
+            var parameterValues = In.Values;
+            var objectType = In.Values.GetType();
+
+            foreach (var parameterName in parameterNames) 
             {
-                var objectType = In.Values.GetType();
-                var objectContainingPropertyValue = In.Values;
+                var propertyName = RemoveParameterNotation(parameterName);
 
-                // Strip off the first character of the parameter name to find a matching property (e.g. make @Name => Name).
-                var nameOfPropertyContainingValue = parameterNameX.Substring(1);
-
-                // If the parameter contains a dot then the property must be a complex object, and therefore we must look inside the object to find the value.
-                PropertyInfo property;
-                while(nameOfPropertyContainingValue.Contains("."))
+                while (PropertyIsComplex(propertyName)) 
                 {
-                    // Look for a property using the string that comes before the dot.
-                    var indexOfDot = nameOfPropertyContainingValue.IndexOf(".");
-                    property = objectType.GetProperty(nameOfPropertyContainingValue.Substring(0, indexOfDot));
+                    var indexOfDot = propertyName.IndexOf(".", StringComparison.Ordinal);
+                    var nameBeforeDot = propertyName.Substring(0, indexOfDot);
+                    var propertyBeforeDot = objectType.GetProperty(nameBeforeDot);
+                    if (propertyBeforeDot == null) break;
 
-                    // Apparently there isn't a property that is a complex object that matches the parameter name.
-                    if (property == null) break;
-
-                    // Reset variables using the property that was found that matched the string that came before the dot. 
-                    objectType = property.PropertyType;
-                    objectContainingPropertyValue = property.GetValue(objectContainingPropertyValue, null);
-                    nameOfPropertyContainingValue = nameOfPropertyContainingValue.Substring(indexOfDot + 1);
+                    objectType = propertyBeforeDot.PropertyType;
+                    parameterValues = propertyBeforeDot.GetValue(parameterValues, null);
+                    propertyName = RemoveDotAndEverythingBeforeIt(propertyName, indexOfDot);
                 }
 
-                property = objectType.GetProperty(nameOfPropertyContainingValue);
+                var property = objectType.GetProperty(propertyName);
+                if (property == null) continue;
 
-                if (property != null)
-                {
-                    var dbDataParameter = In.Command.CreateParameter();
+                var newParameterName = ReplaceDots(parameterName);
+                In.Command.CommandText = In.Command.CommandText.Replace(parameterName, newParameterName);
 
-                    // If the property came from a complex object then it contains a dot, and dots aren't allowed in parameter names.
-                    dbDataParameter.ParameterName = parameterNameX.Replace(".", "_");
-                    In.Command.CommandText = In.Command.CommandText.Replace(parameterNameX, parameterNameX.Replace(".", "_"));
-
-                    dbDataParameter.Value = property.GetValue(objectContainingPropertyValue, null) ?? DBNull.Value;
-                    In.Command.Parameters.Add(dbDataParameter);
-                }
+                var parameter = In.Command.CreateParameter();
+                parameter.ParameterName = newParameterName;
+                parameter.Value = property.GetValue(parameterValues, null) ?? DBNull.Value;
+                In.Command.Parameters.Add(parameter);
             }
         }
-     }
+
+        #region Helpers
+
+        static bool PropertyIsComplex(string propertyName) { return propertyName.Contains("."); }
+
+        static string RemoveParameterNotation(string parameterName) { return parameterName.Substring(1); }
+
+        static string RemoveDotAndEverythingBeforeIt(string propertyName, int indexOfDot) { return propertyName.Substring(indexOfDot + 1); }
+
+        static string ReplaceDots(string stringWithDots) { return stringWithDots.Replace(".", "_"); }
+
+        #endregion
+    }
 }

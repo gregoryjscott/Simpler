@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Simpler.Core.Tasks
 {
-    public class InjectTasks : InOutTask<InjectTasks.Input, InjectTasks.Output>
+    public class InjectTasks: InOutTask<InjectTasks.Input, InjectTasks.Output>
     {
         public class Input
         {
@@ -18,28 +20,29 @@ namespace Simpler.Core.Tasks
 
         public override void Execute()
         {
-            // This InjectTasks task can't have it's subtasks injected, because it would need to call InjectTasks...I'm getting dizzy.
             if (CreateTask == null) CreateTask = new CreateTask();
 
-            var listOfInjected = new List<string>();
+            var injected = new List<string>();
+            var taskProperties = In.TaskContainingSubTasks.GetType().GetProperties();
+            var nullProperties = taskProperties.Where(property => IsSubTask(property) && property.CanWrite && HasNoValue(property));
 
-            var properties = In.TaskContainingSubTasks.GetType().GetProperties();
-            foreach (var propertyX in properties)
+            foreach (var property in nullProperties)
             {
-                if (propertyX.PropertyType.IsSubclassOf(typeof(Task))
-                    && 
-                    (propertyX.CanWrite && propertyX.GetValue(In.TaskContainingSubTasks, null) == null))
-                {
-                    CreateTask.In.TaskType = propertyX.PropertyType;
-                    CreateTask.Execute();
+                CreateTask.In.TaskType = property.PropertyType;
+                CreateTask.Execute();
+                var task = CreateTask.Out.TaskInstance;
 
-                    propertyX.SetValue(In.TaskContainingSubTasks, CreateTask.Out.TaskInstance, null);
-
-                    listOfInjected.Add(propertyX.PropertyType.FullName);
-                }
+                property.SetValue(In.TaskContainingSubTasks, task, null);
+                injected.Add(property.PropertyType.FullName);
             }
 
-            Out.InjectedSubTaskPropertyNames = listOfInjected.ToArray();
+            Out.InjectedSubTaskPropertyNames = injected.ToArray();
         }
+
+        #region Helpers
+
+        bool HasNoValue(PropertyInfo property) { return property.GetValue(In.TaskContainingSubTasks, null) == null; }
+
+        #endregion
     }
 }

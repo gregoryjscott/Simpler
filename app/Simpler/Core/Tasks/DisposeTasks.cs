@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Simpler.Core.Tasks
 {
-    public class DisposeTasks : InTask<DisposeTasks.Input>
+    public class DisposeTasks: InTask<DisposeTasks.Input>
     {
         public class Input
         {
@@ -14,21 +14,24 @@ namespace Simpler.Core.Tasks
 
         public override void Execute()
         {
-            var taskNames = new List<string>(In.InjectedTaskNames);
-            var properties = In.Owner.GetType().GetProperties();
+            var taskProperties = In.Owner.GetType().GetProperties();
+            var disposableProperties = taskProperties.Where(p => IsSubTask(p) && WasInjected(p) && HasValue(p) && IsDisposable(p));
 
-            foreach (var property in properties.Where(
-                property => property.PropertyType.IsSubclassOf(typeof(Task))
-                    &&
-                    taskNames.Contains(property.PropertyType.FullName)
-                    &&
-                    (property.GetValue(In.Owner, null) != null)
-                    &&
-                    (property.PropertyType.GetInterface(typeof(IDisposable).FullName) != null)))
+            foreach (var property in disposableProperties)
             {
-                ((IDisposable) property.GetValue(In.Owner, null)).Dispose();
+                ((IDisposable)property.GetValue(In.Owner, null)).Dispose();
                 property.SetValue(In.Owner, null, null);
             }
         }
+
+        #region Helpers
+
+        static bool IsDisposable(PropertyInfo property) { return property.PropertyType.GetInterface(typeof (IDisposable).FullName) != null; }
+
+        bool WasInjected(PropertyInfo property) { return In.InjectedTaskNames.Contains(property.PropertyType.FullName); }
+
+        bool HasValue(PropertyInfo property) { return property.GetValue(In.Owner, null) != null; }
+
+        #endregion
     }
 }

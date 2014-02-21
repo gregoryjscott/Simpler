@@ -4,7 +4,7 @@ using System.Data;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildObjects<T> : InOutTask<BuildObjects<T>.Input, BuildObjects<T>.Output>  
+    public class BuildObjects<T>: InOutTask<BuildObjects<T>.Input, BuildObjects<T>.Output>
     {
         public class Input
         {
@@ -24,21 +24,19 @@ namespace Simpler.Data.Tasks
             Func<IDataReader, T> buildObject;
             if (typeof (T).FullName == "System.Object")
             {
-                buildObject = reader =>
-                              {
-                                  BuildDynamic.In.DataRecord = reader;
-                                  BuildDynamic.Execute();
-                                  return BuildDynamic.Out.Object;
-                              };
+                buildObject = reader => {
+                    BuildDynamic.In.DataRecord = reader;
+                    BuildDynamic.Execute();
+                    return BuildDynamic.Out.Object;
+                };
             }
             else
             {
-                buildObject = reader =>
-                              {
-                                  BuildTyped.In.DataRecord = reader;
-                                  BuildTyped.Execute();
-                                  return BuildTyped.Out.Object;
-                              };
+                buildObject = reader => {
+                    BuildTyped.In.DataRecord = reader;
+                    BuildTyped.Execute();
+                    return BuildTyped.Out.Object;
+                };
             }
 
             var objectList = new List<T>();

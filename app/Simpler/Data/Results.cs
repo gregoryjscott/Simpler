@@ -4,12 +4,9 @@ using Simpler.Data.Tasks;
 
 namespace Simpler.Data
 {
-    public class Results : IDisposable
+    public class Results: IDisposable
     {
-        public Results(IDataReader reader)
-        {
-            Reader = reader;
-        }
+        public Results(IDataReader reader) { Reader = reader; }
 
         public IDataReader Reader { get; set; }
 

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecuteTest.cs" />
     <Compile Include="Core\Mocks\MockPlace.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
     <Compile Include="Core\Mocks\MockEnum.cs" />

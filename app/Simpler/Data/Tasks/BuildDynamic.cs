@@ -5,7 +5,7 @@ using System.Dynamic;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildDynamic : InOutTask<BuildDynamic.Input, BuildDynamic.Output> 
+    public class BuildDynamic: InOutTask<BuildDynamic.Input, BuildDynamic.Output>
     {
         public class Input
         {
@@ -25,7 +25,7 @@ namespace Simpler.Data.Tasks
             {
                 var columnName = In.DataRecord.GetName(i);
                 var columnValue = In.DataRecord[columnName];
-                if (columnValue.GetType() != typeof(DBNull))
+                if (columnValue.GetType() != typeof (DBNull))
                 {
                     dictionary.Add(columnName, columnValue);
                 }

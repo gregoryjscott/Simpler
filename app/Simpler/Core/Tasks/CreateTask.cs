@@ -1,9 +1,9 @@
-﻿using Castle.DynamicProxy;
-using System;
+﻿using System;
+using Castle.DynamicProxy;
 
 namespace Simpler.Core.Tasks
 {
-    public class CreateTask : InOutTask<CreateTask.Input, CreateTask.Output>
+    public class CreateTask: InOutTask<CreateTask.Input, CreateTask.Output>
     {
         static readonly ProxyGenerator ProxyGenerator = new ProxyGenerator();
 
@@ -24,14 +24,12 @@ namespace Simpler.Core.Tasks
         {
             if (In.ExecuteInterceptor == null)
             {
-                In.ExecuteInterceptor = new ExecuteInterceptor(
-                    invocation =>
-                        {
-                            if (ExecuteTask == null) ExecuteTask = new ExecuteTask();
-                            ExecuteTask.In.Task = (Task)invocation.InvocationTarget;
-                            ExecuteTask.In.Invocation = invocation;
-                            ExecuteTask.Execute();
-                        });
+                In.ExecuteInterceptor = new ExecuteInterceptor(invocation => {
+                    if (ExecuteTask == null) ExecuteTask = new ExecuteTask();
+                    ExecuteTask.In.Task = (Task)invocation.InvocationTarget;
+                    ExecuteTask.In.Invocation = invocation;
+                    ExecuteTask.Execute();
+                });
             }
 
             Out.TaskInstance = ProxyGenerator.CreateClassProxy(In.TaskType, In.ExecuteInterceptor);
