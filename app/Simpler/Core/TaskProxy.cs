@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
@@ -19,80 +20,102 @@ namespace Simpler.Core
 
         public override IMessage Invoke(IMessage message)
         {
-            var methodCall = (IMethodCallMessage)message;
-            var method = (MethodInfo)methodCall.MethodBase;
+            var methodCallMessage = (IMethodCallMessage)message;
+            var methodInfo = (MethodInfo)methodCallMessage.MethodBase;
 
-            if (method.Name == "Execute")
-            {
-                var callbackAttributes = Attribute.GetCustomAttributes(_task.GetType(), typeof(EventsAttribute));
-
-                var beforeTime = DateTime.Now;
-                try
-                {
-                    foreach (var callbackAttribute in callbackAttributes)
-                    {
-                        ((EventsAttribute)callbackAttribute).BeforeExecute(_task);
-                    }
-
-                    return Invoke(method, methodCall, _executeOverride);
-                }
-                catch (Exception e)
-                {
-                    for (var i = callbackAttributes.Length - 1; i >= 0; i--)
-                    {
-                        ((EventsAttribute)callbackAttributes[i]).OnError(_task, e);
-                    }
-
-                    return ReturnMessageForException(e, message);
-                }
-                finally
-                {
-                    for (var i = callbackAttributes.Length - 1; i >= 0; i--)
-                    {
-                        ((EventsAttribute)callbackAttributes[i]).AfterExecute(_task);
-                    }
-
-                    var afterTime = DateTime.Now;
-                    var duration = afterTime - beforeTime;
-                    _task.Stats.ExecuteDurations.Add(duration);
-                }
-            }
-
-            try
-            {
-                return Invoke(method, methodCall);
-            }
-            catch (Exception e)
-            {
-                return ReturnMessageForException(e, message);
-            }
+            return methodInfo.Name == "Execute"
+                ? InvokeExecute(methodInfo, methodCallMessage, _task, _executeOverride)
+                : InvokeOther(methodInfo, methodCallMessage, _task);
         }
 
         #region Helpers
 
-        IMessage Invoke(MethodInfo method, IMethodCallMessage methodCall, Action<Task> executeOverride = null)
+        static IMessage InvokeMethod(MethodInfo methodInfo, IMethodCallMessage methodCallMessage, Task task, Action<Task> methodOverride = null)
         {
-            if (executeOverride != null)
+            if (methodOverride != null)
             {
-                executeOverride(_task);
-                return new ReturnMessage(null, null, 0, methodCall.LogicalCallContext, methodCall);
+                methodOverride(task);
+                return new ReturnMessage(null, null, 0, methodCallMessage.LogicalCallContext, methodCallMessage);
             }
 
-            var result = method.Invoke(_task, methodCall.InArgs);
-            return new ReturnMessage(result, null, 0, methodCall.LogicalCallContext, methodCall);
+            var result = methodInfo.Invoke(task, methodCallMessage.InArgs);
+            return new ReturnMessage(result, null, 0, methodCallMessage.LogicalCallContext, methodCallMessage);
         }
 
-        static IMessage ReturnMessageForException(Exception e, IMessage messageReceived)
+        static IMessage InvokeExecute(MethodInfo methodInfo, IMethodCallMessage methodCallMessage, Task task, Action<Task> methodOverride = null)
+        {
+            var startTime = DateTime.Now;
+            var eventAttributes = Attribute.GetCustomAttributes(task.GetType(), typeof(EventsAttribute));
+            try
+            {
+                NotifyBefore(eventAttributes, task);
+                return InvokeMethod(methodInfo, methodCallMessage, task, methodOverride);
+            }
+            catch (Exception e)
+            {
+                NotifyError(eventAttributes, task, e);
+                return HandleException(e, methodCallMessage);
+            }
+            finally
+            {
+                NotifyAfter(eventAttributes, task);
+                RecordStats(startTime, task);
+            }
+        }
+
+        static IMessage InvokeOther(MethodInfo methodInfo, IMethodCallMessage methodCallMessage, Task task)
+        {
+            try
+            {
+                return InvokeMethod(methodInfo, methodCallMessage, task);
+            }
+            catch (Exception e)
+            {
+                return HandleException(e, methodCallMessage);
+            }
+        }
+
+        static IMessage HandleException(Exception e, IMethodCallMessage methodCallMessage)
         {
             if (e is TargetInvocationException && e.InnerException != null)
             {
-                return new ReturnMessage(e.InnerException, messageReceived as IMethodCallMessage);
+                return new ReturnMessage(e.InnerException, methodCallMessage);
             }
 
-            return new ReturnMessage(e, messageReceived as IMethodCallMessage);
+            return new ReturnMessage(e, methodCallMessage as IMethodCallMessage);
+        }
+
+        static void NotifyBefore(Attribute[] eventAttributes, Task task)
+        {
+            foreach (var attribute in eventAttributes)
+            {
+                ((EventsAttribute)attribute).BeforeExecute(task);
+            }
+        }
+
+        static void NotifyError(Attribute[] eventAttributes, Task task, Exception e)
+        {
+            for (var i = eventAttributes.Length - 1; i >= 0; i--)
+            {
+                ((EventsAttribute)eventAttributes[i]).OnError(task, e);
+            }
+        }
+
+        static void NotifyAfter(Attribute[] eventAttributes, Task task)
+        {
+            for (var i = eventAttributes.Length - 1; i >= 0; i--)
+            {
+                ((EventsAttribute)eventAttributes[i]).AfterExecute(task);
+            }
+        }
+
+        static void RecordStats(DateTime startTime, Task task)
+        {
+            var endTime = DateTime.Now;
+            var duration = endTime - startTime;
+            task.Stats.ExecuteDurations.Add(duration);
         }
 
         #endregion
-
     }
 }
