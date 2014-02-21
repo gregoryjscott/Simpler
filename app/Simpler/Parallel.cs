@@ -1,10 +1,22 @@
 ﻿namespace Simpler
 {
-    public static class Parallel
+    public class Parallel
     {
+        public static bool Enabled = true;
+
         public static void Execute(params Task[] tasks)
         {
-            System.Threading.Tasks.Parallel.ForEach(tasks, task => task.Execute());
+            if (Enabled)
+            {
+                System.Threading.Tasks.Parallel.ForEach(tasks, task => task.Execute());
+            }
+            else
+            {
+                foreach (var task in tasks)
+                {
+                    task.Execute();
+                }
+            }
         }
     }
 }
