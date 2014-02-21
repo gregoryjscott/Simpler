@@ -1,9 +1,8 @@
 using System;
-using Simpler.Core.Interfaces;
 
 namespace Simpler
 {
-    public abstract class InOutTask<TIn, TOut> : Task, IInTask<TIn>, IOutTask<TOut>
+    public abstract class InOutTask<TIn, TOut> : Task
     {
         TIn _in;        public virtual TIn In
         {

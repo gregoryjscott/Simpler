@@ -63,14 +63,10 @@
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Data\Tasks\BuildTyped.cs" />
     <Compile Include="Core\Tasks\CreateTask.cs" />
-    <Compile Include="Core\Interfaces\IInTask.cs" />
     <Compile Include="InOutTask.cs" />
     <Compile Include="InTask.cs" />
-    <Compile Include="Core\Interfaces\IOutTask.cs" />
-    <Compile Include="Core\Interfaces\ITask.cs" />
     <Compile Include="OutTask.cs" />
     <Compile Include="Parallel.cs" />
-    <Compile Include="Profile.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
