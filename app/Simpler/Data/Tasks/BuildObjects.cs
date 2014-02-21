@@ -18,33 +18,13 @@ namespace Simpler.Data.Tasks
         }
 
         public BuildMappings BuildMappings { get; set; }
-        public BuildTyped<T> BuildTyped { get; set; }
-        public BuildDynamic BuildDynamic { get; set; }
+        public BuildObject<T> BuildObject { get; set; }
 
         public override void Execute()
         {
-            Func<IDataReader, Dictionary<string, BuildMappings.ObjectMapping>, T> buildObject;
-            if (typeof (T).FullName == "System.Object")
-            {
-                buildObject = (reader, map) =>
-                              {
-                                  BuildDynamic.In.DataRecord = reader;
-                                  BuildDynamic.Execute();
-                                  return BuildDynamic.Out.Object;
-                              };
-            }
-            else
-            {
-                buildObject = (reader, map) =>
-                              {
-                                  BuildTyped.In.Map = map;
-                                  BuildTyped.In.DataRecord = reader;
-                                  BuildTyped.Execute();
-                                  return BuildTyped.Out.Object;
-                              };
-            }
-
             var objectList = new List<T>();
+
+            //read the first record off and determine the column mappings
             In.Reader.Read();
 
             var columns = new Dictionary<string, int>();
@@ -58,7 +38,10 @@ namespace Simpler.Data.Tasks
             
             do
             {
-                objectList.Add(buildObject(In.Reader, BuildMappings.Out.ObjectMapping));
+                BuildObject.In.ObjectMapping = BuildMappings.Out.ObjectMapping;
+                BuildObject.In.DataRecord = In.Reader;
+                BuildObject.Execute();
+                objectList.Add(BuildObject.Out.Object);
             } while (In.Reader.Read());
 
             Out.Objects = objectList.ToArray();

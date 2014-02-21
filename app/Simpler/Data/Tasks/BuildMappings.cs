@@ -15,71 +15,84 @@ namespace Simpler.Data.Tasks
 
         public class Output
         {
-            public Dictionary<string, ObjectMapping> ObjectMapping { get; set; }
+            public ObjectMapping ObjectMapping { get; set; }
         }
 
-        public class ObjectMapping
+        public void ProcessColumnName(ObjectMapping objectMapping, string columnName, string path = "")
         {
-            public PropertyInfo PropertyInfo { get; set; }
-            public Type PropertyType { get; set; }
-            public int? Column { get; set; }
-            public Dictionary<string, ObjectMapping> Children = new Dictionary<string, ObjectMapping>();
-        }
-
-        public void ProcessColumnName(Dictionary<string, ObjectMapping> objectMapping, Type currentType, string columnName, string path = "")
-        {
-            var currentColumnName = columnName.Substring(path.Length);
-            if (currentType.IsArray)
+            var remainingPath = columnName.Substring(path.Length);
+            //check if we have reached the end of the path
+            if (remainingPath.Length == 0)
             {
-                //find if there is an index
-                var index = new String(currentColumnName.TakeWhile(Char.IsDigit).ToArray());
-                if (!objectMapping.ContainsKey(index))
-                {
-                    objectMapping[index] = new ObjectMapping { PropertyType = currentType};
-                }
-
-                ProcessColumnName(objectMapping[index].Children, currentType.GetElementType(), columnName, path += index);
+                ((ObjectMappingNode)objectMapping).ColumnIndex = In.ColumnNames[columnName];
                 return;
             }
 
-            var propertyInfo = currentType.GetProperty(currentColumnName);
-            if (propertyInfo != null)
+            //if the parent is a dyanmic no need to look at properties just set it
+            if (objectMapping.PropertyType == null || objectMapping.PropertyType.FullName == "System.Object") 
             {
-                if (!objectMapping.ContainsKey(currentColumnName))
-                {
-                    objectMapping[currentColumnName] = new ObjectMapping { PropertyInfo = propertyInfo, PropertyType = currentType, Column = In.ColumnNames[columnName] };
-                }
+                objectMapping[remainingPath] = new ObjectMappingDynamicChildNode();
+                ProcessColumnName(objectMapping[remainingPath], columnName, path + remainingPath);
                 return;
             }
 
-            var complexPropertyInfo = currentType.GetProperties().FirstOrDefault(x => currentColumnName.StartsWith(x.Name));
-            if (complexPropertyInfo != null)
+            //if the parent is an array we need to pull the index off and create a node.
+            if (objectMapping.PropertyType.IsArray) 
             {
-                if (!objectMapping.ContainsKey(complexPropertyInfo.Name))
+                //pull the index off the remainingPath
+                var index = new String(remainingPath.TakeWhile(Char.IsDigit).ToArray());
+
+                //create the node if it doesn't exist
+                if (!objectMapping.ContainsColumn(index))
                 {
-                    objectMapping[complexPropertyInfo.Name] = new ObjectMapping { PropertyInfo = complexPropertyInfo, PropertyType = currentType };
+                    objectMapping[index] = new ObjectMappingArrayChildNode
+                        {
+                            PropertyType = objectMapping.PropertyType.GetElementType()
+                        };
                 }
 
-                ProcessColumnName(objectMapping[complexPropertyInfo.Name].Children, complexPropertyInfo.PropertyType, columnName, path += complexPropertyInfo.Name);
+                ProcessColumnName(objectMapping[index], columnName, path + index);
                 return;
             }
 
-            //throw an exception mapping not found
-        }
-
-        public void CreateMapping(Dictionary<string, ObjectMapping> rootMapping, Type currentType)
-        {
-            var sortedColumnNames = In.ColumnNames.OrderBy(s => s.Key);
-            foreach (var columnName in sortedColumnNames)
+            //attempt to find an exact match
+            var propertyInfo = objectMapping.PropertyType.GetProperty(remainingPath);
+            if (propertyInfo == null)
             {
-                ProcessColumnName(rootMapping, currentType, columnName.Key);
+                //if we can't find an exact match find a property that starts with the remmaining path
+                propertyInfo = objectMapping.PropertyType.GetProperties().FirstOrDefault(x => remainingPath.StartsWith(x.Name));
             }
+
+            Check.That(propertyInfo != null, "The DataRecord contains column '{0}' to a property or nested property.", columnName);
+            
+            //check if it already exisits
+            if (!objectMapping.ContainsColumn(propertyInfo.Name))
+            {
+                if (propertyInfo.PropertyType.FullName == "System.Object")
+                {
+                    objectMapping[propertyInfo.Name] = new ObjectMappingDynamicNode { PropertyInfo = propertyInfo, PropertyType = propertyInfo.PropertyType };
+                }
+                else if (propertyInfo.PropertyType.IsArray)
+                {
+                    objectMapping[propertyInfo.Name] = new ObjectMappingArrayNode { PropertyInfo = propertyInfo, PropertyType = propertyInfo.PropertyType };
+                }
+                else
+                {
+                    objectMapping[propertyInfo.Name] = new ObjectMappingObjectNode { PropertyInfo = propertyInfo, PropertyType = propertyInfo.PropertyType};
+                }
+            }
+
+            ProcessColumnName(objectMapping[propertyInfo.Name], columnName, path + propertyInfo.Name);
         }
 
         public override void Execute()
         {
-            var root = new Dictionary<string, ObjectMapping>();
-            CreateMapping(root, In.RootType);
+            var root = new ObjectMappingRoot { PropertyType = In.RootType };
+            var sortedColumnNames = In.ColumnNames.OrderBy(s => s.Key);
+            foreach (var columnName in sortedColumnNames)
+            {
+                ProcessColumnName(root, columnName.Key);
+            }
             Out.ObjectMapping = root;
         }
     }
