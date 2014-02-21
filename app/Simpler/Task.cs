@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Simpler.Core;
 using Simpler.Core.Tasks;
 using System.Linq;
