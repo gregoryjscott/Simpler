@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Mocks\MockPlace.cs" />
-    <Compile Include="Core\Mocks\MockOverride.cs" />
+    <Compile Include="Core\Mocks\MockOverrideAttribute.cs" />
     <Compile Include="Core\Mocks\MockTaskWithOverrideAttribute.cs" />
     <Compile Include="Core\Tasks\TaskProxyTest.cs" />
     <Compile Include="FakeTest.cs" />
