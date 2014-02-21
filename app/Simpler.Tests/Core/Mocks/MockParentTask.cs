@@ -4,13 +4,14 @@ namespace Simpler.Tests.Core.Mocks
 {
     public class MockParentTask : Task
     {
-        public bool SubTaskWasInjected { get; private set; }
+        public bool SubTaskWasExecuted { get; set; }
 
-        public MockSubTask<DateTime> MockSubClass { get; set; }
+        public MockSubTask<DateTime> MockSubTask { get; set; }
 
         public override void Execute()
         {
-            SubTaskWasInjected = (MockSubClass != null);
+            MockSubTask.Execute();
+            SubTaskWasExecuted = MockSubTask.WasExecuted;
         }
     }
 }
