@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 using Simpler.Core.Interfaces;
 
 namespace Simpler
@@ -19,16 +18,6 @@ namespace Simpler
                 return _in;
             }
             set { _in = value; }
-        }
-
-        public virtual string InJson()
-        {
-            return JsonConvert.SerializeObject(In);
-        }
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
         }
     }
 }
