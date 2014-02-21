@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -54,7 +51,7 @@
     <Compile Include="Core\Mocks\MockPlace.cs" />
     <Compile Include="Core\Mocks\MockOverrideAttribute.cs" />
     <Compile Include="Core\Mocks\MockTaskWithOverrideAttribute.cs" />
-    <Compile Include="Core\Tasks\TaskProxyTest.cs" />
+    <Compile Include="Core\TaskProxyTest.cs" />
     <Compile Include="FakeTest.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
     <Compile Include="Core\Mocks\MockEnum.cs" />
