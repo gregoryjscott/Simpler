@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Mocks\MockComplexPerson.cs" />
     <Compile Include="Core\Mocks\MockPlace.cs" />
     <Compile Include="FakeTest.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Data\Tasks\BuildDynamicTest.cs" />
     <Compile Include="Data\ResultsTest.cs" />
     <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
+    <Compile Include="Data\Tasks\BuildComplexTypedTest.cs" />
+    <Compile Include="Data\Tasks\BuildMappingsTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Data\TaskExtensionsTest.cs" />
     <Compile Include="Examples.cs" />

@@ -44,15 +44,13 @@ namespace Simpler.Tests.Data.Tasks
             var task = Task.New<BuildObjects<MockPerson>>();
             task.In.Reader = SetupReader();
 
-            task.BuildTyped = Fake.Task<BuildTyped<MockPerson>>(bt => bt.Out.Object = new MockPerson());
-            task.BuildDynamic = Fake.Task<BuildDynamic>();
+            task.BuildObject = Fake.Task<BuildObject<MockPerson>>(bt => bt.Out.Object = new MockPerson());
 
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(task.BuildTyped.Stats.ExecuteCount, Is.GreaterThan(0));
-            Assert.That(task.BuildDynamic.Stats.ExecuteCount, Is.EqualTo(0));
+            Assert.That(task.BuildObject.Stats.ExecuteCount, Is.GreaterThan(0));
         }
 
         [Test]
@@ -62,15 +60,13 @@ namespace Simpler.Tests.Data.Tasks
             var task = Task.New<BuildObjects<dynamic>>();
             task.In.Reader = SetupReader();
 
-            task.BuildTyped = Fake.Task<BuildTyped<dynamic>>();
-            task.BuildDynamic = Fake.Task<BuildDynamic>(bd => bd.Out.Object = new MockPerson());
-
+            task.BuildObject = Fake.Task<BuildObject<dynamic>>(bt => bt.Out.Object = new MockPerson());
+            
             // Act
             task.Execute();
 
             // Assert
-            Assert.That(task.BuildTyped.Stats.ExecuteCount, Is.EqualTo(0));
-            Assert.That(task.BuildDynamic.Stats.ExecuteCount, Is.GreaterThan(0));
+            Assert.That(task.BuildObject.Stats.ExecuteCount, Is.GreaterThan(0));
         }
     }
 }

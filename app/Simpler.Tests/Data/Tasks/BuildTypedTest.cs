@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using Simpler.Data.Tasks;
 using System.Data;
 using Moq;
@@ -13,7 +14,12 @@ namespace Simpler.Tests.Data.Tasks
         public void should_build_an_instance_of_given_type()
         {
             // Arrange
-            var task = Task.New<BuildTyped<MockPerson>>();
+            var task = Task.New<BuildObject<MockPerson>>();
+            var mapTask = Task.New<BuildMappings>();
+            mapTask.In.RootType = typeof(MockPerson);
+            mapTask.In.ColumnNames = new Dictionary<string, int> { { "Name", 0 } };
+            mapTask.Execute();
+            task.In.ObjectMapping = mapTask.Out.ObjectMapping;
 
             var mockDataRecord = new Mock<IDataRecord>();
             task.In.DataRecord = mockDataRecord.Object;
@@ -29,14 +35,19 @@ namespace Simpler.Tests.Data.Tasks
         public void should_populate_typed_object_using_all_columns_in_the_data_record()
         {
             // Arrange
-            var task = Task.New<BuildTyped<MockPerson>>();
+            var task = Task.New<BuildObject<MockPerson>>();
+            var mapTask = Task.New<BuildMappings>();
+            mapTask.In.RootType = typeof(MockPerson);
+            mapTask.In.ColumnNames = new Dictionary<string, int> { { "Name", 0 }, { "Age", 1 } };
+            mapTask.Execute();
+            task.In.ObjectMapping = mapTask.Out.ObjectMapping;
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(2);
             mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
-            mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
+            mockDataRecord.Setup(dataRecord => dataRecord.GetValue(0)).Returns("John Doe");
             mockDataRecord.Setup(dataRecord => dataRecord.GetName(1)).Returns("Age");
-            mockDataRecord.Setup(dataRecord => dataRecord["Age"]).Returns(21);
+            mockDataRecord.Setup(dataRecord => dataRecord.GetValue(1)).Returns(21);
             task.In.DataRecord = mockDataRecord.Object;
 
             // Act
@@ -51,28 +62,29 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_a_data_record_column_is_not_a_property_of_the_object_class()
         {
             // Arrange
-            var task = Task.New<BuildTyped<MockPerson>>();
-
-            var mockDataRecord = new Mock<IDataRecord>();
-            mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
-            mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("SomeOtherColumn");
-            mockDataRecord.Setup(dataRecord => dataRecord["SomeOtherColumn"]).Returns("whatever");
-            task.In.DataRecord = mockDataRecord.Object;
+            var mapTask = Task.New<BuildMappings>();
+            mapTask.In.RootType = typeof(MockPerson);
+            mapTask.In.ColumnNames = new Dictionary<string, int> { { "Name", 0 }, { "TheCakeIsALie", 1 } };
 
             // Act & Assert
-            Assert.Throws(typeof(CheckException), task.Execute);
+            Assert.Throws(typeof(CheckException), mapTask.Execute);
         }
 
         [Test]
         public void should_allow_object_to_have_properties_that_dont_have_matching_columns_in_the_data_record()
         {
             // Arrange
-            var task = Task.New<BuildTyped<MockPerson>>();
+            var task = Task.New<BuildObject<MockPerson>>();
+            var mapTask = Task.New<BuildMappings>();
+            mapTask.In.RootType = typeof(MockPerson);
+            mapTask.In.ColumnNames = new Dictionary<string, int>{ { "Name", 0 } };
+            mapTask.Execute();
+            task.In.ObjectMapping = mapTask.Out.ObjectMapping;
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
             mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("Name");
-            mockDataRecord.Setup(dataRecord => dataRecord["Name"]).Returns("John Doe");
+            mockDataRecord.Setup(dataRecord => dataRecord.GetValue(0)).Returns("John Doe");
 
             task.In.DataRecord = mockDataRecord.Object;
 
@@ -88,12 +100,17 @@ namespace Simpler.Tests.Data.Tasks
         public void should_build_enum_properties()
         {
             // Arrange
-            var task = Task.New<BuildTyped<MockPerson>>();
+            var task = Task.New<BuildObject<MockPerson>>();
+            var mapTask = Task.New<BuildMappings>();
+            mapTask.In.RootType = typeof(MockPerson);
+            mapTask.In.ColumnNames = new Dictionary<string, int> { { "MockEnum", 0 } };
+            mapTask.Execute();
+            task.In.ObjectMapping = mapTask.Out.ObjectMapping;
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
             mockDataRecord.Setup(dataRecord => dataRecord.GetName(0)).Returns("MockEnum");
-            mockDataRecord.Setup(dataRecord => dataRecord["MockEnum"]).Returns("One");
+            mockDataRecord.Setup(dataRecord => dataRecord.GetValue(0)).Returns("One");
             task.In.DataRecord = mockDataRecord.Object;
 
             // Act
