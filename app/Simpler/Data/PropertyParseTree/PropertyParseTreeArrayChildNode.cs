@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
-namespace Simpler.Data
+namespace Simpler.Data.PropertyParseTree
 {
-    public class ObjectMappingArrayChildNode : ObjectMappingNode
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PropertyParseTreeArrayChildNode : PropertyParseTreeNode
     {
-        public override object CreateInstance(object value = null)
+        public override object CreateObject(object value = null)
         {
             if (value == null)
             {
@@ -35,7 +33,7 @@ namespace Simpler.Data
         public override void SetValue(object instance, object value)
         {
             //this int parse can be moved into a constructor
-            ((Array)instance).SetValue(CreateInstance(value), int.Parse(Name));
+            ((Array)instance).SetValue(CreateObject(value), int.Parse(Name));
         }
 
         public override object GetValue(object instance)

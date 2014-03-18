@@ -51,9 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Mocks\MockComplexPerson.cs" />
-    <Compile Include="Core\Mocks\MockPlace.cs" />
     <Compile Include="Core\Mocks\MockComplexObject.cs" />
+    <Compile Include="Core\Mocks\MockVehicle.cs" />
+    <Compile Include="Core\Mocks\MockPet.cs" />
+    <Compile Include="Core\Mocks\MockPlace.cs" />
     <Compile Include="Core\Mocks\MockEnum.cs" />
     <Compile Include="Core\Mocks\MockException.cs" />
     <Compile Include="Core\Mocks\MockFirstAttribute.cs" />
@@ -66,17 +67,23 @@
     <Compile Include="Core\Mocks\MockParentTask.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubTask.cs" />
+    <Compile Include="Data\PropertyParseTree\PropertyParseTreeRootNodeTest.cs" />
+    <Compile Include="Data\PropertyParseTree\PropertyParseTreeDynamicChildNodeTest.cs" />
+    <Compile Include="Data\PropertyParseTree\PropertyParseTreeDynamicNodeTest.cs" />
+    <Compile Include="Data\PropertyParseTree\PropertyParseTreeObjectNodeTest.cs" />
+    <Compile Include="Data\PropertyParseTree\PropertyParseTreeArrayNodeTest.cs" />
+    <Compile Include="Data\PropertyParseTree\PropertyParseTreeArrayChildNodeTest.cs" />
     <Compile Include="Data\Tasks\BuildTypedTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
     <Compile Include="Core\Tasks\InjectTasksTest.cs" />
     <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
-    <Compile Include="Data\Tasks\BuildDynamicTest.cs" />
     <Compile Include="Data\ResultsTest.cs" />
     <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
-    <Compile Include="Data\Tasks\BuildComplexTypedTest.cs" />
-    <Compile Include="Data\Tasks\BuildMappingsTest.cs" />
+    <Compile Include="Data\Tasks\BuildPropertyParseTreeTest.cs" />
+    <Compile Include="Data\Tasks\BuildObjectTest.cs" />
+    <Compile Include="Data\Tasks\ParseColumnTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Data\TaskExtensionsTest.cs" />
     <Compile Include="Examples.cs" />

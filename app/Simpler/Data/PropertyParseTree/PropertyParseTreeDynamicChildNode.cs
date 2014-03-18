@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
-namespace Simpler.Data
+namespace Simpler.Data.PropertyParseTree
 {
-    public class ObjectMappingDynamicChildNode : ObjectMappingNode
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PropertyParseTreeDynamicChildNode : PropertyParseTreeNode
     {
-        public override object CreateInstance(object value = null)
+        public override object CreateObject(object value = null)
         {
             return value;
         }
 
         public override void SetValue(dynamic instance, object value)
         {
-            var instanceValue = CreateInstance(value);
+            var instanceValue = CreateObject(value);
             ((ExpandoObject)instance as IDictionary<String, object>)[Name] = instanceValue;
         }
 

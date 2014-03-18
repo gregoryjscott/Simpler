@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
-namespace Simpler.Data
+namespace Simpler.Data.PropertyParseTree
 {
-    public class ObjectMappingObjectNode : ObjectMappingNode
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PropertyParseTreeObjectNode : PropertyParseTreeNode
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public PropertyInfo PropertyInfo { get; set; }
 
-        public override object CreateInstance(object value = null)
+        public override object CreateObject(object value = null)
         {
             var propertyType = PropertyType;
             if (value == null && propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -41,7 +43,7 @@ namespace Simpler.Data
 
         public override void SetValue(object instance, object value)
         {
-            var instanceValue = CreateInstance(value);
+            var instanceValue = CreateObject(value);
             PropertyInfo.SetValue(instance, instanceValue, null);
         }
 

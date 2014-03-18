@@ -22,11 +22,20 @@ namespace Simpler.Tests.Data.Tasks
         }
 
         [Test]
-        public void should_return_an_object_for_each_record_returned_by_the_select_command()
+        public void should_return_an_object_for_each_record()
         {
             // Arrange
             var task = Task.New<BuildObjects<MockPerson>>();
-            task.In.Reader = SetupReader();
+
+            var table = new DataTable();
+            table.Columns.Add("Name", Type.GetType("System.String"));
+            table.Columns.Add("Age", Type.GetType("System.Int32"));
+            table.Columns.Add("PetName", Type.GetType("System.String"));
+            table.Columns.Add("Vehicles0Make", Type.GetType("System.String"));
+            table.Rows.Add(new object[] { "John Doe", "21", "Doug", "Dodge" });
+            table.Rows.Add(new object[] { "Jane Doe", "19", "Spot", "Jeep" });
+
+            task.In.Reader = table.CreateDataReader();
 
             // Act
             task.Execute();
@@ -34,39 +43,14 @@ namespace Simpler.Tests.Data.Tasks
             // Assert
             Assert.That(task.Out.Objects.Count(), Is.EqualTo(2));
             Assert.That(task.Out.Objects[0].Name, Is.EqualTo("John Doe"));
+            Assert.That(task.Out.Objects[0].Age, Is.EqualTo(21));
+            Assert.That(task.Out.Objects[0].Pet.Name, Is.EqualTo("Doug"));
+            Assert.That(task.Out.Objects[0].Vehicles[0].Make, Is.EqualTo("Dodge"));
             Assert.That(task.Out.Objects[1].Name, Is.EqualTo("Jane Doe"));
+            Assert.That(task.Out.Objects[1].Age, Is.EqualTo(19));
+            Assert.That(task.Out.Objects[1].Pet.Name, Is.EqualTo("Spot"));
+            Assert.That(task.Out.Objects[1].Vehicles[0].Make, Is.EqualTo("Jeep"));
         }
 
-        [Test]
-        public void should_build_typed_objects_if_given_strong_type()
-        {
-            // Arrange
-            var task = Task.New<BuildObjects<MockPerson>>();
-            task.In.Reader = SetupReader();
-
-            task.BuildObject = Fake.Task<BuildObject<MockPerson>>(bt => bt.Out.Object = new MockPerson());
-
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.BuildObject.Stats.ExecuteCount, Is.GreaterThan(0));
-        }
-
-        [Test]
-        public void should_build_dynamic_objects_if_given_dynamic_type()
-        {
-            // Arrange
-            var task = Task.New<BuildObjects<dynamic>>();
-            task.In.Reader = SetupReader();
-
-            task.BuildObject = Fake.Task<BuildObject<dynamic>>(bt => bt.Out.Object = new MockPerson());
-            
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.BuildObject.Stats.ExecuteCount, Is.GreaterThan(0));
-        }
     }
 }

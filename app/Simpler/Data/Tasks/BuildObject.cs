@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
+using Simpler.Data.PropertyParseTree;
 
 namespace Simpler.Data.Tasks
 {
@@ -14,7 +10,7 @@ namespace Simpler.Data.Tasks
         public class Input
         {
             public IDataRecord DataRecord { get; set; }
-            public ObjectMapping ObjectMapping { get; set; }
+            public PropertyParseTree.PropertyParseTree PropertyParseTree { get; set; }
         }
 
         public class Output
@@ -22,46 +18,42 @@ namespace Simpler.Data.Tasks
             public T Object { get; set; }
         }
 
-        public void Parse(ObjectMappingNode objectMapping, object instance)
+        public void Parse(PropertyParseTreeNode treeNode, object obj)
         {
-            if (objectMapping.ColumnIndex == null)
+            //if the treeNode does not have a index then just set the value to the instance.
+            if (treeNode.Index == null)
             {
-                objectMapping.SetValue(instance, null);
+                treeNode.SetValue(obj, null);
             }
             else
             {
-                var value = In.DataRecord.GetValue((int)objectMapping.ColumnIndex);
+                //get the value from the data reader and set the value
+                var value = In.DataRecord.GetValue((int)treeNode.Index);
                 if (value != null && value.GetType() != typeof(DBNull))
                 {
-                    objectMapping.SetValue(instance, value);
+                    treeNode.SetValue(obj, value);
                 }
             }
+            
+            //get the newly created object
+            var childObj = treeNode.GetValue(obj);
 
-            var childInstance = objectMapping.GetValue(instance);
-
-            foreach (var children in objectMapping)
+            //continue down the parse tree
+            foreach (var childNode in treeNode.Nodes)
             {
-                Parse(children, childInstance);
+                Parse(childNode, childObj);
             }
         }
 
         public override void Execute()
         {
-            object instance;
-            if (typeof (T).FullName == "System.Object")
+            //create the root object
+            var obj = In.PropertyParseTree.CreateObject();
+            foreach (var node in In.PropertyParseTree.Nodes)
             {
-                instance = new ExpandoObject();
+                Parse(node, obj);
             }
-            else
-            {
-                instance = Activator.CreateInstance(typeof(T));
-            }
-
-            foreach (var objectMapping in In.ObjectMapping)
-            {
-                Parse(objectMapping, instance);
-            }
-            Out.Object = (T)instance;
+            Out.Object = (T)obj;
         }
     }
 }

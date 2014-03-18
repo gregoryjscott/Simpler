@@ -17,7 +17,8 @@ namespace Simpler.Data.Tasks
             public T[] Objects { get; set; }
         }
 
-        public BuildMappings BuildMappings { get; set; }
+        public FindColumns FindColumns { get; set; }
+        public BuildPropertyParseTree BuildPropertyParseTree { get; set; }
         public BuildObject<T> BuildObject { get; set; }
 
         public override void Execute()
@@ -27,18 +28,16 @@ namespace Simpler.Data.Tasks
             //read the first record off and determine the column mappings
             In.Reader.Read();
 
-            var columns = new Dictionary<string, int>();
-            for (var i = 0; i < In.Reader.FieldCount; i++)
-            {
-                columns.Add(In.Reader.GetName(i), i);
-            }
-            BuildMappings.In.ColumnNames = columns;
-            BuildMappings.In.RootType = typeof (T);
-            BuildMappings.Execute();
+            FindColumns.In.Reader = In.Reader;
+            FindColumns.Execute();
+
+            BuildPropertyParseTree.In.Columns = FindColumns.Out.Columns;
+            BuildPropertyParseTree.In.InitialType = typeof (T);
+            BuildPropertyParseTree.Execute();
             
             do
             {
-                BuildObject.In.ObjectMapping = BuildMappings.Out.ObjectMapping;
+                BuildObject.In.PropertyParseTree = BuildPropertyParseTree.Out.PropertyParseTree;
                 BuildObject.In.DataRecord = In.Reader;
                 BuildObject.Execute();
                 objectList.Add(BuildObject.Out.Object);
