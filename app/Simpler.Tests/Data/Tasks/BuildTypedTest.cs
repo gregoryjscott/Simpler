@@ -15,11 +15,11 @@ namespace Simpler.Tests.Data.Tasks
         {
             // Arrange
             var task = Task.New<BuildObject<MockPerson>>();
-            var mapTask = Task.New<BuildPropertyParseTree>();
+            var mapTask = Task.New<Simpler.Data.Tasks.BuildPropertyMappingTree>();
             mapTask.In.InitialType = typeof(MockPerson);
             mapTask.In.Columns = new Dictionary<string, int> { { "Name", 0 } };
             mapTask.Execute();
-            task.In.PropertyParseTree = mapTask.Out.PropertyParseTree;
+            task.In.PropertyParse = mapTask.Out.PropertyMappingTree;
 
             var mockDataRecord = new Mock<IDataRecord>();
             task.In.DataRecord = mockDataRecord.Object;
@@ -36,11 +36,11 @@ namespace Simpler.Tests.Data.Tasks
         {
             // Arrange
             var task = Task.New<BuildObject<MockPerson>>();
-            var mapTask = Task.New<BuildPropertyParseTree>();
+            var mapTask = Task.New<Simpler.Data.Tasks.BuildPropertyMappingTree>();
             mapTask.In.InitialType = typeof(MockPerson);
             mapTask.In.Columns = new Dictionary<string, int> { { "Name", 0 }, { "Age", 1 } };
             mapTask.Execute();
-            task.In.PropertyParseTree = mapTask.Out.PropertyParseTree;
+            task.In.PropertyParse = mapTask.Out.PropertyMappingTree;
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(2);
@@ -62,7 +62,7 @@ namespace Simpler.Tests.Data.Tasks
         public void should_throw_exception_if_a_data_record_column_is_not_a_property_of_the_object_class()
         {
             // Arrange
-            var mapTask = Task.New<BuildPropertyParseTree>();
+            var mapTask = Task.New<Simpler.Data.Tasks.BuildPropertyMappingTree>();
             mapTask.In.InitialType = typeof(MockPerson);
             mapTask.In.Columns = new Dictionary<string, int> { { "Name", 0 }, { "TheCakeIsALie", 1 } };
 
@@ -75,11 +75,11 @@ namespace Simpler.Tests.Data.Tasks
         {
             // Arrange
             var task = Task.New<BuildObject<MockPerson>>();
-            var mapTask = Task.New<BuildPropertyParseTree>();
+            var mapTask = Task.New<Simpler.Data.Tasks.BuildPropertyMappingTree>();
             mapTask.In.InitialType = typeof(MockPerson);
             mapTask.In.Columns = new Dictionary<string, int> { { "Name", 0 } };
             mapTask.Execute();
-            task.In.PropertyParseTree = mapTask.Out.PropertyParseTree;
+            task.In.PropertyParse = mapTask.Out.PropertyMappingTree;
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);
@@ -101,11 +101,11 @@ namespace Simpler.Tests.Data.Tasks
         {
             // Arrange
             var task = Task.New<BuildObject<MockPerson>>();
-            var mapTask = Task.New<BuildPropertyParseTree>();
+            var mapTask = Task.New<Simpler.Data.Tasks.BuildPropertyMappingTree>();
             mapTask.In.InitialType = typeof(MockPerson);
             mapTask.In.Columns = new Dictionary<string, int> { { "MockEnum", 0 } };
             mapTask.Execute();
-            task.In.PropertyParseTree = mapTask.Out.PropertyParseTree;
+            task.In.PropertyParse = mapTask.Out.PropertyMappingTree;
 
             var mockDataRecord = new Mock<IDataRecord>();
             mockDataRecord.Setup(dataRecord => dataRecord.FieldCount).Returns(1);

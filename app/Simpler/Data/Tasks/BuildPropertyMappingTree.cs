@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 
 namespace Simpler.Data.Tasks
 {
-    public class BuildPropertyParseTree : InOutTask<BuildPropertyParseTree.Input, BuildPropertyParseTree.Output>
+    public class BuildPropertyMappingTree : InOutTask<BuildPropertyMappingTree.Input, BuildPropertyMappingTree.Output>
     {
         public class Input
         {
@@ -17,14 +17,21 @@ namespace Simpler.Data.Tasks
 
         public class Output
         {
-            public PropertyParseTree.PropertyParseTree PropertyParseTree { get; set; }
+            public AbstractNode PropertyMappingTree { get; set; }
         }
 
         public override void Execute()
         {
             var parseColumn = new ParseColumn();
 
-            parseColumn.In.PropertyParseTree = new PropertyParseTreeRootNode { PropertyType = In.InitialType };
+            if (In.InitialType.FullName == "System.Object")
+            {
+                 parseColumn.In.RootNode = new DynamicNode{ PropertyType = In.InitialType };
+            }
+            else
+            {
+                 parseColumn.In.RootNode = new ObjectNode{ PropertyType = In.InitialType };
+            }
 
             //order by the longest column names first
             var columns = In.Columns.OrderByDescending(x => x.Key.Length);
@@ -34,7 +41,7 @@ namespace Simpler.Data.Tasks
                 parseColumn.In.ColumnIndex = column.Value;
                 parseColumn.Execute();
             }
-            Out.PropertyParseTree = parseColumn.In.PropertyParseTree;
+            Out.PropertyMappingTree = parseColumn.In.RootNode;
         }
     }
 }

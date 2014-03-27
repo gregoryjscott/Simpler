@@ -13,13 +13,13 @@ namespace Simpler.Tests.Data.Tasks
     [TestFixture]
     public class BuildObjectTest
     {
-        public static Simpler.Data.PropertyParseTree.PropertyParseTree get_parse_tree_from_data_table(DataTable table, Type type)
+        public static Simpler.Data.PropertyMappingTree.AbstractNode get_parse_tree_from_data_table(DataTable table, Type type)
         {
-            var buildPropertyParseTree = new BuildPropertyParseTree();
+            var buildPropertyParseTree = new Simpler.Data.Tasks.BuildPropertyMappingTree();
             buildPropertyParseTree.In.Columns = table.Columns.Cast<DataColumn>().Select((x, i) => new { x.ColumnName, i }).ToDictionary(x => x.ColumnName, x => x.i);
             buildPropertyParseTree.In.InitialType = type;
             buildPropertyParseTree.Execute();
-            return buildPropertyParseTree.Out.PropertyParseTree;
+            return buildPropertyParseTree.Out.PropertyMappingTree;
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Simpler.Tests.Data.Tasks
 
             var task = Task.New<BuildObject<MockPerson>>();
             task.In.DataRecord = dataReader;
-            task.In.PropertyParseTree = get_parse_tree_from_data_table(table, typeof(MockPerson));
+            task.In.PropertyParse = get_parse_tree_from_data_table(table, typeof(MockPerson));
 
             //Act
             task.Execute();
@@ -58,7 +58,7 @@ namespace Simpler.Tests.Data.Tasks
 
             var task = Task.New<BuildObject<dynamic>>();
             task.In.DataRecord = dataReader;
-            task.In.PropertyParseTree = get_parse_tree_from_data_table(table, typeof(object));
+            task.In.PropertyParse = get_parse_tree_from_data_table(table, typeof(object));
 
             //Act
             task.Execute();
@@ -81,7 +81,7 @@ namespace Simpler.Tests.Data.Tasks
 
             var task = Task.New<BuildObject<MockPerson>>();
             task.In.DataRecord = dataReader;
-            task.In.PropertyParseTree = get_parse_tree_from_data_table(table, typeof(MockPerson));
+            task.In.PropertyParse = get_parse_tree_from_data_table(table, typeof(MockPerson));
 
             //Act
             task.Execute();
@@ -104,7 +104,7 @@ namespace Simpler.Tests.Data.Tasks
 
             var task = Task.New<BuildObject<MockPerson>>();
             task.In.DataRecord = dataReader;
-            task.In.PropertyParseTree = get_parse_tree_from_data_table(table, typeof(MockPerson));
+            task.In.PropertyParse = get_parse_tree_from_data_table(table, typeof(MockPerson));
 
             //Act
             task.Execute();
@@ -127,7 +127,7 @@ namespace Simpler.Tests.Data.Tasks
 
             var task = Task.New<BuildObject<MockPerson>>();
             task.In.DataRecord = dataReader;
-            task.In.PropertyParseTree = get_parse_tree_from_data_table(table, typeof(MockPerson));
+            task.In.PropertyParse = get_parse_tree_from_data_table(table, typeof(MockPerson));
 
             //Act
             task.Execute();
@@ -150,7 +150,7 @@ namespace Simpler.Tests.Data.Tasks
 
             var task = Task.New<BuildObject<MockPerson>>();
             task.In.DataRecord = dataReader;
-            task.In.PropertyParseTree = get_parse_tree_from_data_table(table, typeof(MockPerson));
+            task.In.PropertyParse = get_parse_tree_from_data_table(table, typeof(MockPerson));
 
             //Act
             task.Execute();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Dynamic;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 
 namespace Simpler.Data.Tasks
 {
@@ -10,7 +10,7 @@ namespace Simpler.Data.Tasks
         public class Input
         {
             public IDataRecord DataRecord { get; set; }
-            public PropertyParseTree.PropertyParseTree PropertyParseTree { get; set; }
+            public AbstractNode PropertyParse { get; set; }
         }
 
         public class Output
@@ -18,28 +18,28 @@ namespace Simpler.Data.Tasks
             public T Object { get; set; }
         }
 
-        public void Parse(PropertyParseTreeNode treeNode, object obj)
+        public void Parse(AbstractNode node, object obj)
         {
-            //if the treeNode does not have a index then just set the value to the instance.
-            if (treeNode.Index == null)
+            //if the node does not have a index then just set the value to the instance.
+            if (node.Index == null)
             {
-                treeNode.SetValue(obj, null);
+                node.SetValue(obj, null);
             }
             else
             {
                 //get the value from the data reader and set the value
-                var value = In.DataRecord.GetValue((int)treeNode.Index);
+                var value = In.DataRecord.GetValue((int)node.Index);
                 if (value != null && value.GetType() != typeof(DBNull))
                 {
-                    treeNode.SetValue(obj, value);
+                    node.SetValue(obj, value);
                 }
             }
             
             //get the newly created object
-            var childObj = treeNode.GetValue(obj);
+            var childObj = node.GetValue(obj);
 
             //continue down the parse tree
-            foreach (var childNode in treeNode.Nodes)
+            foreach (var childNode in node.Children)
             {
                 Parse(childNode, childObj);
             }
@@ -48,8 +48,8 @@ namespace Simpler.Data.Tasks
         public override void Execute()
         {
             //create the root object
-            var obj = In.PropertyParseTree.CreateObject();
-            foreach (var node in In.PropertyParseTree.Nodes)
+            var obj = In.PropertyParse.CreateObject();
+            foreach (var node in In.PropertyParse.Children)
             {
                 Parse(node, obj);
             }

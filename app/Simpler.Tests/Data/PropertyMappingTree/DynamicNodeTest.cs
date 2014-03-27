@@ -1,19 +1,19 @@
 ﻿using System.Dynamic;
 using NUnit.Framework;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests.Data.PropertyParseTree
 {
     [TestFixture]
-    public class PropertyParseTreeDynamicNodeTest
+    public class DynamicNodeTest
     {
         [Test]
         public void should_set_value_for_dynamic_node()
         {
             //arrange
             var obj = new MockPerson();
-            var propertyParseTreeArrayNode = new PropertyParseTreeDynamicNode()
+            var propertyParseTreeArrayNode = new DynamicNode()
                 {
                     Name = "Other",
                     PropertyInfo = obj.GetType().GetProperty("Other"),
@@ -32,7 +32,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         {
             //arrange
             var obj = new MockPerson{Other = new ExpandoObject()};
-            var propertyParseTreeArrayNode = new PropertyParseTreeDynamicNode()
+            var propertyParseTreeArrayNode = new DynamicNode()
             {
                 Name = "Other",
                 PropertyInfo = obj.GetType().GetProperty("Other"),
@@ -51,7 +51,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         public void should_create_object_for_dynamic_node()
         {
             //arrange
-            var propertyParseTreeArrayNode = new PropertyParseTreeDynamicNode()
+            var propertyParseTreeArrayNode = new DynamicNode()
             {
                 Name = "Other",
                 PropertyType = typeof(object)

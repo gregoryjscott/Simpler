@@ -1,18 +1,18 @@
 ﻿using NUnit.Framework;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests.Data.PropertyParseTree
 {
     [TestFixture]
-    public class PropertyParseTreeObjectNodeTest
+    public class ObjectNodeTest
     {
         [Test]
         public void should_set_value_for_object_node()
         {
             //arrange
             var obj = new MockPerson();
-            var propertyParseTreeObjectNode = new PropertyParseTreeObjectNode()
+            var propertyParseTreeObjectNode = new ObjectNode()
                 {
                     Name = "Name",
                     PropertyInfo = obj.GetType().GetProperty("Name"),
@@ -31,7 +31,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         {
             //arrange
             var obj = new MockPerson{ Name = "Richard" };
-            var propertyParseTreeObjectNode = new PropertyParseTreeObjectNode()
+            var propertyParseTreeObjectNode = new ObjectNode()
                 {
                     Name = "Name",
                     PropertyInfo = obj.GetType().GetProperty("Name"),
@@ -49,7 +49,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         public void should_create_object_for_object_node()
         {
             //arrange
-            var propertyParseTreeObjectNode = new PropertyParseTreeObjectNode()
+            var propertyParseTreeObjectNode = new ObjectNode()
             {
                 Name = "Name",
                 PropertyType = typeof(string)

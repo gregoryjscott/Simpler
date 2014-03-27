@@ -1,18 +1,18 @@
 ﻿using NUnit.Framework;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 using Simpler.Tests.Core.Mocks;
 
 namespace Simpler.Tests.Data.PropertyParseTree
 {
     [TestFixture]
-    public class PropertyParseTreeArrayNodeTest
+    public class ArrayNodeTest
     {
         [Test]
         public void should_set_value_for_array_node()
         {
             //arrange
             var obj = new MockPerson();
-            var propertyParseTreeArrayNode = new PropertyParseTreeArrayNode
+            var propertyParseTreeArrayNode = new ArrayNode
                 {
                     Name = "Vehicles",
                     PropertyInfo = obj.GetType().GetProperty("Vehicles"),
@@ -31,7 +31,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         {
             //arrange
             var obj = new MockPerson {Vehicles = new MockVehicle[0]};
-            var propertyParseTreeArrayNode = new PropertyParseTreeArrayNode
+            var propertyParseTreeArrayNode = new ArrayNode
                 {
                     Name = "Vehicles",
                     PropertyInfo = obj.GetType().GetProperty("Vehicles"),
@@ -50,7 +50,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         public void should_create_object_for_array()
         {
             //arrange
-            var propertyParseTreeArrayNode = new PropertyParseTreeArrayNode
+            var propertyParseTreeArrayNode = new ArrayNode
                 {
                     PropertyType = typeof (MockVehicle[])
                 };

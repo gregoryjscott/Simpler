@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Simpler.Data.PropertyParseTree
+namespace Simpler.Data.PropertyMappingTree
 {
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyParseTreeArrayChildNode : PropertyParseTreeNode
+    public class ArrayElementNode : AbstractNode
     {
         public override object CreateObject(object value = null)
         {

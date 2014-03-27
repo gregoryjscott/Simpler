@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using Simpler.Data;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 using Simpler.Data.Tasks;
 using Simpler.Tests.Core.Mocks;
 
@@ -16,7 +16,7 @@ namespace Simpler.Tests.Data.Tasks
         {
             //Arrange
             var task = Task.New<ParseColumn>();
-            task.In.PropertyParseTree = new PropertyParseTreeRootNode
+            task.In.RootNode = new ObjectNode
             {
                 PropertyType = typeof(MockPerson)
             };
@@ -31,7 +31,7 @@ namespace Simpler.Tests.Data.Tasks
         {
             //Arrange
             var task = Task.New<ParseColumn>();
-            task.In.PropertyParseTree = new PropertyParseTreeRootNode
+            task.In.RootNode = new ObjectNode
             {
                 PropertyType = typeof(MockPerson)
             };
@@ -46,7 +46,7 @@ namespace Simpler.Tests.Data.Tasks
         {
             //Arrange
             var task = Task.New<ParseColumn>();
-            task.In.PropertyParseTree = new PropertyParseTreeRootNode
+            task.In.RootNode = new ObjectNode
                 {
                     PropertyType = typeof (MockPerson)
                 };
@@ -56,10 +56,10 @@ namespace Simpler.Tests.Data.Tasks
             task.Execute();
 
             //Assert
-            Assert.That(task.In.PropertyParseTree["Name"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Name"], Is.Not.Null);
 
             //Check the node types
-            Assert.That(task.In.PropertyParseTree["Name"], Is.TypeOf(typeof(PropertyParseTreeObjectNode)));
+            Assert.That(task.In.RootNode["Name"], Is.TypeOf(typeof(ObjectNode)));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Simpler.Tests.Data.Tasks
         {
             //Arrange
             var task = Task.New<ParseColumn>();
-            task.In.PropertyParseTree = new PropertyParseTreeRootNode
+            task.In.RootNode = new ObjectNode
             {
                 PropertyType = typeof(MockPerson)
             };
@@ -77,12 +77,12 @@ namespace Simpler.Tests.Data.Tasks
             task.Execute();
 
             //Assert
-            Assert.That(task.In.PropertyParseTree["Pet"], Is.Not.Null);
-            Assert.That(task.In.PropertyParseTree["Pet"]["Name"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Pet"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Pet"]["Name"], Is.Not.Null);
 
             //Check the node types
-            Assert.That(task.In.PropertyParseTree["Pet"], Is.TypeOf(typeof(PropertyParseTreeObjectNode)));
-            Assert.That(task.In.PropertyParseTree["Pet"]["Name"], Is.TypeOf(typeof(PropertyParseTreeObjectNode)));
+            Assert.That(task.In.RootNode["Pet"], Is.TypeOf(typeof(ObjectNode)));
+            Assert.That(task.In.RootNode["Pet"]["Name"], Is.TypeOf(typeof(ObjectNode)));
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace Simpler.Tests.Data.Tasks
         {
             //Arrange
             var task = Task.New<ParseColumn>();
-            task.In.PropertyParseTree = new PropertyParseTreeRootNode
+            task.In.RootNode = new ObjectNode
             {
                 PropertyType = typeof(MockPerson)
             };
@@ -100,14 +100,14 @@ namespace Simpler.Tests.Data.Tasks
             task.Execute();
 
             //Assert
-            Assert.That(task.In.PropertyParseTree["Vehicles"], Is.Not.Null);
-            Assert.That(task.In.PropertyParseTree["Vehicles"]["0"], Is.Not.Null);
-            Assert.That(task.In.PropertyParseTree["Vehicles"]["0"]["Make"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Vehicles"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Vehicles"]["0"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Vehicles"]["0"]["Make"], Is.Not.Null);
 
             //Check the node types
-            Assert.That(task.In.PropertyParseTree["Vehicles"], Is.TypeOf(typeof(PropertyParseTreeArrayNode)));
-            Assert.That(task.In.PropertyParseTree["Vehicles"]["0"], Is.TypeOf(typeof(PropertyParseTreeArrayChildNode)));
-            Assert.That(task.In.PropertyParseTree["Vehicles"]["0"]["Make"], Is.TypeOf(typeof(PropertyParseTreeObjectNode)));
+            Assert.That(task.In.RootNode["Vehicles"], Is.TypeOf(typeof(ArrayNode)));
+            Assert.That(task.In.RootNode["Vehicles"]["0"], Is.TypeOf(typeof(ArrayElementNode)));
+            Assert.That(task.In.RootNode["Vehicles"]["0"]["Make"], Is.TypeOf(typeof(ObjectNode)));
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Simpler.Tests.Data.Tasks
         {
             //Arrange
             var task = Task.New<ParseColumn>();
-            task.In.PropertyParseTree = new PropertyParseTreeRootNode
+            task.In.RootNode = new ObjectNode
             {
                 PropertyType = typeof(MockPerson)
             };
@@ -125,12 +125,12 @@ namespace Simpler.Tests.Data.Tasks
             task.Execute();
 
             //Assert
-            Assert.That(task.In.PropertyParseTree["Other"], Is.Not.Null);
-            Assert.That(task.In.PropertyParseTree["Other"]["TheLastManStanding"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Other"], Is.Not.Null);
+            Assert.That(task.In.RootNode["Other"]["TheLastManStanding"], Is.Not.Null);
 
             //Check the node types
-            Assert.That(task.In.PropertyParseTree["Other"], Is.TypeOf(typeof(PropertyParseTreeDynamicNode)));
-            Assert.That(task.In.PropertyParseTree["Other"]["TheLastManStanding"], Is.TypeOf(typeof(PropertyParseTreeDynamicChildNode)));
+            Assert.That(task.In.RootNode["Other"], Is.TypeOf(typeof(DynamicNode)));
+            Assert.That(task.In.RootNode["Other"]["TheLastManStanding"], Is.TypeOf(typeof(DynamicPropertyNode)));
         }
 
     }

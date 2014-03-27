@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 
 namespace Simpler.Data.Tasks
 {
@@ -12,45 +10,45 @@ namespace Simpler.Data.Tasks
         {
             public int ColumnIndex { get; set; }
             public string ColumnName { get; set; }
-            public PropertyParseTree.PropertyParseTree PropertyParseTree { get; set; }
+            public AbstractNode RootNode { get; set; }
         }
 
-        private void ParseColumnName(PropertyParseTree.PropertyParseTree propertyParseTree, string path = "")
+        private void ParseColumnName(AbstractNode node, string path = "")
         {
             var remainingPath = In.ColumnName.Substring(path.Length);
             //check if we have reached the end of the path
             if (remainingPath.Length == 0)
             {
-                ((PropertyParseTreeNode) propertyParseTree).Index = In.ColumnIndex;
+                node.Index = In.ColumnIndex;
                 return;
             }
 
-            var propertyType = propertyParseTree.PropertyType;
+            var propertyType = node.PropertyType;
 
             //if the parent is a dyanmic no need to look at properties just set it
-            if (propertyType == null || propertyType.FullName == "System.Object")
+            if (node is DynamicNode)
             {
-                propertyParseTree[remainingPath] = new PropertyParseTreeDynamicChildNode();
-                ParseColumnName(propertyParseTree[remainingPath], path + remainingPath);
+                node[remainingPath] = new DynamicPropertyNode();
+                ParseColumnName(node[remainingPath], path + remainingPath);
                 return;
             }
 
-            //if the parent is an array we need to pull the index off and create a treeNode.
-            if (propertyType.IsArray)
+            //if the parent is an array we need to pull the index off and create a TreeNode.
+            if (node is ArrayNode)
             {
                 //pull the index off the remainingPath
                 var index = new String(remainingPath.TakeWhile(Char.IsDigit).ToArray());
 
-                //create the treeNode if it doesn't exist
-                if(propertyParseTree.Nodes.All(x => x.Name != index))
+                //create the TreeNode if it doesn't exist
+                if(node.Children.All(x => x.Name != index))
                 {
-                    propertyParseTree[index] = new PropertyParseTreeArrayChildNode
+                    node[index] = new ArrayElementNode
                     {
                         PropertyType = propertyType.GetElementType()
                     };
                 }
 
-                ParseColumnName(propertyParseTree[index], path + index);
+                ParseColumnName(node[index], path + index);
                 return;
             }
 
@@ -64,13 +62,13 @@ namespace Simpler.Data.Tasks
 
             Check.That(propertyInfo != null, "The DataRecord contains a column '{0}' that does not match a property or nested property.", In.ColumnName);
 
-            //check if the treeNode already exisits in the parse tree
-            if (!propertyParseTree.Nodes.Any(x => x.Name == propertyInfo.Name))
+            //check if the node already exisits in the parse tree
+            if (!node.Children.Any(x => x.Name == propertyInfo.Name))
             {
-                //determine the type of the treeNode and add it to the parse tree
+                //determine the type of the node and add it to the parse tree
                 if (propertyInfo.PropertyType.FullName == "System.Object")
                 {
-                    propertyParseTree[propertyInfo.Name] = new PropertyParseTreeDynamicNode
+                    node[propertyInfo.Name] = new DynamicNode
                     {
                         PropertyInfo = propertyInfo,
                         PropertyType = propertyInfo.PropertyType
@@ -78,7 +76,7 @@ namespace Simpler.Data.Tasks
                 }
                 else if (propertyInfo.PropertyType.IsArray)
                 {
-                    propertyParseTree[propertyInfo.Name] = new PropertyParseTreeArrayNode
+                    node[propertyInfo.Name] = new ArrayNode
                     {
                         PropertyInfo = propertyInfo,
                         PropertyType = propertyInfo.PropertyType
@@ -86,7 +84,7 @@ namespace Simpler.Data.Tasks
                 }
                 else
                 {
-                    propertyParseTree[propertyInfo.Name] = new PropertyParseTreeObjectNode
+                    node[propertyInfo.Name] = new ObjectNode
                     {
                         PropertyInfo = propertyInfo,
                         PropertyType = propertyInfo.PropertyType
@@ -94,12 +92,12 @@ namespace Simpler.Data.Tasks
                 }
             }
 
-            ParseColumnName(propertyParseTree[propertyInfo.Name], path + propertyInfo.Name);
+            ParseColumnName(node[propertyInfo.Name], path + propertyInfo.Name);
         }
 
         public override void Execute()
         {
-            ParseColumnName(In.PropertyParseTree);
+            ParseColumnName(In.RootNode);
         }
     }
 }

@@ -1,18 +1,18 @@
 ﻿using System.Dynamic;
 using NUnit.Framework;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 
 namespace Simpler.Tests.Data.PropertyParseTree
 {
     [TestFixture]
-    public class PropertyParseTreeDynamicChildNodeTest
+    public class DynamicPropertyNodeTest
     {
         [Test]
         public void should_set_value_for_dynamic_node()
         {
             //arrange
             dynamic obj = new ExpandoObject();
-            var propertyParseTreeArrayNode = new PropertyParseTreeDynamicChildNode()
+            var propertyParseTreeArrayNode = new DynamicPropertyNode()
                 {
                     Name = "City",
                     PropertyType = typeof (string)
@@ -31,7 +31,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
             //arrange
             dynamic obj = new ExpandoObject();
             obj.City = "Anchorage";
-            var propertyParseTreeArrayNode = new PropertyParseTreeDynamicChildNode()
+            var propertyParseTreeArrayNode = new DynamicPropertyNode()
             {
                 Name = "City",
                 PropertyType = typeof(string)
@@ -49,7 +49,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         public void should_create_object_for_dynamic_node()
         {
             //arrange
-            var propertyParseTreeArrayNode = new PropertyParseTreeDynamicChildNode()
+            var propertyParseTreeArrayNode = new DynamicPropertyNode()
             {
                 Name = "City",
                 PropertyType = typeof(string)

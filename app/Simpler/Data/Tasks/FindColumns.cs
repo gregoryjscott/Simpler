@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 
 namespace Simpler.Data.Tasks
 {

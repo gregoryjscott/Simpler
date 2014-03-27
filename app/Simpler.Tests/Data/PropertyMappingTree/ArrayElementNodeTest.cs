@@ -1,18 +1,18 @@
 ﻿using NUnit.Framework;
-using Simpler.Data.PropertyParseTree;
+using Simpler.Data.PropertyMappingTree;
 using Simpler.Tests.Core.Mocks;
 
-namespace Simpler.Tests.Data.PropertyParseTree
+namespace Simpler.Tests.Data.PropertyMappingTree
 {
     [TestFixture]
-    public class PropertyParseTreeArrayChildNodeTest
+    public class ArrayElementNodeTest
     {
         [Test]
         public void should_set_value_for_array_child_node()
         {
             //arrange
             var array = new MockPet[1];
-            var propertyParseTreeArrayChildNode = new PropertyParseTreeArrayChildNode
+            var propertyParseTreeArrayChildNode = new ArrayElementNode
                 {
                     Name = "0",
                     PropertyType = typeof (MockPet)
@@ -30,7 +30,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         {
             //arrange
             var array = new [] { new MockPet {Name = "Doug"} };
-            var propertyParseTreeArrayChildNode = new PropertyParseTreeArrayChildNode
+            var propertyParseTreeArrayChildNode = new ArrayElementNode
                 {
                     Name = "0",
                     PropertyType = typeof (MockPet)
@@ -48,7 +48,7 @@ namespace Simpler.Tests.Data.PropertyParseTree
         public void should_create_object_for_array_child_node()
         {
             //arrange
-            var propertyParseTreeArrayChildNode = new PropertyParseTreeArrayChildNode
+            var propertyParseTreeArrayChildNode = new ArrayElementNode
                 {
                     PropertyType = typeof (MockPet)
                 };

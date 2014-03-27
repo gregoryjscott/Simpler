@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Simpler.Data.PropertyParseTree
+namespace Simpler.Data.PropertyMappingTree
 {
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyParseTreeObjectNode : PropertyParseTreeNode
+    public class ObjectNode : AbstractNode
     {
         /// <summary>
         /// 

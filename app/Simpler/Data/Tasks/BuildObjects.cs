@@ -18,7 +18,7 @@ namespace Simpler.Data.Tasks
         }
 
         public FindColumns FindColumns { get; set; }
-        public BuildPropertyParseTree BuildPropertyParseTree { get; set; }
+        public BuildPropertyMappingTree BuildPropertyMappingTree { get; set; }
         public BuildObject<T> BuildObject { get; set; }
 
         public override void Execute()
@@ -31,13 +31,13 @@ namespace Simpler.Data.Tasks
             FindColumns.In.Reader = In.Reader;
             FindColumns.Execute();
 
-            BuildPropertyParseTree.In.Columns = FindColumns.Out.Columns;
-            BuildPropertyParseTree.In.InitialType = typeof (T);
-            BuildPropertyParseTree.Execute();
+            BuildPropertyMappingTree.In.Columns = FindColumns.Out.Columns;
+            BuildPropertyMappingTree.In.InitialType = typeof (T);
+            BuildPropertyMappingTree.Execute();
             
             do
             {
-                BuildObject.In.PropertyParseTree = BuildPropertyParseTree.Out.PropertyParseTree;
+                BuildObject.In.PropertyParse = BuildPropertyMappingTree.Out.PropertyMappingTree;
                 BuildObject.In.DataRecord = In.Reader;
                 BuildObject.Execute();
                 objectList.Add(BuildObject.Out.Object);

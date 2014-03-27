@@ -67,12 +67,11 @@
     <Compile Include="Core\Mocks\MockParentTask.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubTask.cs" />
-    <Compile Include="Data\PropertyParseTree\PropertyParseTreeRootNodeTest.cs" />
-    <Compile Include="Data\PropertyParseTree\PropertyParseTreeDynamicChildNodeTest.cs" />
-    <Compile Include="Data\PropertyParseTree\PropertyParseTreeDynamicNodeTest.cs" />
-    <Compile Include="Data\PropertyParseTree\PropertyParseTreeObjectNodeTest.cs" />
-    <Compile Include="Data\PropertyParseTree\PropertyParseTreeArrayNodeTest.cs" />
-    <Compile Include="Data\PropertyParseTree\PropertyParseTreeArrayChildNodeTest.cs" />
+    <Compile Include="Data\PropertyMappingTree\DynamicPropertyNodeTest.cs" />
+    <Compile Include="Data\PropertyMappingTree\DynamicNodeTest.cs" />
+    <Compile Include="Data\PropertyMappingTree\ObjectNodeTest.cs" />
+    <Compile Include="Data\PropertyMappingTree\ArrayNodeTest.cs" />
+    <Compile Include="Data\PropertyMappingTree\ArrayElementNodeTest.cs" />
     <Compile Include="Data\Tasks\BuildTypedTest.cs" />
     <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
@@ -81,7 +80,7 @@
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
     <Compile Include="Data\ResultsTest.cs" />
     <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
-    <Compile Include="Data\Tasks\BuildPropertyParseTreeTest.cs" />
+    <Compile Include="Data\Tasks\BuildPropertyMappingTree.cs" />
     <Compile Include="Data\Tasks\BuildObjectTest.cs" />
     <Compile Include="Data\Tasks\ParseColumnTest.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />

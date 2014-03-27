@@ -1,11 +1,11 @@
 ﻿using System.Dynamic;
 
-namespace Simpler.Data.PropertyParseTree
+namespace Simpler.Data.PropertyMappingTree
 {
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyParseTreeDynamicNode : PropertyParseTreeObjectNode
+    public class DynamicNode : ObjectNode
     {
         public override object CreateObject(object value = null)
         {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace Simpler.Data.PropertyParseTree
+namespace Simpler.Data.PropertyMappingTree
 {
     /// <summary>
     /// 
     /// </summary>
-    public class PropertyParseTreeDynamicChildNode : PropertyParseTreeNode
+    public class DynamicPropertyNode : AbstractNode
     {
         public override object CreateObject(object value = null)
         {
