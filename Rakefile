@@ -1,46 +1,74 @@
-require 'albacore'
-require 'fileutils'
+require "albacore"
+require "fileutils"
 
+desc "Run tests"
 task :default => :test
 
-desc "Build solution"
-msbuild :msbuild do |msb|
- msb.properties :configuration => :Release
- msb.targets :Clean, :Build
- msb.solution = "Simpler.sln"
+namespace :build do
+  desc "Build for debugging"
+  build :debug do |b|
+    b.sln = "app/Simpler.sln"
+    b.prop "Configuration", "Debug"
+    b.logging = "minimal"
+  end
+
+  desc "Build for release"
+  build :release do |b|
+    b.sln = "app/Simpler.sln"
+    b.prop "Configuration", "Release"
+    b.target = ["Clean", "Rebuild"]
+    b.logging = "minimal"
+  end
 end
 
-desc "Run unit tests"
-nunit :test => :msbuild do |nunit|
- nunit.command = "packages/NUnit.2.5.9.10348/Tools/nunit-console.exe"
- nunit.assemblies "Simpler.Tests/Simpler.Tests.csproj"
+desc "Run tests"
+test_runner :test => ["build:debug"] do |cmd|
+  cmd.exe = "test/tools/nunit-console.exe"
+  cmd.files = ["app/Simpler.Tests/bin/Debug/Simpler.Tests.dll"]
 end
 
-desc "Prep the package folder"
-task :prepPackage => :test do
-	FileUtils.rm_rf "deploy" 
-	FileUtils.mkdir_p "deploy/package/lib" 
-	FileUtils.cp "Simpler/bin/Release/Simpler.dll", "deploy/package/lib"
+def bump(type)
+  system "release/tools/please.exe bump #{type} version in app/Simpler/Properties/AssemblyInfo.cs"
+  system "release/tools/please.exe bump #{type} version in release/template/Simpler.nuspec"
 end
 
-desc "Create nuspec file"
-nuspec :createSpec => :prepPackage do |nuspec|
-   nuspec.id="simpler"
-   nuspec.version = "1.0.0"
-   nuspec.authors = "Greg Scott"
-   nuspec.description = "YADAL"
-   nuspec.language = "en-US"
-   nuspec.licenseUrl = "https://github.com/gregoryjscott/Simpler/blob/master/LICENSE"
-   nuspec.projectUrl = "https://github.com/gregoryjscott/Simpler"
-   nuspec.dependency "Castle.Core", "2.5.2"
-   nuspec.working_directory = "deploy/package"
-   nuspec.output_file = "simpler.nuspec"
+namespace :bump do
+  desc "Bump major version"
+  task :major do
+    bump "major"
+  end
+
+  desc "Bump minor version"
+  task :minor do
+    bump "minor"
+  end
+
+  desc "Bump patch version"
+  task :patch do
+    bump "patch"
+  end
 end
 
-desc "Create the nuget package"
-nugetpack :createPackage => :createSpec do |nugetpack|
-   nugetpack.nuspec = "deploy/package/simpler.nuspec"
-   nugetpack.base_folder = "deploy/package"
-   nugetpack.output = "deploy"
-   nugetpack.command = "Tools/nuget.exe"
+namespace :release do
+  desc "Prepare package contents"
+  task :prep => ["build:release"] do
+    FileUtils.rm_rf "release/template/lib"
+    FileUtils.mkdir_p "release/template/lib"
+    FileUtils.cp "app/Simpler/bin/Release/Simpler.dll", "release/template/lib"
+    FileUtils.cp "app/Simpler/bin/Release/Simpler.xml", "release/template/lib"
+  end
+
+  desc "Pack NuGet package"
+  task :pack do
+    FileUtils.rm_rf "release/output"
+    FileUtils.mkdir_p "release/output"
+    system "release/tools/NuGet.exe pack release/template/Simpler.nuspec -OutputDirectory release/output -NoPackageAnalysis"
+  end
+
+  desc "Push Nuget package"
+  task :push do
+    package = Dir["release/output/Simpler.?.?.?.nupkg"].first
+    puts "Pushing #{package}"
+    # system "release/tools/NuGet.exe push #{package}"
+  end
 end
