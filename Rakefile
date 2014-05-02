@@ -65,10 +65,13 @@ namespace :release do
     system "release/tools/NuGet.exe pack release/template/Simpler.nuspec -OutputDirectory release/output -NoPackageAnalysis"
   end
 
-  desc "Push Nuget package"
+  desc "Push NuGet package"
   task :push do
     package = Dir["release/output/Simpler.?.?.?.nupkg"].first
     puts "Pushing #{package}"
     # system "release/tools/NuGet.exe push #{package}"
   end
 end
+
+desc "Prepare, pack, and push NuGet package"
+task :release => ["release:prep", "release:pack", "release:push"]
