@@ -1,0 +1,13 @@
+{
+  "solution": "app/Simpler.sln",
+  "simplerDll": "app/Simpler/bin/Release/Simpler.dll",
+  "simplerXml": "app/Simpler/bin/Release/Simpler.xml",
+  "assemblyInfo": "app/Simpler/Properties/AssemblyInfo.cs",
+  "testsDll": "app/Simpler.Tests/bin/Debug/Simpler.Tests.dll",
+  "testRunner": "test/tools/nunit-console.exe",
+  "please": "release/tools/please.exe",
+  "nuspec": "release/template/Simpler.nuspec",
+  "nuget": "release/tools/NuGet.exe",
+  "packageLib": "release/template/lib",
+  "packageOutput": "release/output"
+}

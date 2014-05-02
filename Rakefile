@@ -1,5 +1,8 @@
 require "albacore"
 require "fileutils"
+require "centroid"
+
+Config = Centroid::Config.from_file("config.json")
 
 desc "Run tests"
 task :default => :test
@@ -7,14 +10,14 @@ task :default => :test
 namespace :build do
   desc "Build for debugging"
   build :debug do |b|
-    b.sln = "app/Simpler.sln"
+    b.sln = Config.solution
     b.prop "Configuration", "Debug"
     b.logging = "minimal"
   end
 
   desc "Build for release"
   build :release do |b|
-    b.sln = "app/Simpler.sln"
+    b.sln = Config.solution
     b.prop "Configuration", "Release"
     b.target = ["Clean", "Rebuild"]
     b.logging = "minimal"
@@ -23,13 +26,8 @@ end
 
 desc "Run tests"
 test_runner :test => ["build:debug"] do |cmd|
-  cmd.exe = "test/tools/nunit-console.exe"
-  cmd.files = ["app/Simpler.Tests/bin/Debug/Simpler.Tests.dll"]
-end
-
-def bump(type)
-  system "release/tools/please.exe bump #{type} version in app/Simpler/Properties/AssemblyInfo.cs"
-  system "release/tools/please.exe bump #{type} version in release/template/Simpler.nuspec"
+  cmd.exe = Config.test_runner
+  cmd.files = [Config.tests_dll]
 end
 
 namespace :bump do
@@ -52,26 +50,44 @@ end
 namespace :release do
   desc "Prepare package contents"
   task :prep => ["build:release"] do
-    FileUtils.rm_rf "release/template/lib"
-    FileUtils.mkdir_p "release/template/lib"
-    FileUtils.cp "app/Simpler/bin/Release/Simpler.dll", "release/template/lib"
-    FileUtils.cp "app/Simpler/bin/Release/Simpler.xml", "release/template/lib"
+    clean(Config.package_lib)
+    FileUtils.cp Config.simpler_dll, Config.package_lib
+    FileUtils.cp Config.simpler_xml, Config.package_lib
   end
 
   desc "Pack NuGet package"
   task :pack do
-    FileUtils.rm_rf "release/output"
-    FileUtils.mkdir_p "release/output"
-    system "release/tools/NuGet.exe pack release/template/Simpler.nuspec -OutputDirectory release/output -NoPackageAnalysis"
+    clean(Config.package_output)
+    pack_command = "pack #{Config.nuspec} -OutputDirectory #{Config.package_output} -NoPackageAnalysis"
+    nuget(pack_command)
   end
 
   desc "Push NuGet package"
   task :push do
-    package = Dir["release/output/Simpler.?.?.?.nupkg"].first
+    pattern = File.join(Config.package_output, "Simpler.?.?.?.nupkg")
+    package = Dir[pattern].first
     puts "Pushing #{package}"
-    # system "release/tools/NuGet.exe push #{package}"
+    # nuget("push #{package}")
   end
 end
 
 desc "Prepare, pack, and push NuGet package"
 task :release => ["release:prep", "release:pack", "release:push"]
+
+def nuget(command)
+  system "#{Config.nuget} #{command}"
+end
+
+def please(command)
+  system "#{Config.please} #{command}"
+end
+
+def clean(dir)
+  FileUtils.rm_rf dir
+  FileUtils.mkdir_p dir
+end
+
+def bump(type)
+  please("bump #{type} version in #{Config.assembly_info}")
+  please("bump #{type} version in #{Config.nuspec}")
+end
