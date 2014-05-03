@@ -4,7 +4,7 @@ require "centroid"
 
 Config = Centroid::Config.from_file("config.json")
 
-OUTPUT_ROOT = File.expand_path "output"
+ROOT = File.expand_path "."
 
 desc "Run tests"
 task :default => :test
@@ -12,17 +12,17 @@ task :default => :test
 namespace :build do
   desc "Build for debugging"
   build :debug do |b|
-    b.sln = Config.solution
+    b.sln = Config.build.solution
     b.prop "Configuration", "Debug"
-    b.prop "OutputPath", File.join(OUTPUT_ROOT, "build", "debug")
+    b.prop "OutputPath", File.join(ROOT, Config.build.output.debug)
     b.logging = "minimal"
   end
 
   desc "Build for release"
   build :release do |b|
-    b.sln = Config.solution
+    b.sln = Config.build.solution
     b.prop "Configuration", "Release"
-    b.prop "OutputPath", File.join(OUTPUT_ROOT, "build", "release")
+    b.prop "OutputPath", File.join(ROOT, Config.build.output.release)
     b.target = ["Clean", "Rebuild"]
     b.logging = "minimal"
   end
@@ -30,11 +30,11 @@ end
 
 desc "Run tests"
 test_runner :test => ["build:debug"] do |tr|
-  output_path = File.join(OUTPUT_ROOT, "test")
-  clean(output_path)
-  tr.exe = Config.test_runner
-  tr.files = [Config.tests_dll]
-  tr.add_parameter "-xml=#{File.join(output_path, "results.xml")}"
+  clean(Config.test.output)
+
+  tr.exe = Config.tools.nunit
+  tr.files = [Config.test.dll]
+  tr.add_parameter "-xml=#{File.join(ROOT, Config.test.results)}"
 end
 
 namespace :bump do
@@ -55,39 +55,42 @@ namespace :bump do
 end
 
 namespace :release do
-  desc "Prepare package contents"
-  task :prep => ["build:release"] do
-    clean(Config.release.prep.root)
-    FileUtils.cp Config.simpler_dll, Config.release.prep.lib
-    FileUtils.cp Config.simpler_xml, Config.release.prep.lib
-    FileUtils.cp Config.nuspec, Config.release.prep.nuspec
-  end
-
   desc "Pack NuGet package"
-  task :pack do
-    clean(Config.package_output)
-    pack_command = "pack #{Config.release.prep.nuspec} -OutputDirectory #{Config.package_output}"
-    nuget(pack_command)
+  task :pack => ["build:release"] do
+    clean(Config.release.output.prep)
+    clean(Config.release.output.pack)
+
+    lib = File.join(Config.release.output.prep, "lib");
+    FileUtils.mkdir_p lib
+    Config.release.files.each do |file|
+      FileUtils.cp file, lib
+    end
+
+    nuspec = File.join(Config.release.output.prep, File.basename(Config.bump.nuspec))
+    FileUtils.cp Config.bump.nuspec, nuspec
+
+    command = "pack #{nuspec} -OutputDirectory #{Config.release.output.pack}"
+    nuget(command)
   end
 
   desc "Push NuGet package"
   task :push do
-    pattern = File.join(Config.package_output, "Simpler.?.?.?.nupkg")
+    pattern = File.join(Config.release.output.pack, Config.release.nupkgPattern)
     package = Dir[pattern].first
     puts "Pushing #{package}"
     # nuget("push #{package}")
   end
 end
 
-desc "Prepare, pack, and push NuGet package"
-task :release => ["release:prep", "release:pack", "release:push"]
+desc "Pack and push NuGet package"
+task :release => ["release:pack", "release:push"]
 
 def nuget(command)
-  system "#{Config.nuget} #{command}"
+  system "#{Config.tools.nuget} #{command}"
 end
 
 def please(command)
-  system "#{Config.please} #{command}"
+  system "#{Config.tools.please} #{command}"
 end
 
 def clean(dir)
@@ -96,6 +99,7 @@ def clean(dir)
 end
 
 def bump(type)
-  please("bump #{type} version in #{Config.assembly_info}")
-  please("bump #{type} version in #{Config.nuspec}")
+  Config.bump.files.each do |file|
+    please("bump #{type} version in #{file}")
+  end
 end
