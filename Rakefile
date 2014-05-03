@@ -94,10 +94,8 @@ namespace :release do
 
   desc "Push NuGet package"
   task :push do
-    pattern = File.join(Config.release.output.pack, Config.release.nupkgPattern)
-    package = Dir[pattern].first
-    puts "Pushing #{package}"
-    # nuget("push #{package}")
+    puts "Pushing #{release_nupkg}"
+    # nuget("push #{release_nupkg}")
   end
 end
 
@@ -129,4 +127,9 @@ end
 
 def release_nuspec
   File.join(Config.release.output.prep, File.basename(Config.release.nuspec))
+end
+
+def release_nupkg
+  pattern = File.join(Config.release.output.pack, Config.release.nupkgPattern)
+  Dir[pattern].first
 end
