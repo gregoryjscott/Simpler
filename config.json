@@ -21,6 +21,7 @@
   },
 
   "release": {
+    "nuspec": "app/Simpler/Simpler.nuspec",
     "nupkgPattern": "Simpler.?.?.?.nupkg",
     "files": [
       "output/build/release/Simpler.dll",

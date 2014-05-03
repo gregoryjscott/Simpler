@@ -29,9 +29,7 @@ namespace :build do
 end
 
 desc "Run tests"
-test_runner :test => ["build:debug"] do |tr|
-  clean(Config.test.output)
-
+test_runner :test => ["build:debug", "clean:test"] do |tr|
   tr.exe = Config.tools.nunit
   tr.files = [Config.test.dll]
   tr.add_parameter "-xml=#{File.join(ROOT, Config.test.results)}"
@@ -54,23 +52,37 @@ namespace :bump do
   end
 end
 
+namespace :clean do
+  desc "Clean all"
+  task :all => ["clean:build", "clean:test", "clean:release"]
+
+  desc "Clean build output"
+  task :build do
+    clean(Config.build.output.debug)
+    clean(Config.build.output.release)
+  end
+
+  desc "Clean test output"
+  task :test do
+    clean(Config.test.output)
+  end
+
+  desc "Clean release output"
+  task :release do
+    clean(Config.release.output.prep)
+    clean(lib_directory);
+    clean(Config.release.output.pack)
+  end
+end
+
 namespace :release do
   desc "Pack NuGet package"
-  task :pack => ["build:release"] do
-    clean(Config.release.output.prep)
-    clean(Config.release.output.pack)
-
-    lib = File.join(Config.release.output.prep, "lib");
-    FileUtils.mkdir_p lib
+  task :pack => ["build:release", "clean:release"] do
+    FileUtils.cp Config.release.nuspec, Config.release.output.prep
     Config.release.files.each do |file|
-      FileUtils.cp file, lib
+      FileUtils.cp file, lib_directory
     end
-
-    nuspec = File.join(Config.release.output.prep, File.basename(Config.bump.nuspec))
-    FileUtils.cp Config.bump.nuspec, nuspec
-
-    command = "pack #{nuspec} -OutputDirectory #{Config.release.output.pack}"
-    nuget(command)
+    nuget("pack #{Config.release.nuspec} -OutputDirectory #{Config.release.output.pack}")
   end
 
   desc "Push NuGet package"
@@ -102,4 +114,8 @@ def bump(type)
   Config.bump.files.each do |file|
     please("bump #{type} version in #{file}")
   end
+end
+
+def lib_directory()
+  File.join(Config.release.output.prep, "lib")
 end
