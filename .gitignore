@@ -31,4 +31,3 @@ deploy/*
 *.nupkg
 Gemfile.lock
 output/
-packages/

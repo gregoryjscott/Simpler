@@ -42,8 +42,8 @@
   },
 
   "tools": {
-    "nuget": "tools/NuGet.CommandLine.2.8.1/tools/NuGet.exe",
+    "nuget": "packages/NuGet.CommandLine.2.8.1/tools/NuGet.exe",
     "nunit": "packages/NUnit.Runners.2.6.3/tools/nunit-console.exe",
-    "please": "tools/please.exe"
+    "please": "packages/please.exe"
   }
 }
