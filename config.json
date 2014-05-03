@@ -1,6 +1,6 @@
 {
   "build": {
-    "solution": "app/Simpler.sln",
+    "solution": "api/Simpler.sln",
     "output": {
       "debug": "output/build/debug",
       "release": "output/build/release"
@@ -15,13 +15,13 @@
 
   "bump": {
     "files": [
-      "app/Simpler/Properties/AssemblyInfo.cs",
-      "app/Simpler/Simpler.nuspec"
+      "api/Simpler/Properties/AssemblyInfo.cs",
+      "api/Simpler/Simpler.nuspec"
     ]
   },
 
   "release": {
-    "nuspec": "app/Simpler/Simpler.nuspec",
+    "nuspec": "api/Simpler/Simpler.nuspec",
     "nupkgPattern": "Simpler.?.?.?.nupkg",
     "files": [
       "output/build/release/Simpler.dll",
@@ -36,8 +36,8 @@
   "packages": {
     "configs": [
       "packages.config",
-      "app/Simpler/packages.config",
-      "app/Simpler.Tests/packages.config"
+      "api/Simpler/packages.config",
+      "api/Simpler.Tests/packages.config"
     ]
   },
 
