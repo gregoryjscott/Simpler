@@ -6,6 +6,13 @@ Config = Centroid::Config.from_file("config.json")
 
 ROOT = File.expand_path "."
 
+desc "Install NuGet dependencies"
+task :install do
+  Config.packages.configs.each do |file|
+    nuget("install #{file}")
+  end
+end
+
 desc "Run tests"
 task :default => :test
 
@@ -53,7 +60,7 @@ namespace :bump do
 end
 
 namespace :clean do
-  desc "Clean all"
+  desc "Clean all output"
   task :all => ["clean:build", "clean:test", "clean:release"]
 
   desc "Clean build output"
@@ -70,7 +77,7 @@ namespace :clean do
   desc "Clean release output"
   task :release do
     clean(Config.release.output.prep)
-    clean(lib_directory);
+    clean(release_lib);
     clean(Config.release.output.pack)
   end
 end
@@ -78,11 +85,11 @@ end
 namespace :release do
   desc "Pack NuGet package"
   task :pack => ["build:release", "clean:release"] do
-    FileUtils.cp Config.release.nuspec, Config.release.output.prep
+    FileUtils.cp Config.release.nuspec, release_nuspec
     Config.release.files.each do |file|
-      FileUtils.cp file, lib_directory
+      FileUtils.cp file, release_lib
     end
-    nuget("pack #{Config.release.nuspec} -OutputDirectory #{Config.release.output.pack}")
+    nuget("pack #{release_nuspec} -OutputDirectory #{Config.release.output.pack}")
   end
 
   desc "Push NuGet package"
@@ -116,6 +123,10 @@ def bump(type)
   end
 end
 
-def lib_directory()
+def release_lib
   File.join(Config.release.output.prep, "lib")
+end
+
+def release_nuspec
+  File.join(Config.release.output.prep, File.basename(Config.release.nuspec))
 end

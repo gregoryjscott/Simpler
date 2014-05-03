@@ -33,9 +33,17 @@
     }
   },
 
+  "packages": {
+    "configs": [
+      "packages.config",
+      "app/Simpler/packages.config",
+      "app/Simpler.Tests/packages.config"
+    ]
+  },
+
   "tools": {
-    "please": "tools/please.exe",
-    "nunit": "tools/nunit-console.exe",
-    "nuget": "tools/NuGet.exe"
+    "nuget": "tools/NuGet.CommandLine.2.8.1/tools/NuGet.exe",
+    "nunit": "packages/NUnit.Runners.2.6.3/tools/nunit-console.exe",
+    "please": "tools/please.exe"
   }
 }
