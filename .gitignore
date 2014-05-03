@@ -30,3 +30,4 @@ SerializerTest*/
 deploy/*
 *.nupkg
 Gemfile.lock
+output/

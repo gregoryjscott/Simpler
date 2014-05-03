@@ -1,13 +1,19 @@
 {
   "solution": "app/Simpler.sln",
-  "simplerDll": "app/Simpler/bin/Release/Simpler.dll",
-  "simplerXml": "app/Simpler/bin/Release/Simpler.xml",
   "assemblyInfo": "app/Simpler/Properties/AssemblyInfo.cs",
-  "testsDll": "app/Simpler.Tests/bin/Debug/Simpler.Tests.dll",
+  "simplerDll": "output/build/release/Simpler.dll",
+  "simplerXml": "output/build/release/Simpler.xml",
+  "testsDll": "output/build/debug/Simpler.Tests.dll",
   "testRunner": "tools/nunit-console.exe",
   "please": "tools/please.exe",
-  "nuspec": "release/template/Simpler.nuspec",
+  "nuspec": "app/Simpler/Simpler.nuspec",
   "nuget": "tools/NuGet.exe",
-  "packageLib": "release/template/lib",
-  "packageOutput": "release/output"
+  "release": {
+    "prep": {
+      "root": "output/release/prep",
+      "lib": "output/release/prep/lib",
+      "nuspec": "output/release/prep/Simpler.nuspec"
+    }
+  },
+  "packageOutput": "output/release/pack"
 }
