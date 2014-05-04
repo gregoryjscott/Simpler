@@ -1,7 +1,5 @@
 #Simpler
 
-[![Build status](https://ci.appveyor.com/api/projects/status?id=va74ob1mfuybvuso)](https://ci.appveyor.com/project/simpler)
-
 You probably won't like Simpler. If you enjoy spending your time maintaining complex domain models, configuring ORMs, interfacing with DI/IOC frameworks, and regenerating code, then you will probably hate Simpler. Simpler's primary goal is help developers create quick, simple solutions while writing the least amount of code possible. Every piece of code in an application should have a clearly visible business purpose - the rest is just noise.
 
 ###"What is it?"
