@@ -130,6 +130,6 @@ def release_nuspec
 end
 
 def release_nupkg
-  pattern = File.join(Config.release.output.pack, Config.release.nupkgPattern)
+  pattern = File.join(Config.release.output.pack, Config.release.nupkg_pattern)
   Dir[pattern].first
 end
