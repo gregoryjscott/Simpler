@@ -1,14 +1,10 @@
 {
   "build": {
-    "solution": "api/Simpler.sln",
-    "output": {
-      "debug": "output/build/debug",
-      "release": "output/build/release"
-    }
+    "solution": "api/Simpler.sln"
   },
 
   "test": {
-    "dll": "output/build/debug/Simpler.Tests.dll",
+    "dll": "api/Simpler.Tests/bin/Debug/Simpler.Tests.dll",
     "output": "output/test",
     "results": "output/test/results.xml"
   },
@@ -24,8 +20,8 @@
     "nuspec": "api/Simpler/Simpler.nuspec",
     "nupkgPattern": "Simpler.?.?.?.nupkg",
     "files": [
-      "output/build/release/Simpler.dll",
-      "output/build/release/Simpler.xml"
+      "api/Simpler/bin/Release/Simpler.dll",
+      "api/Simpler/bin/Release/Simpler.xml"
     ],
     "output": {
       "prep": "output/release/prep",

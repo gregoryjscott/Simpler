@@ -21,7 +21,6 @@ namespace :build do
   build :debug do |b|
     b.sln = Config.build.solution
     b.prop "Configuration", "Debug"
-    b.prop "OutputPath", File.join(ROOT, Config.build.output.debug)
     b.logging = "minimal"
   end
 
@@ -29,8 +28,6 @@ namespace :build do
   build :release do |b|
     b.sln = Config.build.solution
     b.prop "Configuration", "Release"
-    b.prop "OutputPath", File.join(ROOT, Config.build.output.release)
-    b.target = ["Clean", "Rebuild"]
     b.logging = "minimal"
   end
 end
@@ -61,13 +58,7 @@ end
 
 namespace :clean do
   desc "Clean all output"
-  task :all => ["clean:build", "clean:test", "clean:release"]
-
-  desc "Clean build output"
-  task :build do
-    clean(Config.build.output.debug)
-    clean(Config.build.output.release)
-  end
+  task :all => ["clean:test", "clean:release"]
 
   desc "Clean test output"
   task :test do
@@ -102,12 +93,28 @@ end
 desc "Pack and push NuGet package"
 task :release => ["release:pack", "release:push"]
 
+class Tools
+  include ::Albacore::CrossPlatformCmd
+
+  def initialize(executable)
+    @parameters = []
+    @executable = executable
+    mono_command
+  end
+
+  def execute(parameters)
+    parameters = parameters.split(" ")
+    @parameters.push(*parameters)
+    system @executable, *(@parameters)
+  end
+end
+
 def nuget(command)
-  system "#{Config.tools.nuget} #{command}"
+  Tools.new(Config.tools.nuget).execute "#{command}"
 end
 
 def please(command)
-  system "#{Config.tools.please} #{command}"
+  Tools.new(Config.tools.please).execute "#{command}"
 end
 
 def clean(dir)
