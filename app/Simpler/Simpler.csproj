@@ -34,9 +34,6 @@
     <DocumentationFile>bin\Release\Simpler.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -50,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Check.cs" />
-    <Compile Include="Core\FakeInvocation.cs" />
+    <Compile Include="Core\TaskProxy.cs" />
     <Compile Include="Data\Db.cs" />
     <Compile Include="Data\Results.cs" />
     <Compile Include="Data\TaskExtensions.cs" />
@@ -60,26 +57,20 @@
     <Compile Include="Fake.cs" />
     <Compile Include="CheckException.cs" />
     <Compile Include="Core\InjectTasksAttribute.cs" />
-    <Compile Include="Core\ExecuteInterceptor.cs" />
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
     <Compile Include="Core\Tasks\InjectTasks.cs" />
     <Compile Include="Data\Tasks\BuildParameters.cs" />
     <Compile Include="Data\Tasks\FindParameters.cs" />
     <Compile Include="Data\Tasks\BuildTyped.cs" />
-    <Compile Include="Core\Tasks\ExecuteTask.cs" />
     <Compile Include="Core\Tasks\CreateTask.cs" />
     <Compile Include="InOutTask.cs" />
     <Compile Include="InTask.cs" />
     <Compile Include="OutTask.cs" />
+    <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="Task.cs" />
-    <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

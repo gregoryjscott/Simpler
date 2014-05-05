@@ -5,7 +5,7 @@ namespace Simpler
     public abstract class OutTask<TOut> : Task
     {
         TOut _out;
-        public TOut Out
+        public virtual TOut Out
         {
             get
             {

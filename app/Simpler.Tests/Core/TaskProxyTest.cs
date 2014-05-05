@@ -1,14 +1,11 @@
-﻿using Castle.DynamicProxy;
-using NUnit.Framework;
-using Moq;
-using Simpler.Core.Tasks;
+﻿using NUnit.Framework;
 using Simpler.Tests.Core.Mocks;
 using MockException = Simpler.Tests.Core.Mocks.MockException;
 
-namespace Simpler.Tests.Core.Tasks
+namespace Simpler.Tests.Core
 {
     [TestFixture]
-    public class ExecuteTaskTest
+    public class TaskProxyTest
     {
         static void VerifyFiveCallbacks(MockTaskWithAttributes taskWithAttributes)
         {
@@ -64,55 +61,25 @@ namespace Simpler.Tests.Core.Tasks
         [Test]
         public void should_send_notifications_before_and_after_the_task_is_executed()
         {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
+            var taskWithAttributes = Task.New<MockTaskWithAttributes>();
+            taskWithAttributes.Execute();
 
-            var taskWithAttributes = new MockTaskWithAttributes();
-            task.In.Task = taskWithAttributes;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            // Act
-            task.Execute();
-
-            // Assert
             VerifyFiveCallbacks(taskWithAttributes);
         }
 
         [Test]
         public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
         {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
+            var taskWithAttributesThatThrows = Task.New<MockTaskThatThrowsWithAttributes>();
 
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            // Act
-            Assert.Throws(typeof(MockException), task.Execute);
-
-            // Assert
+            Assert.Throws(typeof(MockException), taskWithAttributesThatThrows.Execute);
             VerifySevenCallbacks(taskWithAttributesThatThrows);
         }
 
         [Test]
         public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
         {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.In.Invocation = mockInvocation.Object;
+            var taskWithAttributesThatThrows = Task.New<MockTaskThatThrowsWithAttributes>();
 
             var throwHappened = false;
             try
@@ -120,7 +87,7 @@ namespace Simpler.Tests.Core.Tasks
                 try
                 {
                     // Act (this will throw an exception)
-                    task.Execute();
+                    taskWithAttributesThatThrows.Execute();
                 }
                 finally
                 {
@@ -136,24 +103,22 @@ namespace Simpler.Tests.Core.Tasks
         }
 
         [Test]
-        public void should_allow_the_task_execution_to_be_overriden()
+        public void should_allow_override_attribute_to_skip_normal_execute()
         {
-            // Arrange
-            var task = Task.New<ExecuteTask>();
+            var taskWithOverride = Task.New<MockTaskWithOverrideAttribute>();
+            taskWithOverride.Execute();
 
-            var taskWithOverride = new MockTaskWithOverrideAttribute();
-            task.In.Task = taskWithOverride;
+            Assert.That(taskWithOverride.WasExecuted, Is.False);
+        }
 
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithOverride.Execute);
-            mockInvocation.Setup(invocation => invocation.InvocationTarget).Returns(taskWithOverride);
-            task.In.Invocation = mockInvocation.Object;
+        [Test]
+        public void should_allow_override_attribute_to_proceed_with_normal_execute()
+        {
+            var taskWithOverride = Task.New<MockTaskWithOverrideAttribute>();
+            taskWithOverride.OverrideShouldProceed = true;
+            taskWithOverride.Execute();
 
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(taskWithOverride.OverrideWasCalledBeforeTheTaskWasExecuted);
+            Assert.That(taskWithOverride.WasExecuted, Is.True);
         }
     }
 }
