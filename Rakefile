@@ -39,23 +39,6 @@ test_runner :test => ["build:debug", "clean:test"] do |tr|
   tr.add_parameter "-xml=#{File.join(ROOT, Config.test.results)}"
 end
 
-namespace :bump do
-  desc "Bump major version"
-  task :major do
-    bump "major"
-  end
-
-  desc "Bump minor version"
-  task :minor do
-    bump "minor"
-  end
-
-  desc "Bump patch version"
-  task :patch do
-    bump "patch"
-  end
-end
-
 namespace :clean do
   desc "Clean all output"
   task :all => ["clean:test", "clean:release"]
@@ -113,19 +96,9 @@ def nuget(command)
   Tools.new(Config.tools.nuget).execute "#{command}"
 end
 
-def please(command)
-  Tools.new(Config.tools.please).execute "#{command}"
-end
-
 def clean(dir)
   FileUtils.rm_rf dir
   FileUtils.mkdir_p dir
-end
-
-def bump(type)
-  Config.bump.files.each do |file|
-    please("bump #{type} version in #{file}")
-  end
 end
 
 def release_lib
