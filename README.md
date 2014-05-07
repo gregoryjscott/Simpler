@@ -31,7 +31,7 @@ Model classes are typically just plain old CLR objects (POCOs) and only contain 
 > add an intro sentence. Also include links on the various items into the detail sections.
 
 1. [Create a Task class](#creating_tasks). 
-2. [Instantiate the Task](#instantiating_tasks) using the Task.New() method. 
+2. [Instantiate the Task] (#instantiating_tasks) using the Task.New() method. 
 
 > add more in here about doing other things
 
@@ -152,7 +152,7 @@ To enable everyone to easily identify what a Task accomplishes, follow these nam
 
 For example, a Task that parses an XML file containing projects might be called *ParseProjectsXML*. But it shouldn’t be called *XMLProjectParser* or *XMLProject*.
 
-##<a name=“instantiating_tasks”></a>Instantiating Tasks
+##<a name="instantiating_tasks"></a>Instantiating Tasks
 
 When you have [created at least one Task](#creating_tasks), you can instantiate a Task using the `Task.New()` method.
 
