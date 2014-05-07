@@ -30,26 +30,26 @@ Model classes are typically just plain old CLR objects (POCOs) and only contain 
 ##Using Simpler
 > add an intro sentence. Also include links on the various items into the detail sections.
 
-1. [Create a Task class](#creating_tasks). 
+1. [Create a Task class] (#creating_tasks). 
 2. [Instantiate the Task] (#instantiating_tasks) using the Task.New() method. 
 
 > add more in here about doing other things
 
-##<a name=“creating_tasks”></a>Creating Tasks
+##<a name="creating_tasks"></a>Creating Tasks
 
 Simpler has 3 base classes for defining Tasks: 
 
-- [`InTask`](#intask) (applies business logic to an input but doesn’t produce any output)
-- [`OutTask`](#outtask) (produces output using business logic but does not accept any input)
-- [`InOutTask`](#inouttask) (applies business logic to an input and produces an output)
+- [`InTask`] (#intask) (applies business logic to an input but doesn’t produce any output)
+- [`OutTask`] (#outtask) (produces output using business logic but does not accept any input)
+- [`InOutTask`] (#inouttask) (applies business logic to an input and produces an output)
 
 >Note:	Simpler also includes a `Task` base class, which is used for backwards compatibility for Simpler 1.0. In addition, all Tasks inherit the following from this base class: <need x-refs>
 
 >- `Name` property
 - `Stats` property
-- Static `Task.New<TTask>()` method, which is a factory method for [instantiating tasks](#instantiating_tasks) 
+- Static `Task.New<TTask>()` method, which is a factory method for [instantiating tasks] (#instantiating_tasks) 
 
-###<a name=“intask”></a>InTask
+###<a name="intask"></a>InTask
 An `InTask` applies business logic to an input but doesn’t produce an output. For example, an `InTask` might receive an input of a file directory and then add a prefix to every filename in the directory. 
 
 For an `InTask`, you must enter a generic parameter type that defines the type of input. This input is exposed to the `Execute()` method through the `In` property.
@@ -72,7 +72,7 @@ public class AddPrefix : InTask<AddPrefix.Input>
 }
 ```
 
-###<a name=“outtask”></a>OutTask
+###<a name="outtask"></a>OutTask
 
 An `OutTask` has no input, but it uses business logic to produce an output. For example, an `OutTask` might query for a set of data and make the results available. 
 
@@ -111,9 +111,9 @@ public class FetchBirdSightings : OutTask<FetchBirdSightings.Output>
 
 ###InOutTask
 
-An `InOutTask` is a combination of an [`InTask`](#intask) and an [`OutTask`](#outtask). An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might have an input of a list and then process business logic to narrow the list to those entries meeting particular characteristics, and then output that narrowed list.
+An `InOutTask` is a combination of an [`InTask`] (#intask) and an [`OutTask`] (#outtask). An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might have an input of a list and then process business logic to narrow the list to those entries meeting particular characteristics, and then output that narrowed list.
  
-For an `InOutTask`, you must enter 2 generic parameter types: one for the type of input and one for the type of output. As with an `InTask` and an `OutTask`, these parameters are exposed in the `Execute()` method through the `In` and `Out` properties respectively. You can also define `Input` and `Output` classes inside the `InOutTask`. Refer to [InTask](#intask) and [OutTask](#outtask) for additional information. 
+For an `InOutTask`, you must enter 2 generic parameter types: one for the type of input and one for the type of output. As with an `InTask` and an `OutTask`, these parameters are exposed in the `Execute()` method through the `In` and `Out` properties respectively. You can also define `Input` and `Output` classes inside the `InOutTask`. Refer to [InTask] (#intask) and [OutTask] (#outtask) for additional information. 
 
 ```c#
 public class FetchFeaturedStaff : InOutTask<FetchFeaturedStaff.Input, FetchFeaturedStaff.Output>
