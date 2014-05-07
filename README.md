@@ -28,259 +28,152 @@ Simpler also separates data from business logic, with data defined in Model clas
 Model classes are typically just plain old CLR objects (POCOs) and only contain properties. But a Task *does things*; each Task class is the equivalent of a discrete action. Simpler provides functionality for Tasks.
 
 ##Using Simpler
+> add an intro sentence. Also include links on the various items into the detail sections.
 
+1. Create a Task class. 
+2. Instantiate the Task using the Task.New() method. 
 
+> add more in here about doing other things
 
-For the most part, Simpler is just a philosophy on .NET class design. All classes that contain functionality are defined as Tasks named as verbs. A Task has optional input and/or output, a single Execute() method, and possibly some sub-tasks - that's it.
+##Creating Tasks
+
+Simpler has 3 base classes for defining Tasks: 
+
+- `InTask` (applies business logic to an input but doesn’t produce any output)
+- `OutTask` (produces output using business logic but does not accept any input)
+- `InOutTask` (applies business logic to an input and produces an output)
+
+>Note:	Simpler also includes a `Task` base class, which is used for backwards compatibility for Simpler 1.0. In addition, all Tasks inherit the following from this base class: <need x-refs>
+
+>- `Name` property
+- `Stats` property
+- Static `Task.New<TTask>()` method, which is a factory method for instantiating tasks 
+
+###InTask
+An `InTask` applies business logic to an input but doesn’t produce an output. For example, an `InTask` might receive an input of a file directory and then add a prefix to every filename in the directory. 
+
+For an `InTask`, you must enter a generic parameter type that defines the type of input. This input is exposed to the `Execute()` method through the `In` property.
+
+To make the `In` property a container for all input, you can define an `Input` class inside the `InTask`. This `Input` class contains the input as properties and is passed to the `InTask` as the generic parameter type. 
 
 ```c#
-public class Ask : Task
-{
-    // Inputs
-    public string Question { get; set; }
-
-    // Outputs
-    public string Answer { get; private set; }
-
-    public override void Execute()
-    {
-        Answer =
-            Question == "Is this cool?"
-                ? "Definitely."
-                : "Get a life.";
-    }
-}
-```
-    
-Simpler 2 adds some additional base classes, InTask, OutTask, and InOutTask, that allow for explicity defining the input and/or output of the Task.
-
-```c#
-public class Ask : InOutTask<Ask.Input, Ask.Output>
+public class AddPrefix : InTask<AddPrefix.Input>
 {
     public class Input
     {
-        public string Question { get; set; }
+        public string Directory { get; set; }
     }
 
+    public override void Execute()
+    {
+        need code in here that adds a prefix to each file in the directory. Would be good if it used the In property.
+
+    }
+}
+```
+
+###OutTask
+
+An `OutTask` has no input, but it uses business logic to produce an output. For example, an `OutTask` might query for a set of data and make the results available. 
+
+For an `OutTask`, you must enter a generic parameter type that defines the type of output. This output is exposed in the `Execute()` method through the `Out` property. 
+
+To make the `Out` property a container for all output, you can define an `Output` class inside the `OutTask`. This `Output` class contains the output as properties and is passed to the `OutTask` as the generic parameter type. 
+
+>Note: The following example also uses Simpler.Data. 
+
+```c#
+public class FetchBirdSightings : OutTask<FetchBirdSightings.Output>
+{
     public class Output
     {
-        public string Answer { get; set; }
+        public BirdSighting[] BirdSightings { get; set; }
     }
 
     public override void Execute()
     {
-        Out.Answer =
-            In.Question == "Is this cool?"
-                ? "Definitely."
-                : "Get a life.";
-    }
-}
-```
-
-Input is available to the Execute() method by way of the In property, and output is set using the Out property. This eliminates the need to comment your input and output properties, and makes it easy to identify the input and output within the Execute() method since all input is wrapped by In, and all output is set on Out.
-
-###"How do I use it?"
-
-First, you build a Task class. You then instantiate Tasks using the Task.New<T>() method.
-
-Task.New<T>() appears to just return an instance of the given Task type. However, it actually returns a proxy to the Task. The proxy allows for intercepting Task Execute() calls to perform actions before and/or after the Task executes. Simpler uses this to automatically inject sub-task properties (only if null) before Task execution by way of the Simpler.EventsAttribute. Another common use of this functionality is to build a custom EventsAttribute to log task activity.
-
-```c#
-public class LogAttribute : EventsAttribute
-{
-    public override void BeforeExecute(Task task)
-    {
-        Console.WriteLine(String.Format("{0} started.", task.Name));
-    }
-
-    public override void AfterExecute(Task task)
-    {
-        Console.WriteLine(String.Format("{0} finished.", task.Name));
-    }
-
-    public override void OnError(Task task, Exception exception)
-    {
-        Console.WriteLine(String.Format("{0} bombed; error message: {1}.", task.Name, exception.Message));
-    }
-}
-
-[Log]
-public class BeAnnoying : InTask<BeAnnoying.Input>
-{
-    public class Input
-    {
-        public int AnnoyanceLevel { get; set; }
-    }
-
-    public Ask Ask { get; set; }
-
-    public override void Execute()
-    {
-        // "BeAnnoying started." was logged to the console before Execute() began.
-
-        // Notice that Ask was automatically instantiated.
-        Ask.In.Question = "Is this cool?";
-
-        for (var i = 0; i < In.AnnoyanceLevel; i++)
+        using (var connection = Db.Connect("WildlifeSightings"))
         {
-            Ask.Execute();
-        }
-
-        // "BeAnnoying finished." will be logged to the console after Execute() finishes.
-    }
-}
-
-public class Program
-{
-    Program()
-    {
-        var beAnnoying = Task.New<BeAnnoying>();
-        beAnnoying.In.AnnoyanceLevel = 10;
-        beAnnoying.Execute();
-    }
-}
-```
-
-That pretty much sums it up. You build task classes, you use Task.New<T> to create them, and you can use the power of the proxy to address cross cutting concerns like logging.
-
-###"What about database interaction?"
-
-Simpler provides a small set of Simpler.Data.Tasks classes that simplify interacting with System.Data.IDbCommand. Using SQL, Simpler makes it pretty easy to get data out of a database and into POCOs, or persist data from a POCO to a database.
-
-```c#
-public class Stuff
-{
-    public string Name { get; set; }
-}
-
-public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
-{
-    public class Input
-    {
-        public string SomeCriteria { get; set; }
-    }
-
-    public class Output
-    {
-        public Stuff[] Stuff { get; set; }
-    }
-
-    public BuildParameters BuildParameters { get; set; }
-    public FetchMany<Stuff> FetchStuff { get; set; }
-
-    public override void Execute()
-    {
-        using (var connection = new SqlConnection("MyConnectionString"))
-        using (var command = connection.CreateCommand())
-        {
-            connection.Open();
-            command.Connection = connection;
-            command.CommandText =
-                @"
+            const string sql = @"
                 select 
-                    AColumn as Name
-                from 
-                    ABunchOfJoinedTables
-                where 
-                    SomeColumn = @SomeCriteria
-                    and
-                    AnotherColumn = @SomeOtherCriteria
+                    SightingDate as ObservationDate,
+                    Species as Species
+                from
+                    [Sight].[Birds]
+                order by
+                    ObservationDate
                 ";
-
-            BuildParameters.In.Command = command;
-            BuildParameters.In.Values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
-            BuildParameters.Execute();
-
-            FetchStuff.In.SelectCommand = command;
-            FetchStuff.Execute();
-            Out.Stuff = FetchStuff.Out.ObjectsFetched;
+            Out.BirdSightings = Db.GetMany<BirdSighting>(connection, sql);
         }
     }
 }
 ```
 
-Simpler 2 adds a new Simpler.Data.Db static class that eliminates most of the boilerplate code.
+###InOutTask
+
+An `InOutTask` is a combination of an `InTask` and an `OutTask`. An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might have an input of a list and then process business logic to narrow the list to those entries meeting particular characteristics, and then output that narrowed list.
+ 
+For an `InOutTask`, you must enter 2 generic parameter types: one for the type of input and one for the type of output. As with an `InTask` and an `OutTask`, these parameters are exposed in the `Execute()` method through the `In` and `Out` properties respectively. You can also define `Input` and `Output` classes inside the `InOutTask`. Refer to InTask and OutTask for additional information. 
+
+>Add links on InTask and OutTask in the last sentence.
 
 ```c#
-public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
+public class FetchFeaturedStaff : InOutTask<FetchFeaturedStaff.Input, FetchFeaturedStaff.Output>
 {
     public class Input
     {
-        public string SomeCriteria { get; set; }
+        public List<StaffModel> Staff { get; set; }
     }
 
     public class Output
     {
-        public Stuff[] Stuff { get; set; }
+        public List<StaffModel> SelectedStaff { get; set; }
     }
 
     public override void Execute()
     {
-        using(var connection = Db.Connect("MyConnectionString"))
+        Out.SelectedStaff = new List<StaffModel>();
+
+        foreach (StaffModel stf in In.Staff)
         {
-            const string sql =
-                @"
-                select 
-                    AColumn as Name
-                from 
-                    ABunchOfJoinedTables
-                where 
-                    SomeColumn = @SomeCriteria
-                    and
-                    AnotherColumn = @SomeOtherCriteria
-                ";
-
-            var values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
-
-            Out.Stuff = Db.GetMany<Stuff>(connection, sql, values);
+            if (stf.Featured)
+            {
+                Out.SelectedStaff.Add(stf);
+            }
         }
     }
 }
 ```
 
-The Db class also offers GetOne<T>(), GetResult() and GetScalar() methods. Simpler isn't a full-featured ORM, but for most scenarios it gets the job done.
+###Naming Tasks
 
-###"Is it easy to test?"
+To enable everyone to easily identify what a Task accomplishes, follow these naming rules:
+ 
+- Begin each Task name with a verb (because the Task is action, it’s doing something)
+- Clearly state the Task’s purpose in the name
 
-```c#
-[TestFixture]
-public class FetchCertainStuffTest
-{
-    [Test]
-    public void should_return_9_pocos()
-    {
-        // Arrange
-        var task = TaskFactory<FetchCertainStuff>.Create();
-        task.In.SomeCriteria = "whatever";
+For example, a Task that parses an XML file containing projects might be called *ParseProjectsXML*. But it shouldn’t be called *XMLProjectParser* or *XMLProject*.
 
-        // Act
-        task.Execute();
+##Instantiating Tasks
 
-        // Assert
-        Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
-    }
-}
-```
 
-By design, all Tasks clearly define their inputs, outputs, and code to test, so tests are very straightforward.
+##Injecting Sub-tasks
 
-A Task's dependencies are its inputs, outputs, and sub-tasks. The automatic sub-task injection provides the power to do testing by allowing for mocking sub-task behavior. This eliminates the need for repository nonsense when the only purpose is for testing.
 
-###"I just need to get things done well, will Simpler help?"
+##Writing Test Cases
 
-Simpler is a tool for developing applications as sets of consistent, discrete, interchangable classes that aren't THINGS, but rather DO THINGS. Simpler works great in team environments because everybody is designing classes with the same termnilogy, and any class can easily integrate with another. 
 
-Develpers don't waste time making decisions about class design. Need to fetch a list of contacts? Create classes called FetchContactsTest and FetchContact and get to work. That's Simpler. 
+###Faking
 
-###"How do I install it?"
 
-Use Nuget. Simpler works with .NET 3.5 and above.
+###Stats
 
-###"Is Simpler so simple it doesn't need documentation?"
 
-Exactly. I seriously hope to create some proper documentation at some point, but the coding is so much more fun.
+###Name
 
-###Acknowledgments
+
+
+##Acknowledgments
 
 The following have contributed in some way and/or have built something awesome with Simpler.
 
@@ -298,5 +191,5 @@ The following have contributed in some way and/or have built something awesome w
 - [sonhuilamson](https://github.com/sonhuilamson)
 - [timrisi](https://github.com/timrisi)
 
-###License
+##License
 Simpler is licensed under the MIT License. A copy of the MIT license can be found in the LICENSE file.
