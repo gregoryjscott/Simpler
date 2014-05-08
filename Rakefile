@@ -2,14 +2,14 @@ require "albacore"
 require "fileutils"
 require "centroid"
 
-Config = Centroid::Config.from_file("config.json")
+Config = Centroid::Config.from_file "config.json"
 
 ROOT = File.expand_path "."
 
 desc "Install NuGet dependencies"
 task :install do
   Config.packages.configs.each do |file|
-    nuget("install #{file}")
+    nuget "install #{file}"
   end
 end
 
@@ -45,14 +45,15 @@ namespace :clean do
 
   desc "Clean test output"
   task :test do
-    clean(Config.test.output)
+    clean Config.test.output
   end
 
   desc "Clean release output"
   task :release do
-    clean(Config.release.output.prep)
-    clean(release_lib);
-    clean(Config.release.output.pack)
+    clean Config.release.output.prep
+    clean release_lib
+    clean release_tools
+    clean Config.release.output.pack
   end
 end
 
@@ -60,16 +61,22 @@ namespace :release do
   desc "Pack NuGet package"
   task :pack => ["build:release", "clean:release"] do
     FileUtils.cp Config.release.nuspec, release_nuspec
-    Config.release.files.each do |file|
-      FileUtils.cp file, release_lib
-    end
-    nuget("pack #{release_nuspec} -OutputDirectory #{Config.release.output.pack}")
+
+    Config.release.lib.each do |lib|
+      FileUtils.cp lib, release_lib
+    end unless Config.send(:actual_key, "lib", Config.release.raw_config).nil?
+
+    Config.release.tools.each do |tool|
+      FileUtils.cp tool, release_tools
+    end unless Config.send(:actual_key, "tools", Config.release.raw_config).nil?
+
+    nuget "pack #{release_nuspec} -OutputDirectory #{Config.release.output.pack}"
   end
 
   desc "Push NuGet package"
   task :push do
     puts "Pushing #{release_nupkg}"
-    # nuget("push #{release_nupkg}")
+    nuget "push #{release_nupkg}"
   end
 end
 
@@ -86,8 +93,8 @@ class Tools
   end
 
   def execute(parameters)
-    parameters = parameters.split(" ")
-    @parameters.push(*parameters)
+    parameters = parameters.split " "
+    @parameters.push *parameters
     system @executable, *(@parameters)
   end
 end
@@ -102,14 +109,18 @@ def clean(dir)
 end
 
 def release_lib
-  File.join(Config.release.output.prep, "lib")
+  File.join Config.release.output.prep, "lib"
+end
+
+def release_tools
+  File.join Config.release.output.prep, "tools"
 end
 
 def release_nuspec
-  File.join(Config.release.output.prep, File.basename(Config.release.nuspec))
+  File.join Config.release.output.prep, File.basename(Config.release.nuspec)
 end
 
 def release_nupkg
-  pattern = File.join(Config.release.output.pack, Config.release.nupkg_pattern)
+  pattern = File.join Config.release.output.pack, Config.release.nupkg_pattern
   Dir[pattern].first
 end

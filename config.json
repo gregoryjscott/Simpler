@@ -19,7 +19,7 @@
   "release": {
     "nuspec": "api/Simpler/Simpler.nuspec",
     "nupkgPattern": "Simpler.?.?.?.nupkg",
-    "files": [
+    "lib": [
       "api/Simpler/bin/Release/Simpler.dll",
       "api/Simpler/bin/Release/Simpler.xml"
     ],
