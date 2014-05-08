@@ -152,4 +152,39 @@ namespace Simpler
             Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
         }
     }
+
+    public class AddNumbers : InOutTask<AddNumbers.Input, AddNumbers.Output>
+    {
+        public class Input
+        {
+            public int FirstNumber { get; set; }
+            public int SecondNumber { get; set; }
+        }
+
+        public class Output
+        {
+            public int Sum { get; set; }
+        }
+
+        public override void Execute()
+        {
+            Out.Sum = In.FirstNumber + In.SecondNumber;
+        }
+    }
+
+    [TestFixture]
+    public class AddNumbersTest
+    {
+        [Test]
+        public void should_work()
+        {
+            var task = Task.New<AddNumbers>();
+            task.In.FirstNumber = 2;
+            task.In.SecondNumber = 3;
+            task.Execute();
+
+            Assert.That(task.Out.Sum, Is.EqualTo(5));
+        }
+    }
+
 }
