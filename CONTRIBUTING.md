@@ -35,11 +35,26 @@ feedback.
 All content contributions are made using GitHub Pull Requests. Pull Requests 
 allow team members to review incoming contributions before they are merged.
 
+We prefer contributors to Pull Request early. We like to specify what else we
+have planned as a list of checkboxes.
+
+E.g.
+- [ ] Squash my WIP commits
+
+You'll find examples in the list of [closed Pull Requests](https://github.com/gregoryjscott/Simpler/pulls?direction=desc&page=1&sort=created&state=closed).
+
 Steps
 1. **Fork the repository**.
 2. **Create a feature branch.**
 3. **Push your feature branch to your fork repository.**
 4. **Create a pull request from your feature branch to gregoryjscott:master.**
+
+## Branches and Tags
+
+`master` should be considered the edge branch and should be the basis for all Pull
+Requests. Other important branches should be associated to an open Pull Request.
+
+There are [tags](https://github.com/gregoryjscott/Simpler/tags) for stable versions.
 
 ## Continuous Integration
 
