@@ -1,14 +1,15 @@
 #Simpler
 
-At its core, Simpler is a philosophy on or a pattern for .NET class design. Simpler can help developers&mdash;especially teams of developers&mdash;build complex projects with consistent, readable, and interchangeable/integrateable classes. 
+At its core, Simpler is a philosophy on or a pattern for .NET class design. Simpler can help developers—especially teams of developers—build complex projects using consistent, readable classes that can be easily integrated with each other. 
 
-Its primary goal is to help developers create quick, simple solutions while writing the least amount of code possible.
+Simpler’s primary goal is to help developers create quick, simple solutions while writing the least amount of code possible.
 
 ##Key Benefits of Simpler
-- Eliminate the need to discuss class design, especially when working on a team 
-- Make the code more understandable, consistent, and readable—especially on complex projects
-- Simplify writing unit tests
-- Makes maintenance easier as finding business logic, especially business logic that interacts with multiple classes, is simpler 
+- Eliminates the need to discuss and decide on class design 
+- Makes the code more understandable, consistent, and readable
+- Simplifies writing unit tests
+- Provides a cleaner method of addressing cross-cutting concerns
+- Simplifies maintenance by making it easier to find business logic 
 
 ##The Simpler Philosophy
 In the traditional Object-oriented Programming (OOP) approach, classes define objects (named with nouns) and include data and business logic (methods named with verbs). 
@@ -27,29 +28,44 @@ Simpler also separates data from business logic, with data defined in Model clas
 
 Model classes are typically just plain old CLR objects (POCOs) and only contain properties. But a Task *does things*; each Task class is the equivalent of a discrete action. Simpler provides functionality for Tasks.
 
+##Installing Simpler
+
+Use Nuget. Simpler works with .NET 3.5 and above.
+
 ##Using Simpler
-> add an intro sentence. Also include links on the various items into the detail sections.
+Using Simpler is, well, *simple*.  
 
 1. [Create a Task class] (#creating_tasks). 
 2. [Instantiate the Task] (#instantiating_tasks) using the Task.New() method. 
 
+Simpler also provides other functionality: 
+
+- From within a Task, [execute other Tasks (sub-tasks)] (#injecting-sub-tasks)
+
 > add more in here about doing other things
 
-##<a name="creating_tasks"></a>Creating Tasks
+###<a name="creating_tasks"></a>Creating Tasks
 
-Simpler has 3 base classes for defining Tasks: 
+When you create a Task, you should name it so that everyone can easily identify what the Task does. Follow these naming rules:
+ 
+- Begin each Task name with a verb (because the Task is action, it’s doing something)
+- Clearly state the Task’s purpose in the name
+
+>Example: A Task that parses an XML file containing projects might be called *ParseProjectsXML*. But it shouldn’t be called *XMLProjectParser* or *XMLProject*.
+
+Simpler provides 3 base classes for defining Tasks: 
 
 - [`InTask`] (#intask) (applies business logic to an input but doesn’t produce any output)
 - [`OutTask`] (#outtask) (produces output using business logic but does not accept any input)
 - [`InOutTask`] (#inouttask) (applies business logic to an input and produces an output)
 
->Note:	Simpler also includes a `Task` base class, which is used for backwards compatibility for Simpler 1.0. In addition, all Tasks inherit the following from this base class: <need x-refs>
+>Note:	Simpler also includes a `Task` base class, which is used for backwards compatibility for Simpler 1.0. In addition, all Tasks inherit the following from this base class: 
 
->- `Name` property
-- `Stats` property
+>- [`Name`] (#name) property
+- [`Stats`] (#stats) property
 - Static `Task.New<TTask>()` method, which is a factory method for [instantiating tasks] (#instantiating_tasks) 
 
-###<a name="intask"></a>InTask
+####<a name="intask"></a>InTask
 An `InTask` applies business logic to an input but doesn’t produce an output. For example, an `InTask` might receive an input of a file directory and then add a prefix to every filename in the directory. 
 
 For an `InTask`, you must enter a generic parameter type that defines the type of input. This input is exposed to the `Execute()` method through the `In` property.
@@ -72,7 +88,7 @@ public class AddPrefix : InTask<AddPrefix.Input>
 }
 ```
 
-###<a name="outtask"></a>OutTask
+####<a name="outtask"></a>OutTask
 
 An `OutTask` has no input, but it uses business logic to produce an output. For example, an `OutTask` might query for a set of data and make the results available. 
 
@@ -109,7 +125,7 @@ public class FetchBirdSightings : OutTask<FetchBirdSightings.Output>
 }
 ```
 
-###InOutTask
+####InOutTask
 
 An `InOutTask` is a combination of an [`InTask`] (#intask) and an [`OutTask`] (#outtask). An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might have an input of a list and then process business logic to narrow the list to those entries meeting particular characteristics, and then output that narrowed list.
  
@@ -143,16 +159,8 @@ public class FetchFeaturedStaff : InOutTask<FetchFeaturedStaff.Input, FetchFeatu
 }
 ```
 
-###Naming Tasks
 
-To enable everyone to easily identify what a Task accomplishes, follow these naming rules:
- 
-- Begin each Task name with a verb (because the Task is action, it’s doing something)
-- Clearly state the Task’s purpose in the name
-
-For example, a Task that parses an XML file containing projects might be called *ParseProjectsXML*. But it shouldn’t be called *XMLProjectParser* or *XMLProject*.
-
-##<a name="instantiating_tasks"></a>Instantiating Tasks
+###<a name="instantiating_tasks"></a>Instantiating Tasks
 
 When you have [created at least one Task](#creating_tasks), you can instantiate a Task using the `Task.New()` method.
 
@@ -164,25 +172,62 @@ public class Program
     Program()
     {
         var prefix = Task.New<AddPrefix>();
-        prefix.In.Directory = @“ReceivedFiles”;
+        prefix.In.Directory = @"ReceivedFiles";
         prefix.Execute();
     }
 }
 ```
 
-##Injecting Sub-tasks
+###<a name="injecting-sub-tasks"></a>Injecting Sub-tasks
+
+With Simpler, a Task contains the smallest piece of useable functionality. Therefore, you’ll often need a Task to execute other Tasks, referenced as sub-tasks, which creates a dependency between the Tasks. But to prevent tight coupling between the Tasks, Simpler provides automatic sub-task injection. 
+
+>Note: Sub-task injection also supports advanced scenarios, such as injecting dependencies at runtime. This type of injection is typically used for testing purposes. 
+
+To inject sub-tasks within a Task class, define the sub-tasks as properties. Any Task can be referenced as a sub-task. A sub-task is no different from a normal Task—it’s only called a sub-task when it’s defined as a property on another Task. 
+
+Before executing a Task, Simpler checks whether the Task has any sub-tasks. If so, Simpler automatically creates the sub-tasks and injects them into the Task properties. 
+
+```c#
+{
+    public class AddPrefix : InTask<AddPrefix.Input>
+    {
+        public class Input
+        {
+            public string Directory { get; set; }
+        }
+
+        public GetFiles GetFiles { get; set; }
+
+        public override void Execute()
+        {
+            string prefix = @"Obsolete_";
+
+            GetFiles.In.Directory = In.Directory;
+            GetFiles.Execute();
+            PrefixFile[] files = GetFiles.Out.Files;
+
+            foreach (var file in files)
+            {
+                string fileName = file.FileName;
+
+                File.Move(prefix + fileName);
+            }
+        }
+    }
+}
+```
+
+###Writing Test Cases
 
 
-##Writing Test Cases
+####Faking
 
 
-###Faking
+####<a name="stats"></a>Stats
 
 
-###Stats
-
-
-###Name
+####<a name="name"></a>Name
 
 
 
