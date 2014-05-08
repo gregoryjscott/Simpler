@@ -7,7 +7,7 @@ follow the instructions below to get setup.
 If you experience problems or have feedback on this document then please
 read the section on Issues and let us know about it.
 
-# Git and GitHub
+## Git and GitHub
 
 We used git and GitHub to store and manage our content. Content is not just
 source code - it can be documentation, scripts, etc.
@@ -21,7 +21,7 @@ Technically, simple contributions (e.g. fixing a typo in a document) can
 However, this document assumes the user is using git and the user's local
 drive to push contributions to GitHub.
 
-# Issues
+## Issues
 
 We use GitHub issues to track our backlog of work items including bugs.
 Before submitting an issue, please browse the
@@ -30,7 +30,7 @@ issue has already been identified. If it isn't clear if your issue is
 unique then go ahead and enter a new issue. Thanks in advance for your
 feedback.
 
-# Pull Requests
+## Pull Requests
 
 All content contributions are made using GitHub Pull Requests. Pull Requests 
 allow team members to review incoming contributions before they are merged.
@@ -41,7 +41,7 @@ Steps
 3. **Push your feature branch to your fork repository.**
 4. **Create a pull request from your feature branch to gregoryjscott:master.**
 
-# Continuous Integration
+## Continuous Integration
 
 We believe strongly in the benefits or [Continuous Integration]
 (http://en.wikipedia.org/wiki/Continuous_integration) (CI). All the steps to
@@ -51,8 +51,9 @@ ruby and bundler installed to run rake tasks.
 
 Steps
 1. Install Ruby.
-1. `gem install bundler`
-1. `bundle install`
+1. Run `gem install bundler`.
+1. Run `bundle install`.
+2. Run `rake install`.
 
 `rake` commands are issued from the root of the repo. Run `rake -T` to see the
 list of tasks. The current output is shown below.
@@ -85,4 +86,10 @@ Tests run: 52, Errors: 0, Failures: 0, Inconclusive: 0, Time: 5.237 seconds
   Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
 
 ```
+##IDEs
 
+If you're contributing source code then you'll probably want an IDE for debugging
+and/or editing. Take your pick based on your preferred operating system.
+
+* Windows - Microsoft Visual Studio
+* OSX - Xamarin Studio
