@@ -2,13 +2,11 @@
 
 At its core, Simpler is a philosophy on or a pattern for .NET class design. Simpler can help developers—especially teams of developers—build complex projects using consistent, readable classes that can be easily integrated with each other. 
 
-Simpler’s primary goal is to help developers create quick, simple solutions while writing the least amount of code possible.
-
 ##Key Benefits of Simpler
 - Eliminates the need to discuss and decide on class design 
 - Makes the code more understandable, consistent, and readable
-- Simplifies writing unit tests
-- Provides a cleaner method of addressing cross-cutting concerns
+- Simplifies [writing unit tests] (#writing-tests)
+- Provides a cleaner method of [addressing cross-cutting concerns] (#eventsattribute)
 - Simplifies maintenance by making it easier to find business logic 
 
 ##The Simpler Philosophy
@@ -23,6 +21,8 @@ With OOP, developers must constantly make decisions about where to place new bus
 However, with Simpler, data and business logic are divided into small, discrete “building blocks.” Although you’ll have a lot of small classes—instead of a few, very large classes—these classes can easily integrate with each other without “manager” or “service” classes. 
 
 Simpler also separates data from business logic, with data defined in Model classes and business logic in Task classes. 
+
+To make finding the Tasks and Models easy, you can organize them within the solution.
 
 ![Simpler Diagram](/images/SimplerDiagram.png)
 
@@ -42,12 +42,14 @@ Using Simpler is, well, *simple*.
 Simpler also provides other functionality: 
 
 - From within a Task, [execute other Tasks (sub-tasks)] (#injecting-sub-tasks)
-- When testing a Task with sub-tasks, isolate the Task logic by [mocking the sub-tasks] (#mocking)
 - [Perform actions before or after execute] (#eventsattribute), which is especially useful for addressing cross-cutting concerns such as logging
-
-> add more in here about doing other things—stats and name
+- Use [`Stats`] (#stats) for profiling or for testing scenarios based on a Task executing or executing within a duration
+- Use [`Name`] (#name) for getting the name of the Task class, which is often useful for logging Task information
+- When testing a Task with sub-tasks, isolate the Task logic by [mocking the sub-tasks] (#mocking)
 
 ###<a name="creating_tasks"></a>Creating Tasks
+
+You should create a new Task when you will be inventing enough code that you’ll want to test it. For example, if logic can be done simply using LINQ, there’s no reason to create a Task just for that. 
 
 When you create a Task, you should name it so that everyone can easily identify what the Task does. Follow these naming rules:
  
@@ -62,32 +64,54 @@ Simpler provides 3 base classes for defining Tasks:
 - [`OutTask`] (#outtask) (produces output using business logic but does not accept any input)
 - [`InOutTask`] (#inouttask) (applies business logic to an input and produces an output)
 
->**Note:** Simpler also includes a `Task` base class. This `Task` base class provides backwards compatibility for Simpler 1.0 and also includes the static `Task.New<TTask>()` method, which is a factory method for [instantiating tasks] (#instantiating_tasks). In addition, all Tasks inherit  the [`Name`] (#name) property
+Simpler also includes a `Task` base class. This `Task` base class 
+
+- Provides backwards compatibility for Simpler 1.0 
+- Includes the static `Task.New<TTask>()` method, which is a factory method for [instantiating tasks] (#instantiating_tasks)
+- Enables you to create a Task that has not inputs or outputs
+
+In addition, all Tasks inherit  the [`Name`] (#name) property
 and the [`Stats`] (#stats) property from this base class.
 
 ####<a name="intask"></a>InTask
-An `InTask` applies business logic to an input but doesn’t produce an output. For example, an `InTask` might receive an input of a filename and then add a prefix to the filename. 
+An `InTask` applies business logic to an input but doesn’t produce an output. For example, an `InTask` might receive an input of set of new information and then insert that into a database. 
 
 For an `InTask`, you must enter a generic parameter type that defines the type of input. This input is exposed to the `Execute()` method through the `In` property.
 
 To make the `In` property a container for all input, you can define an `Input` class inside the `InTask`. This `Input` class contains the input as properties and is passed to the `InTask` as the generic parameter type. 
 
+>**Note:** The following example also uses Simpler.Data.
+
 ```c#
-public class AddPrefix : InTask<AddPrefix.Input>
+public class InsertSighting : InTask<InsertSighting.Input>
 {
     public class Input
     {
-        public string FileName { get; set; }
-        public string Directory { get; set; }
+        public WildlifeSightings Sighting { get; set; }
     }
 
     public override void Execute()
     {
-        string directory = In.Directory;
-        string fileName = In.FileName;
-        string prefix = @"Obsolete_";
+        using (var connection = Db.Connect("WildlifeSightings"))
+        {
+            const string sql = @"EXECUTE [dbo].[Insert_Sighting]
+                    @SightingId = @SightingId
+                    @UserId = @UserId
+                    @SightingDate = @SightingDate,
+                    @Species = @Species,
+                    @Genus = @Genus;
 
-        File.Move(directory + fileName, directory + prefix + fileName);
+            In.Sighting.SightingDate = DateTime.ParseExact(In.Sighting.SightingDate.ToString(), "MM/dd/yyyy", CultureInfo.InvariantCulture);
+
+            var SightingId = In.Sighting.SightingId;
+            var UserId = In.Sighting.UserId;
+            var SightingDate = In.Sighting.SightingDate;
+            var Species = In.Sighting.SightingFieldsList[0].Species;
+            var Genus = In.Sighting.SightingFieldsList[0].Genus;
+
+            var values = new { SightingId, UserId, SightingDate, Species, Genus };
+            Db.GetResults(connection, sql, values);
+        }
     }
 }
 ```
@@ -116,12 +140,12 @@ public class FetchBirdSightings : OutTask<FetchBirdSightings.Output>
         {
             const string sql = @"
                 select 
-                    SightingDate as ObservationDate,
+                    SightingDate as SightingDate,
                     Species as Species
                 from
                     [Sight].[Birds]
                 order by
-                    ObservationDate
+                    SightingDate
                 ";
             Out.BirdSightings = Db.GetMany<BirdSighting>(connection, sql);
         }
@@ -131,33 +155,39 @@ public class FetchBirdSightings : OutTask<FetchBirdSightings.Output>
 
 ####InOutTask
 
-An `InOutTask` is a combination of an [`InTask`] (#intask) and an [`OutTask`] (#outtask). An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might have an input of a list and then process business logic to narrow the list to those entries meeting particular characteristics, and then output that narrowed list.
+An `InOutTask` is a combination of an [`InTask`] (#intask) and an [`OutTask`] (#outtask). An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might input some variables, which are used in a database query, and output to a list. 
  
-For an `InOutTask`, you must enter 2 generic parameter types: one for the type of input and one for the type of output. As with an `InTask` and an `OutTask`, these parameters are exposed in the `Execute()` method through the `In` and `Out` properties respectively. You can also define `Input` and `Output` classes inside the `InOutTask`. Refer to [InTask] (#intask) and [OutTask] (#outtask) for additional information. 
+For an `InOutTask`, you must enter 2 generic parameter types: one for the type of input and one for the type of output. As with an `InTask` and an `OutTask`, these parameters are exposed in the `Execute()` method through the `In` and `Out` properties respectively. You can also define `Input` and `Output` classes inside the `InOutTask`. Refer to [InTask] (#intask) and [OutTask] (#outtask) for additional information.
+
+>**Note:** The following example also uses Simpler.Data.
 
 ```c#
-public class FetchFeaturedStaff : InOutTask<FetchFeaturedStaff.Input, FetchFeaturedStaff.Output>
+public class FetchSightingsBySpeciesAndGenus : InOutTask<FetchSightingsBySpeciesAndGenus.Input, FetchSightingsBySpeciesAndGenus.Output>
 {
     public class Input
     {
-        public List<StaffModel> Staff { get; set; }
+        public int SpeciesId { get; set; }
+        public int GenusId { get; set; }
     }
 
     public class Output
     {
-        public List<StaffModel> SelectedStaff { get; set; }
+        public SightingDate[] Sightings { get; set; }
     }
 
     public override void Execute()
     {
-        Out.SelectedStaff = new List<StaffModel>();
-
-        foreach (StaffModel stf in In.Staff)
+        using (var connection = Db.Connect("WildlifeSightings"))
         {
-            if (stf.Featured)
-            {
-                Out.SelectedStaff.Add(stf);
-            }
+            const string sql = @"
+                EXECUTE [dbo].[Get_BirdSpecies]
+                    @inSpeciesId = @SpeciesId
+                    ,@inGenusId = @GenusId
+                ";
+                
+                var values = new {In.SpeciesId, In.GenusId};
+
+                Out.Sightings = Db.GetMany<SightingDate>(connection, sql,values);
         }
     }
 }
@@ -176,9 +206,9 @@ public class Program
 {
     Program()
     {
-        var prefix = Task.New<AddPrefix>();
-        prefix.In.Directory = @"ReceivedFiles";
-        prefix.Execute();
+        var insert = Task.New<InsertSighting>();
+        insert.In.Sighting = wildlife;
+        insert.Execute();
     }
 }
 ```
@@ -194,207 +224,33 @@ To inject sub-tasks within a Task class, define the sub-tasks as properties. Any
 Before executing a Task, Simpler checks whether the Task has any sub-tasks. If so, Simpler automatically creates the sub-tasks and injects them into the Task properties. 
 
 ```c#
+public class AddSightingTimestamp : InTask<AddSightingTimestamp.Input>
 {
-    public class AddPrefix : InTask<AddPrefix.Input>
+    public class Input
     {
-        public class Input
-        {
-            public string Directory { get; set; }
-        }
-
-        public GetFiles GetFiles { get; set; }
-
-        public override void Execute()
-        {
-            string prefix = @"Obsolete_";
-
-            GetFiles.In.Directory = In.Directory;
-            GetFiles.Execute();
-            PrefixFile[] files = GetFiles.Out.Files;
-
-            foreach (var file in files)
-            {
-                string fileName = file.FileName;
-                string directory = file.FileDirectory
-
-                File.Move(directory + fileName, directory + prefix + fileName);
-            }
-        }
-    }
-}
-```
-
-###Writing Tests
-
-By design, Simpler forces you to create code that is easy to test. Each Task clearly defines its inputs, outputs, and the discrete code to test, so writing a test is typically straightforward. Simpler works particularly well in a [TDD workflow] (#tdd-example). 
-
->**Note:** If your Task includes sub-tasks, you can [mock the sub-task behavior] (#mocking) using `Fake.Task<TTask>()`, which isolates the logic of the Task being tested. 
-
-```c#
-[TestFixture]
-public class FetchCertainStuffTest
-{
-    [Test]
-    public void should_return_9_pocos()
-    {
-        // Arrange
-        var task = Task.New<FetchCertainStuff>();
-        task.In.SomeCriteria = "whatever";
-
-        // Act
-        task.Execute();
-
-        // Assert
-        Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
-    }
-}
-```
-
-####<a name="mocking"></a>Mocking
-
-When writing a test for a Task with an [injected sub-task] (#injecting-sub-tasks), you may want to isolate the test to only the Task’s business logic. Using `Fake.Task<TTask>()`, you override the sub-task’s `Execute()` logic and instead define the data you want the test to “mock” being provided by the sub-task. 
-
-If the Task has many sub-tasks, it’s easier to begin with a call to `Fake.SubTasks()` and then fake the individual tasks that are needed for the specific test scenario. 
-
-#####Example
-
-Assume the following Task: 
-
-```c#
-public class GoSkiing : OutTask<GoSkiing.Output>
-{
-    public class Output
-    {
-        public bool Yes { get; set; }
+        public string Directory { get; set; }
     }
 
-    public CheckSnowReport CheckSnowReport { get; set; }
+    public GetSightingFiles GetSightingFiles { get; set; }
 
     public override void Execute()
     {
-        CheckSnowReport.Execute();
-        Out.Yes = CheckSnowReport.Out.InchesOfSnow >= 6;
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_");
+
+        GetFiles.In.Directory = In.Directory;
+        GetFiles.Execute();
+        SightingDateFile[] files = GetFiles.Out.Files;
+
+        foreach (var file in files)
+        {
+            string fileName = file.FileName;
+            string directory = file.FileDirectory
+
+            File.Move(directory + fileName, directory + timestamp + fileName);
+        }
     }
 }
 ```
-
-A unit test using `Fake.Task<TTask>()` might look like the following: 
-
-```c#
-[TestFixture]
-public class GoSkiingTest
-{
-    [Test]
-    public void should_go_skiing_on_powder_days()
-    {
-        // Arrange
-        var goSkiing = Task.New<GoSkiing>();
-        goSkiing.CheckSnowReport = Fake.Task<CheckSnowReport>(csr => csr.Out.InchesOfSnow = 6);
-
-        // Act
-        goSkiing.Execute();
-
-        // Assert
-        Assert.That(goSkiing.Out.Yes, Is.True);
-    }
-}
-```
-
-####<a name="tdd-example"></a>TDD Example Workflow
-
-Simpler is especially suited to using a TDD workflow, as shown in the following example.
-
-1. Identify the inputs you need to supply, the logic to be performed, and the exact output you expect. 
-
- ```c#
- public class AddNumbers : InOutTask<AddNumbers.Input, AddNumbers.Output>
- {
-         public class Input
-         {
-             public int FirstNumber { get; set; }
-             public int SecondNumber { get; set; }
-         }
- 
-         public class Output
-         {
-             public int Sum { get; set; }
-         }
-
-         public override void Execute()
-         {
-             throw new NotImplementedException();
-         }
- }
- ```
-
-2. Write a test. 
-
- ``` c#
- [TestFixture]
- public class AddNumbersTest
- {
-         [Test]
-         public void should_work()
-         {
-             var task = Task.New<AddNumbers>();
-             task.In.FirstNumber = 2;
-             task.In.SecondNumber = 3;
-             task.Execute();
-
-             Assert.That(task.Out.Sum, Is.EqualTo(5));
-         }
- }
- ```
-
-3. Verify the test fails. 
-
- ```
- .F...................................................
- Tests run: 52, Errors: 1, Failures: 0, Inconclusive: 0, Time: 5.8431684 seconds
- Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
-
- Errors and Failures:
- 1) Test Error : Simpler.AddNumbersTest.should_work
-    System.NotImplementedException : The method or operation is not implemented.
-    at Simpler.AddNumbers.Execute() in C:\Users\greg\Projects\Simpler\app\Simpler.Tests\Examples.cs:line 171
-    at Castle.DynamicProxy.AbstractInvocation.Proceed()
-    at Simpler.Core.Tasks.ExecuteTask.Execute() in C:\Users\greg\Projects\Simpler\app\Simpler\Core\Tasks\ExecuteTask.cs:line 56
-    at Simpler.Core.Tasks.CreateTask.<Execute>b__0(IInvocation invocation) in C:\Users\greg\Projects\Simpler\app\Simpler\Core\Tasks\CreateTask.cs:line 33
-    at Simpler.Core.ExecuteInterceptor.Intercept(IInvocation invocation) in C:\Users\greg\Projects\Simpler\app\Simpler\Core\ExecuteInterceptor.cs:line 19
-    at Castle.DynamicProxy.AbstractInvocation.Proceed()
-    at Simpler.AddNumbersTest.should_work() in C:\Users\greg\Projects\Simpler\app\Simpler.Tests\Examples.cs:line 184
- ```
-
-4. Implement the business logic in the Task. 
-
- ```c#
- public class AddNumbers : InOutTask<AddNumbers.Input, AddNumbers.Output>
- {
-         public class Input
-         {
-             public int FirstNumber { get; set; }
-             public int SecondNumber { get; set; }
-         }
-
-         public class Output
-         {
-             public int Sum { get; set; }
-         }
-
-         public override void Execute()
-         {
-             Out.Sum = In.FirstNumber + In.SecondNumber;
-         }
- }
- ```
-
-5. Verify the Task passes the test. 
-
- ```
- ....................................................
- Tests run: 52, Errors: 0, Failures: 0, Inconclusive: 0, Time: 5.237 seconds
-  Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
- ```
 
 ###<a name="eventsattribute"></a>Performing Actions Before or After Execute
 
@@ -459,32 +315,192 @@ The `Stats` and `Name` properties, which all Tasks inherit from the `Task` base 
 
 ####<a name="stats"></a>Stats
 
+A Task's `Stats` property tracks how many times the Task is executed and the execute durations. `Stats` are useful for profiling as well as for testing scenarios when you need to assert that a Task or sub-task has been executed as expected. 
 
+Refer to the [Writing Tests example] (#writing-tests) to see the `Stats` property in use.
 
 ####<a name="name"></a>Name
 
-Returns the real name (without proxy)
+Because [`Task.New<TTask>()` returns a proxy] (#instantiating_tasks) to the Task, with *proxy* appended to the  Task name. To get a read-only name based on the Task class itself, use the `Name` property. 
 
+Refer to the [`EventsAttribute` example] (#eventsattribute) to see the `Name` property in use.  
 
+##<a name="writing-tests"></a>Writing Tests with Simpler
 
-##Acknowledgments
+By design, Simpler forces you to create code that is easy to test. Each Task clearly defines its inputs, outputs, and the discrete code to test, so writing a test is typically straightforward. Simpler works particularly well in a [TDD workflow] (#tdd-example). 
 
-***consider what to do with this since it hasn’t been kept up to date***
-The following have contributed in some way and/or have built something awesome with Simpler.
+Simpler also includes functionality to make writing tests easier: 
 
-- [bobnigh](https://github.com/bobnigh)
-- [Clancey](https://github.com/Clancey)
-- [corys](https://github.com/corys)
-- [Crosis](https://github.com/Crosis)
-- [danvanorden](https://github.com/danvanorden)
-- [dchristine](https://github.com/dchristine)
-- [jkettell](https://github.com/jkettell)
-- [JOrley](https://github.com/JOrley)
-- [jshoemaker](https://github.com/jshoemaker)
-- [ralreegorganon](https://github.com/ralreegorganon)
-- [rodel-rdi](https://github.com/rodel-rdi)
-- [sonhuilamson](https://github.com/sonhuilamson)
-- [timrisi](https://github.com/timrisi)
+- If your Task includes sub-tasks, isolate the logic of the Task being tested by [mocking the sub-task behavior] (#mocking) using `Fake.Task<TTask>()`. 
+- Use the [`Stats`] (#stats) property to test scenarios such as asserting that a Task has executed as expected or within a expected duration.
+- Use the [`Name`] (#name) property to get a read-only name of the Task class. 
+
+```c#
+[TestFixture]
+public class FetchSightingsBySpeciesAndGenusTest
+{
+    [Test]
+    public void executes_in_acceptable_range()
+    {
+        // Arrange
+        var task = Task.New<FetchSightingsBySpeciesAndGenus>();
+        task.In.SpeciesId = "grisgena";
+        task.In.GenusId = "Podiceps";
+
+        // Act
+        task.Execute();
+
+        // Assert
+        Assert.That(task.Stats.ExecuteDurations, Is.LessThan(3));
+    }
+}
+```
+
+###<a name="mocking"></a>Mocking
+
+When writing a test for a Task with an [injected sub-task] (#injecting-sub-tasks), you may want to isolate the test to only the Task’s business logic. Using `Fake.Task<TTask>()`, you override the sub-task’s `Execute()` logic and instead define the data you want the test to “mock” being provided by the sub-task. 
+
+If the Task has many sub-tasks, it’s easier to begin with a call to `Fake.SubTasks()` and then fake the individual tasks that are needed for the specific test scenario. 
+
+####Example
+
+Assume the following Task: 
+
+```c#
+public class GoSkiing : OutTask<GoSkiing.Output>
+{
+    public class Output
+    {
+        public bool Yes { get; set; }
+    }
+
+    public CheckSnowReport CheckSnowReport { get; set; }
+
+    public override void Execute()
+    {
+        CheckSnowReport.Execute();
+        Out.Yes = CheckSnowReport.Out.InchesOfSnow >= 6;
+    }
+}
+```
+
+A unit test using `Fake.Task<TTask>()` might look like the following: 
+
+```c#
+[TestFixture]
+public class GoSkiingTest
+{
+    [Test]
+    public void should_go_skiing_on_powder_days()
+    {
+        // Arrange
+        var goSkiing = Task.New<GoSkiing>();
+        goSkiing.CheckSnowReport = Fake.Task<CheckSnowReport>(csr => csr.Out.InchesOfSnow = 6);
+
+        // Act
+        goSkiing.Execute();
+
+        // Assert
+        Assert.That(goSkiing.Out.Yes, Is.True);
+    }
+}
+```
+
+###<a name="tdd-example"></a>TDD Example Workflow
+
+Simpler is especially suited to using a TDD workflow, as shown in the following example.
+
+1. Identify the inputs you need to supply, the logic to be performed, and the exact output you expect. 
+
+ ```c#
+ public class AddNumbers : InOutTask<AddNumbers.Input, AddNumbers.Output>
+ {
+     public class Input
+     {
+         public int FirstNumber { get; set; }
+         public int SecondNumber { get; set; }
+     }
+ 
+     public class Output
+     {
+         public int Sum { get; set; }
+     }
+
+     public override void Execute()
+     {
+         throw new NotImplementedException();
+     }
+ }
+ ```
+
+2. Write a test. 
+
+ ``` c#
+ [TestFixture]
+ public class AddNumbersTest
+ {
+     [Test]
+     public void should_work()
+     {
+         var task = Task.New<AddNumbers>();
+         task.In.FirstNumber = 2;
+         task.In.SecondNumber = 3;
+         task.Execute();
+
+         Assert.That(task.Out.Sum, Is.EqualTo(5));
+         }
+ }
+ ```
+
+3. Verify the test fails. 
+
+ ```
+ .F...................................................
+ Tests run: 52, Errors: 1, Failures: 0, Inconclusive: 0, Time: 5.8431684 seconds
+ Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
+
+ Errors and Failures:
+ 1) Test Error : Simpler.AddNumbersTest.should_work
+    System.NotImplementedException : The method or operation is not implemented.
+    at Simpler.AddNumbers.Execute() in C:\Users\greg\Projects\Simpler\app\Simpler.Tests\Examples.cs:line 171
+    at Castle.DynamicProxy.AbstractInvocation.Proceed()
+    at Simpler.Core.Tasks.ExecuteTask.Execute() in C:\Users\greg\Projects\Simpler\app\Simpler\Core\Tasks\ExecuteTask.cs:line 56
+    at Simpler.Core.Tasks.CreateTask.<Execute>b__0(IInvocation invocation) in C:\Users\greg\Projects\Simpler\app\Simpler\Core\Tasks\CreateTask.cs:line 33
+    at Simpler.Core.ExecuteInterceptor.Intercept(IInvocation invocation) in C:\Users\greg\Projects\Simpler\app\Simpler\Core\ExecuteInterceptor.cs:line 19
+    at Castle.DynamicProxy.AbstractInvocation.Proceed()
+    at Simpler.AddNumbersTest.should_work() in C:\Users\greg\Projects\Simpler\app\Simpler.Tests\Examples.cs:line 184
+ ```
+
+4. Implement the business logic in the Task. 
+
+ ```c#
+ public class AddNumbers : InOutTask<AddNumbers.Input, AddNumbers.Output>
+ {
+     public class Input
+     {
+         public int FirstNumber { get; set; }
+         public int SecondNumber { get; set; }
+     }
+
+     public class Output
+     {
+         public int Sum { get; set; }
+     }
+
+     public override void Execute()
+     {
+         Out.Sum = In.FirstNumber + In.SecondNumber;
+     }
+ }
+ ```
+
+5. Verify the Task passes the test. 
+
+ ```
+ ....................................................
+ Tests run: 52, Errors: 0, Failures: 0, Inconclusive: 0, Time: 5.237 seconds
+  Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
+ ```
 
 ##License
 Simpler is licensed under the MIT License. A copy of the MIT license can be found in the LICENSE file.
