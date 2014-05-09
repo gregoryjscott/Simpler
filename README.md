@@ -507,5 +507,40 @@ Simpler is especially suited to using a TDD workflow, as shown in the following 
   Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
  ```
 
+##Contributing
+
+See [Contributing](CONTRIBUTING.md).
+
+##Simpler HOF
+
+The following individuals are in the Simpler Hall of Fame.
+
+- [bobnigh](https://github.com/bobnigh) (pre, 2.\*)
+- [Clancey](https://github.com/Clancey) (contributor, 1.\*)
+- [corys](https://github.com/corys) (2.\*)
+- [Crosis](https://github.com/Crosis) (2.\*)
+- [danvanorden](https://github.com/danvanorden) (1.\*)
+- [dchristine](https://github.com/dchristine) (1.\*, 2.\*)
+- [jkettell](https://github.com/jkettell) (pre, 2.\*)
+- [JOrley](https://github.com/JOrley) (1.\*)
+- [jshoemaker](https://github.com/jshoemaker) (pre)
+- [kamillf](https://github.com/kamillf) (contributor)
+- [Pete Rose](http://en.wikipedia.org/wiki/Pete_Rose) (4,256 hits)
+- [ralreegorganon](https://github.com/ralreegorganon) (contributor)
+- [rlgnak](https://github.com/rlgnak) (contributor, 2.\*)
+- [rodel-rdi](https://github.com/rodel-rdi) (1.\*)
+- [sonhuilamson](https://github.com/sonhuilamson) (1.\*, 2.\*)
+- [timrisi](https://github.com/timrisi) (2.\*)
+
+###Legend
+
+**pre** - Worked on a project that inspired Simpler, which included the Task class with sub-task injection. [bobnigh](https://github.com/bobnigh) was a co-author of the original Task class.
+
+**1.*** - Worked on projects that used versions of Simpler 1, trusted a crazy idea, provided feedback, and ultimately proved it worked.
+
+**2.*** - Was a teammate of mine on projects that used (many) beta versions of Simpler 2. That the Simpler 2 API turned out nice is only because these individuals provided great feedback while trying to build real projects with real budgets at the same time.
+
+**contributor** - Has contributed to Simpler in some meaningful way.
+
 ##License
 Simpler is licensed under the MIT License. A copy of the MIT license can be found in the LICENSE file.
