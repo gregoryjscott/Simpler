@@ -29,3 +29,5 @@ SerializerTest*/
 *.resharper*
 deploy/*
 *.nupkg
+Gemfile.lock
+output/

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Simpler.Tests</RootNamespace>
+    <AssemblyName>Simpler.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Mocks\MockPlace.cs" />
+    <Compile Include="FakeTest.cs" />
+    <Compile Include="Core\Mocks\MockComplexObject.cs" />
+    <Compile Include="Core\Mocks\MockEnum.cs" />
+    <Compile Include="Core\Mocks\MockException.cs" />
+    <Compile Include="Core\Mocks\MockFirstAttribute.cs" />
+    <Compile Include="Core\Mocks\MockTask.cs" />
+    <Compile Include="Core\Mocks\MockTaskWithAttributes.cs" />
+    <Compile Include="Core\Mocks\MockTaskThatThrowsWithAttributes.cs" />
+    <Compile Include="Core\Mocks\MockTaskWithOverrideAttribute.cs" />
+    <Compile Include="Core\Mocks\MockPerson.cs" />
+    <Compile Include="Core\Mocks\MockOverrideAttribute.cs" />
+    <Compile Include="Core\Mocks\MockParentTask.cs" />
+    <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
+    <Compile Include="Core\Mocks\MockSubTask.cs" />
+    <Compile Include="Data\Tasks\BuildTypedTest.cs" />
+    <Compile Include="Data\Tasks\BuildParametersTest.cs" />
+    <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
+    <Compile Include="Core\Tasks\InjectTasksTest.cs" />
+    <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
+    <Compile Include="Core\Tasks\CreateTaskTest.cs" />
+    <Compile Include="Data\Tasks\BuildDynamicTest.cs" />
+    <Compile Include="Data\ResultsTest.cs" />
+    <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
+    <Compile Include="Data\Tasks\FindParameters.cs" />
+    <Compile Include="Data\TaskExtensionsTest.cs" />
+    <Compile Include="Examples.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simpler\Simpler.csproj">
+      <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
+      <Name>Simpler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Sql\SelectEverything.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
