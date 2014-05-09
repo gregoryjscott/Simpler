@@ -39,7 +39,7 @@ Using Simpler is, well, *simple*.
 2. [Instantiate the Task] (#instantiating_tasks) using the Task.New() method. 
 3. Execute the task. 
 
-Simpler also provides other functionality: 
+Simpler also provides some additional functionality: 
 
 - From within a Task, [execute other Tasks (sub-tasks)] (#injecting-sub-tasks)
 - [Perform actions before or after execute] (#eventsattribute), which is especially useful for addressing cross-cutting concerns such as logging
@@ -213,6 +213,8 @@ public class Program
 }
 ```
 
+##Additional Simpler Functionality
+
 ###<a name="injecting-sub-tasks"></a>Injecting Sub-tasks
 
 With Simpler, a Task contains the smallest piece of useable functionality. Therefore, you’ll often need a Task to execute other Tasks, referenced as sub-tasks, which creates a dependency between the Tasks. But to prevent tight coupling between the Tasks, Simpler provides automatic sub-task injection. 
@@ -284,27 +286,30 @@ After you build the `EventsAttribute` code, include a reference to it in every T
 
 ```c#
 [Log]
-public class BeAnnoying : InTask<BeAnnoying.Input>
+public class FetchBirdSightings : OutTask<FetchBirdSightings.Output>
 {
-    public class Input
+    public class Output
     {
-        public int AnnoyanceLevel { get; set; }
+        public BirdSighting[] BirdSightings { get; set; }
     }
-
-    public Ask Ask { get; set; }
 
     public override void Execute()
     {
-        // "BeAnnoying started." was logged to the console before Execute() began.
-
-        Ask.In.Question = "Is this cool?";
-
-        for (var i = 0; i < In.AnnoyanceLevel; i++)
+        // "FetchBirdSightings started." was logged to the console before Execute() began.
+        using (var connection = Db.Connect("WildlifeSightings"))
         {
-            Ask.Execute();
+            const string sql = @"
+                select 
+                    SightingDate as SightingDate,
+                    Species as Species
+                from
+                    [Sight].[Birds]
+                order by
+                    SightingDate
+                ";
+            Out.BirdSightings = Db.GetMany<BirdSighting>(connection, sql);
+        // "FetchBirdSightings finished." will be logged to the console after Execute() finishes. 
         }
-
-        // "BeAnnoying finished." will be logged to the console after Execute() finishes.
     }
 }
 ```
