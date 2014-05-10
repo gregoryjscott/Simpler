@@ -69,9 +69,11 @@
     <Compile Include="Core\Tasks\InjectTasksTest.cs" />
     <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
-    <Compile Include="Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskTest.cs" />
+    <Compile Include="Examples\PredictWorldSeriesTest%28tdd-steps 2-3%29.cs" />
+    <Compile Include="Examples\OutputStatsTest%28mocking%29.cs" />
+    <Compile Include="Examples\PerformanceTest%28stats-name%29.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -80,6 +82,10 @@
     <ProjectReference Include="..\Simpler\Simpler.csproj">
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\Examples.csproj">
+      <Project>{0A417851-0F64-4EA5-AECB-3565D27D71F5}</Project>
+      <Name>Examples</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -90,4 +96,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Examples\" />
+  </ItemGroup>
 </Project>

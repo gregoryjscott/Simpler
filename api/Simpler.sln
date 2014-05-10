@@ -7,12 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Tests", "Simpler.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0015489E-C817-48A0-9A19-4F2BA08EB6D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{0A417851-0F64-4EA5-AECB-3565D27D71F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -21,6 +27,11 @@ Global
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Simpler\Simpler.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

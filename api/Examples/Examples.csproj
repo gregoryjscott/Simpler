@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0A417851-0F64-4EA5-AECB-3565D27D71F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Examples</RootNamespace>
+    <AssemblyName>Examples</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LogAttribute%28events%29.cs" />
+    <Compile Include="Tasks\FetchTeams%28out-task%29.cs" />
+    <Compile Include="Tasks\PlayBall%28events-usage%29.cs" />
+    <Compile Include="Tasks\OutputStats%28injecting%29.cs" />
+    <Compile Include="GoodProgram%28instantiating%29.cs" />
+    <Compile Include="Models\Manager.cs" />
+    <Compile Include="Models\Team.cs" />
+    <Compile Include="Tasks\FetchManager%28in-out-task%29.cs" />
+    <Compile Include="Tasks\CheckTables%28in-task%29.cs" />
+    <Compile Include="Tasks\PredictWorldSeries%28tdd-step-1%29.cs" />
+    <Compile Include="Tasks\PredictWorldSeries%28tdd-steps-4-5%29.cs" />
+    <Compile Include="BetterProgram%28injecting%29.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Simpler\Simpler.csproj">
+      <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
+      <Name>Simpler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Tasks\" />
+  </ItemGroup>
+</Project>
