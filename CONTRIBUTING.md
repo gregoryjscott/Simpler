@@ -8,7 +8,7 @@ If you experience problems or have feedback on this document, please [submit an 
 
 We use git and GitHub to store and manage our content. Content is not just source code—it's code, documentation, scripts, notes, etc.
 
-To contribute to Simpler or submit an issue, you should complete the following steps:
+To contribute to Simpler, you should complete the following steps:
 
 1. Set up a [GitHub](https://github.com) account.
 1. [Install git](https://help.github.com/articles/set-up-git).

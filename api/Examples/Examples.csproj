@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -31,21 +31,21 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="Centroid">
+      <HintPath>..\..\packages\Centroid.1.0.1\lib\net40\Centroid.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Stat.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LogAttribute%28events%29.cs" />
-    <Compile Include="Tasks\FetchTeams%28out-task%29.cs" />
-    <Compile Include="Tasks\PlayBall%28events-usage%29.cs" />
-    <Compile Include="Tasks\OutputStats%28injecting%29.cs" />
-    <Compile Include="GoodProgram%28instantiating%29.cs" />
-    <Compile Include="Models\Manager.cs" />
+    <Compile Include="LogAttribute.cs" />
+    <Compile Include="Tasks\FetchTeams.cs" />
+    <Compile Include="Tasks\FindBestTeam.cs" />
+    <Compile Include="Tasks\OutputBestTeams.cs" />
     <Compile Include="Models\Team.cs" />
-    <Compile Include="Tasks\FetchManager%28in-out-task%29.cs" />
-    <Compile Include="Tasks\CheckTables%28in-task%29.cs" />
-    <Compile Include="Tasks\PredictWorldSeries%28tdd-step-1%29.cs" />
-    <Compile Include="Tasks\PredictWorldSeries%28tdd-steps-4-5%29.cs" />
-    <Compile Include="BetterProgram%28injecting%29.cs" />
+    <Compile Include="Tasks\OutputStat.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -55,7 +55,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Tasks\" />
+    <None Include="packages.config" />
+    <None Include="baseball.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
