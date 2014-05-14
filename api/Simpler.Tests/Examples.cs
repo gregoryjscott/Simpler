@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using NUnit.Framework;
-using Simpler.Data;
-using Simpler.Data.Tasks;
 
 namespace Simpler
 {
@@ -92,64 +90,6 @@ namespace Simpler
             var beAnnoying = Task.New<BeAnnoying>();
             beAnnoying.In.AnnoyanceLevel = 10;
             beAnnoying.Execute();
-        }
-    }
-
-    public class Stuff
-    {
-        public string Name { get; set; }
-    }
-
-    public class FetchCertainStuff : InOutTask<FetchCertainStuff.Input, FetchCertainStuff.Output>
-    {
-        public class Input
-        {
-            public string SomeCriteria { get; set; }
-        }
-
-        public class Output
-        {
-            public Stuff[] Stuff { get; set; }
-        }
-
-        public override void Execute()
-        {
-            using(var connection = Db.Connect("MyConnectionString"))
-            {
-                const string sql =
-                    @"
-                    select 
-                        AColumn as Name
-                    from 
-                        ABunchOfJoinedTables
-                    where 
-                        SomeColumn = @SomeCriteria
-                        and
-                        AnotherColumn = @SomeOtherCriteria
-                    ";
-
-                var values = new {In.SomeCriteria, SomeOtherCriteria = "other criteria"};
-
-                Out.Stuff = Db.Get<Stuff>(connection, sql, values);
-            }
-        }
-    }
-
-    //[TestFixture]
-    public class FetchCertainStuffTest
-    {
-        //[Test]
-        public void should_return_9_pocos()
-        {
-            // Arrange
-            var task = Task.New<FetchCertainStuff>();
-            task.In.SomeCriteria = "criteria";
-
-            // Act
-            task.Execute();
-
-            // Assert
-            Assert.That(task.Out.Stuff.Length, Is.EqualTo(9));
         }
     }
 }

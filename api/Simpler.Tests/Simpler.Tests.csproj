@@ -35,14 +35,6 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +42,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Moq">
+      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Mocks\MockPlace.cs" />
@@ -67,17 +65,10 @@
     <Compile Include="Core\Mocks\MockParentTask.cs" />
     <Compile Include="Core\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Core\Mocks\MockSubTask.cs" />
-    <Compile Include="Data\Tasks\BuildTypedTest.cs" />
-    <Compile Include="Data\Tasks\BuildParametersTest.cs" />
     <Compile Include="Core\Tasks\DisposeTasksTest.cs" />
     <Compile Include="Core\Tasks\InjectTasksTest.cs" />
     <Compile Include="Core\Tasks\ExecuteTaskTest.cs" />
     <Compile Include="Core\Tasks\CreateTaskTest.cs" />
-    <Compile Include="Data\Tasks\BuildDynamicTest.cs" />
-    <Compile Include="Data\ResultsTest.cs" />
-    <Compile Include="Data\Tasks\BuildObjectsTest.cs" />
-    <Compile Include="Data\Tasks\FindParameters.cs" />
-    <Compile Include="Data\TaskExtensionsTest.cs" />
     <Compile Include="Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskTest.cs" />
@@ -90,9 +81,6 @@
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Sql\SelectEverything.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
