@@ -31,3 +31,5 @@ deploy/*
 *.nupkg
 Gemfile.lock
 output/
+.DS_Store
+
