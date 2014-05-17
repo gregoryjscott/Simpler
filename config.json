@@ -4,7 +4,7 @@
   },
 
   "test": {
-    "dll": "api/Simpler.Tests/bin/Debug/Simpler.Tests.dll",
+    "dll": "api/Tests/bin/Debug/Tests.dll",
     "output": "output/test",
     "results": "output/test/results.xml"
   },

@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler", "Simpler\Simpler.csproj", "{6A2F45F9-172C-4B48-9344-B64646958AFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler.Tests", "Simpler.Tests\Simpler.Tests.csproj", "{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0015489E-C817-48A0-9A19-4F2BA08EB6D2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples", "Examples\Examples.csproj", "{0A417851-0F64-4EA5-AECB-3565D27D71F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +27,18 @@ Global
 		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0A417851-0F64-4EA5-AECB-3565D27D71F5}.Release|x86.ActiveCfg = Release|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Debug|x86.Build.0 = Debug|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Release|x86.ActiveCfg = Release|Any CPU
+		{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}.Release|x86.Build.0 = Release|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -39,18 +49,6 @@ Global
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6A2F45F9-172C-4B48-9344-B64646958AFC}.Release|x86.ActiveCfg = Release|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{D6DE1A11-756A-42AB-9714-5DA05F5C1EF1}.Release|x86.ActiveCfg = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Simpler\Simpler.csproj
