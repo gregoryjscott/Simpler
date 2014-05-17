@@ -1,9 +1,9 @@
 ﻿using Simpler;
 using System;
 using System.Text;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Examples.Tasks
+namespace Baseball.Tasks
 {
     public class OutputStat: InTask<OutputStat.Input>
     {

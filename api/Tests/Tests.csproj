@@ -54,13 +54,9 @@
     <Compile Include="Simpler\Core\Tasks\InjectTasksTest.cs" />
     <Compile Include="Simpler\FakeTest.cs" />
     <Compile Include="Simpler\TaskTest.cs" />
-    <Compile Include="Simpler\Mocks\MockComplexObject.cs" />
-    <Compile Include="Simpler\Mocks\MockEnum.cs" />
     <Compile Include="Simpler\Mocks\MockException.cs" />
     <Compile Include="Simpler\Mocks\MockFirstAttribute.cs" />
     <Compile Include="Simpler\Mocks\MockParentTask.cs" />
-    <Compile Include="Simpler\Mocks\MockPerson.cs" />
-    <Compile Include="Simpler\Mocks\MockPlace.cs" />
     <Compile Include="Simpler\Mocks\MockSecondAttribute.cs" />
     <Compile Include="Simpler\Mocks\MockSubTask.cs" />
     <Compile Include="Simpler\Mocks\MockTask.cs" />
@@ -84,7 +80,7 @@
       <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
       <Name>Simpler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Baseball\Baseball.csproj">
+    <ProjectReference Include="..\Examples\Baseball.csproj">
       <Project>{64073524-B1F5-4691-9086-C50315A4B27E}</Project>
       <Name>Baseball</Name>
     </ProjectReference>

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Simpler.Tests.Core.Mocks;
+using Simpler.Mocks;
 
-namespace Simpler.Tests
+namespace Simpler
 {
     [TestFixture]
     public class FakeTest
@@ -9,14 +9,10 @@ namespace Simpler.Tests
         [Test]
         public void should_fake_subtasks()
         {
-            // Arrange
             var mockParentTask = Task.New<MockParentTask>();
-
-            // Act
             Fake.SubTasks(mockParentTask);
             mockParentTask.Execute();
 
-            // Assert
             Assert.That(mockParentTask.SubTaskWasExecuted, Is.False);
         }
     }

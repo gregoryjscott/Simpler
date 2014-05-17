@@ -1,6 +1,6 @@
 using System;
 
-namespace Simpler.Tests.Core.Mocks
+namespace Simpler.Mocks
 {
     public class MockSecondAttribute : EventsAttribute
     {

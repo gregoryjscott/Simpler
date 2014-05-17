@@ -32,8 +32,9 @@
   "packages": {
     "configs": [
       "packages/packages.config",
+      "api/Examples/packages.config",
       "api/Simpler/packages.config",
-      "api/Simpler.Tests/packages.config"
+      "api/Tests/packages.config"
     ]
   },
 

@@ -1,11 +1,10 @@
-﻿using Examples.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Simpler;
 using System;
 using System.IO;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Tests.Examples.Tasks
+namespace Baseball.Tasks
 {
     [TestFixture]
     public class OutputStatTest

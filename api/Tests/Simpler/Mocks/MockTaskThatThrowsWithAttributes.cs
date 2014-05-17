@@ -1,4 +1,4 @@
-namespace Simpler.Tests.Core.Mocks
+namespace Simpler.Mocks
 {
     [MockFirst, MockSecond]
     public class MockTaskThatThrowsWithAttributes : MockTaskWithAttributes

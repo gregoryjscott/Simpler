@@ -25,13 +25,12 @@ namespace Simpler.Core.Tasks
             if (In.ExecuteInterceptor == null)
             {
                 In.ExecuteInterceptor = new ExecuteInterceptor(
-                    invocation =>
-                        {
-                            if (ExecuteTask == null) ExecuteTask = new ExecuteTask();
-                            ExecuteTask.In.Task = (Task)invocation.InvocationTarget;
-                            ExecuteTask.In.Invocation = invocation;
-                            ExecuteTask.Execute();
-                        });
+                    invocation => {
+                        if (ExecuteTask == null) ExecuteTask = new ExecuteTask();
+                        ExecuteTask.In.Task = (Task)invocation.InvocationTarget;
+                        ExecuteTask.In.Invocation = invocation;
+                        ExecuteTask.Execute();
+                    });
             }
 
             Out.TaskInstance = ProxyGenerator.CreateClassProxy(In.TaskType, In.ExecuteInterceptor);

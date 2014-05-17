@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simpler", "Simpler\Simpler.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baseball", "Baseball\Baseball.csproj", "{64073524-B1F5-4691-9086-C50315A4B27E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baseball", "Examples\Baseball.csproj", "{64073524-B1F5-4691-9086-C50315A4B27E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,8 +84,6 @@ Global
 		$2.BeforeDelegateDeclarationParentheses = False
 		$2.AfterDelegateDeclarationParameterComma = True
 		$2.NewParentheses = False
-		$2.BeforeSizeOfParentheses = True
-		$2.BeforeTypeOfParentheses = True
 		$2.SpacesBeforeBrackets = False
 		$2.BlankLinesBetweenMembers = 0
 		$2.BlankLinesInsideRegion = 0

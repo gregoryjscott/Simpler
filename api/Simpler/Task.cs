@@ -12,7 +12,7 @@ namespace Simpler
         public static T New<T>()
         {
             var invalidTasks = new[] { "InjectTasks", "DisposeTasks" };
-            var taskType = typeof (T);
+            var taskType = typeof(T);
             if (invalidTasks.Contains(taskType.Name))
             {
                 throw new ArgumentException("This task type can't be passed to Task.New because its a Core task used by Task.New.");

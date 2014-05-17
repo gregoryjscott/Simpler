@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Examples;
-using Examples.Tasks;
 using NUnit.Framework;
 using Simpler;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Tests.Examples.Tasks
+namespace Baseball.Tasks
 {
     [TestFixture]
     public class OutputBestTeamsTest

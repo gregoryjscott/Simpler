@@ -3,9 +3,9 @@ using Simpler;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Examples.Tasks
+namespace Baseball.Tasks
 {
     public class FetchTeams: OutTask<FetchTeams.Output>
     {

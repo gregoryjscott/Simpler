@@ -1,8 +1,7 @@
-﻿using Examples.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Simpler;
 
-namespace Tests.Examples.Tasks
+namespace Baseball.Tasks
 {
     [TestFixture]
     public class FetchTeamsTest

@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using Simpler.Core.Tasks;
-using Simpler.Tests.Core.Mocks;
+using Simpler.Mocks;
 using System;
 
-namespace Simpler.Tests
+namespace Simpler
 {
     [TestFixture]
     public class TaskTest
@@ -13,16 +13,15 @@ namespace Simpler.Tests
         {
             var mockTask = Task.New<MockTask>();
 
-            Assert.That(mockTask != null, "MockTask was not created.");
+            Assert.That(mockTask, Is.Not.Null);
         }
 
         [Test]
         public void should_provide_underlying_task_name()
         {
             var mockTask = Task.New<MockTask>();
-            const string expectedName = "Simpler.Tests.Core.Mocks.MockTask";
 
-            Assert.That(mockTask.Name == expectedName, "Expected name to be {0}.", expectedName);
+            Assert.That(mockTask.Name, Is.EqualTo(typeof(MockTask).FullName));
         }
 
         [Test]
