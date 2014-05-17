@@ -23,7 +23,6 @@ obj
 bin
 _ReSharper*/
 [Tt]est[Rr]esult*
-Examples*/
 SerializerTest*/
 *.csproj.user
 *.resharper*
@@ -32,4 +31,4 @@ deploy/*
 Gemfile.lock
 output/
 .DS_Store
-
+*.userprefs
