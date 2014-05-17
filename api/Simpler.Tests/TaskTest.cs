@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Simpler.Core.Tasks;
 using Simpler.Tests.Core.Mocks;
+using System;
 
 namespace Simpler.Tests
 {
@@ -12,7 +13,7 @@ namespace Simpler.Tests
         {
             var mockTask = Task.New<MockTask>();
 
-            Check.That(mockTask != null, "MockTask was not created.");
+            Assert.That(mockTask != null, "MockTask was not created.");
         }
 
         [Test]
@@ -21,19 +22,19 @@ namespace Simpler.Tests
             var mockTask = Task.New<MockTask>();
             const string expectedName = "Simpler.Tests.Core.Mocks.MockTask";
 
-            Check.That(mockTask.Name == expectedName, "Expected name to be {0}.", expectedName);
+            Assert.That(mockTask.Name == expectedName, "Expected name to be {0}.", expectedName);
         }
 
         [Test]
         public void should_throw_if_attempt_new_InjectTasks()
         {
-            Check.Throws(() => Task.New<InjectTasks>());
+            Assert.Throws<ArgumentException>(() => Task.New<InjectTasks>());
         }
 
         [Test]
         public void should_throw_if_attempt_new_DisposeTasks()
         {
-            Check.Throws<CheckException>(() => Task.New<DisposeTasks>());
+            Assert.Throws<ArgumentException>(() => Task.New<DisposeTasks>());
         }
     }
 }

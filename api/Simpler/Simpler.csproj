@@ -49,11 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Check.cs" />
     <Compile Include="Core\FakeInvocation.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
-    <Compile Include="CheckException.cs" />
     <Compile Include="Core\InjectTasksAttribute.cs" />
     <Compile Include="Core\ExecuteInterceptor.cs" />
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
