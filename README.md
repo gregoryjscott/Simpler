@@ -16,7 +16,7 @@ At its core, Simpler is a philosophy on or a pattern for .NET class design. Simp
 
 In the traditional Object-oriented Programming (OOP) approach, classes define objects (named with nouns) and include data and business logic (methods named with verbs).
 
-![OOP Diagram](/images/OOPDiagram.png)
+![OOP Diagram](doc/img/OOPDiagram.png)
 
 But when an application needs to interact with several classes, it isn’t always clear where that business logic should be stored. So “manager” or “service” classes are often created for all of the business logic affecting multiple object classes.
 
@@ -28,7 +28,7 @@ Simpler also separates data from business logic, with data defined in Model clas
 
 To make finding the Tasks and Models easy, you can organize them within directories.
 
-![Simpler Diagram](/images/SimplerDiagram.png)
+![Simpler Diagram](doc/img/SimplerDiagram.png)
 
 Model classes are typically just plain old CLR objects (POCOs) and only contain properties. But a Task *does things*; each Task class is the equivalent of a discrete action. Simpler provides functionality for Tasks.
 
