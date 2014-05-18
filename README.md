@@ -1,5 +1,7 @@
 #Simpler
 
+[![Build Status](https://travis-ci.org/gregoryjscott/Simpler.svg?branch=master)](https://travis-ci.org/gregoryjscott/Simpler)
+
 At its core, Simpler is a philosophy on or a pattern for .NET class design. Simpler can help developers—especially teams of developers—build complex projects using consistent, readable, tested classes that easily integrate with each other.
 
 ##Key Benefits of Simpler
