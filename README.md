@@ -34,7 +34,7 @@ Model classes are typically just plain old CLR objects (POCOs) and only contain 
 
 ##Installing Simpler
 
-Use Nuget. Simpler works with .NET 3.5 and above.
+Use [Nuget](http://www.nuget.org/packages/simpler/).
 
 ##Using Simpler
 
