@@ -17,7 +17,6 @@ Thumbs.db
 *.log
 [Bb]in
 [Dd]ebug*/
-*.lib
 *.sbr
 obj
 bin
@@ -29,6 +28,6 @@ SerializerTest*/
 deploy/*
 *.nupkg
 Gemfile.lock
-output/
+tmp/
 .DS_Store
 *.userprefs
