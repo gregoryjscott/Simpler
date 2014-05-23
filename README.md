@@ -1,10 +1,10 @@
-#Simpler
+# Simpler
 
 [![Build Status](https://travis-ci.org/gregoryjscott/Simpler.svg?branch=master)](https://travis-ci.org/gregoryjscott/Simpler)
 
 At its core, Simpler is a philosophy on or a pattern for C# class design. Simpler can help developers—especially teams of developers—build complex projects using consistent, readable classes that easily integrate with each other.
 
-##Key Benefits of Simpler
+## Key Benefits of Simpler
 
 - Eliminates the need to discuss and decide on class design
 - Makes the code more understandable, consistent, and readable
@@ -12,7 +12,7 @@ At its core, Simpler is a philosophy on or a pattern for C# class design. Simple
 - Provides a cleaner method of [addressing cross-cutting concerns](#eventsattribute)
 - Simplifies maintenance by making it easier to find business logic
 
-##The Simpler Philosophy
+## The Simpler Philosophy
 
 In the traditional Object-oriented Programming (OOP) approach, classes define objects (named with nouns) and include data and business logic (methods named with verbs).
 
@@ -32,11 +32,11 @@ To make finding the Tasks and Models easy, you can organize them within director
 
 Model classes are typically just plain old CLR objects (POCOs) and only contain properties. But a Task *does things*; each Task class is the equivalent of a discrete action. Simpler provides functionality for Tasks.
 
-##Installing Simpler
+## Installing Simpler
 
 Use [Nuget](http://www.nuget.org/packages/simpler/).
 
-##Using Simpler
+## Using Simpler
 
 Using Simpler is, well, *simple*.
 
@@ -52,7 +52,7 @@ Simpler also provides some additional functionality:
 - Use [`Name`](#name) for getting the name of the Task class, which is often useful for logging Task information
 - When testing a Task with sub-tasks, isolate the Task logic by [mocking the sub-tasks](#mocking)
 
-###<a name="creating_tasks"></a>Creating Tasks
+### <a name="creating_tasks"></a>Creating Tasks
 
 You should create a new Task when you will be writing enough business logic to warrant tests. For example, if logic can be done in one line or using LINQ, there’s no reason to create a Task just for that.
 
@@ -78,7 +78,7 @@ Simpler also includes a `Task` base class. This `Task` base class
 
 In addition, all Tasks inherit the [`Name`](#name) property and the [`Stats`](#stats) property from this base class.
 
-####<a name="intask"></a>InTask
+#### <a name="intask"></a>InTask
 
 An `InTask` applies business logic to an input but doesn’t produce an output. For example, an `InTask` might receive an input of  information and write it to the console.
 
@@ -107,7 +107,7 @@ public class OutputStat: InTask<OutputStat.Input>
 }
 ```
 
-####<a name="outtask"></a>OutTask
+#### <a name="outtask"></a>OutTask
 
 An `OutTask` has no input, but it uses business logic to produce an output. For example, an `OutTask` might load a set of data and make the results available.
 
@@ -155,7 +155,7 @@ public class FetchTeams: OutTask<FetchTeams.Output>
 }
 ```
 
-####InOutTask
+#### InOutTask
 
 An `InOutTask` is a combination of an [`InTask`](#intask) and an [`OutTask`](#outtask). An `InOutTask` applies business logic to an input and produces an output. For example, an `InOutTask` might answer a question by taking some information and using it to produce an answer.
  
@@ -191,7 +191,7 @@ public class FindBestTeam: InOutTask<FindBestTeam.Input, FindBestTeam.Output>
 }
 ```
 
-###<a name="instantiating_tasks"></a>Instantiating Tasks
+### <a name="instantiating_tasks"></a>Instantiating Tasks
 
 When you have [created a Task](#creating_tasks), you can instantiate it using the `Task.New()` method.
 
@@ -211,9 +211,9 @@ public class Program
 }
 ```
 
-##Additional Simpler Functionality
+## Additional Simpler Functionality
 
-###<a name="injecting-sub-tasks"></a>Injecting Sub-tasks
+### <a name="injecting-sub-tasks"></a>Injecting Sub-tasks
 
 With Simpler, a Task contains the smallest piece of useable functionality. Therefore, you’ll often need a Task to execute other Tasks, referenced as sub-tasks, which creates a dependency between the Tasks. To prevent tight coupling between the dependencies, Simpler provides automatic sub-task injection.
 
@@ -276,7 +276,7 @@ public class OutputBestTeams: Task
 }
 ```
 
-###<a name="eventsattribute"></a>Performing Actions Before or After Execute
+### <a name="eventsattribute"></a>Performing Actions Before or After Execute
 
 When you use the [`Task.New<TTask>()`](#instantiating_tasks) method, it returns a proxy to the Task, which enables Simpler to intercept Task `Execute()` calls using the `EventsAttribute`. When the `Execute()` call is intercepted, Simpler can perform actions before or after the Task executes or when the Task errors.
 
@@ -331,23 +331,23 @@ Question: Who is National League West's best team?
 Examples.Tasks.OutputBestTeams finished.
 ```
 
-###Using Stats and Name Properties
+### Using Stats and Name Properties
 
 The `Stats` and `Name` properties, which all Tasks inherit from the `Task` base class, are typically used in testing or logging.
 
-####<a name="stats"></a>Stats
+#### <a name="stats"></a>Stats
 
 A Task's `Stats` property tracks how many times the Task is executed and the execute durations. `Stats` are useful for profiling as well as for testing scenarios when you need to assert that a Task or sub-task has been executed as expected.
 
 Refer to the [Mocking example](#mocking) to see the `Stats` property in use.
 
-####<a name="name"></a>Name
+#### <a name="name"></a>Name
 
 Because [`Task.New<TTask>()` returns a proxy](#instantiating_tasks) to the Task it's `GetType().Name` property will be the proxy class, which isn't useful. To get a read-only name based on the Task class itself, use the `Name` property.
 
 Refer to the [`EventsAttribute` example](#eventsattribute) to see the `Name` property in use.
 
-##<a name="writing-tests"></a>Writing Tests with Simpler
+## <a name="writing-tests"></a>Writing Tests with Simpler
 
 By design, Simpler forces you to create code that is easy to test. Each Task clearly defines its inputs, outputs, and the discrete code to test, so writing a test is typically straightforward.
 
@@ -385,7 +385,7 @@ public class FindBestTeamTest
 }
 ```
 
-###<a name="mocking"></a>Mocking
+### <a name="mocking"></a>Mocking
 
 When writing a test for a Task with an [injected sub-task](#injecting-sub-tasks), you may want to isolate the test to only the Task’s business logic. Using `Fake.Task<TTask>()`, you override the sub-task’s `Execute()` logic and replace it with any logic necessary to serve the need of the test. For example, you might choose to skip writing to disk in your test by faking the responsible sub-task.
 
@@ -432,15 +432,15 @@ public class OutputBestTeamsTest
 }
 ```
 
-##Contributing
+## Contributing
 
 See [Contributing](CONTRIBUTING.md).
 
-##License
+## License
 
 Simpler is licensed under the MIT License. See [License](LICENSE).
 
-##Simpler HOF
+## Simpler HOF
 
 The following individuals are in the Simpler Hall of Fame.
 
@@ -461,7 +461,7 @@ The following individuals are in the Simpler Hall of Fame.
 - [sonhuilamson](https://github.com/sonhuilamson) (betas)
 - [timrisi](https://github.com/timrisi) (betas)
 
-###Legend
+### Legend
 
 **pre** - Worked on a project that inspired Simpler, which included a Task class with sub-task injection. [bobnigh](https://github.com/bobnigh) was a co-author of the original Task class.
 
