@@ -9,13 +9,6 @@
     "results": "output/test/results.xml"
   },
 
-  "bump": {
-    "files": [
-      "api/Simpler/Properties/AssemblyInfo.cs",
-      "api/Simpler/Simpler.nuspec"
-    ]
-  },
-
   "release": {
     "nuspec": "api/Simpler/Simpler.nuspec",
     "nupkgPattern": "Simpler.?.?.?.nupkg",

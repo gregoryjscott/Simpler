@@ -2,7 +2,7 @@
 
 Welcome! This document gives you the information needed to become a Simpler contributor. Our goal is to make contributing as smooth and as painless as possible. 
 
-If you experience problems or have feedback on this document, please [submit an issue] (#issues).
+If you experience problems or have feedback on this document, please [submit an issue](#issues).
 
 ## <a name="preparing"></a>Preparing to Contribute
 
@@ -12,11 +12,11 @@ To contribute to Simpler, you should complete the following steps:
 
 1. Set up a [GitHub](https://github.com) account.
 1. [Install git](https://help.github.com/articles/set-up-git).
-1. If you will be running or building the programs locally, install [Ruby and bundler] (#ci).
+1. If you will be running or building the programs locally, install [Ruby and bundler](#ci).
 
 >Technically, simple contributions (e.g., fixing a typo in a document) can be made entirely through GitHub without needing to install git locally. However, this document assumes the user is using git and the user's local drive to push contributions to GitHub.
 
-###IDEs
+### IDEs
 
 If you're contributing source code, you'll probably want an IDE. Take your pick based on your preferred operating system.
 
@@ -27,7 +27,7 @@ If you're contributing source code, you'll probably want an IDE. Take your pick 
 
 We use GitHub [Issues](https://guides.github.com/features/issues/) to track the backlog of work, including bugs. 
 
->You must have a [GitHub account] (#preparing) to submit an issue. 
+>You must have a [GitHub account](#preparing) to submit an issue. 
 
 1. Before submitting an issue, please browse the [current list](https://github.com/gregoryjscott/Simpler/issues) to see if your issue has already been identified. 
 1. If your issue is unique, or if it isn't clear whether it is unique, enter a new issue. 
@@ -65,7 +65,7 @@ You can find examples in the list of [closed Pull Requests](https://github.com/g
 
 ## <a name="ci"></a>Using Continuous Integration
 
-We strongly believe in the benefits of [Continuous Integration] (http://en.wikipedia.org/wiki/Continuous_integration) (CI). 
+We strongly believe in the benefits of [Continuous Integration](http://en.wikipedia.org/wiki/Continuous_integration) (CI). 
 
 For CI to be successful, all of the steps to achieve CI must be automated. We use [Rake](http://rake.rubyforge.org/) tasks to drive this automation. To run Rake tasks, you'll need to have Ruby and bundler installed .
 
@@ -78,7 +78,7 @@ For CI to be successful, all of the steps to achieve CI must be automated. We us
 1. Run `bundle install`.
 1. Run `rake install`.
 
-###About Rake Commands
+### About Rake Commands
 
 `rake` commands are issued from the root of the repo. Run `rake -T` to see the list of tasks. The current output is shown below.
 
@@ -86,9 +86,6 @@ For CI to be successful, all of the steps to achieve CI must be automated. We us
 $ rake -T
 rake build:debug    # Build for debugging
 rake build:release  # Build for release
-rake bump:major     # Bump major version
-rake bump:minor     # Bump minor version
-rake bump:patch     # Bump patch version
 rake clean:all      # Clean all output
 rake clean:release  # Clean release output
 rake clean:test     # Clean test output
