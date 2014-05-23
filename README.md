@@ -127,7 +127,7 @@ public class FetchTeams: OutTask<FetchTeams.Output>
     {
         var teams = new List<Team>();
 
-        dynamic baseball = Config.FromFile("baseball.json");
+        dynamic baseball = Config.FromFile("examples.json");
         foreach (dynamic team in baseball.Teams)
         {
             teams.Add(new Team {

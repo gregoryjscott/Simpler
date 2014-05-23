@@ -5,8 +5,8 @@
 
   "test": {
     "dll": "api/Tests/bin/Debug/Tests.dll",
-    "output": "output/test",
-    "results": "output/test/results.xml"
+    "output": "tmp/test",
+    "results": "tmp/test/results.xml"
   },
 
   "release": {
@@ -17,14 +17,14 @@
       "api/Simpler/bin/Release/Simpler.xml"
     ],
     "output": {
-      "prep": "output/release/prep",
-      "pack": "output/release/pack"
+      "prep": "tmp/release/prep",
+      "pack": "tmp/release/pack"
     }
   },
 
   "packages": {
     "configs": [
-      "packages/packages.config",
+      "lib/packages.config",
       "api/Examples/packages.config",
       "api/Simpler/packages.config",
       "api/Tests/packages.config"
@@ -32,8 +32,7 @@
   },
 
   "tools": {
-    "nuget": "packages/NuGet.CommandLine.2.8.1/tools/NuGet.exe",
-    "nunit": "packages/NUnit.Runners.2.6.3/tools/nunit-console.exe",
-    "please": "packages/please.exe"
+    "nuget": "lib/NuGet.CommandLine.2.8.1/tools/NuGet.exe",
+    "nunit": "lib/NUnit.Runners.2.6.3/tools/nunit-console.exe"
   }
 }

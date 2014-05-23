@@ -2,7 +2,7 @@ require "albacore"
 require "fileutils"
 require "centroid"
 
-Config = Centroid::Config.from_file "config.json"
+Config = Centroid::Config.from_file File.join "cfg", "ci.json"
 
 ROOT = File.expand_path "."
 

@@ -31,7 +31,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Centroid">
-      <HintPath>..\..\packages\Centroid.1.0.1\lib\net40\Centroid.dll</HintPath>
+      <HintPath>..\..\lib\Centroid.1.0.1\lib\net40\Centroid.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
@@ -48,10 +48,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="baseball.json">
+    <None Include="packages.config" />
+    <None Include="..\..\cfg\examples.json">
+      <Link>examples.json</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simpler\Simpler.csproj">
