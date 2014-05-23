@@ -26,7 +26,7 @@ namespace Simpler.Core.Tasks
                     &&
                     (property.PropertyType.GetInterface(typeof(IDisposable).FullName) != null)))
             {
-                ((IDisposable) property.GetValue(In.Owner, null)).Dispose();
+                ((IDisposable)property.GetValue(In.Owner, null)).Dispose();
                 property.SetValue(In.Owner, null, null);
             }
         }

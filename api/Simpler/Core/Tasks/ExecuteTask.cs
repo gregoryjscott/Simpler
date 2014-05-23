@@ -13,8 +13,7 @@ namespace Simpler.Core.Tasks
 
         public override void Execute()
         {
-            var callbackAttributes = Attribute.GetCustomAttributes(In.Task.GetType(), typeof (EventsAttribute));
-            var overrideAttribute = Attribute.GetCustomAttribute(In.Task.GetType(), typeof (OverrideAttribute));
+            var callbackAttributes = Attribute.GetCustomAttributes(In.Task.GetType(), typeof(EventsAttribute));
 
             var beforeTime = DateTime.Now;
             try
@@ -24,20 +23,13 @@ namespace Simpler.Core.Tasks
                     ((EventsAttribute)callbackAttribute).BeforeExecute(In.Task);
                 }
 
-                if (overrideAttribute != null)
-                {
-                    ((OverrideAttribute)overrideAttribute).ExecuteOverride(In.Invocation);
-                }
-                else
-                {
-                    In.Invocation.Proceed();
-                }
+                In.Invocation.Proceed();
             }
             catch (Exception exception)
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).OnError(In.Task, exception);
+                    ((EventsAttribute)callbackAttributes[i]).OnError(In.Task, exception);
                 }
 
                 throw;
@@ -46,7 +38,7 @@ namespace Simpler.Core.Tasks
             {
                 for (var i = callbackAttributes.Length - 1; i >= 0; i--)
                 {
-                    ((EventsAttribute) callbackAttributes[i]).AfterExecute(In.Task);
+                    ((EventsAttribute)callbackAttributes[i]).AfterExecute(In.Task);
                 }
 
                 var afterTime = DateTime.Now;

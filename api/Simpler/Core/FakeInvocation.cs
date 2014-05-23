@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Castle.DynamicProxy;
 
 namespace Simpler.Core
@@ -24,7 +21,6 @@ namespace Simpler.Core
         }
 
         #region Not Implemented
-
         public void SetArgumentValue(int index, object value)
         {
             throw new NotImplementedException();
@@ -85,7 +81,6 @@ namespace Simpler.Core
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
-
         #endregion
     }
 }

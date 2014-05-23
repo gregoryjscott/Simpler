@@ -3,9 +3,9 @@ using Simpler;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Examples.Tasks
+namespace Baseball.Tasks
 {
     public class FetchTeams: OutTask<FetchTeams.Output>
     {
@@ -18,7 +18,7 @@ namespace Examples.Tasks
         {
             var teams = new List<Team>();
 
-            dynamic baseball = Config.FromFile("baseball.json");
+            dynamic baseball = Config.FromFile("examples.json");
             foreach (dynamic team in baseball.Teams)
             {
                 teams.Add(new Team {

@@ -1,0 +1,38 @@
+{
+  "build": {
+    "solution": "api/Simpler.sln"
+  },
+
+  "test": {
+    "dll": "api/Tests/bin/Debug/Tests.dll",
+    "output": "tmp/test",
+    "results": "tmp/test/results.xml"
+  },
+
+  "release": {
+    "nuspec": "api/Simpler/Simpler.nuspec",
+    "nupkgPattern": "Simpler.?.?.?.nupkg",
+    "lib": [
+      "api/Simpler/bin/Release/Simpler.dll",
+      "api/Simpler/bin/Release/Simpler.xml"
+    ],
+    "output": {
+      "prep": "tmp/release/prep",
+      "pack": "tmp/release/pack"
+    }
+  },
+
+  "packages": {
+    "configs": [
+      "lib/packages.config",
+      "api/Examples/packages.config",
+      "api/Simpler/packages.config",
+      "api/Tests/packages.config"
+    ]
+  },
+
+  "tools": {
+    "nuget": "lib/NuGet.CommandLine.2.8.1/tools/NuGet.exe",
+    "nunit": "lib/NUnit.Runners.2.6.3/tools/nunit-console.exe"
+  }
+}

@@ -1,7 +1,7 @@
 ﻿using Simpler;
 using System;
 
-namespace Examples
+namespace Baseball
 {
     public class LogAttribute : EventsAttribute
     {

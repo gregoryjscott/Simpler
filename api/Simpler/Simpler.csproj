@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Simpler.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -35,25 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
-      <HintPath>..\..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+      <HintPath>..\..\lib\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Check.cs" />
     <Compile Include="Core\FakeInvocation.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
-    <Compile Include="CheckException.cs" />
     <Compile Include="Core\InjectTasksAttribute.cs" />
     <Compile Include="Core\ExecuteInterceptor.cs" />
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
@@ -65,7 +53,6 @@
     <Compile Include="OutTask.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="Task.cs" />
-    <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

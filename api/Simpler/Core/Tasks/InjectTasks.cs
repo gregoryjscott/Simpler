@@ -18,7 +18,6 @@ namespace Simpler.Core.Tasks
 
         public override void Execute()
         {
-            // This InjectTasks task can't have it's subtasks injected, because it would need to call InjectTasks...I'm getting dizzy.
             if (CreateTask == null) CreateTask = new CreateTask();
 
             var listOfInjected = new List<string>();
@@ -27,7 +26,7 @@ namespace Simpler.Core.Tasks
             foreach (var propertyX in properties)
             {
                 if (propertyX.PropertyType.IsSubclassOf(typeof(Task))
-                    && 
+                    &&
                     (propertyX.CanWrite && propertyX.GetValue(In.TaskContainingSubTasks, null) == null))
                 {
                     CreateTask.In.TaskType = propertyX.PropertyType;

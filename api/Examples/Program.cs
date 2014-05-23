@@ -1,12 +1,15 @@
-﻿using Examples.Tasks;
+﻿using Baseball.Tasks;
 using Simpler;
 
-public class Program
+namespace Baseball
 {
-    static int Main(string[] args)
+    public class Program
     {
-        var outputBestTeams = Task.New<OutputBestTeams>();
-        outputBestTeams.Execute();
-        return 0;
+        static int Main(string[] args)
+        {
+            var outputBestTeams = Task.New<OutputBestTeams>();
+            outputBestTeams.Execute();
+            return 0;
+        }
     }
 }

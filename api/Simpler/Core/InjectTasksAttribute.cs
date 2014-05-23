@@ -21,6 +21,6 @@ namespace Simpler.Core
             dispose.Execute();
         }
 
-        public override void OnError(Task task, Exception exception) { }
+        public override void OnError(Task task, Exception exception) {}
     }
 }

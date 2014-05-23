@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Simpler;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Examples.Tasks
+namespace Baseball.Tasks
 {
     public class FindBestTeam: InOutTask<FindBestTeam.Input, FindBestTeam.Output>
     {

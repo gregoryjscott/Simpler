@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{33A776F4-AB25-4DFB-BCB0-C68E267BC42D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\lib\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Centroid">
+      <HintPath>..\..\lib\Centroid.1.0.1\lib\net40\Centroid.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\lib\Newtonsoft.Json.6.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\lib\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\lib\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simpler\Core\Tasks\CreateTaskTest.cs" />
+    <Compile Include="Simpler\Core\Tasks\DisposeTasksTest.cs" />
+    <Compile Include="Simpler\Core\Tasks\ExecuteTaskTest.cs" />
+    <Compile Include="Simpler\Core\Tasks\InjectTasksTest.cs" />
+    <Compile Include="Simpler\FakeTest.cs" />
+    <Compile Include="Simpler\TaskTest.cs" />
+    <Compile Include="Simpler\Mocks\MockException.cs" />
+    <Compile Include="Simpler\Mocks\MockFirstAttribute.cs" />
+    <Compile Include="Simpler\Mocks\MockParentTask.cs" />
+    <Compile Include="Simpler\Mocks\MockSecondAttribute.cs" />
+    <Compile Include="Simpler\Mocks\MockSubTask.cs" />
+    <Compile Include="Simpler\Mocks\MockTask.cs" />
+    <Compile Include="Simpler\Mocks\MockTaskThatThrowsWithAttributes.cs" />
+    <Compile Include="Simpler\Mocks\MockTaskWithAttributes.cs" />
+    <Compile Include="Baseball\Tasks\FetchTeamsTest.cs" />
+    <Compile Include="Baseball\Tasks\FindBestTeamTest.cs" />
+    <Compile Include="Baseball\Tasks\OutputBestTeamsTest.cs" />
+    <Compile Include="Baseball\Tasks\OutputStatTest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Simpler\" />
+    <Folder Include="Baseball\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simpler\Simpler.csproj">
+      <Project>{6A2F45F9-172C-4B48-9344-B64646958AFC}</Project>
+      <Name>Simpler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examples\Baseball.csproj">
+      <Project>{64073524-B1F5-4691-9086-C50315A4B27E}</Project>
+      <Name>Baseball</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

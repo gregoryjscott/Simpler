@@ -1,4 +1,4 @@
-﻿namespace Examples.Models
+﻿namespace Baseball.Models
 {
     public class Stat
     {

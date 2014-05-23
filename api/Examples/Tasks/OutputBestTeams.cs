@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Simpler;
-using Examples.Models;
+using Baseball.Models;
 
-namespace Examples.Tasks
+namespace Baseball.Tasks
 {
     [Log]
     public class OutputBestTeams: Task
