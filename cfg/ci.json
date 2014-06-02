@@ -13,8 +13,7 @@
     "nuspec": "api/Simpler/Simpler.nuspec",
     "nupkgPattern": "Simpler.?.?.?.nupkg",
     "lib": [
-      "api/Simpler/bin/Release/Simpler.dll",
-      "api/Simpler/bin/Release/Simpler.xml"
+      "api/Simpler/bin/Release/Simpler.dll"
     ],
     "output": {
       "prep": "tmp/release/prep",
