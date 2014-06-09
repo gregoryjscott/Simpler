@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using NUnit.Framework;
+using System.IO;
 
 namespace Simpler.Tests.Core
 {
@@ -9,15 +10,15 @@ namespace Simpler.Tests.Core
     {
         public virtual void Execute()
         {
-            Console.WriteLine("Normal.Execute()");
+            Console.Write("Normal.Execute()");
         }
     }
 
     public class Different
     {
-        public static void Thing()
+        public virtual void Thing()
         {
-            Console.WriteLine("Different.Thing()");
+            Console.Write("Different.Thing()");
         }
     }
 
@@ -40,8 +41,9 @@ namespace Simpler.Tests.Core
 
             // This isn't the desired behavior - just experimenting. This is trying to override 
             // Normal.Execute() with a Execute() method that calls Different.Thing().
+            ilGenerator.Emit(OpCodes.Ldarg_0);
             ilGenerator.Emit(OpCodes.Call, typeof (Different).GetMethod("Thing"));
-            //ilGenerator.Emit(OpCodes.Ret);
+            ilGenerator.Emit(OpCodes.Ret);
         }
 
         static TypeBuilder CreateTypeBuilderFromT<T>()
@@ -72,11 +74,18 @@ namespace Simpler.Tests.Core
         }
 
         [Test]
-        public void play_with_overriding_execute()
+        public void overrides_normal_execute_with_different_execute()
         {
-            // This writes "Different.Thing()" as expected.
             Normal s = CustomProxy.New<Normal>();
-            s.Execute();
+
+            string output;
+            using (var sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+                s.Execute();
+                output = sw.ToString();
+            }
+            Assert.That(output, Is.EqualTo("Different.Thing()"));
         }
     }
 }
