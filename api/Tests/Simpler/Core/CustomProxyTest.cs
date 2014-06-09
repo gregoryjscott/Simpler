@@ -25,19 +25,32 @@ namespace Simpler.Tests.Core
     {
         public static T New<T>()
         {
+            var proxyTypeBuilder = CreateTypeBuilderFromT<T>();
+
+            OverrideExecute(proxyTypeBuilder);
+
+            var proxy = proxyTypeBuilder.CreateType();
+            return (T)Activator.CreateInstance(proxy);
+        }
+
+        static void OverrideExecute(TypeBuilder proxyTypeBuilder)
+        {
+            var executeBuilder = proxyTypeBuilder.DefineMethod("Execute", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual);
+            var ilGenerator = executeBuilder.GetILGenerator();
+
+            // This isn't the desired behavior - just experimenting. This is trying to override 
+            // Normal.Execute() with a Execute() method that calls Different.Thing().
+            ilGenerator.Emit(OpCodes.Call, typeof (Different).GetMethod("Thing"));
+            //ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        static TypeBuilder CreateTypeBuilderFromT<T>()
+        {
             var domain = AppDomain.CurrentDomain;
             var assemblyName = new AssemblyName("SimplerProxies");
             var assemblyBuilder = domain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
-
-            var typeBuilder = moduleBuilder.DefineType(typeof(Normal).FullName + "Proxy", TypeAttributes.Public, typeof(T));
-
-            var executeBuilder = typeBuilder.DefineMethod("Execute", MethodAttributes.Public);
-            var executeILGenerator = executeBuilder.GetILGenerator();
-            executeILGenerator.Emit(OpCodes.Call, typeof(Different).GetMethod("Thing"));
-
-            var proxy = typeBuilder.CreateType();
-            return (T)Activator.CreateInstance(proxy);
+            return moduleBuilder.DefineType(typeof(Normal).FullName + "Proxy", TypeAttributes.Public, typeof(T));
         }
     }
 
@@ -62,10 +75,6 @@ namespace Simpler.Tests.Core
         public void play_with_overriding_execute()
         {
             // This writes "Different.Thing()" as expected.
-            dynamic d = CustomProxy.New<Normal>();
-            d.Execute();
-
-            // This writes "Normal.Execute()". Why?
             Normal s = CustomProxy.New<Normal>();
             s.Execute();
         }
