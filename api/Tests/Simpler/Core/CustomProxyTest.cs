@@ -6,20 +6,28 @@ using System.IO;
 
 namespace Simpler.Tests.Core
 {
-    public class Normal
+    public class Normal : Task
     {
-        public string Name { get { return "Normal"; } }
-        public virtual void Execute()
+        public string Title { get { return "Normal"; } }
+        public override void Execute()
         {
-            Console.Write("Normal.Execute()");
+            Console.Write(0);
         }
     }
 
-    public class Proxy
+    public static class Base
     {
-        public virtual void Thing()
+        public static object InvokeBase(this MethodInfo methodInfo, object targetObject)
         {
-            Console.Write("Different.Thing()");
+            var type = targetObject.GetType();
+            var dynamicMethod = new DynamicMethod("OldExecute", null, new Type[] { type, typeof(Object) }, type);
+
+            var iLGenerator = dynamicMethod.GetILGenerator();
+            iLGenerator.Emit(OpCodes.Ldarg_0);
+            iLGenerator.Emit(OpCodes.Call, methodInfo);
+            iLGenerator.Emit(OpCodes.Ret);
+
+            return dynamicMethod.Invoke(null, new object[] { targetObject, null });
         }
     }
 
@@ -35,15 +43,23 @@ namespace Simpler.Tests.Core
             return (T)Activator.CreateInstance(proxy);
         }
 
+        public void Whatever(Task task)
+        {
+            Console.Write(2);
+            Type baseType = task.GetType().BaseType;
+            baseType.GetMethod("Execute").InvokeBase(task);
+            //((Normal)task).Execute();
+            Console.Write(3);
+        }
+
         static void OverrideExecute(TypeBuilder proxyTypeBuilder)
         {
             var executeBuilder = proxyTypeBuilder.DefineMethod("Execute", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual);
             var ilGenerator = executeBuilder.GetILGenerator();
 
-            // This isn't the desired behavior - just experimenting. This is trying to override 
-            // Normal.Execute() with a Execute() method that calls Different.Thing().
             ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Call, typeof(Proxy).GetMethod("Thing"));
+            ilGenerator.Emit(OpCodes.Dup);
+            ilGenerator.Emit(OpCodes.Call, typeof(CustomProxy).GetMethod("Whatever"));
             ilGenerator.Emit(OpCodes.Ret);
         }
 
@@ -86,8 +102,9 @@ namespace Simpler.Tests.Core
                 s.Execute();
                 output = sw.ToString();
             }
-            Assert.That(s.Name, Is.EqualTo("Normal"));
-            Assert.That(output, Is.EqualTo("Different.Thing()"));
+            Assert.That(s.Title, Is.EqualTo("Normal"));
+            Assert.That(output, Is.EqualTo("203"));
         }
     }
+
 }
