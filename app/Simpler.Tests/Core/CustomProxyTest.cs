@@ -35,12 +35,13 @@ namespace Simpler.Tests.Core
 
         static void OverrideExecute(TypeBuilder proxyTypeBuilder)
         {
-            var executeBuilder = proxyTypeBuilder.DefineMethod("Execute", MethodAttributes.Public);
+            var executeBuilder = proxyTypeBuilder.DefineMethod("Execute", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual);
             var ilGenerator = executeBuilder.GetILGenerator();
 
             // This isn't the desired behavior - just experimenting. This is trying to override 
             // Normal.Execute() with a Execute() method that calls Different.Thing().
             ilGenerator.Emit(OpCodes.Call, typeof (Different).GetMethod("Thing"));
+            //ilGenerator.Emit(OpCodes.Ret);
         }
 
         static TypeBuilder CreateTypeBuilderFromT<T>()
@@ -74,10 +75,6 @@ namespace Simpler.Tests.Core
         public void play_with_overriding_execute()
         {
             // This writes "Different.Thing()" as expected.
-            dynamic d = CustomProxy.New<Normal>();
-            d.Execute();
-
-            // This writes "Normal.Execute()". Why?
             Normal s = CustomProxy.New<Normal>();
             s.Execute();
         }
