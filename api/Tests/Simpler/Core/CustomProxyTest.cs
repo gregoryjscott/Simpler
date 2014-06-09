@@ -8,13 +8,14 @@ namespace Simpler.Tests.Core
 {
     public class Normal
     {
+        public string Name { get { return "Normal"; } }
         public virtual void Execute()
         {
             Console.Write("Normal.Execute()");
         }
     }
 
-    public class Different
+    public class Proxy
     {
         public virtual void Thing()
         {
@@ -42,7 +43,7 @@ namespace Simpler.Tests.Core
             // This isn't the desired behavior - just experimenting. This is trying to override 
             // Normal.Execute() with a Execute() method that calls Different.Thing().
             ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Call, typeof (Different).GetMethod("Thing"));
+            ilGenerator.Emit(OpCodes.Call, typeof(Proxy).GetMethod("Thing"));
             ilGenerator.Emit(OpCodes.Ret);
         }
 
@@ -85,6 +86,7 @@ namespace Simpler.Tests.Core
                 s.Execute();
                 output = sw.ToString();
             }
+            Assert.That(s.Name, Is.EqualTo("Normal"));
             Assert.That(output, Is.EqualTo("Different.Thing()"));
         }
     }
