@@ -68,6 +68,7 @@
     <Compile Include="Baseball\Tasks\FindBestTeamTest.cs" />
     <Compile Include="Baseball\Tasks\OutputBestTeamsTest.cs" />
     <Compile Include="Baseball\Tasks\OutputStatTest.cs" />
+    <Compile Include="Simpler\Core\Tasks\ProxyTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -17,9 +17,14 @@ namespace Simpler.Core.Tasks
             public object TaskInstance { get; set; }
         }
 
+        public CreateProxyType CreateProxyType { get; set; }
+
         public override void Execute()
         {
-            var typeBuilder = CreateTypeBuilder(In.TaskType);
+            if (CreateProxyType == null) CreateProxyType = new CreateProxyType();
+            CreateProxyType.In.Type = In.TaskType;
+            CreateProxyType.Execute();
+            var typeBuilder = CreateProxyType.Out.TypeBuilder;
 
             BuildBaseExecuteMethod(typeBuilder, In.TaskType);
             BuildProxyExecuteMethod(typeBuilder);
@@ -29,15 +34,6 @@ namespace Simpler.Core.Tasks
         }
 
         #region Helpers
-
-        static TypeBuilder CreateTypeBuilder(Type t)
-        {
-            var domain = AppDomain.CurrentDomain;
-            var assemblyName = new AssemblyName("SimplerProxies");
-            var assemblyBuilder = domain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-            var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
-            return moduleBuilder.DefineType(t.FullName + "Proxy", TypeAttributes.Public, t);
-        }
 
         static void BuildBaseExecuteMethod(TypeBuilder typeBuilder, Type baseType)
         {

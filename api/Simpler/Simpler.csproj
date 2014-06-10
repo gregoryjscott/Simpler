@@ -60,6 +60,7 @@
     <Compile Include="Core\Tasks\BuildConstructor.cs" />
     <Compile Include="Core\Tasks\BuildExecuteOverride.cs" />
     <Compile Include="Core\Tasks\BuildExecuteOverrideField.cs" />
+    <Compile Include="Core\Tasks\CreateProxyType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
