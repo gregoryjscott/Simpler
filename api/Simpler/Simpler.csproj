@@ -54,6 +54,12 @@
     <Compile Include="Stats.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Tasks\FakeTask.cs" />
+    <Compile Include="Core\Tasks\BuildProxyExecute.cs" />
+    <Compile Include="Core\Tasks\MoveBaseExecute.cs" />
+    <Compile Include="Core\Tasks\BuildConstructor.cs" />
+    <Compile Include="Core\Tasks\BuildExecuteOverride.cs" />
+    <Compile Include="Core\Tasks\BuildExecuteOverrideField.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

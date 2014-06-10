@@ -1,5 +1,4 @@
 using System;
-using Simpler.Core;
 using Simpler.Core.Tasks;
 
 namespace Simpler
@@ -13,12 +12,12 @@ namespace Simpler
 
         public static TTask Task<TTask>(Action<TTask> execute) where TTask : Task
         {
-            var createTask = Simpler.Task.New<CreateTask>();
-            createTask.In.TaskType = typeof(TTask);
-            createTask.In.FakeExecute = t => execute((TTask)t);
-            createTask.Execute();
+            var fakeTask = Simpler.Task.New<FakeTask>();
+            fakeTask.In.TaskType = typeof(TTask);
+            fakeTask.In.ExecuteOverride = t => execute((TTask)t);
+            fakeTask.Execute();
 
-            return (TTask)createTask.Out.TaskInstance;
+            return (TTask)fakeTask.Out.TaskInstance;
         }
 
         public static void SubTasks(Task task)
@@ -28,11 +27,11 @@ namespace Simpler
             {
                 if (propertyX.PropertyType.IsSubclassOf(typeof(Task)) && (propertyX.CanWrite))
                 {
-                    var createTask = Simpler.Task.New<CreateTask>();
-                    createTask.In.TaskType = propertyX.PropertyType;
-                    createTask.In.FakeExecute = t => {};
-                    createTask.Execute();
-                    propertyX.SetValue(task, createTask.Out.TaskInstance, null);
+                    var fakeTask = Simpler.Task.New<FakeTask>();
+                    fakeTask.In.TaskType = propertyX.PropertyType;
+                    fakeTask.In.ExecuteOverride = t => {};
+                    fakeTask.Execute();
+                    propertyX.SetValue(task, fakeTask.Out.TaskInstance, null);
                 }
             }
         }
