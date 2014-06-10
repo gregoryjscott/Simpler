@@ -13,16 +13,8 @@ namespace Simpler.Core.Tasks
         [Test]
         public void should_send_notifications_before_and_after_the_task_is_executed()
         {
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithAttributes = new MockTaskWithAttributes();
-            task.In.Task = taskWithAttributes;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributes.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            task.Execute();
+            var taskWithAttributes = Task.New<MockTaskWithAttributes>();
+            taskWithAttributes.Execute();
 
             VerifyFiveCallbacks(taskWithAttributes);
         }
@@ -30,37 +22,23 @@ namespace Simpler.Core.Tasks
         [Test]
         public void should_send_notifications_if_task_execution_throws_an_unhandled_exception()
         {
-            var task = Task.New<ExecuteTask>();
+            var taskWithAttributesThatThrows = Task.New<MockTaskThatThrowsWithAttributes>();
 
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.In.Invocation = mockInvocation.Object;
-
-            Assert.Throws(typeof(MockException), task.Execute);
+            Assert.Throws(typeof(MockException), taskWithAttributesThatThrows.Execute);
             VerifySevenCallbacks(taskWithAttributesThatThrows);
         }
 
         [Test]
         public void should_send_notifications_after_the_task_is_executed_even_if_exception_occurs()
         {
-            var task = Task.New<ExecuteTask>();
-
-            var taskWithAttributesThatThrows = new MockTaskThatThrowsWithAttributes();
-            task.In.Task = taskWithAttributesThatThrows;
-
-            var mockInvocation = new Mock<IInvocation>();
-            mockInvocation.Setup(invocation => invocation.Proceed()).Callback(taskWithAttributesThatThrows.Execute);
-            task.In.Invocation = mockInvocation.Object;
+            var taskWithAttributesThatThrows = Task.New<MockTaskThatThrowsWithAttributes>();
 
             var throwHappened = false;
             try
             {
                 try
                 {
-                    task.Execute();
+                    taskWithAttributesThatThrows.Execute();
                 }
                 finally
                 {

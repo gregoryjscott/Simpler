@@ -17,7 +17,9 @@ namespace Baseball.Tasks
         public void outputs_best_teams_in_each_division()
         {
             var stats = new List<Stat>();
-            var storeStats = Fake.Task<OutputStat>(os => stats.Add(os.In.Stat));
+            var storeStats = Fake.Task<OutputStat>(os => {
+                stats.Add(os.In.Stat);
+            });
 
             var outputsBestTeams = Task.New<OutputBestTeams>();
             outputsBestTeams.OutputStat = storeStats;

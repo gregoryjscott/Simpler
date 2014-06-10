@@ -1,5 +1,5 @@
 ﻿using System;
-using Castle.DynamicProxy;
+using System.Reflection;
 
 namespace Simpler.Core.Tasks
 {
@@ -8,7 +8,7 @@ namespace Simpler.Core.Tasks
         public class Input
         {
             public Task Task { get; set; }
-            public IInvocation Invocation { get; set; }
+            //public Action<Task> ExecuteAction { get; set; }
         }
 
         public override void Execute()
@@ -23,7 +23,16 @@ namespace Simpler.Core.Tasks
                     ((EventsAttribute)callbackAttribute).BeforeExecute(In.Task);
                 }
 
-                In.Invocation.Proceed();
+                //In.ExecuteAction(In.Task);
+                try
+                {
+                    In.Task.GetType().GetMethod("BaseExecute").Invoke(In.Task, null);
+                }
+                catch (TargetInvocationException tie)
+                {
+                    throw tie.InnerException;
+                }
+
             }
             catch (Exception exception)
             {
