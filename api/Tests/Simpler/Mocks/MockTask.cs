@@ -4,9 +4,11 @@ namespace Simpler.Mocks
 {
     public class MockTask : Task
     {
+        public bool WasExecuted { get; set; }
+
         public override void Execute()
         {
-            throw new NotImplementedException();
+            WasExecuted = true;
         }
     }
 }

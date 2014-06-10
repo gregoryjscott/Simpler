@@ -60,7 +60,6 @@
     <Compile Include="Simpler\Mocks\MockFirstAttribute.cs" />
     <Compile Include="Simpler\Mocks\MockParentTask.cs" />
     <Compile Include="Simpler\Mocks\MockSecondAttribute.cs" />
-    <Compile Include="Simpler\Mocks\MockSubTask.cs" />
     <Compile Include="Simpler\Mocks\MockTask.cs" />
     <Compile Include="Simpler\Mocks\MockTaskThatThrowsWithAttributes.cs" />
     <Compile Include="Simpler\Mocks\MockTaskWithAttributes.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Baseball\Tasks\OutputBestTeamsTest.cs" />
     <Compile Include="Baseball\Tasks\OutputStatTest.cs" />
     <Compile Include="Simpler\Core\Tasks\ProxyTests.cs" />
+    <Compile Include="Simpler\Mocks\MockSubTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
