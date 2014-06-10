@@ -6,6 +6,59 @@ using System.IO;
 
 namespace Simpler.Tests.Core
 {
+    public class CustomProxy
+    {
+        public static T New<T>()
+        {
+            var typeBuilder = CreateTypeBuilder<T>();
+            AddBaseExecute(typeBuilder, typeof(T));
+            AddProxyExecute(typeBuilder, typeof(T));
+            var proxyType = typeBuilder.CreateType();
+            return (T)Activator.CreateInstance(proxyType);
+        }
+
+        static TypeBuilder CreateTypeBuilder<T>()
+        {
+            var domain = AppDomain.CurrentDomain;
+            var assemblyName = new AssemblyName("SimplerProxies");
+            var assemblyBuilder = domain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
+            return moduleBuilder.DefineType(typeof(T).FullName + "Proxy", TypeAttributes.Public, typeof(T));
+        }
+
+        static void AddBaseExecute(TypeBuilder typeBuilder, Type t)
+        {
+            var baseExecute = typeBuilder.DefineMethod(
+                "BaseExecute", 
+                MethodAttributes.Public
+            ).GetILGenerator();
+
+            baseExecute.Emit(OpCodes.Ldarg_0);
+            baseExecute.Emit(OpCodes.Call, t.GetMethod("Execute"));
+            baseExecute.Emit(OpCodes.Ret);
+        }
+
+        static void AddProxyExecute(TypeBuilder typeBuilder, Type t)
+        {
+            var proxyExecute = typeBuilder.DefineMethod(
+                "Execute", 
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual
+            ).GetILGenerator();
+
+            proxyExecute.Emit(OpCodes.Ldarg_0);
+            proxyExecute.Emit(OpCodes.Dup);
+            proxyExecute.Emit(OpCodes.Call, typeof(CustomProxy).GetMethod("ProxyExecute"));
+            proxyExecute.Emit(OpCodes.Ret);
+        }
+
+        public void ProxyExecute(Task task)
+        {
+            Console.Write(1);
+            task.GetType().GetMethod("BaseExecute").Invoke(task, null);
+            Console.Write(3);
+        }
+    }
+
     public class SayHello : InOutTask<SayHello.Input, SayHello.Output>
     {
         public class Input
@@ -20,65 +73,8 @@ namespace Simpler.Tests.Core
 
         public override void Execute()
         {
-            Console.Write(0);
-            Out.Response = String.Format("Hello {0}.", In.Name);
-        }
-    }
-
-    public static class Base
-    {
-        public static object InvokeBase(this MethodInfo methodInfo, object targetObject)
-        {
-            var type = targetObject.GetType();
-            var dynamicMethod = new DynamicMethod("OldExecute", null, new Type[] { type, typeof(Object) }, type);
-
-            var iLGenerator = dynamicMethod.GetILGenerator();
-            iLGenerator.Emit(OpCodes.Ldarg_0);
-            iLGenerator.Emit(OpCodes.Call, methodInfo);
-            iLGenerator.Emit(OpCodes.Ret);
-
-            return dynamicMethod.Invoke(null, new object[] { targetObject, null });
-        }
-    }
-
-    public class CustomProxy
-    {
-        public static T New<T>()
-        {
-            var proxyTypeBuilder = CreateTypeBuilderFromT<T>();
-
-            OverrideExecute(proxyTypeBuilder);
-
-            var proxy = proxyTypeBuilder.CreateType();
-            return (T)Activator.CreateInstance(proxy);
-        }
-
-        public void Whatever(Task task)
-        {
             Console.Write(2);
-            Type baseType = task.GetType().BaseType;
-            baseType.GetMethod("Execute").InvokeBase(task);
-            Console.Write(3);
-        }
-
-        static void OverrideExecute(TypeBuilder proxyTypeBuilder)
-        {
-            var executeBuilder = proxyTypeBuilder.DefineMethod("Execute", MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual);
-            var ilGenerator = executeBuilder.GetILGenerator();
-
-            ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Dup);
-            ilGenerator.Emit(OpCodes.Call, typeof(CustomProxy).GetMethod("Whatever"));
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-
-        static TypeBuilder CreateTypeBuilderFromT<T>()
-        {
-            var domain = AppDomain.CurrentDomain;
-            var assemblyName = new AssemblyName("SimplerProxies");
-            var assemblyBuilder = domain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-            var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
-            return moduleBuilder.DefineType(typeof(SayHello).FullName + "Proxy", TypeAttributes.Public, typeof(T));
+            Out.Response = String.Format("Hello {0}.", In.Name);
         }
     }
 
@@ -102,19 +98,18 @@ namespace Simpler.Tests.Core
         [Test]
         public void overrides_normal_execute_with_different_execute()
         {
-            SayHello s = CustomProxy.New<SayHello>();
-            s.In.Name = "Greg";
+            var sayHello = CustomProxy.New<SayHello>();
+            sayHello.In.Name = "Greg";
 
             string output;
             using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
-                s.Execute();
+                sayHello.Execute();
                 output = sw.ToString();
             }
-            Assert.That(output, Is.EqualTo("203"));
-            Assert.That(s.Out.Response, Is.EqualTo("Hello Greg."));
+            Assert.That(output, Is.EqualTo("123"));
+            Assert.That(sayHello.Out.Response, Is.EqualTo("Hello Greg."));
         }
     }
-
 }
