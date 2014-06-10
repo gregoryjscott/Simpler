@@ -6,12 +6,22 @@ using System.IO;
 
 namespace Simpler.Tests.Core
 {
-    public class Normal : Task
+    public class SayHello : InOutTask<SayHello.Input, SayHello.Output>
     {
-        public string Title { get { return "Normal"; } }
+        public class Input
+        {
+            public string Name { get; set; }
+        }
+
+        public class Output
+        {
+            public string Response { get; set; }
+        }
+
         public override void Execute()
         {
             Console.Write(0);
+            Out.Response = String.Format("Hello {0}.", In.Name);
         }
     }
 
@@ -48,7 +58,6 @@ namespace Simpler.Tests.Core
             Console.Write(2);
             Type baseType = task.GetType().BaseType;
             baseType.GetMethod("Execute").InvokeBase(task);
-            //((Normal)task).Execute();
             Console.Write(3);
         }
 
@@ -69,7 +78,7 @@ namespace Simpler.Tests.Core
             var assemblyName = new AssemblyName("SimplerProxies");
             var assemblyBuilder = domain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
-            return moduleBuilder.DefineType(typeof(Normal).FullName + "Proxy", TypeAttributes.Public, typeof(T));
+            return moduleBuilder.DefineType(typeof(SayHello).FullName + "Proxy", TypeAttributes.Public, typeof(T));
         }
     }
 
@@ -79,21 +88,22 @@ namespace Simpler.Tests.Core
         [Test]
         public void creates_instance_of_given_type()
         {
-            var proxy = CustomProxy.New<Normal>();
-            Assert.That(proxy, Is.InstanceOf<Normal>());
+            var proxy = CustomProxy.New<SayHello>();
+            Assert.That(proxy, Is.InstanceOf<SayHello>());
         }
 
         [Test]
         public void creates_class_with_same_name_plus_Proxy()
         {
-            var proxy = CustomProxy.New<Normal>();
-            Assert.That(proxy.GetType().FullName, Is.EqualTo("Simpler.Tests.Core.NormalProxy"));
+            var proxy = CustomProxy.New<SayHello>();
+            Assert.That(proxy.GetType().FullName, Is.EqualTo("Simpler.Tests.Core.SayHelloProxy"));
         }
 
         [Test]
         public void overrides_normal_execute_with_different_execute()
         {
-            Normal s = CustomProxy.New<Normal>();
+            SayHello s = CustomProxy.New<SayHello>();
+            s.In.Name = "Greg";
 
             string output;
             using (var sw = new StringWriter())
@@ -102,8 +112,8 @@ namespace Simpler.Tests.Core
                 s.Execute();
                 output = sw.ToString();
             }
-            Assert.That(s.Title, Is.EqualTo("Normal"));
             Assert.That(output, Is.EqualTo("203"));
+            Assert.That(s.Out.Response, Is.EqualTo("Hello Greg."));
         }
     }
 
