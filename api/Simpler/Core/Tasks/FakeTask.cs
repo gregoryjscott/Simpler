@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection.Emit;
-using System.Reflection;
 
 namespace Simpler.Core.Tasks
 {
@@ -18,6 +17,9 @@ namespace Simpler.Core.Tasks
         }
 
         public CreateProxyType CreateProxyType { get; set; }
+        public CreateActionField BuildExecuteOverrideField { get; set; }
+        public BuildConstructor BuildConstructor { get; set; }
+        public BuildExecuteOverride BuildExecuteOverride { get; set; }
 
         public override void Execute()
         {
@@ -26,56 +28,23 @@ namespace Simpler.Core.Tasks
             CreateProxyType.Execute();
             var typeBuilder = CreateProxyType.Out.TypeBuilder;
 
-            var actionField = BuildExecuteOverrideActionField(typeBuilder);
-            BuildConstructor(typeBuilder, actionField);
-            BuildExecuteOverrideMethod(typeBuilder, actionField);
+            if (BuildExecuteOverrideField == null) BuildExecuteOverrideField = new CreateActionField();
+            BuildExecuteOverrideField.In.TypeBuilder = typeBuilder;
+            BuildExecuteOverrideField.Execute();
+            var actionField = BuildExecuteOverrideField.Out.FieldBuilder;
+
+            if (BuildConstructor == null) BuildConstructor = new BuildConstructor();
+            BuildConstructor.In.TypeBuilder = typeBuilder;
+            BuildConstructor.In.ExecuteOverrideField = actionField;
+            BuildConstructor.Execute();
+
+            if (BuildExecuteOverride == null) BuildExecuteOverride = new BuildExecuteOverride();
+            BuildExecuteOverride.In.TypeBuilder = typeBuilder;
+            BuildExecuteOverride.In.ActionField = actionField;
+            BuildExecuteOverride.Execute();
 
             var proxyType = typeBuilder.CreateType();
             Out.TaskInstance = Activator.CreateInstance(proxyType, In.ExecuteOverride);
         }
-
-        #region Helpers
-
-        static FieldBuilder BuildExecuteOverrideActionField(TypeBuilder typeBuilder)
-        {
-            return typeBuilder.DefineField("ExecuteAction", typeof(Action<Task>), FieldAttributes.Public);
-        }
-
-        static void BuildConstructor(TypeBuilder typeBuilder, FieldInfo executeOverrideField)
-        {
-            var constructor = typeBuilder.DefineConstructor(
-                MethodAttributes.Public,
-                CallingConventions.Standard,
-                new[] { executeOverrideField.FieldType }
-            ).GetILGenerator();
-
-            constructor.Emit(OpCodes.Ldarg_0);
-            constructor.Emit(OpCodes.Call, typeof(object).GetConstructor(new Type[0]));
-
-            constructor.Emit(OpCodes.Ldarg_1);
-            constructor.Emit(OpCodes.Stfld, executeOverrideField);
-            constructor.Emit(OpCodes.Ret);
-        }
-
-        static void BuildExecuteOverrideMethod(TypeBuilder typeBuilder, FieldInfo fakeExecuteField)
-        {
-            var execute = typeBuilder.DefineMethod(
-                "Execute",
-                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual
-            ).GetILGenerator();
-
-            execute.Emit(OpCodes.Ldarg_0);
-            execute.Emit(OpCodes.Dup);
-            execute.Emit(OpCodes.Ldfld, fakeExecuteField);
-            execute.Emit(OpCodes.Call, typeof(CreateTask).GetMethod("ExecuteOverride"));
-            execute.Emit(OpCodes.Ret);
-        }
-
-        public void ExecuteOverride(Task task, Action<Task> executeAction)
-        {
-            executeAction(task);
-        }
-
-        #endregion
     }
 }

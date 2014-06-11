@@ -26,7 +26,8 @@ namespace Simpler.Core.Tasks
                 //In.ExecuteAction(In.Task);
                 try
                 {
-                    In.Task.GetType().GetMethod("BaseExecute").Invoke(In.Task, null);
+                    var methodInfo = In.Task.GetType().GetMethod("BaseExecute");
+                    methodInfo.Invoke(In.Task, null);
                 }
                 catch (TargetInvocationException tie)
                 {

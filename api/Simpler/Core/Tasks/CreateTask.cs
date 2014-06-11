@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Reflection.Emit;
-using System.Reflection;
-using System.Linq;
 
 namespace Simpler.Core.Tasks
 {
@@ -19,6 +17,7 @@ namespace Simpler.Core.Tasks
 
         public CreateProxyType CreateProxyType { get; set; }
         public MoveBaseExecute MoveBaseExecute { get; set; }
+        public BuildProxyExecute BuildProxyExecute { get; set; }
 
         public override void Execute()
         {
@@ -32,34 +31,12 @@ namespace Simpler.Core.Tasks
             MoveBaseExecute.In.BaseType = In.TaskType;
             MoveBaseExecute.Execute();
 
-            BuildProxyExecuteMethod(typeBuilder);
+            if (BuildProxyExecute == null) BuildProxyExecute = new BuildProxyExecute();
+            BuildProxyExecute.In.TypeBuilder = typeBuilder;
+            BuildProxyExecute.Execute();
 
             var proxyType = typeBuilder.CreateType();
             Out.TaskInstance = Activator.CreateInstance(proxyType);
         }
-
-        #region Helpers
-
-        static void BuildProxyExecuteMethod(TypeBuilder typeBuilder)
-        {
-            var execute = typeBuilder.DefineMethod(
-                "Execute",
-                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual
-            ).GetILGenerator();
-
-            execute.Emit(OpCodes.Ldarg_0);
-            execute.Emit(OpCodes.Dup);
-            execute.Emit(OpCodes.Call, typeof(CreateTask).GetMethod("ProxyExecute"));
-            execute.Emit(OpCodes.Ret);
-        }
-
-        public void ProxyExecute(Task task)
-        {
-            var executeTask = new ExecuteTask();
-            executeTask.In.Task = task;
-            executeTask.Execute();
-        }
-
-        #endregion
     }
 }
