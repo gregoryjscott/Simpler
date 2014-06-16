@@ -42,15 +42,22 @@ namespace Simpler.Core.Tasks
         {
             var proxyTypeBuilder = CreateProxyTypeBuilder();
 
-            var fieldBuilder = CreateActionField(proxyTypeBuilder);
+            //var fieldBuilder = CreateActionField(proxyTypeBuilder);
+
+            // TODO - this needs to be a subtask of BuildExecuteOverride
+            Action<Task> action = t => { };
+            var buildConstructor = Task.New<BuildConstructor>();
+            buildConstructor.In.TypeBuilder = proxyTypeBuilder;
+            buildConstructor.In.ExecuteOverride = action;
+            buildConstructor.Execute();
 
             var buildExecuteOverride = Task.New<BuildExecuteOverride>();
             buildExecuteOverride.In.TypeBuilder = proxyTypeBuilder;
-            buildExecuteOverride.In.ActionField = fieldBuilder;
+            //buildExecuteOverride.In.ActionField = fieldBuilder;
             buildExecuteOverride.Execute();
 
             var proxyType = proxyTypeBuilder.CreateType();
-            var proxy = (MockTask)Activator.CreateInstance(proxyType);
+            var proxy = (MockTask)Activator.CreateInstance(proxyType, action);
             proxyType.GetMethod("Execute").Invoke(proxy, null);
         }
 
@@ -92,7 +99,7 @@ namespace Simpler.Core.Tasks
 
             var buildConstructor = Task.New<BuildConstructor>();
             buildConstructor.In.TypeBuilder = proxyTypeBuilder;
-            buildConstructor.In.ExecuteOverrideField = fieldBuilder;
+            buildConstructor.In.ExecuteOverride = t => {};
             buildConstructor.Execute();
 
             var proxyType = proxyTypeBuilder.CreateType();
@@ -100,6 +107,7 @@ namespace Simpler.Core.Tasks
             var proxy = (MockTask)Activator.CreateInstance(proxyType, action);
 
             Assert.That(proxy, Is.InstanceOf<MockTask>());
+            Assert.That(proxy.ExecuteAction, Is.Not.Null);
         }
 
         static TypeBuilder CreateProxyTypeBuilder()
