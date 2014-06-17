@@ -45,7 +45,8 @@ namespace Simpler.Core.Tasks
             //var fieldBuilder = CreateActionField(proxyTypeBuilder);
 
             // TODO - this needs to be a subtask of BuildExecuteOverride
-            Action<Task> action = t => { };
+            var overrideWorked = false;
+            Action<Task> action = t => { overrideWorked = true; };
             var buildConstructor = Task.New<BuildConstructor>();
             buildConstructor.In.TypeBuilder = proxyTypeBuilder;
             buildConstructor.In.ExecuteOverride = action;
@@ -59,6 +60,8 @@ namespace Simpler.Core.Tasks
             var proxyType = proxyTypeBuilder.CreateType();
             var proxy = (MockTask)Activator.CreateInstance(proxyType, action);
             proxyType.GetMethod("Execute").Invoke(proxy, null);
+            Assert.That(proxy.WasExecuted, Is.False);
+            Assert.That(overrideWorked, Is.True);
         }
 
         [Test]
