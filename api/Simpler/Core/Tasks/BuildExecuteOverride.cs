@@ -14,8 +14,22 @@ namespace Simpler
             public Action<Task> ExecuteOverride { get; set; }
         }
 
+        public CreateActionField BuildExecuteOverrideField { get; set; }
+        public BuildConstructor BuildConstructor { get; set; }
+
         public override void Execute()
         {
+            if (BuildExecuteOverrideField == null) BuildExecuteOverrideField = new CreateActionField();
+            BuildExecuteOverrideField.In.TypeBuilder = In.TypeBuilder;
+            BuildExecuteOverrideField.Execute();
+            var actionField = BuildExecuteOverrideField.Out.FieldBuilder;
+            //
+            if (BuildConstructor == null) BuildConstructor = new BuildConstructor();
+            BuildConstructor.In.TypeBuilder = In.TypeBuilder;
+            //BuildConstructor.In.ExecuteOverride = In.ExecuteOverride;
+            BuildConstructor.In.ExecuteOverrideField = actionField;
+            BuildConstructor.Execute();
+
             var execute = In.TypeBuilder.DefineMethod(
                 "Execute",
                 MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual

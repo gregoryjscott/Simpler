@@ -42,16 +42,16 @@ namespace Simpler.Core.Tasks
         {
             var proxyTypeBuilder = CreateProxyTypeBuilder();
 
-            var fieldBuilder = CreateActionField(proxyTypeBuilder);
+            //var fieldBuilder = CreateActionField(proxyTypeBuilder);
 
             // TODO - this needs to be a subtask of BuildExecuteOverride
             var overrideWorked = false;
             Action<Task> action = t => { overrideWorked = true; };
-            var buildConstructor = Task.New<BuildConstructor>();
-            buildConstructor.In.TypeBuilder = proxyTypeBuilder;
-            //buildConstructor.In.ExecuteOverride = action;
-            buildConstructor.In.ExecuteOverrideField = fieldBuilder;
-            buildConstructor.Execute();
+//            var buildConstructor = Task.New<BuildConstructor>();
+//            buildConstructor.In.TypeBuilder = proxyTypeBuilder;
+//            //buildConstructor.In.ExecuteOverride = action;
+//            buildConstructor.In.ExecuteOverrideField = fieldBuilder;
+//            buildConstructor.Execute();
 
             var buildExecuteOverride = Task.New<BuildExecuteOverride>();
             buildExecuteOverride.In.TypeBuilder = proxyTypeBuilder;
