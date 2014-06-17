@@ -17,7 +17,7 @@ namespace Simpler.Core.Tasks
         }
 
         public CreateProxyType CreateProxyType { get; set; }
-        //public CreateActionField BuildExecuteOverrideField { get; set; }
+        public CreateActionField BuildExecuteOverrideField { get; set; }
         public BuildConstructor BuildConstructor { get; set; }
         public BuildExecuteOverride BuildExecuteOverride { get; set; }
 
@@ -28,20 +28,20 @@ namespace Simpler.Core.Tasks
             CreateProxyType.Execute();
             var typeBuilder = CreateProxyType.Out.TypeBuilder;
 
-//            if (BuildExecuteOverrideField == null) BuildExecuteOverrideField = new CreateActionField();
-//            BuildExecuteOverrideField.In.TypeBuilder = typeBuilder;
-//            BuildExecuteOverrideField.Execute();
-//            var actionField = BuildExecuteOverrideField.Out.FieldBuilder;
+            if (BuildExecuteOverrideField == null) BuildExecuteOverrideField = new CreateActionField();
+            BuildExecuteOverrideField.In.TypeBuilder = typeBuilder;
+            BuildExecuteOverrideField.Execute();
+            var actionField = BuildExecuteOverrideField.Out.FieldBuilder;
 //
             if (BuildConstructor == null) BuildConstructor = new BuildConstructor();
             BuildConstructor.In.TypeBuilder = typeBuilder;
-            BuildConstructor.In.ExecuteOverride = In.ExecuteOverride;
-            //BuildConstructor.In.ExecuteOverrideField = actionField;
+            //BuildConstructor.In.ExecuteOverride = In.ExecuteOverride;
+            BuildConstructor.In.ExecuteOverrideField = actionField;
             BuildConstructor.Execute();
 
             if (BuildExecuteOverride == null) BuildExecuteOverride = new BuildExecuteOverride();
             BuildExecuteOverride.In.TypeBuilder = typeBuilder;
-            BuildExecuteOverride.In.ExecuteOverride = ExecuteAction;
+            BuildExecuteOverride.In.ExecuteOverride = In.ExecuteOverride;
             //            BuildExecuteOverride.In.ActionField = actionField;
             BuildExecuteOverride.Execute();
 

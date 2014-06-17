@@ -31,7 +31,9 @@ namespace Simpler
 
         public void ExecuteOverride(Task task)
         {
-            task.ExecuteAction(task);
+            var action = GetType().GetField("ExecuteAction").GetValue(task);
+            ((Action<Task>)action)(task);
+            //task.ExecuteAction(task);
         }
     }
 }

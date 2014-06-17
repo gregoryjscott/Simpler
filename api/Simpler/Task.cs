@@ -23,7 +23,7 @@ namespace Simpler
             return (T)createTask.Out.TaskInstance;
         }
 
-        public Action<Task> ExecuteAction;
+        //public Action<Task> ExecuteAction;
 
         public virtual string Name
         {

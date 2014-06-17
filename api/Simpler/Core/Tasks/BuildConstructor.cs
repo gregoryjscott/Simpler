@@ -9,8 +9,8 @@ namespace Simpler
         public class Input
         {
             public TypeBuilder TypeBuilder { get; set; }
-            public Action<Task> ExecuteOverride { get; set; }
-            //public FieldInfo ExecuteOverrideField { get; set; }
+            //public Action<Task> ExecuteOverride { get; set; }
+            public FieldInfo ExecuteOverrideField { get; set; }
         }
 
         public override void Execute()
@@ -26,7 +26,7 @@ namespace Simpler
 
             constructor.Emit(OpCodes.Ldarg_0);
             constructor.Emit(OpCodes.Ldarg_1);
-            constructor.Emit(OpCodes.Stfld, typeof(Task).GetField("ExecuteAction"));
+            constructor.Emit(OpCodes.Stfld, In.ExecuteOverrideField);
             constructor.Emit(OpCodes.Ret);
         }
     }
