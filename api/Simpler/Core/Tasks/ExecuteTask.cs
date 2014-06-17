@@ -8,7 +8,6 @@ namespace Simpler.Core.Tasks
         public class Input
         {
             public Task Task { get; set; }
-            //public Action<Task> ExecuteAction { get; set; }
         }
 
         public override void Execute()
@@ -23,7 +22,6 @@ namespace Simpler.Core.Tasks
                     ((EventsAttribute)callbackAttribute).BeforeExecute(In.Task);
                 }
 
-                //In.ExecuteAction(In.Task);
                 try
                 {
                     var methodInfo = In.Task.GetType().GetMethod("BaseExecute");

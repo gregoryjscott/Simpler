@@ -42,26 +42,16 @@ namespace Simpler.Core.Tasks
         {
             var proxyTypeBuilder = CreateProxyTypeBuilder();
 
-            //var fieldBuilder = CreateActionField(proxyTypeBuilder);
-
-            // TODO - this needs to be a subtask of BuildExecuteOverride
             var overrideWorked = false;
             Action<Task> action = t => { overrideWorked = true; };
-//            var buildConstructor = Task.New<BuildConstructor>();
-//            buildConstructor.In.TypeBuilder = proxyTypeBuilder;
-//            //buildConstructor.In.ExecuteOverride = action;
-//            buildConstructor.In.ExecuteOverrideField = fieldBuilder;
-//            buildConstructor.Execute();
 
             var buildExecuteOverride = Task.New<BuildExecuteOverride>();
             buildExecuteOverride.In.TypeBuilder = proxyTypeBuilder;
-            //buildExecuteOverride.In.ActionField = fieldBuilder;
             buildExecuteOverride.Execute();
 
             var proxyType = proxyTypeBuilder.CreateType();
             var proxy = (MockTask)Activator.CreateInstance(proxyType, action);
             proxyType.GetMethod("Execute").Invoke(proxy, null);
-            Assert.That(proxy.WasExecuted, Is.False);
             Assert.That(overrideWorked, Is.True);
         }
 
@@ -98,12 +88,10 @@ namespace Simpler.Core.Tasks
         public void should_build_constructor()
         {
             var proxyTypeBuilder = CreateProxyTypeBuilder();
-
             var fieldBuilder = CreateActionField(proxyTypeBuilder);
 
             var buildConstructor = Task.New<BuildConstructor>();
             buildConstructor.In.TypeBuilder = proxyTypeBuilder;
-            //buildConstructor.In.ExecuteOverride = t => {};
             buildConstructor.In.ExecuteOverrideField = fieldBuilder;
             buildConstructor.Execute();
 
@@ -112,7 +100,6 @@ namespace Simpler.Core.Tasks
             var proxy = (MockTask)Activator.CreateInstance(proxyType, action);
 
             Assert.That(proxy, Is.InstanceOf<MockTask>());
-            //Assert.That(proxy.ExecuteAction, Is.Not.Null);
         }
 
         static TypeBuilder CreateProxyTypeBuilder()
@@ -138,14 +125,5 @@ namespace Simpler.Core.Tasks
             buildExecuteActionField.Execute();
             return buildExecuteActionField.Out.FieldBuilder;
         }
-
-//        static FieldBuilder CreateRandomField(TypeBuilder typeBuilder)
-//        {
-//            return typeBuilder.DefineField(
-//                "Random",
-//                typeof(int),
-//                FieldAttributes.Public
-//            );
-//        }
     }
 }

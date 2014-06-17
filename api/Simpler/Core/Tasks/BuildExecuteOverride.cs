@@ -9,8 +9,6 @@ namespace Simpler
         public class Input
         {
             public TypeBuilder TypeBuilder { get; set; }
-            //public FieldInfo ActionField { get; set; }
-            //public MethodInfo MethodInfo { get; set; }
             public Action<Task> ExecuteOverride { get; set; }
         }
 
@@ -23,10 +21,9 @@ namespace Simpler
             CreateActionField.In.TypeBuilder = In.TypeBuilder;
             CreateActionField.Execute();
             var actionField = CreateActionField.Out.FieldBuilder;
-            //
+
             if (BuildConstructor == null) BuildConstructor = new BuildConstructor();
             BuildConstructor.In.TypeBuilder = In.TypeBuilder;
-            //BuildConstructor.In.ExecuteOverride = In.ExecuteOverride;
             BuildConstructor.In.ExecuteOverrideField = actionField;
             BuildConstructor.Execute();
 
@@ -37,8 +34,6 @@ namespace Simpler
 
             execute.Emit(OpCodes.Ldarg_0);
             execute.Emit(OpCodes.Dup);
-            //execute.Emit(OpCodes.Ldobj, In.ActionField);
-            //execute.Emit(OpCodes.Unbox_Any, typeof(int));
             execute.Emit(OpCodes.Call, GetType().GetMethod("ExecuteOverride"));
             execute.Emit(OpCodes.Ret);
         }
@@ -47,7 +42,6 @@ namespace Simpler
         {
             var action = GetType().GetField("ExecuteAction").GetValue(task);
             ((Action<Task>)action)(task);
-            //task.ExecuteAction(task);
         }
     }
 }

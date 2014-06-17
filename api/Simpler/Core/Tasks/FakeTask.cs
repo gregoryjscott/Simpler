@@ -29,7 +29,6 @@ namespace Simpler.Core.Tasks
             if (BuildExecuteOverride == null) BuildExecuteOverride = new BuildExecuteOverride();
             BuildExecuteOverride.In.TypeBuilder = typeBuilder;
             BuildExecuteOverride.In.ExecuteOverride = In.ExecuteOverride;
-            //            BuildExecuteOverride.In.ActionField = actionField;
             BuildExecuteOverride.Execute();
 
             var proxyType = typeBuilder.CreateType();

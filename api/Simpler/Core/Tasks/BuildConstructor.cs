@@ -9,7 +9,6 @@ namespace Simpler
         public class Input
         {
             public TypeBuilder TypeBuilder { get; set; }
-            //public Action<Task> ExecuteOverride { get; set; }
             public FieldInfo ExecuteOverrideField { get; set; }
         }
 
