@@ -16,7 +16,7 @@ namespace Simpler.Core.Tasks
         }
 
         public CreateProxyType CreateProxyType { get; set; }
-        public SaveBaseExecute MoveBaseExecute { get; set; }
+        public SaveBaseExecute SaveBaseExecute { get; set; }
         public BuildProxyExecute BuildProxyExecute { get; set; }
 
         public override void Execute()
@@ -26,10 +26,10 @@ namespace Simpler.Core.Tasks
             CreateProxyType.Execute();
             var typeBuilder = CreateProxyType.Out.TypeBuilder;
 
-            if (MoveBaseExecute == null) MoveBaseExecute = new SaveBaseExecute();
-            MoveBaseExecute.In.TypeBuilder = typeBuilder;
-            MoveBaseExecute.In.BaseType = In.TaskType;
-            MoveBaseExecute.Execute();
+            if (SaveBaseExecute == null) SaveBaseExecute = new SaveBaseExecute();
+            SaveBaseExecute.In.TypeBuilder = typeBuilder;
+            SaveBaseExecute.In.BaseType = In.TaskType;
+            SaveBaseExecute.Execute();
 
             if (BuildProxyExecute == null) BuildProxyExecute = new BuildProxyExecute();
             BuildProxyExecute.In.TypeBuilder = typeBuilder;
