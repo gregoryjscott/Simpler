@@ -92,7 +92,7 @@ namespace Simpler.Core.Tasks
 
             var buildConstructor = Task.New<BuildConstructor>();
             buildConstructor.In.TypeBuilder = proxyTypeBuilder;
-            buildConstructor.In.ExecuteOverrideField = fieldBuilder;
+            buildConstructor.In.ActionFieldInfo = fieldBuilder;
             buildConstructor.Execute();
 
             var proxyType = proxyTypeBuilder.CreateType();
@@ -112,7 +112,7 @@ namespace Simpler.Core.Tasks
 
         static void MoveBaseExecute(TypeBuilder typeBuilder)
         {
-            var moveBaseExecute = Task.New<MoveBaseExecute>();
+            var moveBaseExecute = Task.New<SaveBaseExecute>();
             moveBaseExecute.In.TypeBuilder = typeBuilder;
             moveBaseExecute.In.BaseType = typeof(MockTask);
             moveBaseExecute.Execute();

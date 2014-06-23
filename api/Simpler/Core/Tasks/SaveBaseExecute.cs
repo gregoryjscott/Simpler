@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Simpler
 {
-    public class MoveBaseExecute : InTask<MoveBaseExecute.Input>
+    public class SaveBaseExecute : InTask<SaveBaseExecute.Input>
     {
         public class Input
         {
@@ -14,15 +14,16 @@ namespace Simpler
 
         public override void Execute()
         {
+            // Create new method called BaseExecute.
             var baseExecute = In.TypeBuilder.DefineMethod(
                 "BaseExecute",
                 MethodAttributes.Public
             ).GetILGenerator();
 
+            // Make it call the base version of Execute.
             baseExecute.Emit(OpCodes.Ldarg_0);
             baseExecute.Emit(OpCodes.Call, In.BaseType.GetMethod("Execute"));
             baseExecute.Emit(OpCodes.Ret);
         }
     }
 }
-

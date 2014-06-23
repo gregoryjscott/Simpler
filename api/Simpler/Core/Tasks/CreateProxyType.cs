@@ -23,12 +23,12 @@ namespace Simpler
             var assemblyBuilder = domain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
 
+            var typeName = String.Concat(In.Type.FullName, "Proxy");
             Out.TypeBuilder =  moduleBuilder.DefineType(
-                In.Type.FullName + "Proxy", 
-                TypeAttributes.Public, 
+                typeName,
+                TypeAttributes.Public,
                 In.Type
             );
         }
     }
 }
-

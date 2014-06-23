@@ -24,14 +24,16 @@ namespace Simpler
 
             if (BuildConstructor == null) BuildConstructor = new BuildConstructor();
             BuildConstructor.In.TypeBuilder = In.TypeBuilder;
-            BuildConstructor.In.ExecuteOverrideField = actionField;
+            BuildConstructor.In.ActionFieldInfo = actionField;
             BuildConstructor.Execute();
 
+            // Override the existing Execute method.
             var execute = In.TypeBuilder.DefineMethod(
                 "Execute",
                 MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual
             ).GetILGenerator();
 
+            // Make the override Execute call ExecuteOverride. 
             execute.Emit(OpCodes.Ldarg_0);
             execute.Emit(OpCodes.Dup);
             execute.Emit(OpCodes.Call, GetType().GetMethod("ExecuteOverride"));
@@ -45,4 +47,3 @@ namespace Simpler
         }
     }
 }
-

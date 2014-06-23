@@ -56,11 +56,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Tasks\FakeTask.cs" />
     <Compile Include="Core\Tasks\BuildProxyExecute.cs" />
-    <Compile Include="Core\Tasks\MoveBaseExecute.cs" />
     <Compile Include="Core\Tasks\BuildConstructor.cs" />
     <Compile Include="Core\Tasks\BuildExecuteOverride.cs" />
     <Compile Include="Core\Tasks\CreateProxyType.cs" />
     <Compile Include="Core\Tasks\CreateActionField.cs" />
+    <Compile Include="Core\Tasks\SaveBaseExecute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
