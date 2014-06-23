@@ -33,17 +33,12 @@
     <DocumentationFile>bin\Release\Simpler.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\lib\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\FakeInvocation.cs" />
     <Compile Include="EventsAttribute.cs" />
     <Compile Include="Fake.cs" />
     <Compile Include="Core\InjectTasksAttribute.cs" />
-    <Compile Include="Core\ExecuteInterceptor.cs" />
     <Compile Include="Core\Tasks\DisposeTasks.cs" />
     <Compile Include="Core\Tasks\InjectTasks.cs" />
     <Compile Include="Core\Tasks\ExecuteTask.cs" />
@@ -61,9 +56,6 @@
     <Compile Include="Core\Tasks\CreateProxyType.cs" />
     <Compile Include="Core\Tasks\CreateActionField.cs" />
     <Compile Include="Core\Tasks\SaveBaseExecute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

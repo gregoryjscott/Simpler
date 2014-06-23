@@ -25,7 +25,6 @@
     "configs": [
       "lib/packages.config",
       "api/Examples/packages.config",
-      "api/Simpler/packages.config",
       "api/Tests/packages.config"
     ]
   },

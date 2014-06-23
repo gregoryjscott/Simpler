@@ -13,8 +13,5 @@
     <summary>A Simpler approach to C# class design.</summary>
     <releaseNotes>See the README for an overview of functionality.</releaseNotes>
     <language>en-US</language>
-    <dependencies>
-      <dependency id="Castle.Core" version="2.5.2" />
-    </dependencies>
   </metadata>
 </package>
