@@ -1,7 +1,4 @@
-﻿using Castle.DynamicProxy;
-using NUnit.Framework;
-using Moq;
-using Simpler.Core.Tasks;
+﻿using NUnit.Framework;
 using Simpler.Mocks;
 using MockException = Simpler.Mocks.MockException;
 
